@@ -1,0 +1,160 @@
+<script>
+    var usuario = function () {
+    var table = null;
+    var obj = null;
+
+    var configurarDataTable = function () {
+    table = $('table#table_usuario').DataTable({
+    "pagingType": "simple_numbers",
+    "language": {
+        url: datatable_url
+    },
+    columns: [
+        {data: 'no'},
+        {data: 'nombre'},
+        {data: 'usuario'},
+        {data: 'area'},
+        {data: 'cargo'},
+        {data: 'acciones'}
+    ]});
+}
+
+    var refrescar = function () {
+    $('a#refrescar').click(function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    base.blockUI({message: window.loadingMessage});
+                },
+                success: function (data) {
+                    $('table#table').html(data);
+                    table.destroy();
+                    configurarDataTable();
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    base.unblockUI();
+                }});
+        });
+    }
+
+    var newAction = function () {
+    $('div#basicmodal').on('submit', 'form#usuario_new', function (evento)
+    {
+        evento.preventDefault();
+        var padre = $(this).parent();
+        var l = Ladda.create(document.querySelector( '.ladda-button' ) );
+        l.start();
+        $.ajax({
+            url: $(this).attr("action"),
+            type: "POST",
+            data: $(this).serialize(), //para enviar el formulario hay que serializarlo
+            beforeSend: function () {
+            },
+            complete: function () {
+                l.stop();
+            },
+            success: function (data) {
+                objantiguo = null;
+                if (data['error']) {
+                    padre.html(data['form']);
+                    configurarFormularioUsuario();
+                }
+                else
+                {
+                    if (data['mensaje'])
+                        base.enviarMensaje(null, null, data['mensaje'])
+
+                    $('div#basicmodal').modal('hide');
+                    total += 1;
+                    var pagina = table.page();
+                    objeto = table.row.add({
+                        "no": total,
+                        "nombre": data['nombre'],
+                        "usuario": data['usuario'],
+                        "area": data['area'],
+                        "cargo": data['cargo'],
+                        "acciones": "<ul class='list-inline'><li><a class='btn btn-default btn-sm ajax_show' data-href="+ Routing.generate('usuario_show.'+_locale,{id:data['id']})+">{{ 'visualize'|trans }}</a></li><li><a class='btn blue btn-block btn-outline btn-sm editar_usuario' data-href=" + Routing.generate('usuario_edit.'+_locale,{id:data['id']}) + "><i class='fa fa-edit'></i>{{ 'edit'|trans }}</a></li><li><a class='btn btn-danger btn-sm  eliminar_usuario' data-href=" + Routing.generate('usuario_delete.'+_locale,{id:data['id']}) + "><i class='fa fa-trash-o'></i>{{ 'delete'|trans }}</a></li></ul>",
+                    });
+                    objeto.draw();
+                    table.page(pagina).draw('page');
+                }
+            },
+            error: function ()
+            {
+                base.Error();
+            }
+        });
+    });
+    }
+
+
+
+    var eliminar = function () {
+    $('table#table_usuario').on('click', 'a.eliminar_usuario', function (evento)
+    {
+        evento.preventDefault();
+        var obj = $(this);
+        var link = $(this).attr('data-href');
+        bootbox.confirm({
+            title: "{{ 'worker_delete_title'| trans }}",
+            message: "<p>{{ 'worker_delete_message'|trans }}</p>",
+            buttons: {
+                confirm: {
+                    label: '{{ 'confirm_button'| trans }}',
+                    className: 'blue'},
+                cancel: {
+                    label: '{{ 'cancel_button'|trans }}',
+                    className: 'default'}
+            },
+            callback: function (result) {
+                if (result == true)
+                    $.ajax({
+                        type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                        // dataType: 'html', esta url se comentusuario porque lo k estamos mandando es un json y no un html plano
+                        url: link,
+                        beforeSend: function () {
+                            base.blockUI({message: window.loadingMessage});
+                        },
+                        complete: function () {
+                            base.unblockUI();
+                        },
+                        success: function (data) {
+                            table.row(obj.parents('tr'))
+                                .remove()
+                                .draw('page');
+                            base.enviarMensaje(null, null, data['mensaje']);
+                        },
+                    error: function ()
+                    {
+                            base.Error();
+                    }
+                });
+            }
+        });
+    });
+}
+
+    return {
+        init: function () {
+            $().ready(function () {
+                configurarDataTable();
+                refrescar();
+                newAction();
+                eliminar();
+            });
+        },
+    }
+}();
+</script>
+
+

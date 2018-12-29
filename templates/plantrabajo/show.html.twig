@@ -1,0 +1,52 @@
+{% extends 'layout/autenticado.html.twig' %}
+{% block stylesheets %}
+    {{parent()}}
+    <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css','global')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css','global')}}" rel="stylesheet" type="text/css"/>
+    <link   rel="stylesheet" type="text/css" href="{{asset('plugins/icheck/skins/all.css','global')}}"/>
+{% endblock %}
+{% block body %}
+    {{parent()}}
+    <div  class="block-information">
+        <div class="portlet light portlet-fit portlet-datatable bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-dark"></i>
+                    <span class="caption-subject font-dark sbold uppercase">
+                        {{ 'workplan'|trans }} {{ plantrabajo.mestoString()~', '~plantrabajo.anno }}
+                        <br/><small class="text-muted" style="margin-left: 20%">{{ 'monthactivities'|trans }}</small></span>
+                </div>
+                <div class="actions">
+
+                    <a class="btn purple  mt-ladda-btn ladda-button" data-style="expand-right" href="{{ path('plantrabajo_exportar',{'id':plantrabajo.id}) }}">
+                        <span class="ladda-label"><i class="fa fa-file"></i> {{ 'export'|trans }}</span>
+                        <span class="ladda-spinner"></span>
+                    </a>
+                    {% if app.user.id==plantrabajo.usuario.id  or (plantrabajo.usuario.jefe!=null and plantrabajo.usuario.jefe.id==app.user.id) %}
+                    <a class="btn blue btn-circle edicion tooltips" data-placement="bottom" data-original-title="{{ 'activity_registertooltip'|trans }}" data-href="{{path('actividad_new',{'id':plantrabajo.id})}}"><i class="fa fa-calendar"></i> {{ 'register' |trans}}</a>
+                    <a class="btn btn-default btn-circle tooltips btn-xlarge" id="plantrabajo_estadistica" data-placement="bottom" data-original-title="{{ 'workplan_stat'|trans }}" data-href="{{path('plantrabajo_estadistica',{'id':plantrabajo.id})}}"><i class="fa fa-th-large"></i> </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="portlet-body" style="display: block;">
+                <div class="table-responsive">
+                    {%include 'actividad/_table.html.twig'%}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js','global')}}" type="text/javascript"></script>
+    <script src="{{ asset('plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js','global')}}" type="text/javascript"></script>
+    <script   type="text/javascript" src="{{asset('plugins/icheck/icheck.js','global')}}"></script>
+    <script src="{{ asset('plugins/counterup/jquery.waypoints.min.js','global')}}" type="text/javascript"></script>
+    <script src="{{ asset('plugins/counterup/jquery.counterup.min.js','global')}}" type="text/javascript"></script>
+    {%include 'actividad/script.js.twig'%}
+    <script>
+        var total ={{actividads |length }};
+        var plantrabajo ='{{ plantrabajo.id }}';
+        actividad.init();
+    </script>
+{% endblock %}

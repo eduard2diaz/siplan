@@ -1,0 +1,30 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
+{% block body %}
+    <div class="block-information">
+        <section class="enum">
+            <h3>{{ 'services'|trans({},'estatica') }}</h3>
+            <div class="row">
+                <h4>{{ 'services.section1_header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>{{ 'services.section1_parragraph'|trans({},'estatica') }}</p>
+                </div>
+                <div class="col-md-6">
+                    <blockquote class="pull-right">
+                    <p>{{ 'services.section1_details'|trans({},'estatica') }}</p>
+                    </blockquote>
+                </div>
+            </div>
+                <div class="row">
+                <h4>{{ 'services.section2_header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>{{ 'services.section2_parragraph'|trans({},'estatica') }}</p>
+                </div>
+                <div class="col-md-6">
+                    <blockquote class="pull-right">
+                    <p>{{ 'services.section2_details'|trans({},'estatica') }}</p>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

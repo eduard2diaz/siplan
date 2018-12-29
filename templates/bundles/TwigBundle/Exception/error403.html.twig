@@ -1,0 +1,6 @@
+{% extends 'bundles/TwigBundle/Exception/error.html.twig' %}
+ {% block error_picture %}
+     <img src="{{ asset('img/http_error/403.png','apps')}}" style="width: 100%"/>
+ {% endblock error_picture %}
+{% block error_title %}{{ '_403.error_title'|trans({},'error') }}{% endblock error_title %}
+{% block error_details %}{{ '_403.error_details'|trans({},'error') }}{% endblock error_details %}

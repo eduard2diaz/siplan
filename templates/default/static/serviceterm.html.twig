@@ -1,0 +1,128 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
+{% block body %}
+    <div class="block-information">
+        <h2 class="page-title">{{ 'serviceterms' | trans({},'estatica')}}</h2>
+        <section class="enum">
+            <h3>{{ 'serviceterms.section1.header'|trans({},'estatica') }}</h3>
+            <div class="row">
+                <h4>{{ 'serviceterms.section1.subsection1.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p >{{ 'serviceterms.section1.subsection1.parragraph'|trans({},'estatica') }}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <blockquote class="pull-right">
+                    <p>
+                        {{ 'serviceterms.section1.subsection1.details'|trans({},'estatica') }}
+                    </p>
+                    </blockquote>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4>{{ 'serviceterms.section1.subsection2.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>{{ 'serviceterms.section1.subsection2.parragraph'|trans({},'estatica') }}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4>{{ 'serviceterms.section1.subsection3.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>{{ 'serviceterms.section1.subsection3.parragraph'|trans({},'estatica') }}</p>
+                    <p>{{ 'serviceterms.section1.subsection3.list'|trans({},'estatica') }}</p>
+                </div>
+                <div class="clearfix"></div>
+                <ul class="separated">
+                    <li>{{ 'serviceterms.section1.subsection3.list.option1'|trans({},'estatica') }}</li>
+                    <li>{{ 'serviceterms.section1.subsection3.list.option2'|trans({},'estatica') }}</li>
+                    <li>{{ 'serviceterms.section1.subsection3.list.option3'|trans({},'estatica') }}</li>
+                    <li>{{ 'serviceterms.section1.subsection3.list.option4'|trans({},'estatica') }}</li>
+                    <li>{{ 'serviceterms.section1.subsection3.list.option5'|trans({},'estatica') }}</li>
+                    <li>{{ 'serviceterms.section1.subsection3.list.option6'|trans({},'estatica') }}</li>
+                </ul>
+            </div>
+            <div class="row">
+                <h4>{{ 'serviceterms.section1.subsection4.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>
+                        {{ 'serviceterms.section1.subsection4.parragraph1'|trans({},'estatica') }}
+                    </p>
+                    <p>
+                        {{ 'serviceterms.section1.subsection4.parragraph2'|trans({},'estatica') }}
+                    </p>
+                </div>
+            </div>
+        </section>
+        <hr/>
+        <section class="enum">
+            <h3>{{ 'serviceterms.section2.header'|trans({},'estatica') }}</h3>
+            <div class="row">
+                <h4> {{ 'serviceterms.section2.subsection1.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>
+                        {{ 'serviceterms.section2.subsection1.parragraph1'|trans({},'estatica') }}
+                    </p><p>
+                        {{ 'serviceterms.section2.subsection1.parragraph2'|trans({},'estatica') }}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <blockquote class="pull-right">
+                    <p>{{ 'serviceterms.section2.subsection1.details1'|trans({},'estatica') }}</p>
+                    <p>{{ 'serviceterms.section2.subsection1.details2'|trans({},'estatica') }}</p>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="row">
+                <h4> {{ 'serviceterms.section2.subsection2.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>
+                        {{ 'serviceterms.section2.subsection2.parragraph'|trans({},'estatica') }}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <blockquote class="pull-right">
+                    <p>{{ 'serviceterms.section2.subsection2.details'|trans({},'estatica') }}</p>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+    <hr/>
+        <section class="enum">
+            <h3>{{ 'serviceterms.section3.header'|trans({},'estatica') }}</h3>
+            <div class="row">
+                <h4>{{ 'serviceterms.section3.subsection1.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>{{ 'serviceterms.section3.subsection1.parragraph'|trans({},'estatica') }}</p>
+                </div>
+                <div class="col-md-6">
+                    <blockquote class="pull-right">
+                    <p>{{ 'serviceterms.section3.subsection1.details'|trans({},'estatica') }}</p>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="row">
+                <h4>{{ 'serviceterms.section3.subsection2.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>{{ 'serviceterms.section3.subsection2.parragraph'|trans({},'estatica') }}</p>
+                </div>
+                <div class="col-md-6">
+                    <blockquote class="pull-right">
+                    <p>{{ 'serviceterms.section3.subsection2.details'|trans({},'estatica') }}</p>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="row">
+                <h4>{{ 'serviceterms.section3.subsection3.header'|trans({},'estatica') }}</h4>
+                <div class="col-md-6">
+                    <p>{{ 'serviceterms.section3.subsection3.parragraph'|trans({},'estatica') }}</p>
+                </div>
+                <div class="col-md-6">
+                    <blockquote class="pull-right">
+                    <p>{{ 'serviceterms.section3.subsection3.details'|trans({},'estatica') }}</p>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

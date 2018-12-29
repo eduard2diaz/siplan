@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="contact_link">
+                <source>contact_link</source>
+                <target>Contactar con Siplan</target>
+            </trans-unit>
+            <trans-unit id="refresh_link">
+                <source>refresh_link</source>
+                <target>Reintentar</target>
+            </trans-unit>
+            <trans-unit id="_403.error_title">
+                <source>_403.error_title</source>
+                <target>Acceso denegado</target>
+            </trans-unit>
+            <trans-unit id="_403.error_details">
+                <source>_403.error_details</source>
+                <target>Lo sentimos, usted no tiene permisos suficientes para visualizar la información, ante cualquier duda o dificultad contacte con el/los administrador(es), estaremos encantados de ayudarle.</target>
+            </trans-unit>
+            <trans-unit id="_404.error_title">
+                <source>_404.error_title</source>
+                <target>Página no encontrada</target>
+            </trans-unit>
+            <trans-unit id="_404.error_details">
+                <source>_404.error_details</source>
+                <target>Lo sentimos la página solicitada por usted no existe o fue eliminada, ante cualquier duda o dificultad contacte con el/los administrador(es), estaremos encantados de ayudarle.</target>
+            </trans-unit>
+            <trans-unit id="_500.error_title">
+                <source>_500.error_title</source>
+                <target>Error interno del servidor</target>
+            </trans-unit>
+            <trans-unit id="_500.error_details">
+                <source>_500.error_details</source>
+                <target>El servidor encontró un error interno o desconfiguración y fue incapaz de completar su solicitud, ante cualquier duda o dificultad contacte con el/los administrador(es), estaremos encantados de ayudarle.</target>
+            </trans-unit>
+            <trans-unit id="_503.error_title">
+                <source>_503.error_title</source>
+                <target>Lo sentimos, estamos en mantenimiento</target>
+            </trans-unit>
+            <trans-unit id="_503.error_details">
+                <source>_503.error_details</source>
+                <target>Actualmente nos encontramos realizando mejoras al sistema, ante cualquier duda o dificultad contacte con el/los administrador(es), estaremos encantados de ayudarle.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

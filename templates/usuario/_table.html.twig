@@ -1,0 +1,50 @@
+<table class="table table-striped table-hover dataTable" id="table_usuario">
+    <thead>
+    <tr>
+        <th>{{ 'row_number'|trans }}</th>
+        <th>{{ 'name_field'|trans }}</th>
+        <th>{{ 'username_field'|trans }}</th>
+        <th>{{ 'area'|trans }}</th>
+        <th>{{ 'cargo'|trans }}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {%set i=1%}
+    {% for usuario in usuarios %}
+        <tr>
+            <td>{{ i }}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.usuario }}</td>
+            <td>{{ usuario.area }}</td>
+            <td>{{ usuario.cargo }}</td>
+            <td>
+                <ul class="list-inline">
+                    <li>
+                        <a class="btn btn-default btn-sm ajax_show" data-href="{{ path('usuario_show',{'id':usuario.id}) }}">
+                            {{ 'visualize'|trans }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn blue btn-block btn-outline btn-sm editar_usuario" data-href="{{ path('usuario_edit', { 'id': usuario.id }) }}"><i class="fa fa-edit"></i>{{ 'edit'|trans }}</a>
+                    </li>
+                    <li>
+                        <a class="btn btn-danger btn-sm  eliminar_usuario" data-href="{{ path('usuario_delete', { 'id': usuario.id }) }}"><i class="fa fa-trash-o"></i>{{ 'delete'|trans }}</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        {%set i=1+i%}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>{{ 'row_number'|trans }}</th>
+        <th>{{ 'name_field'|trans }}</th>
+        <th>{{ 'username_field'|trans }}</th>
+        <th>{{ 'area'|trans }}</th>
+        <th>{{ 'cargo'|trans }}</th>
+        <th></th>
+    </tr>
+    </tfoot>
+</table>

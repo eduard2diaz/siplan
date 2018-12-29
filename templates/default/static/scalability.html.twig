@@ -1,0 +1,21 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
+{% block body %}
+    <div class="block-information" style="padding: 3% 13%">
+        <h3>{{ 'scalability'| trans({},'estatica') }}</h3>
+        <h4>{{ 'scalability.section1_header'|trans({},'estatica') }}</h4>
+        <p class="text-justify">{{ 'scalability.section1_parragraph'|trans({},'estatica') }}
+            <ul class="list-inline text-muted text-center">
+            <li>{{ 'scalability.section1_list.tool1'|trans({},'estatica') }}</li>
+            <li>{{ 'scalability.section1_list.tool2'|trans({},'estatica') }}</li>
+            <li>{{ 'scalability.section1_list.tool3'|trans({},'estatica') }}</li>
+            </ul>
+        </p>
+        <h4>{{ 'scalability.section2_header'|trans({},'estatica') }}</h4>
+        <p>{{ 'scalability.section2_parragraph'|trans({},'estatica') }}</p>
+        <h4>{{ 'scalability.section3_header'|trans({},'estatica') }}</h4>
+        <p>{{ 'scalability.section3_parragraph'|trans({},'estatica') }}</p>
+        <h4>{{ 'scalability.section4_header'|trans({},'estatica') }}</h4>
+        <p>{{ 'scalability.section4_parragraph1'|trans({},'estatica') }}</p>
+        <p>{{ 'scalability.section4_parragraph2'|trans({},'estatica') }}</p>
+    </div>
+{% endblock %}

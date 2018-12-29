@@ -1,0 +1,247 @@
+<script>
+    var cargo = function () {
+    var table = null;
+    var obj = null;
+
+    var configurarFormulario = function () {
+        $('select#cargo_area').select2({
+            dropdownParent: $("#basicmodal"),
+        //allowClear: true
+        });
+        Ladda.bind( '.mt-ladda-btn' );
+    }
+
+    var edicion = function () {
+        $('div.block-information').on('click', 'a.edicion', function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+            type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+            dataType: 'html',
+            url: link,
+            beforeSend: function (data) {
+                base.blockUI({message: window.loadingMessage});
+        },
+            success: function (data) {
+
+            if ($('div#basicmodal').html(data)) {
+                configurarFormulario();
+                $('div#basicmodal').modal('show');
+                $("div#basicmodal form").validate({
+                    rules:{
+                        'cargo[nombre]': {required:true},
+                        'cargo[area]': {required:true}
+                    }
+                })
+             }
+        },
+            error: function ()
+        {
+            base.Error();
+        },
+            complete: function () {
+            base.unblockUI();
+        }
+        });
+        });
+    }
+
+    var configurarDataTable = function () {
+        table = $('table#table').DataTable({
+            "pagingType": "simple_numbers",
+            "language": {
+            url: datatable_url
+        },
+        columns: [
+            {data: 'numero'},
+            {data: 'nombre'},
+            {data: 'area'},
+            {data: 'acciones'}
+        ]});
+    }
+
+    var refrescar = function () {
+    $('a#refrescar').click(function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    base.blockUI({message: window.loadingMessage});
+                },
+                success: function (data) {
+                    $('table#table').html(data);
+                    table.destroy();
+                    configurarDataTable();
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    base.unblockUI();
+                }});
+        });
+    }
+
+    var newAction = function () {
+    $('div#basicmodal').on('submit', 'form#cargo_new', function (evento)
+    {
+        evento.preventDefault();
+        var padre = $(this).parent();
+        var l = Ladda.create(document.querySelector( '.ladda-button' ) );
+        l.start();
+        $.ajax({
+            url: $(this).attr("action"),
+            type: "POST",
+            data: $(this).serialize(), //para enviar el formulario hay que serializarlo
+            beforeSend: function () {
+            },
+            complete: function () {
+                l.stop();
+            },
+            success: function (data) {
+                objantiguo = null;
+                if (data['error']) {
+                    padre.html(data['form']);
+                    configurarFormulario();
+                }
+                else
+                {
+                    if (data['mensaje'])
+                        base.enviarMensaje(null, null, data['mensaje'])
+
+                    $('div#basicmodal').modal('hide');
+                    total += 1;
+                    var pagina = table.page();
+                    objeto = table.row.add({
+                        "numero": total,
+                        "nombre": data['nombre'],
+                        "area": data['area'],
+                        "acciones": "<ul class='list-inline'><li><a class='btn blue btn-block btn-outline btn-sm edicion' data-href=" + Routing.generate('cargo_edit.'+_locale,{id:data['id']}) + "><i class='fa fa-edit'></i>{{ 'edit'|trans }}</a></li><li><a class='btn btn-danger btn-sm  eliminar_cargo' data-href=" + Routing.generate('cargo_delete.'+_locale,{id:data['id']}) + "><i class='fa fa-trash-o'></i>{{ 'delete'|trans }}</a></li></ul>",
+                    });
+                    objeto.draw();
+                    table.page(pagina).draw('page');
+                }
+            },
+            error: function ()
+            {
+                base.Error();
+            }
+        });
+    });
+}
+
+
+
+    var edicionAction = function () {
+    $('div#basicmodal').on('submit', 'form#cargo_edit', function (evento)
+    {
+        evento.preventDefault();
+        var padre = $(this).parent();
+        var l = Ladda.create(document.querySelector( '.ladda-button' ) );
+        l.start();
+        $.ajax({
+            url: $(this).attr("action"),
+            type: "POST",
+            data: $(this).serialize(), //para enviar el formulario hay que serializarlo
+            beforeSend: function () {
+            },
+            complete: function () {
+                l.start();
+            },
+            success: function (data) {
+                if (data['error']) {
+                    padre.html(data['form']);
+                    configurarFormulario();
+                }
+                else
+                {
+                    if (data['mensaje'])
+                        base.enviarMensaje(null, null, data['mensaje'])
+
+                    $('div#basicmodal').modal('hide');
+                    var pagina = table.page();
+                    obj.parents('tr').children('td:nth-child(2)').html(data['nombre']);
+                    obj.parents('tr').children('td:nth-child(3)').html(data['area']);
+                }
+            },
+            error: function ()
+            {
+                base.Error();
+            }
+        });
+    });
+}
+
+    var eliminar = function () {
+    $('table#table').on('click', 'a.eliminar_cargo', function (evento)
+    {
+        evento.preventDefault();
+        var obj = $(this);
+        var link = $(this).attr('data-href');
+        bootbox.confirm({
+            title: "{{ 'cargo_delete_title'| trans }}",
+            message: "<p>{{ 'cargo_delete_message'|trans }}</p>",
+            buttons: {
+                confirm: {
+                    label: '{{ 'confirm_button'| trans }}',
+                    className: 'blue'},
+                cancel: {
+                    label: '{{ 'cancel_button'|trans }}',
+                    className: 'default'}
+            },
+            callback: function (result) {
+                if (result == true)
+                    $.ajax({
+                        type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                        // dataType: 'html', esta url se comentcargo porque lo k estamos mandando es un json y no un html plano
+                        url: link,
+                        beforeSend: function () {
+                            base.blockUI({message: window.loadingMessage});
+                        },
+                        complete: function () {
+                            base.unblockUI();
+                        },
+                        success: function (data) {
+                            table.row(obj.parents('tr'))
+                                .remove()
+                                .draw('page');
+                            base.enviarMensaje(null, null, data['mensaje']);
+                        },
+                    error: function ()
+                    {
+                            base.Error();
+                    }
+                });
+            }
+        });
+    });
+}
+
+    return {
+    init: function () {
+    $().ready(function () {
+
+    configurarDataTable();
+    refrescar();
+    newAction();
+    edicion();
+    edicionAction();
+    eliminar();
+}
+    );
+}
+}
+}();
+
+
+</script>
+
+

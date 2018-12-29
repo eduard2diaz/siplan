@@ -1,0 +1,46 @@
+<table class="table table-striped table-hover dataTable" id="table">
+    <thead>
+    <tr>
+        <th>{{ 'row_number'|trans }}</th>
+        <th>{{ 'month_field'|trans }}</th>
+        <th>{{ 'year_field'|trans }}</th>
+        <th style="width: 30%"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {%set i=1%}
+    {% for plan in plantrabajos %}
+        <tr>
+            <td>{{i}}</td>
+            <td>{{ plan.getMestoString() }}</td>
+            <td>{{ plan.anno }}</td>
+            <td>
+                <ul class="list-inline">
+                    <li>
+                        <a class="btn btn-default btn-sm" href="{{ path('plantrabajo_show',{'id':plan.id}) }}">
+                            {{ 'visualize'|trans }}
+                        </a>
+                    </li>
+                    {% if app.user.id==id or (null!=jefe and app.user.id==jefe.id)%}
+                    <li>
+                        <a class="btn blue btn-block btn-outline btn-sm edicion" data-href="{{ path('plantrabajo_edit', { 'id': plan.id }) }}"><i class="fa fa-edit"></i>{{ 'edit'|trans }}</a>
+                    </li>
+                    <li>
+                        <a class="btn btn-danger btn-sm  eliminar_plantrabajo" data-href="{{ path('plantrabajo_delete', { 'id': plan.id }) }}"><i class="fa fa-trash-o"></i>{{ 'delete'|trans }}</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </td>
+        </tr>
+        {%set i=1+i%}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>{{ 'row_number'|trans }}</th>
+        <th>{{ 'month_field'|trans }}</th>
+        <th>{{ 'year_field'|trans }}</th>
+        <th></th>
+    </tr>
+    </tfoot>
+</table>

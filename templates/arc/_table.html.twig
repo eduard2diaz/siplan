@@ -1,0 +1,36 @@
+<table class="table table-striped table-hover dataTable" id="table">
+    <thead>
+    <tr>
+        <th>{{ 'row_number'|trans }}</th>
+        <th>{{ 'name_field'|trans }}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {%set i=1%}
+    {% for arc in arcs %}
+        <tr>
+            <td>{{ i }}</td>
+            <td>{{ arc.nombre }}</td>
+            <td>
+                <ul class="list-inline">
+                    <li>
+                        <a class="btn blue btn-block btn-outline btn-sm edicion" data-href="{{ path('arc_edit', { 'id': arc.id }) }}"><i class="fa fa-edit"></i>{{ 'edit'|trans }}</a>
+                    </li>
+                    <li>
+                        <a class="btn btn-danger btn-sm  eliminar_arc" data-href="{{ path('arc_delete', { 'id': arc.id }) }}"><i class="fa fa-trash-o"></i>{{ 'delete'|trans }}</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        {%set i=1+i%}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>{{ 'row_number'|trans }}</th>
+        <th>{{ 'name_field'|trans }}</th>
+        <th></th>
+    </tr>
+    </tfoot>
+</table>

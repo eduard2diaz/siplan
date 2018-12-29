@@ -1,0 +1,42 @@
+{% extends 'layout/autenticado.html.twig' %}
+{% block body %}
+    {{parent()}}
+    <div  class="block-information">
+        <div class="portlet light portlet-fit portlet-datatable bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-dark"></i>
+                    <span class="caption-subject font-dark sbold uppercase">{{ 'workplans'|trans }}</span>
+                </div>
+                {% if app.user.id==id or (null!=jefe and app.user.id==jefe.id)%}
+                <div class="actions">
+                    <a class="btn blue btn-circle edicion tooltips" data-placement="bottom"
+                       data-original-title="{{ 'workplan_registertooltip'|trans }}"
+                       data-href="{{path('plantrabajo_new',{'id':id})}}">
+                            <i class="fa fa-plus-circle"></i> {{ 'register'|trans }}
+                    </a>
+                    <a id="refrescar" class="btn btn-default btn-circle tooltips btn-xlarge"
+                       data-placement="bottom" data-original-title="{{ 'refresh'|trans }}"
+                       href="{{path('plantrabajo_index',{'id':id})}}">
+                                <i class="fa fa-refresh"></i>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="portlet-body" style="display: block;">
+                <div class="table-responsive">
+                    {%include 'plantrabajo/_table.html.twig'%}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    {% include 'plantrabajo/script.js.twig' %}
+    <script>
+        var total ={{plantrabajos |length }}
+            plantrabajo.init();
+    </script>
+{% endblock %}
+

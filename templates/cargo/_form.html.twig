@@ -1,0 +1,21 @@
+{{form_start(form,{'attr':{
+                            'id': form_id|default('cargo_new')
+}})}}
+<div class="modal-body" id="modal-body">
+<div class="row">
+    <div class="col-md-6">
+    {{form_row(form.nombre)}}
+    </div>
+    <div class="col-md-6">
+    {{form_row(form.area)}}
+    </div>
+</div>
+</div>
+<div class="modal-footer">
+    <a class="btn default" data-dismiss="modal">{{ 'cancel_button'|trans }}</a>
+    <button class="btn blue  mt-ladda-btn ladda-button" data-style="expand-right" type="submit">
+        <span class="ladda-label">{{ action |default('save_button') |trans}}</span>
+        <span class="ladda-spinner"></span>
+    </button>
+</div>
+{{form_end(form)}}

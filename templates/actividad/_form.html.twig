@@ -1,0 +1,46 @@
+<script>
+    $('.popovers').popover();
+</script>
+{{form_start(form,{'attr':{
+                            'id': form_id|default('actividad_new')
+}})}}
+<div class="modal-body" id="modal-body">
+    <div class="row">
+        <div class="col-md-6">{{form_row(form.nombre)}}</div>
+        <div class="col-md-6">{{form_row(form.areaconocimiento)}}</div>
+    </div>
+
+    <div class="clearfix margin-bottom-20"></div>
+
+    <div class="row margin-bottom-20">
+        <div class="col-md-2">{{form_row(form.fecha)}}</div>
+        <div class="col-md-offset-1 col-md-2">{{form_row(form.fechaf)}}</div>
+        {% if form.estado is defined %}<div class="col-md-offset-2 col-md-4"> {{ form_row(form.estado)}} </div>{% endif%}
+    </div>
+
+
+    <div class="col-md-12">
+        <ul class="demo-list list-inline margin-bottom-20">
+            <li>{{form_row(form.esexterna)}}</li>
+            <li>{{form_row(form.esobjetivo)}} </li>
+            <li><em><a class="popovers" data-placement="bottom" data-content="Es aquella actividad que por su relevancia es fundamental su cumplimiento." data-original-title="Actividad objetivo">¿Qué es una actividad objetivo?</a></em></li>
+        </ul>
+        {{form_row(form.descripcion)}}
+    </div>
+
+    {{form_rest(form)}}
+<div class="clearfix margin-bottom-20"></div>
+    <ul class="list-inline">
+        <li> <a class="btn default" data-dismiss="modal">Cancelar</a></li>
+        <li>
+
+            <button class="btn blue  mt-ladda-btn ladda-button" data-style="expand-right" type="submit">
+                <span class="ladda-label">{{ action |default('Guardar') }}</span>
+                <span class="ladda-spinner"></span>
+            </button>
+        </li>
+    </ul>
+
+</div>
+
+{{form_end(form)}}

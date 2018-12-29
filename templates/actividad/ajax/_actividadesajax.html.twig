@@ -1,0 +1,29 @@
+<table class="table table-striped table-hover dataTable demo-list" id="table_actividadesantiguas">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Nombre</th>
+        <th>Fecha</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%set i=1%}
+    {% for actividad in actividades %}
+        <tr>
+            <td><input name="actividad" id="actividad" type="checkbox" value="{{ actividad.id }}"/></td>
+            <td>{{ actividad.nombre }}</td>
+            <td>{{ actividad.fecha|date('d-m-Y') }}</td>
+        </tr>
+        {%set i=1+i%}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>No.</th>
+        <th>Nombre</th>
+        <th>Fecha</th>
+    </tr>
+    </tfoot>
+</table>
+<a class="btn green pull-right margin-right-10 hidden mt-ladda-btn ladda-button" data-style="expand-right" data-spinner-color="#333" id="enviar_actividades"><i class="fa fa-send"></i>Clonar actividades</a>
+<br/>

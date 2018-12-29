@@ -1,0 +1,33 @@
+{% extends 'layout/autenticado.html.twig' %}
+{% block body %}
+    {{parent()}}
+    <div  class="block-information">
+        <div class="portlet light portlet-fit portlet-datatable bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-dark"></i>
+                    <span class="caption-subject font-dark sbold uppercase">{{ 'workers'|trans }} </span>
+                </div>
+
+                <div class="actions">
+                    <a class="btn blue btn-circle editar_usuario tooltips" data-placement="bottom" data-original-title="{{ 'worker_registertooltip'|trans }}" data-href="{{path('usuario_new')}}"><i class="fa fa-plus-circle"></i> {{ 'register'|trans }}</a>
+                    <a id="refrescar" class="btn btn-default btn-circle tooltips btn-xlarge" data-placement="bottom" data-original-title="{{ 'refresh'|trans }}" href="{{path('usuario_index')}}"><i class="fa fa-refresh"></i>   </a>
+                </div>
+            </div>
+            <div class="portlet-body" style="display: block;">
+                <div class="table-responsive">
+                    {%include 'usuario/_table.html.twig'%}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'usuario/script.js.twig' %}
+    <script>
+        var total ={{usuarios |length }}
+            usuario.init();
+    </script>
+{% endblock %}

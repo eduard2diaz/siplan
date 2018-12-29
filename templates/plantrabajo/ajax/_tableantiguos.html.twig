@@ -1,0 +1,29 @@
+<table class="table table-striped table-hover dataTable demo-list" id="table_antiguos">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Mes</th>
+        <th>Año</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%set i=1%}
+    {% for plan in plantrabajos %}
+        <tr>
+            <td><input name="antiguo" id="antiguo" type="radio" value="{{ plan.id }}"/></td>
+            <td>{{ plan.getMestoString() }}</td>
+            <td>{{ plan.anno }}</td>
+        </tr>
+        {%set i=1+i%}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>No.</th>
+        <th>Mes</th>
+        <th>Año</th>
+    </tr>
+    </tfoot>
+</table>
+<a class="btn green pull-right margin-right-10 hidden mt-ladda-btn ladda-button" data-style="expand-right" data-spinner-color="#333" id="cargar_actividades_link">Cargar Actividades</a>
+<br/>

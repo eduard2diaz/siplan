@@ -1,0 +1,46 @@
+<div class="modal-dialog modal-full">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">{{ title| default('Nueva actividad') }}</h4>
+        </div>
+        <div>
+            <div class="portlet light bordered">
+                <div class="portlet-title tabbable-line">
+                    <div class="caption">
+                        <i class="icon-share font-dark"></i>
+                        <span class="caption-subject font-dark bold uppercase">Registre una nueva actividad</span>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="">
+                            <a aria-expanded="false" href="#portlet_tab2" data-toggle="tab"> CLONAR </a>
+                        </li>
+                        <li class="active">
+                            <a aria-expanded="true" href="#portlet_tab1" data-toggle="tab"> NUEVA </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="portlet-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="portlet_tab1">
+                            {%include 'actividad/_form.html.twig'%}
+                        </div>
+                        <div class="tab-pane" id="portlet_tab2">
+                            <p> En ocasiones los planes de trabajos mensuales constan de actividades que por su importancia se realizan cotidianamente SIPLAN permite clonar las actividades planificadas en planes de trabajos anteriores y definirlas en nuestro nuevos planes.</p> <b>Vale destacar:</b>
+                            <ul>
+                                <li>Las actividades que se clonan son las actividades planificadas por usted, no su jefe.</li>
+                                <li>Las actividades que usted clone en los planes de trabajo de sus subordinados son las que usted en algún momento le asignó.</li>
+                                <li>Las actividades que se clonen se definen en estado <b>"Registrada"</b>.</li>
+                                <li>Usted puede en todo momento eliminar una actividades previamente clonada que dicha modificación no se reflejará en sus anteriores planes de trabajo.</li>
+                            </ul>
+                            <p>
+                                <a data-href="{{ path('plantrabajo_antiguos',{'id':actividad. plantrabajo.id}) }}" class="btn red mt-ladda-btn ladda-button" data-style="expand-right" data-spinner-color="#333" id="cargar_antiguos_link" style="margin-left:40%"> Cargar planes de trabajo anteriores </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
