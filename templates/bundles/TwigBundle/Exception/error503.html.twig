@@ -1,6 +1,8 @@
 {% extends 'bundles/TwigBundle/Exception/error.html.twig' %}
  {% block error_picture %}
-     <img src="{{ asset('img/http_error/mantenimiento-web.png','apps')}}" style="width: 100%"/>
+     <img src="{{ asset('img/http_error/mantenimiento-web.png','sitrans')}}" style="width: 100%"/>
  {% endblock error_picture %}
-{% block error_title %}{{ '_503.error_title'|trans({},'error') }}{% endblock error_title %}
-{% block error_details %}{{ '_503.error_details'|trans({},'error') }}{% endblock error_details %}
+{% block error_title %}Lo sentimos, estamos en mantenimiento{% endblock error_title %}
+{% block error_details %}
+    Actualmente nos encontramos realizando mejoras al sistema, ante cualquier duda o dificultad contacte con el/los administrador(es), estaremos encantados de ayudarle.
+{% endblock error_details %}

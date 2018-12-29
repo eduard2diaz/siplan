@@ -12,11 +12,7 @@ use  App\Entity\Area;
 use App\Entity\Cargo;
 
 /**
- * @Route({
- *     "en": "/cargoen",
- *     "es": "/cargo",
- *     "fr": "/cargoey",
- * })
+ * @Route("/cargo")
  */
 class CargoController extends Controller
 {
@@ -72,7 +68,7 @@ class CargoController extends Controller
             if ($form->isValid()) {
                 $em->persist($cargo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => $this->get('translator')->trans("cargo_register_successfully"),
+                return new JsonResponse(array('mensaje' =>'El cargo fue registrado satisfactoriamente',
                     'nombre' => $cargo->getNombre(),
                     'area' => $cargo->getArea()->getNombre(),
                     'id' => $cargo->getId(),
@@ -109,7 +105,7 @@ class CargoController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($cargo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => $this->get('translator')->trans("cargo_update_successfully"), 'nombre' => $cargo->getNombre(), 'area' => $cargo->getArea()->getNombre()));
+                return new JsonResponse(array('mensaje' => 'El cargo fue actualizado satisfactoriamente', 'nombre' => $cargo->getNombre(), 'area' => $cargo->getArea()->getNombre()));
             } else {
                 $page = $this->renderView('cargo/_form.html.twig', array(
                     'form' => $form->createView(),
@@ -121,8 +117,8 @@ class CargoController extends Controller
 
         return $this->render('cargo/_new.html.twig', [
             'cargo' => $cargo,
-            'title' => 'edit_cargoheader',
-            'action' => 'update_button',
+            'title' => 'Editar cargo',
+            'action' => 'Actualizar',
             'form_id' => 'cargo_edit',
             'form' => $form->createView(),
         ]);
@@ -140,6 +136,6 @@ class CargoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($cargo);
         $em->flush();
-        return new JsonResponse(array('mensaje' => $this->get('translator')->trans("cargo_delete_successfully")));
+        return new JsonResponse(array('mensaje' => 'El cargo fue eliminado satisfactoriamente'));
     }
 }

@@ -15,6 +15,15 @@ use Symfony\Component\Routing\RequestContext;
 class DefaultController extends Controller
 {
     /**
+     * @Route("/prueba", name="prueba")
+     */
+    public function prueba(Request $request)
+    {
+
+        return $this->render('default/prueba.html.twig');
+    }
+
+    /**
      * @Route("/", name="index")
      */
     public function index(Request $request)

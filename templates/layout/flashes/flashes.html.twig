@@ -1,22 +1,9 @@
 {% for tipo, mensajes in app.session.flashbag.all() %}
-    <div class="alert alert-{{tipo}} alert-dismissable" id="mensajes">
-        {% if tipo=='success'%}
-            {%set icon='glyphicon-ok-sign'%}
-                {%elseif tipo=='danger'%}
-                    {%set icon='glyphicon-remove-sign'%}
-                        {%elseif tipo=='warning'%}
-                            {%set icon='glyphicon-warning-sign'%}
-                                {%else%}
-                                    {%set icon='glyphicon-info-sign'%}
-                                        {%endif%}
-
-                                            {% for mensaje in mensajes %}
-                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                                <p >         
-                                                    <span class="glyphicon {{icon}}"></span>   {{ mensaje }}
-                                                </p>
-                                            {% endfor %}
-                                        </div>  
-                                        {% endfor %}
+    {% for mensaje in mensajes %}
+       <script>
+           toastr.success('{{ mensaje }}');
+       </script>
+    {% endfor %}
+{% endfor %}
                                             
                                             

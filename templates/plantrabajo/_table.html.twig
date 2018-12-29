@@ -1,32 +1,40 @@
-<table class="table table-striped table-hover dataTable" id="table">
+<table class="table table-hover m-table m-table--head-separator-brand" id="plantrabajo_table">
     <thead>
     <tr>
-        <th>{{ 'row_number'|trans }}</th>
-        <th>{{ 'month_field'|trans }}</th>
-        <th>{{ 'year_field'|trans }}</th>
-        <th style="width: 30%"></th>
+        <th>
+            #
+        </th>
+        <th>
+            Mes
+        </th>
+        <th>
+            Año
+        </th>
+        <th>
+        </th>
     </tr>
     </thead>
     <tbody>
     {%set i=1%}
     {% for plan in plantrabajos %}
         <tr>
-            <td>{{i}}</td>
-            <td>{{ plan.getMestoString() }}</td>
+            <td>{{ i }}</td>
+            <td>{{ plan.getMesToString() }}</td>
             <td>{{ plan.anno }}</td>
             <td>
-                <ul class="list-inline">
-                    <li>
-                        <a class="btn btn-default btn-sm" href="{{ path('plantrabajo_show',{'id':plan.id}) }}">
-                            {{ 'visualize'|trans }}
-                        </a>
+                <ul class="m-nav m-nav--inline m--pull-right">
+                    <li class="m-nav__item">
+                        <a class="btn btn-info btn-sm" href="{{ path('plantrabajo_show', { 'id': plan.id }) }}">
+                            <i class="flaticon-eye"></i> Visualizar</a>
                     </li>
                     {% if app.user.id==id or (null!=jefe and app.user.id==jefe.id)%}
-                    <li>
-                        <a class="btn blue btn-block btn-outline btn-sm edicion" data-href="{{ path('plantrabajo_edit', { 'id': plan.id }) }}"><i class="fa fa-edit"></i>{{ 'edit'|trans }}</a>
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm edicion" data-href="{{ path('plantrabajo_edit', { 'id': plan.id }) }}">
+                            <i class="flaticon-edit-1"></i> Editar</a>
                     </li>
-                    <li>
-                        <a class="btn btn-danger btn-sm  eliminar_plantrabajo" data-href="{{ path('plantrabajo_delete', { 'id': plan.id }) }}"><i class="fa fa-trash-o"></i>{{ 'delete'|trans }}</a>
+                    <li class="m-nav__item">
+                        <a class="btn btn-danger btn-sm  eliminar_plantrabajo" data-href="{{ path('plantrabajo_delete', { 'id': plan.id }) }}">
+                            <i class="flaticon-delete-1"></i> Eliminar</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -37,10 +45,17 @@
     </tbody>
     <tfoot>
     <tr>
-        <th>{{ 'row_number'|trans }}</th>
-        <th>{{ 'month_field'|trans }}</th>
-        <th>{{ 'year_field'|trans }}</th>
-        <th></th>
+        <th>
+            #
+        </th>
+        <th>
+            Mes
+        </th>
+        <th>
+            Año
+        </th>
+        <th>
+        </th>
     </tr>
     </tfoot>
 </table>

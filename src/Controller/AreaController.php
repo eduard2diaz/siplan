@@ -13,11 +13,7 @@ use App\Entity\Area;
 use App\Entity\Usuario;
 
 /**
- * @Route({
- *     "en": "/area",
- *     "es": "/areasaa",
- *     "fr": "/areaa",
- * })
+ * @Route("/area")
  */
 class AreaController extends Controller
 {
@@ -62,7 +58,7 @@ class AreaController extends Controller
             if ($form->isValid()) {
                 $em->persist($area);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>$this->get('translator')->trans( "area_register_successfully"),
+                return new JsonResponse(array('mensaje' =>'El área fue registrada satisfactoriamente',
                     'nombre' => $area->getNombre(),
                     'area_madre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',
                     'id' => $area->getId(),
@@ -99,7 +95,7 @@ class AreaController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($area);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>$this->get('translator')->trans("area_update_successfully"), 'nombre' => $area->getNombre(),   'area_madre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',));
+                return new JsonResponse(array('mensaje' =>'El área fue actualizada satisfactoriamente', 'nombre' => $area->getNombre(),   'area_madre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',));
             } else {
                 $page = $this->renderView('area/_form.html.twig', array(
                     'form' => $form->createView(),
@@ -111,8 +107,8 @@ class AreaController extends Controller
 
         return $this->render('area/_new.html.twig', [
             'area' => $area,
-            'title' => 'edit_areaheader',
-            'action' => 'update_button',
+            'title' => 'Editar área',
+            'action' => 'Actualizar',
             'form_id' => 'area_edit',
             'form' => $form->createView(),
         ]);
@@ -130,7 +126,7 @@ class AreaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($area);
         $em->flush();
-        return new JsonResponse(array('mensaje' =>$this->get('translator')->trans( "area_delete_successfully")));
+        return new JsonResponse(array('mensaje' =>'El área fue eliminada satisfactoriamente'));
     }
 
     //OPCIONES AJAX ADICIONALES

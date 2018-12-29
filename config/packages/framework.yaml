@@ -11,16 +11,12 @@ framework:
 
     assets:
         packages:
-            apps:
-                base_path: /bundles/app/assets/apps
-            global:
-                base_path: /bundles/app/assets/global
-            layout:
-                base_path: /bundles/app/assets/layout
+            template:
+                base_path: /template
+            sitrans:
+                base_path: /sitrans
             pages:
-                base_path: /bundles/app/assets/pages
-            assets:
-                base_path: /bundles/app/assets
+                base_path: /sitrans/css/page
     #esi: true
     #fragments: true
     php_errors:

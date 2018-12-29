@@ -1,176 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
+<!-- begin::Head -->
 <head>
-    <meta charset="utf-8"/>
-    <title>{% block title %}Siplan{% endblock %}</title>
+    <meta charset="utf-8" />
+    <title>
+        {% block title %}SITRANS{% endblock title %}
+    </title>
+    <meta name="description" content="Latest updates and statistic charts">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <meta content="Preview page of Metronic Admin Theme #1 for statistics, charts, recent events and reports"
-          name="description"/>
-    <meta content="" name="author"/>
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="{{ asset('plugins/font-awesome/css/font-awesome.min.css','global') }}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('plugins/simple-line-icons/simple-line-icons.min.css','global') }}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('plugins/bootstrap/css/bootstrap.min.css','global') }}" rel="stylesheet" type="text/css"/>
-    <!-- END GLOBAL MANDATORY STYLES -->
-    <!-- BEGIN THEME GLOBAL STYLES -->
-    <link href="{{ asset('css/components.css','global') }}" rel="stylesheet" id="style_components" type="text/css"/>
-    <link href="{{ asset('css/plugins.css','global') }}" rel="stylesheet" type="text/css"/>
-    <!-- END THEME GLOBAL STYLES -->
-    <!--Estilos de plugins definidos por mi-->
-    <link href="{{ asset('plugins/bootstrap-toastr/toastr.min.css','global') }}" rel="stylesheet" type="text/css"/>
-    <!-- FIN -->
-    <!-- BEGIN THEME LAYOUT STYLES -->
-    <link href="{{ asset('css/layout/layout.css','layout') }}" rel="stylesheet" type="text/css"/>
-    <!--Se inicia la personalizacion de la barra izquierda-->
-    <link href="{{ asset('css/layout/themes/darkblue.css','layout') }}" rel="stylesheet" type="text/css"/>
-    <!--Fin de la personalizacion la barra izquierda-->
-    <link href="{{ asset('css/layout/custom.css','layout') }}" rel="stylesheet" type="text/css"/>
-    <!-- END THEME LAYOUT STYLES -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/ladda/ladda-themeless.min.css','global') }}"/>
-    <link rel="stylesheet" href="{{ asset('css/base.css','apps') }}"/>
-    <link rel="shortcut icon" href="{{ asset('img/photos_64dp.png','apps') }}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--begin::Base Styles -->
+    <!--begin::Page Vendors -->
+    <link href="{{ asset('vendors/custom/fullcalendar/fullcalendar.bundle.css','template')}}" rel="stylesheet" type="text/css" />
+    <!--end::Page Vendors -->
+    <link href="{{ asset('vendors/base/vendors.bundle.css','template')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('demo/demo9/base/style.bundle.css','template')}}" rel="stylesheet" type="text/css" />
+    <!--end::Base Styles -->
+    <link href="{{ asset('plugins/ladda/ladda-themeless.min.css','sitrans')}}" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="{{ asset('img/icono.ico','sitrans')}}" />
+    <link rel="stylesheet" type="text/css"  href="{{ asset('css/base/sitrans.css','sitrans')}}" />
+    {% block stylesheets %}{% endblock stylesheets %}
 </head>
-<!-- END HEAD -->
-{% block stylesheets %}{% endblock %}
-<body class="page-header-fixed page-sidebar-closed-hide-logo">
-<div class="page-wrapper">
-    <!-- BEGIN HEADER -->
-    <div class="page-header navbar" style="background-color: #1273EB !important;">
-        <!-- BEGIN HEADER INNER -->
-        <div class="page-header-inner ">
-            <!-- BEGIN LOGO -->
-            <div class="page-logo">
-                <a href="{{ path('index') }}" id="logo">
-                    <h4>Siplan</h4></a>
-            </div>
-            <!-- END LOGO -->
-            <!-- BEGIN TOP NAVIGATION MENU -->
-            <div class="top-menu">
-                <ul class="nav navbar-nav pull-right">
-                    {% block top_menu %}
-                    {% endblock %}
-                </ul>
-            </div>
-            <!-- END TOP NAVIGATION MENU -->
-        </div>
-        <!-- END HEADER INNER -->
-    </div>
-    <!-- END HEADER -->
-    <!-- BEGIN HEADER & CONTENT DIVIDER -->
-    <div class="clearfix"></div>
-    <!-- END HEADER & CONTENT DIVIDER -->
-    <!-- BEGIN CONTAINER -->
-    <div class="page-container">
-        {% block page_container %}
-        {% endblock page_container %}
-    </div>
+<!-- end::Head -->
+<!-- end::Body -->
+<body  class="m--skin- m-content--skin-light m-header--fixed m-header--fixed-mobile m-aside-left--offcanvas-default m-aside-left--enabled m-aside-left--fixed m-aside-left--skin-dark m-aside--offcanvas-default"  >
+<!-- begin:: Page -->
+<div class="m-grid m-grid--hor m-grid--root m-page">
 
-    <footer id="footer" class="clearfix">
-        <div class="row">
-            <div class="col-md-3">
-                <a title="Keenthemes" href="https://keenthemes.com">
-                    <img alt="Keenthemes" src="{{ asset('img/logo2.png','layout') }}">
-                </a>
-                <div class="clearfix"></div>
-                <p>
-                    <a href="https://www.twitter.com/keenthemes" target="_blank" class="c-icon-link"><i
-                                class="icon-social-twitter"></i></a>&nbsp;&nbsp;
-                    <a href="https://dribbble.com/keenthemes" target="_blank" class="c-icon-link"><i
-                                class="icon-social-dribbble"></i></a>&nbsp;&nbsp;
-                    <a href="https://www.facebook.com/keenthemes" target="_blank" class="c-icon-link"><i
-                                class="icon-social-facebook"></i></a>&nbsp;&nbsp;
-                    <a href="https://themeforest.net/user/keenthemes/portfolio?ref=keenthemes" target="_blank"
-                       class="c-icon-link"><i class="icon-handbag"></i></a>
-                </p>
-            </div>
-            <div class="col-md-3">
-                <b><i class="fa fa-user-circle"></i> {{ 'account'| trans({},'estatica') }}</b>
-                <ul class="list-unstyled margin-bottom-20">
-                    <li><a href="{{ path('account_management') }}">{{ 'account_management'| trans({},'estatica') }}</a></li>
-                </ul>
-                <b><i class="fa fa-th-large"></i> {{ 'principles'| trans({},'estatica') }}</b>
-                <ul class="list-unstyled">
-                    <li><a href="{{ path('accesibility') }}">{{ 'accesibility'| trans({},'estatica') }}</a></li>
-                    <li><a href="{{ path('scalability') }}">{{ 'scalability'| trans({},'estatica') }}</a></li>
-                    <li><a href="{{ path('privacy') }}">{{ 'privacy'| trans({},'estatica') }}</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <b><i class="fa fa-search-plus"></i> {{ 'discover' | trans({},'estatica')}}</b>
-                <ul class="list-unstyled">
-                    <li><a href="">{{ 'owner_site' | trans({},'estatica')}}</a></li>
-                    <li><a href="">{{ 'email_field' | trans({},'estatica')}}</a></li>
-                    <li><a href="">Intranet</a></li>
-                    <li><a href="">{{ 'news' | trans({},'estatica')}}</a></li>
-                    <li><a href="">FTP</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <b><i class="fa fa-info-circle"></i> {{ 'about' | trans({},'estatica')}}</b>
-                <ul class="list-unstyled">
-                    <li><a href="{{ path('aboutus') }}">{{ 'aboutus' | trans({},'estatica')}}</a></li>
-                    <li><a href="{{ path('services') }}">{{ 'services' | trans({},'estatica')}}</a></li>
-                    <li><a href="{{ path('serviceterms') }}">{{ 'serviceterms' | trans({},'estatica')}}</a></li>
-                    <li><a href="{{ path('cookiespolicy') }}">{{ 'cookiespolicy' | trans({},'estatica')}}</a></li>
-                    <li><a href="{{ path('privacypolicy') }}" class="active">{{ 'privacypolicy' | trans({},'estatica')}}</a></li>
-                </ul>
-                <b><i class="fa fa-globe"></i> {{ 'language' | trans({},'estatica')}}</b>
-                <ul class="list-inline">
-                    <li><a href="{{ path('translate',{'language':'es'}) }}">Español</a></li>
-                    <li><a href="{{ path('translate',{'language':'en'}) }}">English</a></li>
-                    <li><a href="{{ path('translate',{'language':'fr'}) }}">Français</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            <small id="copyright" role="contentinfo">Copyright © Instituto de Ciencia Animal.</small>
-            <ul class="list-inline pull-right">
+    <!-- BEGIN: Header -->
+    {% block header %}
+    {% endblock header %}
+    <!-- END: Header -->
 
-                <li><a href="http://facebook.com"><i class="fa fa-facebook"></i>Facebook</a></li>
-                <li><a href="http://github.com"><i class="fa fa-github"></i>Github</a></li>
-            </ul>
+    <!-- begin::Body -->
+    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor-desktop m-grid--desktop m-body">
+        <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-container m-container--responsive m-container--xxl m-container--full-height">
+            <div class="m-grid__item m-grid__item--fluid m-wrapper">
+                <!-- BEGIN: Subheader -->
+                {% block subheader %}
+                {% endblock subheader %}
+                <!-- END: Subheader -->
+
+
+                {% include 'layout/flashes/modal.html.twig' %}
+                <div class="m-content">
+                    {% block body %}
+                    {% endblock body %}
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
+    <!-- end:: Body -->
+    <!-- begin::Footer -->
+    {{ include('layout/recortes/footer.html.twig') }}
+    <!-- end::Footer -->
 </div>
-<!-- BEGIN CORE PLUGINS -->
-<script src="{{ asset('plugins/jquery.min.js','global') }}" type="text/javascript"></script>
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js','global') }}" type="text/javascript"></script>
-<script src="{{ asset('plugins/js.cookie.min.js','global') }}" type="text/javascript"></script>
-<!--Importamos la libreria blockui pero realmente lo que haremos sera redefinir su comportamiento en base.js-->
-<script src="{{ asset('plugins/jquery.blockui.min.js','global') }}" type="text/javascript"></script>
-<!--FIN de la importacion-->
-<script type="text/javascript" src="{{ asset('plugins/bootbox/bootbox.min.js','global') }}"></script>
-<script type="text/javascript" src="{{ asset('plugins/bootstrap-toastr/toastr.min.js','global') }}"></script>
-<!--PLUGINS DE VALIDACION-->
-<script src="{{ asset('plugins/jquery-validation/dist/jquery.validate.js','global') }}"></script>
-<!--FIN DE PLUGINS DE VALIDACION-->
-<script type="text/javascript" src="{{ asset('plugins/ladda/spin.min.js','global') }}"></script>
-<script type="text/javascript" src="{{ asset('plugins/ladda/ladda.min.js','global') }}"></script>
-<!-- END CORE PLUGINS -->
-<!--PLUGINS DE SONIDO-->
-<script type="text/javascript" src="{{ asset('plugins/soundjs/soundjs-NEXT.combined.js','global') }}"></script>
-<!--FIN DE PLUGINS DE SONIDO-->
+<!-- end:: Page -->
+<!--begin::Base Scripts -->
+<script src="{{ asset('vendors/base/vendors.bundle.js','template')}}" type="text/javascript"></script>
+<script src="{{ asset('demo/demo9/base/scripts.bundle.js','template')}}" type="text/javascript"></script>
+<!--end::Base Scripts -->
+<!--begin::Page Snippets -->
+<script src="{{ asset('app/js/dashboard.js','template')}}" type="text/javascript"></script>
+<script src="{{ asset('script/base/base.js','sitrans') }}"></script>
+<!--end::Page Snippets -->
+<!--cargando componenete ladda-->
+<script src="{{ asset('plugins/ladda/spin.min.js','sitrans') }}"></script>
+<script src="{{ asset('plugins/ladda/ladda.min.js','sitrans') }}"></script>
+<!--fin de cargando componenete ladda-->
 
-<script type="text/javascript" src="{{ asset('plugins/jquery-slimscroll/jquery.slimscroll.min.js','global') }}"></script>
-
-{% include 'layout/script/base.js.twig' %}
-<script type="text/javascript" src="{{ asset('scripts/interface/base.js','apps') }}"></script>
-<script>
-    base.init();
-</script>
-<!-- BEGIN THEME GLOBAL SCRIPTS -->
-<script src="{{ asset('scripts/app.min.js','global') }}" type="text/javascript"></script>
-<!-- END THEME GLOBAL SCRIPTS -->
-<!-- BEGIN THEME LAYOUT SCRIPTS -->
-<script src="{{ asset('scripts/layout.min.js','layout') }}" type="text/javascript"></script>
 <!--Definiendo las configuraciones necesarias para JSRoutingBundle-->
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 <!--FIN de las configuraciones necesarias para JSRoutingBundle-->
+
+<!-- begin::Page Loader -->
+<script>
+    $().ready(function(){
+        base.init();
+    })
+</script>
+<!-- end::Page Loader -->
 {% block javascripts %}{% endblock javascripts %}
-<!-- END THEME LAYOUT SCRIPTS -->
+{% include 'layout/flashes/flashes.html.twig' %}
 </body>
+<!-- end::Body -->
 </html>

@@ -1,6 +1,8 @@
 {% extends 'bundles/TwigBundle/Exception/error.html.twig' %}
  {% block error_picture %}
-     <img src="{{ asset('img/http_error/404.png','apps')}}" style="width: 100%"/>
+     <img src="{{ asset('img/http_error/404.png','sitrans')}}" style="width: 100%"/>
  {% endblock error_picture %}
-{% block error_title %}{{ '_404.error_title'|trans({},'error') }}{% endblock error_title %}
-{% block error_details %}{{ '_404.error_details'|trans({},'error') }}{% endblock error_details %}
+{% block error_title %}Página no encontrada{% endblock error_title %}
+{% block error_details %}
+    Lo sentimos la página solicitada por usted no existe o fue eliminada, ante cualquier duda o dificultad contacte con el/los administrador(es), estaremos encantados de ayudarle.
+{% endblock error_details %}

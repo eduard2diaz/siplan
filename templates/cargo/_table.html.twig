@@ -1,10 +1,17 @@
-<table class="table table-striped table-hover dataTable" id="table">
+<table class="table table-hover m-table m-table--head-separator-brand" id="cargo_table">
     <thead>
     <tr>
-        <th>{{ 'row_number'|trans }}</th>
-        <th>{{ 'name_field'|trans }}</th>
-        <th>{{ 'area'|trans }}</th>
-        <th></th>
+        <th>
+            #
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Área
+        </th>
+        <th>
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -15,12 +22,14 @@
             <td>{{ cargo.nombre }}</td>
             <td>{{ cargo.area }}</td>
             <td>
-                <ul class="list-inline">
-                    <li>
-                        <a class="btn blue btn-block btn-outline btn-sm edicion" data-href="{{ path('cargo_edit', { 'id': cargo.id }) }}"><i class="fa fa-edit"></i>{{ 'edit'|trans }}</a>
+                <ul class="m-nav m-nav--inline m--pull-right">
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm edicion" data-href="{{ path('cargo_edit', { 'id': cargo.id }) }}">
+                            <i class="flaticon-edit-1"></i> Editar</a>
                     </li>
-                    <li>
-                        <a class="btn btn-danger btn-sm  eliminar_cargo" data-href="{{ path('cargo_delete', { 'id': cargo.id }) }}"><i class="fa fa-trash-o"></i>{{ 'delete'|trans }}</a>
+                    <li class="m-nav__item">
+                        <a class="btn btn-danger btn-sm  eliminar_cargo" data-href="{{ path('cargo_delete', { 'id': cargo.id }) }}">
+                            <i class="flaticon-delete-1"></i> Eliminar</a>
                     </li>
                 </ul>
             </td>
@@ -30,10 +39,17 @@
     </tbody>
     <tfoot>
     <tr>
-        <th>{{ 'row_number'|trans }}</th>
-        <th>{{ 'name_field'|trans }}</th>
-        <th>{{ 'area'|trans }}</th>
-        <th></th>
+        <th>
+            #
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Área
+        </th>
+        <th>
+        </th>
     </tr>
     </tfoot>
 </table>

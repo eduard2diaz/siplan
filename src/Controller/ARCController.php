@@ -13,11 +13,7 @@ use App\Entity\ARC;
 use App\Entity\Usuario;
 
 /**
- * @Route({
- *     "en": "/arc",
- *     "es": "/arcs",
- *     "fr": "/arcs2",
- * })
+ * @Route("/arc")
  */
 class ARCController extends Controller
 {
@@ -54,7 +50,7 @@ class ARCController extends Controller
             if ($form->isValid()) {
                 $em->persist($arc);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>$this->get('translator')->trans( "arc_register_successfully"),
+                return new JsonResponse(array('mensaje' =>'El área del conocimiento fue registrada satisfactoriamente',
                     'nombre' => $arc->getNombre(),
                     'id' => $arc->getId(),
                 ));
@@ -87,7 +83,7 @@ class ARCController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($arc);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>$this->get('translator')->trans("arc_update_successfully"),
+                return new JsonResponse(array('mensaje' =>'El área del conocimiento fue actualizada satisfactoriamente',
                     'nombre' => $arc->getNombre(),
                     ));
             } else {
@@ -101,8 +97,8 @@ class ARCController extends Controller
 
         return $this->render('arc/_new.html.twig', [
             'arc' => $arc,
-            'title' => 'edit_archeader',
-            'action' => 'update_button',
+            'title' => 'Editar área del conocimiento ',
+            'action' => 'Actualizar',
             'form_id' => 'arc_edit',
             'form' => $form->createView(),
         ]);
@@ -119,7 +115,7 @@ class ARCController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($arc);
         $em->flush();
-        return new JsonResponse(array('mensaje' =>$this->get('translator')->trans( "arc_delete_successfully")));
+        return new JsonResponse(array('mensaje' =>'El área del conocimiento fue eliminada satisfactoriamente'));
     }
 
 }

@@ -20,11 +20,7 @@ use Docxpresso\HTML2TEXT as Parser;*/
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 /**
- * @Route({
- *     "en": "/workplan",
- *     "es": "/plantrabajo",
- *     "fr": "/workplane",
- * })
+ * @Route("/plantrabajo")
  */
 class PlantrabajoController extends Controller
 {
@@ -61,7 +57,7 @@ class PlantrabajoController extends Controller
             if ($form->isValid()) {
                 $em->persist($plantrabajo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => $this->get('translator')->trans("workplan_register_successfully"),
+                return new JsonResponse(array('mensaje' => 'El plan de trabajo fue registrado satisfactoriamente',
                     'mes' => $plantrabajo->getMestoString(),
                     'anno' => $plantrabajo->getAnno(),
                     'id' => $plantrabajo->getId(),
@@ -126,7 +122,7 @@ class PlantrabajoController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($plantrabajo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => $this->get('translator')->trans("workplan_update_successfully"), 'mes' => $plantrabajo->getMestoString(), 'anno' => $plantrabajo->getAnno()));
+                return new JsonResponse(array('mensaje' => 'El plan de trabajo fue actualizado satisfactoriamente', 'mes' => $plantrabajo->getMestoString(), 'anno' => $plantrabajo->getAnno()));
             } else {
                 $page = $this->renderView('plantrabajo/_form.html.twig', array(
                     'form' => $form->createView(),
@@ -138,8 +134,8 @@ class PlantrabajoController extends Controller
 
         return $this->render('plantrabajo/_new.html.twig', [
             'plantrabajo' => $plantrabajo,
-            'title' => 'edit_workplanheader',
-            'action' => 'update_button',
+            'title' => 'Editar plan de trabajo',
+            'action' => 'Actualizar',
             'form_id' => 'plantrabajo_edit',
             'form' => $form->createView(),
         ]);
@@ -157,7 +153,7 @@ class PlantrabajoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($plantrabajo);
         $em->flush();
-        return new JsonResponse(array('mensaje' => $this->get('translator')->trans("workplan_delete_successfully")));
+        return new JsonResponse(array('mensaje' => 'El plan de trabajo fue eliminado satisfactoriamente'));
     }
 
     /**

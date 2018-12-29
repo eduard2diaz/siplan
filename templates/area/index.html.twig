@@ -1,30 +1,44 @@
 {% extends 'layout/autenticado.html.twig' %}
+ {% block page_title %}Área{% endblock page_title %}
 {% block body %}
-    {{parent()}}
-    <div  class="block-information">
-        <div class="portlet light portlet-fit portlet-datatable bordered">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class=" icon-layers font-dark"></i>
-                    <span class="caption-subject font-dark sbold uppercase">{{ 'areas'|trans }}</span>
-                </div>
-                <div class="actions">
-                    <a class="btn blue btn-circle edicion tooltips" data-placement="bottom" data-original-title="{{ 'area_registertooltip'|trans }}" data-href="{{path('area_new')}}"><i class="fa fa-plus-circle"></i> {{ 'register'|trans }}</a>
-                    <a id="refrescar" class="btn btn-default btn-circle tooltips btn-xlarge" data-placement="bottom" data-original-title="{{ 'refresh'|trans }}" href="{{path('area_index')}}"><i class="fa fa-refresh"></i>   </a>
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Listado
+                    </h3>
                 </div>
             </div>
-            <div class="portlet-body" style="display: block;">
-                <div class="table-responsive">
-                    {%include 'area/_table.html.twig'%}
-                </div>
+
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        <a data-href="{{ path('area_index') }}" class="btn btn-sm m-btn" id="area_tablerefrescar">
+                            <span><i class="flaticon-refresh"></i></span> Refrescar
+                        </a>
+                    </li>
+                    <li class="m-portlet__nav-item">
+                        <a data-href="{{ path('area_new') }}" class="btn btn-sm btn-info m-btn edicion text-uppercase"  data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Adicionar área">
+                            <span><i class="flaticon-add"></i></span> Nuevo
+                        </a>
+                    </li>
+                </ul>
             </div>
+
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            {%include 'area/_table.html.twig'%}
+            <!--end: Datatable -->
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{parent()}}
-    {% include 'area/script.js.twig' %}
+    <script src="{{ asset('script/entity/area.js','sitrans') }}"></script>
     <script>
         var total ={{areas |length }}
             area.init();

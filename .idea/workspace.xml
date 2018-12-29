@@ -2,169 +2,591 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="419e3fcb-9e13-4f6a-b6b1-caf355360ac4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.env.dist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757/storage_v2/_src_/database/siplanv3.POnTIQ.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757/storage_v2/_src_/database/siplanv3.POnTIQ/schema/public.abK9xQ.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/siplan.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/bundles/fosjsrouting/js/router.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/bundles/fosjsrouting/js/router.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/console" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/phpunit" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/debug.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/easy_log_handler.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/monolog.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/routing.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/swiftmailer.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/dev/web_profiler.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/doctrine_migrations.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/knp_snappy.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/prod/doctrine.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/prod/monolog.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/routing.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/swiftmailer.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/framework.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/monolog.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/swiftmailer.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/test/web_profiler.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/translation.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/twig.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes/annotations.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes/dev/twig.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes/dev/web_profiler.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/routes/fos_js_routing.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/services_test.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/phpunit.xml.dist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/ARCController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/ActividadController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/AreaController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/CargoController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/DefaultController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/EstaticaController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/UsuarioController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/AreaFixtures.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/CargoFixtures.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/RolFixtures.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/UsuarioFixtures.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/ARC.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Actividad.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Area.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Cargo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Plantrabajo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Rol.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Usuario.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EventListener/TranslateListener.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EventSubscriber/UsuarioSubscriber.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/ARCType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/ActividadType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/AreaType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/CargoType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/PlantrabajoType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/Subscriber/AddCargoFieldSubscriber.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/Transformer/DateTimetoStringTransformer.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/UsuarioType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Kernel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/ARCRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/UsuarioRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/UserChecker.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/Voter/ActividadVoter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/Voter/AreaVoter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/Voter/CargoVoter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/Voter/PlanTrabajoVoter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Security/Voter/UsuarioVoter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Services/AreaService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividad/_edit.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividad/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividad/_new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividad/_table.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividad/ajax/_actividadesajax.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividad/ajax/_notificaciones.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividad/script.js.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividad/show.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/arc/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/arc/_new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/arc/_table.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/arc/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/arc/script.js.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/area/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/area/_new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/area/_table.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/area/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/area/script.js.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error403.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error404.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error500.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error503.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/cargo/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/cargo/_new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/cargo/_table.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/cargo/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/cargo/script.js.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/_download.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/aboutus.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/accesibility.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/account_management.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/cookiespolicy.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/privacy.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/privacypolicy.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/scalability.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/services.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/default/static/serviceterm.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout/anonimo.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout/autenticado.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout/base.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout/flashes/flashes.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout/flashes/modal.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout/form/fields.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout/script/base.js.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/_new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/_table.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/ajax/_estadisticas.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/ajax/_tableantiguos.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/exportar.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/script.js.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/plantrabajo/show.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/usuario/_form.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/usuario/_new.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/usuario/_table.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/usuario/index.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/usuario/script.js.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/usuario/show_ajax.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/translations/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/translations/error.es.xlf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/translations/estatica.es.xlf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/translations/messages.es.xlf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/js/fos_js_routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/css/base/sitrans.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/css/page/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/bg/bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/http_error/403.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/http_error/404.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/http_error/error-500.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/http_error/error.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/http_error/mantenimiento-web.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/icono.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/logo2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/img/man_logo.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/CHANGELOG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/charts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/charts.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/core.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/core.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/deps/canvg.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/deps/canvg.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/deps/pdfmake.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/deps/pdfmake.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/deps/responsivedefaults.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/deps/responsivedefaults.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/deps/xlsx.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/deps/xlsx.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/100%-stacked-column-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/100%-stacked-column-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/100%-stacked-column-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/100%-stacked-column-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/adding-live-data/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/adding-live-data/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/adding-live-data/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/adding-live-data/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/amcharts3/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/amcharts3/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/amcharts3/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/amcharts3/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/amcharts3/v3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/bubble-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/bubble-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/bubble-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/bubble-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/candlestick-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/candlestick-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/candlestick-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/candlestick-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/changing-series-apppearance/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/changing-series-apppearance/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/changing-series-apppearance/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/changing-series-apppearance/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/changing-tree-map-data/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/changing-tree-map-data/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/changing-tree-map-data/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/changing-tree-map-data/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-diagram-non-ribbon/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-diagram-non-ribbon/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-diagram-non-ribbon/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-diagram-non-ribbon/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-diagram/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-diagram/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-diagram/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-diagram/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-friends-kisses/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-friends-kisses/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-friends-kisses/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-friends-kisses/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/chord-friends-kisses/whokissed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/clock/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/clock/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/clock/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/clock/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-axis-break/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-axis-break/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-axis-break/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-axis-break/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/chandler.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/joey.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/monica.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/phoebe.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/rachel.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/column-chart-with-images-as-bullets/ross.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/columns-with-pies-inside/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/columns-with-pies-inside/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/columns-with-pies-inside/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/columns-with-pies-inside/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/countries-morphing-to-pie-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/countries-morphing-to-pie-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/countries-morphing-to-pie-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/countries-morphing-to-pie-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/curved-column-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/curved-column-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/curved-column-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/curved-column-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/cylinder-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/cylinder-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/cylinder-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/cylinder-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/date-based-radar/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/date-based-radar/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/date-based-radar/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/date-based-radar/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/day-night-map/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/day-night-map/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/day-night-map/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/day-night-map/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/day-night-map/santa.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/donut-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/donut-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/donut-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/donut-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drag-and-change-values/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drag-and-change-values/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drag-and-change-values/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drag-and-change-values/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/dragging-pie-slices/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/dragging-pie-slices/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/dragging-pie-slices/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/dragging-pie-slices/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/acura.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/audi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/bmw.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/buick.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/cadillac.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/chevrolet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/chrysler.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/dodge.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/ford.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/gmc.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/honda.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/hyundai.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/infiniti.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/jeep.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/kia.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/lexus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/lincoln.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/mazda.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/mercedes-benz.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/mitsubishi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/nissan.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/other.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/subaru.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/toyota.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/drill-down-tree-map/logos/volkswagen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/duration-axis/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/duration-axis/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/duration-axis/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/duration-axis/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/error-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/error-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/error-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/error-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/fill-between-lines-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/fill-between-lines-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/fill-between-lines-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/fill-between-lines-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/funnel-chart-horizontal/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/funnel-chart-horizontal/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/funnel-chart-horizontal/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/funnel-chart-horizontal/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/funnel-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/funnel-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/funnel-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/funnel-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/gantt-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/gantt-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/gantt-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/gantt-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/geo-heat-map/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/geo-heat-map/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/geo-heat-map/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/geo-heat-map/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/heat-map-circles/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/heat-map-circles/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/heat-map-circles/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/heat-map-circles/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/heat-map/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/heat-map/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/heat-map/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/heat-map/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/line-different-ups-downs/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/line-different-ups-downs/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/line-different-ups-downs/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/line-different-ups-downs/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/map-line-gauge-mix/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/map-line-gauge-mix/bang.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/map-line-gauge-mix/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/map-line-gauge-mix/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/map-line-gauge-mix/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/map-line-gauge-mix/rocket.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/morphing-countries/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/morphing-countries/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/morphing-countries/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/morphing-countries/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/multiple-axes-date-based-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/multiple-axes-date-based-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/multiple-axes-date-based-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/multiple-axes-date-based-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/non-chart-usage/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/non-chart-usage/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/non-chart-usage/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/non-chart-usage/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/ohlc-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/ohlc-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/ohlc-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/ohlc-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-bar-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-bar-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-bar-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-bar-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-stacked-chart-horizontal/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-stacked-chart-horizontal/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-stacked-chart-horizontal/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-stacked-chart-horizontal/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-stacked-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-stacked-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-stacked-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pictorial-stacked-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/polar-area-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/polar-area-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/polar-area-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/polar-area-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pyramid-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pyramid-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pyramid-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/pyramid-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radar-chart-with-axis-break/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radar-chart-with-axis-break/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radar-chart-with-axis-break/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radar-chart-with-axis-break/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radar-timeline-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radar-timeline-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radar-timeline-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radar-timeline-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radial-bar-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radial-bar-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radial-bar-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/radial-bar-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/sankey-diagram-with-animated-bullets/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/sankey-diagram-with-animated-bullets/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/sankey-diagram-with-animated-bullets/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/sankey-diagram-with-animated-bullets/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/semi-circle-donut-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/semi-circle-donut-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/semi-circle-donut-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/semi-circle-donut-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-3D-pie-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-3D-pie-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-3D-pie-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-3D-pie-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-bar-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-bar-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-bar-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-bar-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-column-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-column-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-column-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-column-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-gauge/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-gauge/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-gauge/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-gauge/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-line-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-line-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-line-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-line-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-map-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-map-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-map-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-map-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-pie-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-pie-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-pie-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-pie-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-radar-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-radar-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-radar-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-radar-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-sankey-diagram/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-sankey-diagram/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-sankey-diagram/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-sankey-diagram/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-tree-map/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-tree-map/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-tree-map/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/simple-tree-map/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-3D-column-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-3D-column-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-3D-column-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-3D-column-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-area-radar-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-area-radar-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-area-radar-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-area-radar-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-column-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-column-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-column-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/stacked-column-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-count-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-count-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-count-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-count-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-line-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-line-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-line-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-line-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-line-no-risers-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-line-no-risers-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-line-no-risers-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/step-line-no-risers-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/syncing-cursors-and-zoom/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/syncing-cursors-and-zoom/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/syncing-cursors-and-zoom/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/syncing-cursors-and-zoom/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/triangle-column-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/triangle-column-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/triangle-column-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/triangle-column-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-angle-radar-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-angle-radar-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-angle-radar-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-angle-radar-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-height-3D-pie-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-height-3D-pie-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-height-3D-pie-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-height-3D-pie-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-radius-pie-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-radius-pie-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-radius-pie-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/variable-radius-pie-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/vertical-sankey-diagram/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/vertical-sankey-diagram/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/vertical-sankey-diagram/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/vertical-sankey-diagram/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/waterfall-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/waterfall-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/waterfall-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/waterfall-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/xy-error-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/xy-error-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/xy-error-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/javascript/xy-error-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/changing-series-apppearance/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/changing-series-apppearance/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/changing-series-apppearance/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/changing-series-apppearance/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-3D-pie-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-3D-pie-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-3D-pie-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-3D-pie-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-bar-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-bar-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-bar-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-bar-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-column-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-column-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-column-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-column-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-gauge/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-gauge/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-gauge/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-gauge/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-line-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-line-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-line-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-line-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-map-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-map-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-map-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-map-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-pie-chart-rounded-corners/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-pie-chart-rounded-corners/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-pie-chart-rounded-corners/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-pie-chart-rounded-corners/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-pie-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-pie-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-pie-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-pie-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-radar-chart/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-radar-chart/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-radar-chart/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-radar-chart/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-sankey-diagram/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-sankey-diagram/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-sankey-diagram/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-sankey-diagram/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-tree-map/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-tree-map/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-tree-map/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/examples/json/simple-tree-map/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/de_CH.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/de_CH.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/de_DE.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/de_DE.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/en.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/en.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/en_CA.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/en_CA.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/en_US.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/en_US.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/es_ES.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/es_ES.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/fr_FR.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/fr_FR.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/lt_LT.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/lt_LT.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/nl_NL.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/nl_NL.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/pt_BR.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/pt_BR.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/pt_PT.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/pt_PT.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/ru_RU.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/ru_RU.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/sv_SV.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/lang/sv_SV.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/maps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/maps.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/amcharts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/amcharts.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/amchartsdark.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/amchartsdark.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/animated.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/animated.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/dark.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/dark.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/dataviz.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/dataviz.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/frozen.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/frozen.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/kelly.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/kelly.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/material.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/material.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/moonrisekingdom.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/moonrisekingdom.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/spiritedaway.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/amcharts4/themes/spiritedaway.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/bootbox/LICENSE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/bootbox/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/bootbox/bootbox.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/datatable/es.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/jquery.fileDownload.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/ladda/ladda-themeless.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/ladda/ladda.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/plugins/ladda/spin.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/base/authenticated.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/base/base.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/base/reporte.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/entity/actividad.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/entity/arc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/entity/area.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/entity/cargo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/entity/plantrabajo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/entity/usuario.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/sitrans/script/page/login.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/app/js/dashboard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/app/js/layout-builder.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/app/media/img/misc/notification_bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/app/media/img/misc/quick_actions_bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/app/media/img/misc/user_profile_bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/app/media/img/users/user4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/demo/demo9/base/scripts.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/demo/demo9/base/style.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/flaticon/Flaticon.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/flaticon/Flaticon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/flaticon/Flaticon.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/flaticon/Flaticon.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/font-awesome/FontAwesome.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/font-awesome/fontawesome-webfont.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/font-awesome/fontawesome-webfont.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/font-awesome/fontawesome-webfont.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/font-awesome/fontawesome-webfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/font-awesome/fontawesome-webfont.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/line-awesome/line-awesome.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/line-awesome/line-awesome.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/line-awesome/line-awesome.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/line-awesome/line-awesome.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/line-awesome/line-awesome.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/metronic/Metronic_fda1334c35d0f5fe2afb3afebbb6774a.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/metronic/Metronic_fda1334c35d0f5fe2afb3afebbb6774a.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/metronic/Metronic_fda1334c35d0f5fe2afb3afebbb6774a.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/metronic/Metronic_fda1334c35d0f5fe2afb3afebbb6774a.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/metronic/Metronic_fda1334c35d0f5fe2afb3afebbb6774a.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/socicon/socicon.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/socicon/socicon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/socicon/socicon.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/socicon/socicon.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/summernote/summernote.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/summernote/summernote.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/fonts/summernote/summernote.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/images/ion-rangeslider/sprite-skin-flat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/images/jstree/32px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/images/jstree/40px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/images/jstree/throbber.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/images/malihu-custom-scrollbar-plugin/mCSB_buttons.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/vendors.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/base/vendors.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/datatables/datatables.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/datatables/datatables.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/flot/flot.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/fullcalendar/fullcalendar.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/fullcalendar/fullcalendar.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/gmaps/gmaps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jquery-ui/images/ui-icons_444444_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jquery-ui/images/ui-icons_555555_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jquery-ui/images/ui-icons_777620_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jquery-ui/images/ui-icons_777777_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jquery-ui/images/ui-icons_cc0000_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jquery-ui/images/ui-icons_ffffff_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jquery-ui/jquery-ui.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jquery-ui/jquery-ui.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jqvmap/jqvmap.bundle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/template/vendors/custom/jqvmap/jqvmap.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/footer.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/header.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/topmenu/admin_topmenu.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/topmenu/cajero_topmenu.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/topmenu/electricidad_topmenu.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/topmenu/reporte_topmenu.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/topmenu/shortcuts.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/topmenu/transporte_topmenu.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/layout/recortes/topmenu/user_topmenu.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757/storage_v2/_src_/database/siplanv3.POnTIQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757/storage_v2/_src_/database/siplanv3.POnTIQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757/storage_v2/_src_/database/siplanv3.POnTIQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3ffa2f71-6519-4ade-be97-6f910a740757/storage_v2/_src_/database/siplanv3.POnTIQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/framework.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ARCController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ARCController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AreaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AreaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CargoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CargoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DefaultController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/actividad/_table.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/actividad/_table.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/actividad/script.js.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/arc/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/_new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/arc/_new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/_table.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/arc/_table.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/arc/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/script.js.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/area/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/area/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/area/_new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/area/_new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/area/_table.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/area/_table.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/area/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/area/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/area/script.js.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error403.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error403.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error404.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error404.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error500.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error500.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error503.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error503.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cargo/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cargo/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cargo/_new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cargo/_new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cargo/_table.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cargo/_table.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cargo/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cargo/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cargo/script.js.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/default/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/default/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/anonimo.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout/anonimo.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/autenticado.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout/autenticado.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/flashes/flashes.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout/flashes/flashes.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/flashes/modal.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout/flashes/modal.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/form/fields.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout/form/fields.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/script/base.js.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/plantrabajo/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/plantrabajo/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/plantrabajo/_new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/plantrabajo/_new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/plantrabajo/_table.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/plantrabajo/_table.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/plantrabajo/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/plantrabajo/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/plantrabajo/script.js.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/plantrabajo/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/plantrabajo/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/translations/error.es.xlf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/translations/estatica.es.xlf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/translations/messages.es.xlf" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -232,17 +654,44 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.env">
+        <entry file="file://$PROJECT_DIR$/templates/plantrabajo/show.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+            <state relative-caret-position="131">
+              <caret line="44" column="106" selection-start-line="44" selection-start-column="106" selection-end-line="44" selection-end-column="106" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/PlantrabajoController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="103" column="72" selection-start-line="103" selection-start-column="61" selection-end-line="103" selection-end-column="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/actividad/_table.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="61" selection-start-column="61" selection-end-column="71" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3ffa2f71-6519-4ade-be97-6f910a740757/console.sql">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/public/sitrans/script/entity/actividad.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="318">
+              <caret line="175" column="41" selection-start-line="175" selection-start-column="41" selection-end-line="175" selection-end-column="41" />
+              <folding>
+                <element signature="e#3107#3726#0" />
+                <element signature="e#3809#4244#0" />
+                <element signature="e#4344#4747#0" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -250,7 +699,6 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>vis</find>
-      <find>area</find>
       <find>areaconocimiento</find>
       <find>Visu</find>
       <find>reg</find>
@@ -266,9 +714,21 @@
       <find>estadi</find>
       <find>show</find>
       <find>Area</find>
+      <find>bg</find>
+      <find>logo</find>
+      <find>table</find>
+      <find>blockU</find>
+      <find>area</find>
+      <find>arc</find>
+      <find>locale</find>
+      <find>refresca</find>
     </findStrings>
     <replaceStrings>
       <replace>ARC</replace>
+      <replace>arc</replace>
+      <replace>cargo</replace>
+      <replace>plan</replace>
+      <replace>plantrabajo</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -277,29 +737,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Form/ARCType.php" />
-        <option value="$PROJECT_DIR$/src/Controller/ARCController.php" />
-        <option value="$PROJECT_DIR$/templates/layout/autenticado.html.twig" />
-        <option value="$PROJECT_DIR$/templates/usuario/script.js.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/DefaultController.php" />
-        <option value="$PROJECT_DIR$/src/Entity/ARC.php" />
-        <option value="$PROJECT_DIR$/templates/plantrabajo/index.html.twig" />
-        <option value="$PROJECT_DIR$/templates/plantrabajo/_actividadesajax.html.twig" />
-        <option value="$PROJECT_DIR$/templates/plantrabajo/_state.html.twig" />
-        <option value="$PROJECT_DIR$/templates/plantrabajo/script.js.twig" />
-        <option value="$PROJECT_DIR$/public/bundles/app/assets/apps/scripts/entity/actividad.js" />
-        <option value="$PROJECT_DIR$/templates/actividad/script.js.twig" />
-        <option value="$PROJECT_DIR$/translations/messages.es.xlf" />
-        <option value="$PROJECT_DIR$/templates/actividad/_new.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/CargoController.php" />
-        <option value="$PROJECT_DIR$/config/packages/security.yaml" />
         <option value="$PROJECT_DIR$/templates/plantrabajo/_estadisticas.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/ActividadType.php" />
-        <option value="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" />
-        <option value="$PROJECT_DIR$/templates/plantrabajo/show.html.twig" />
         <option value="$PROJECT_DIR$/templates/actividad/_form.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/ActividadController.php" />
         <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/src/Controller/DefaultController.php" />
+        <option value="$PROJECT_DIR$/templates/layout/recortes/footer.html.twig" />
+        <option value="$PROJECT_DIR$/config/packages/framework.yaml" />
+        <option value="$PROJECT_DIR$/templates/layout/base.html.twig" />
+        <option value="$PROJECT_DIR$/templates/default/prueba.html.twig" />
+        <option value="$PROJECT_DIR$/templates/layout/anonimo.html.twig" />
+        <option value="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error.html.twig" />
+        <option value="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error403.html.twig" />
+        <option value="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error404.html.twig" />
+        <option value="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error500.html.twig" />
+        <option value="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error503.html.twig" />
+        <option value="$PROJECT_DIR$/templates/layout/recortes/topmenu/user_topmenu.html.twig" />
+        <option value="$PROJECT_DIR$/templates/layout/recortes/header.html.twig" />
+        <option value="$PROJECT_DIR$/public/sitrans/css/page/index.css" />
+        <option value="$PROJECT_DIR$/templates/default/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/layout/recortes/topmenu/admin_topmenu.html.twig" />
+        <option value="$PROJECT_DIR$/templates/layout/autenticado.html.twig" />
+        <option value="$PROJECT_DIR$/templates/area/script.js.twig" />
+        <option value="$PROJECT_DIR$/public/sitrans/script/entity/area.js" />
+        <option value="$PROJECT_DIR$/templates/area/_new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/area/_table.html.twig" />
+        <option value="$PROJECT_DIR$/public/sitrans/script/entity/arc.js" />
+        <option value="$PROJECT_DIR$/templates/arc/_table.html.twig" />
+        <option value="$PROJECT_DIR$/templates/arc/_new.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/AreaController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/ARCController.php" />
+        <option value="$PROJECT_DIR$/templates/cargo/_new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/cargo/_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/arc/_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/area/_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/cargo/_table.html.twig" />
+        <option value="$PROJECT_DIR$/public/sitrans/script/entity/cargo.js" />
+        <option value="$PROJECT_DIR$/src/Controller/CargoController.php" />
+        <option value="$PROJECT_DIR$/templates/cargo/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/arc/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/area/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/plantrabajo/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/plantrabajo/_new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/plantrabajo/_form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" />
+        <option value="$PROJECT_DIR$/public/sitrans/script/entity/plantrabajo.js" />
+        <option value="$PROJECT_DIR$/templates/plantrabajo/_table.html.twig" />
+        <option value="$PROJECT_DIR$/templates/actividad/script.js.twig" />
+        <option value="$PROJECT_DIR$/templates/actividad/_table.html.twig" />
+        <option value="$PROJECT_DIR$/templates/plantrabajo/show.html.twig" />
+        <option value="$PROJECT_DIR$/public/sitrans/script/entity/actividad.js" />
       </list>
     </option>
   </component>
@@ -413,7 +901,9 @@
     <option name="width" value="782" />
     <option name="height" value="669" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -425,6 +915,71 @@
             <path>
               <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
               <item name="siplan" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="sitrans" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="sitrans" type="462c0819:PsiDirectoryNode" />
+              <item name="script" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="sitrans" type="462c0819:PsiDirectoryNode" />
+              <item name="script" type="462c0819:PsiDirectoryNode" />
+              <item name="entity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="actividad" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="plantrabajo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="462c0819:PsiDirectoryNode" />
+              <item name="translations" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -442,14 +997,17 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/templates/plantrabajo" />
-      <recent name="$PROJECT_DIR$/src/Form" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\siplan\templates\plantrabajo\ajax" />
       <recent name="C:\xampp\htdocs\siplan\templates\actividad\ajax" />
       <recent name="$PROJECT_DIR$/templates/actividad" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/sitrans/script/entity" />
+      <recent name="$PROJECT_DIR$/templates/arc" />
+      <recent name="$PROJECT_DIR$/templates/default" />
+      <recent name="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception" />
+      <recent name="$PROJECT_DIR$/templates/layout" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -478,22 +1036,23 @@
       <workItem from="1540337903594" duration="7200000" />
       <workItem from="1540399322196" duration="664000" />
       <workItem from="1540401239500" duration="3116000" />
-      <workItem from="1546037853924" duration="1474000" />
+      <workItem from="1546037853924" duration="22415000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16006000" />
+    <option name="totallyTimeSpent" value="36947000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="725" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18030304" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18030304" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3294509" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -502,7 +1061,7 @@
       <window_info anchor="bottom" id="Reviews" order="7" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="CSS-X-Fire" order="9" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.5890183" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.19966722" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="12" />
       <window_info anchor="bottom" id="Database Changes" order="13" show_stripe_button="false" />
@@ -510,235 +1069,361 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="News Feed" order="3" />
-      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.26363635" />
+      <window_info anchor="right" id="Database" order="4" weight="0.26363635" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Form/ARCType.php">
+    <entry file="file://$PROJECT_DIR$/templates/default/prueba.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+        <state>
+          <caret column="19" selection-start-column="19" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/DefaultController.php">
+    <entry file="file://$PROJECT_DIR$/templates/layout/anonimo.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="25" column="94" selection-start-line="25" selection-start-column="94" selection-end-line="25" selection-end-column="94" />
+        <state relative-caret-position="120">
+          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/usuario/script.js.twig">
+    <entry file="file://$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="85" column="195" selection-start-line="85" selection-start-column="195" selection-end-line="85" selection-end-column="195" />
+        <state relative-caret-position="240">
+          <caret line="16" column="75" selection-start-line="16" selection-start-column="65" selection-end-line="16" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error403.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="58" selection-start-line="2" selection-start-column="58" selection-end-line="2" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error404.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="58" selection-start-line="2" selection-start-column="58" selection-end-line="2" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error500.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="64" selection-start-line="2" selection-start-column="64" selection-end-line="2" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error503.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="72" selection-start-line="2" selection-start-column="72" selection-end-line="2" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/layout/recortes/topmenu/user_topmenu.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-624">
+          <caret line="6" column="72" selection-start-line="6" selection-start-column="72" selection-end-line="6" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/sitrans/img/logo2.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/sitrans/img/logo.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/layout/recortes/header.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="36" column="55" selection-start-line="36" selection-start-column="55" selection-end-line="36" selection-end-column="55" />
+          <folding>
+            <element signature="n#style#0;n#header#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/layout/recortes/topmenu/admin_topmenu.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/layout/autenticado.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="19" column="78" selection-start-line="19" selection-start-column="78" selection-end-line="19" selection-end-column="78" />
+        <state relative-caret-position="390">
+          <caret line="26" column="67" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Area.php">
+    <entry file="file://$PROJECT_DIR$/templates/layout/base.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="83" column="6" selection-start-line="83" selection-start-column="6" selection-end-line="83" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/default/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="65" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/sitrans/css/page/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/area/script.js.twig">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/ARC.php">
+    <entry file="file://$PROJECT_DIR$/public/sitrans/css/base/sitrans.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Actividad.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="110" column="13" selection-start-line="110" selection-start-column="13" selection-end-line="110" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/ARCController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="118" selection-start-line="118" selection-end-line="118" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/actividad/show.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/cargo/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="11" column="240" selection-start-line="11" selection-start-column="218" selection-end-line="11" selection-end-column="240" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/ajax/_tableantiguos.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="34" column="16" lean-forward="true" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/_table.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-404" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Security/Voter/PlanTrabajoVoter.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-315" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/script.js.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1653">
-          <caret line="199" selection-start-line="199" selection-end-line="199" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/exportar.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-360" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/bundles/app/assets/apps/scripts/entity/actividad.js" />
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/_new.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/_form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" selection-start-line="13" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/actividad/script.js.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="21" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/html5/block.rnc" />
-    <entry file="file://$PROJECT_DIR$/templates/cargo/_new.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/packages/security.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/CargoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/actividad/_new.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/ajax/_estadisticas.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+        <state relative-caret-position="113">
+          <caret line="8" column="5" selection-start-line="8" selection-end-line="8" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/translations/messages.es.xlf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        <state relative-caret-position="-5205">
+          <caret line="4" column="12" lean-forward="true" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/ActividadType.php">
+    <entry file="file://$PROJECT_DIR$/translations/estatica.es.xlf">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/AreaController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="38" column="86" selection-start-line="38" selection-start-column="86" selection-end-line="38" selection-end-column="86" />
+        <state relative-caret-position="105">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/area/_table.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="55" selection-end-line="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/area/_new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/cargo/_new.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/area/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="81" selection-start-line="16" selection-start-column="81" selection-end-line="16" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/cargo/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="63" selection-start-line="16" selection-start-column="63" selection-end-line="16" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/cargo/_table.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Usuario.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="102" column="88" selection-start-line="102" selection-start-column="83" selection-end-line="102" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/CargoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="134" column="4" selection-start-line="134" selection-start-column="4" selection-end-line="134" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/sitrans/script/entity/cargo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+          <folding>
+            <element signature="e#2003#3042#0" />
+            <element signature="e#6894#8922#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/cargo/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="17" column="58" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/arc/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="17" column="56" selection-start-line="17" selection-start-column="56" selection-end-line="17" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/area/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="17" column="57" selection-start-line="17" selection-start-column="57" selection-end-line="17" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/arc/_table.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="48" lean-forward="true" selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/ARCController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/script.js.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="219" lean-forward="true" selection-end-line="219" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/arc/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="60" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="60" selection-start-line="15" selection-start-column="60" selection-end-line="15" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/arc/_new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/_new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="97" selection-start-line="6" selection-start-column="97" selection-end-line="6" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Plantrabajo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="68" column="34" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/sitrans/script/entity/area.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="126" column="28" selection-start-line="126" selection-start-column="28" selection-end-line="131" selection-end-column="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/sitrans/script/entity/plantrabajo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="103" column="64" selection-start-line="103" selection-start-column="64" selection-end-line="103" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/_table.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="26" column="55" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-318">
+          <caret line="3" column="4" lean-forward="true" selection-start-line="3" selection-start-column="4" selection-end-line="35" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/actividad/script.js.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="4" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/PlantrabajoController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="101" column="94" selection-start-line="101" selection-start-column="94" selection-end-line="101" selection-end-column="104" />
+        <state relative-caret-position="330">
+          <caret line="103" column="72" selection-start-line="103" selection-start-column="61" selection-end-line="103" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/sitrans/script/entity/arc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="82" column="40" lean-forward="true" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/actividad/_table.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="61" selection-start-column="61" selection-end-column="71" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/plantrabajo/show.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="48" column="43" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="43" />
+        <state relative-caret-position="131">
+          <caret line="44" column="106" selection-start-line="44" selection-start-column="106" selection-end-line="44" selection-end-column="106" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/ActividadController.php">
+    <entry file="file://$PROJECT_DIR$/public/sitrans/script/entity/actividad.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="204" column="98" selection-start-line="204" selection-start-column="98" selection-end-line="204" selection-end-column="98" />
+        <state relative-caret-position="318">
+          <caret line="175" column="41" selection-start-line="175" selection-start-column="41" selection-end-line="175" selection-end-column="41" />
+          <folding>
+            <element signature="e#3107#3726#0" />
+            <element signature="e#3809#4244#0" />
+            <element signature="e#4344#4747#0" />
+          </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/actividad/ajax/_actividadesajax.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/actividad/ajax/_notificaciones.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-318" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/actividad/_edit.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/actividad/_form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://H:/srv/http/rody/src/Entity/Mensaje.php" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/77919ede-7556-4fe6-b083-8fbc166eac10/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3ffa2f71-6519-4ade-be97-6f910a740757/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>
