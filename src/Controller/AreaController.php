@@ -60,7 +60,8 @@ class AreaController extends Controller
                 $em->flush();
                 return new JsonResponse(array('mensaje' =>'El área fue registrada satisfactoriamente',
                     'nombre' => $area->getNombre(),
-                    'area_madre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',
+                    'area_padre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',
+                    'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$area->getId())->getValue(),
                     'id' => $area->getId(),
                 ));
             } else {
@@ -86,8 +87,6 @@ class AreaController extends Controller
         $this->denyAccessUnlessGranted('EDIT', $area);
         $form = $this->createForm(AreaType::class, $area,
             array('action' => $this->generateUrl('area_edit', array('id' => $area->getId()))));
-        $form->add('padre',null,array('label'=>'Área madre','choices'=>$this->get('area_service')->areasNoHijas($area),
-            'attr'=>array('class'=>'form-control input-medium')));
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
@@ -95,7 +94,7 @@ class AreaController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($area);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El área fue actualizada satisfactoriamente', 'nombre' => $area->getNombre(),   'area_madre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',));
+                return new JsonResponse(array('mensaje' =>'El área fue actualizada satisfactoriamente', 'nombre' => $area->getNombre(),   'area_padre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',));
             } else {
                 $page = $this->renderView('area/_form.html.twig', array(
                     'form' => $form->createView(),
@@ -119,14 +118,15 @@ class AreaController extends Controller
      */
     public function delete(Request $request, Area $area): Response
     {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$area->getId(), $request->query->get('_token'))) {
+            $this->denyAccessUnlessGranted('DELETE', $area);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($area);
+            $em->flush();
+            return new JsonResponse(array('mensaje' => 'El área fue eliminada satisfactoriamente'));
+        }
 
-        $this->denyAccessUnlessGranted('DELETE', $area);
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($area);
-        $em->flush();
-        return new JsonResponse(array('mensaje' =>'El área fue eliminada satisfactoriamente'));
+        throw $this->createAccessDeniedException();
     }
 
     //OPCIONES AJAX ADICIONALES

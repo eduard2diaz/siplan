@@ -1,0 +1,33 @@
+{{form_start(form,{'attr':{
+    'id': form_id|default('grupo_new')
+}})}}
+<div class="modal-body" id="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            {{form_row(form.nombre)}}
+        </div>
+    </div>
+
+    {% if grupo.id!=null %}
+    <div class="row m--margin-top-20-desktop">
+        <div class="col-md-12">
+            {{form_row(form.creador)}}
+        </div>
+    </div>
+    {% endif %}
+    <div class="row m--margin-top-20-desktop">
+        <div class="col-md-12">
+            {{form_row(form.idmiembro)}}
+        </div>
+    </div>
+{{ form_errors(form) }}
+{{ form_rest(form) }}
+</div>
+<div class="modal-footer">
+    <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
+    <button class="btn btn-sm btn-primary mt-ladda-btn ladda-button" data-style="expand-right" type="submit">
+        <span class="ladda-label">{{ action |default('Guardar')}}</span>
+        <span class="ladda-spinner"></span>
+    </button>
+</div>
+{{form_end(form)}}

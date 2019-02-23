@@ -24,19 +24,7 @@
         {{ include('layout/recortes/topmenu/admin_topmenu.html.twig') }}
     {% endif %}
 
-    <li class="m-menu__item "  m-menu-link-redirect="1" aria-haspopup="true">
-        <a  href="{{ path('usuario_index') }}" class="m-menu__link ">
-            <i class="m-menu__link-icon flaticon-users"></i>
-            <span class="m-menu__link-text">Usuarios</span>
-        </a>
-    </li>
 
-    <li class="m-menu__item "  m-menu-link-redirect="1" aria-haspopup="true">
-        <a href="{{ path('plantrabajo_index',{'id':app.user.id}) }}" class="m-menu__link ">
-            <i class="m-menu__link-icon flaticon-users"></i>
-            <span class="m-menu__link-text">dfh</span>
-        </a>
-    </li>
     <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
            data-close-others="true">
@@ -83,18 +71,18 @@
         };
     </script>
     <script type="text/javascript" src="{{ asset('vendors/custom/datatables/datatables.bundle.js','template') }}"></script>
-    <script src="{{ asset('plugins/jquery.fileDownload.js','sitrans') }}"></script>
-    <script type="text/javascript" src="{{ asset('plugins/bootbox/bootbox.min.js','sitrans') }}"></script>
+    <script src="{{ asset('plugins/jquery.fileDownload.js','siplan') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/bootbox/bootbox.min.js','siplan') }}"></script>
     <!--IMPORTANDO LAS LIBRERIAS DE AMCHART-->
-    <script src="{{ asset('assets/sitrans/plugins/amcharts4/core.js') }}"></script>
-    <script src="{{ asset('assets/sitrans/plugins/amcharts4/charts.js') }}"></script>
-    <script src="{{ asset('assets/sitrans/plugins/amcharts4/themes/animated.js') }}"></script>
+    <script src="{{ asset('assets/siplan/plugins/amcharts4/core.js') }}"></script>
+    <script src="{{ asset('assets/siplan/plugins/amcharts4/charts.js') }}"></script>
+    <script src="{{ asset('assets/siplan/plugins/amcharts4/themes/animated.js') }}"></script>
     <!--FIN DE IMPORTANDO LAS LIBRERIAS DE AMCHART-->
-    <script src="{{ asset('script/base/authenticated.js','sitrans') }}"></script>
-    <script src="{{ asset('script/base/reporte.js','sitrans') }}"></script>
+    <script src="{{ asset('script/base/authenticated.js','siplan') }}"></script>
+    <script src="{{ asset('script/base/reporte.js','siplan') }}"></script>
     <script>
         authenticated.init();
         reporte.init();
-        var datatable_translation='{{ asset('assets/sitrans/plugins/datatable/es.json') }}';
+        var datatable_translation='{{ asset('assets/siplan/plugins/datatable/es.json') }}';
     </script>
 {% endblock %}

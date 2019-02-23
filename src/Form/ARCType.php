@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ARCType extends AbstractType
 {
@@ -14,6 +15,7 @@ class ARCType extends AbstractType
     {
         $builder
             ->add('nombre', TextType::class,array('attr'=>array('autocomplete'=>'off','class'=>'form-control input-xlarge')))
+            ->add('objetivos', TextareaType::class,array('attr'=>array('autocomplete'=>'off','class'=>'form-control input-xlarge')))
         ;
     }
 

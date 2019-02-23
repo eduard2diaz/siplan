@@ -1,0 +1,42 @@
+{% extends 'layout/userprofile.html.twig' %}
+{% block content %}
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Grupos
+                    </h3>
+                </div>
+            </div>
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        <a data-href="{{ path('grupo_index',{'id':user_id}) }}" class="btn btn-sm m-btn" id="grupo_tablerefrescar">
+                            <span><i class="flaticon-refresh"></i></span> Refrescar
+                        </a>
+                    </li>
+                    <li class="m-portlet__nav-item">
+                        <a data-href="{{ path('grupo_new') }}" class="btn btn-sm btn-primary m-btn edicion text-uppercase"  data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Adicionar grupo">
+                            <span><i class="flaticon-add"></i></span> Nuevo
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            {%include 'grupo/_table.html.twig'%}
+            <!--end: Datatable -->
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('script/entity/grupo.js','siplan') }}"></script>
+    <script>
+        var total ={{grupos |length }}
+            grupo.init();
+    </script>
+{% endblock %}

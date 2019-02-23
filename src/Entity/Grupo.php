@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GrupoRepository")
+ * @ORM\Entity
  */
 class Grupo
 {
@@ -24,25 +27,14 @@ class Grupo
     private $nombre;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $activo;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="grupos")
-     * @ORM\JoinColumn(nullable=false)
+     * @var \Usuario
+     *
+     * @ORM\ManyToOne(targetEntity="Usuario", inversedBy="grupos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="creador", referencedColumnName="id",onDelete="Cascade")
+     * })
      */
     private $creador;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Grupo", inversedBy="grupos")
-     */
-    private $grupopadre;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $tributaplantrabajo;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Usuario", inversedBy="grupospertenece")
@@ -71,18 +63,6 @@ class Grupo
         return $this;
     }
 
-    public function getActivo(): ?bool
-    {
-        return $this->activo;
-    }
-
-    public function setActivo(bool $activo): self
-    {
-        $this->activo = $activo;
-
-        return $this;
-    }
-
     public function getCreador(): ?Usuario
     {
         return $this->creador;
@@ -91,30 +71,6 @@ class Grupo
     public function setCreador(?Usuario $creador): self
     {
         $this->creador = $creador;
-
-        return $this;
-    }
-
-    public function getGrupopadre(): ?self
-    {
-        return $this->grupopadre;
-    }
-
-    public function setGrupopadre(?self $grupopadre): self
-    {
-        $this->grupopadre = $grupopadre;
-
-        return $this;
-    }
-
-    public function getTributaplantrabajo(): ?bool
-    {
-        return $this->tributaplantrabajo;
-    }
-
-    public function setTributaplantrabajo(bool $tributaplantrabajo): self
-    {
-        $this->tributaplantrabajo = $tributaplantrabajo;
 
         return $this;
     }
@@ -143,5 +99,25 @@ class Grupo
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getNombre();
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+
+        if (null == $this->getCreador()) {
+            $context->setNode($context, 'creador', null, 'data.creador');
+            $context->addViolation('Seleccione un creador');
+        } elseif ($this->getIdmiembro()->contains($this->getCreador())) {
+            $context->setNode($context, 'idmiembro', null, 'data.idmiembro');
+            $context->addViolation('El creador del grupo no debe ser miembro del mismo.');
+        }
     }
 }

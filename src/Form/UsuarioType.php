@@ -18,57 +18,60 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\Subscriber\AddCargoFieldSubscriber;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Services\AreaService;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class UsuarioType extends AbstractType
 {
+    private $token;
+    private $authorizationChecker;
+    private $areaService;
+
+    public function __construct(TokenStorageInterface $token, AuthorizationCheckerInterface $authorizationChecker, AreaService $areaService)
+    {
+        $this->token = $token;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->areaService = $areaService;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $esAdmin = $options['parameters']['esAdmin'];
-        $disabled=$options['parameters']['disab'];
-        $area=$options['parameters']['area'];
-        $auxdisabled=$options['parameters']['disab'];
-        if($esAdmin)
-            $auxdisabled=false;
+        $esAdmin = $this->authorizationChecker->isGranted('ROLE_ADMIN');
+        $area = $this->areaService->areasHijas($this->token->getToken()->getUser()->getArea(), $esAdmin);
+        $disabled = $options['data']->getId() == $this->token->getToken()->getUser()->getId();
 
         $builder
-            ->add('nombre', TextType::class, array('attr' => array('autocomplete'=>'off','class' => 'form-control input-xlarge')))
-            ->add('correo', EmailType::class, array('disabled' => $disabled,'attr' => array('autocomplete'=>'off','class' => 'form-control input-medium')))
-            ->add('usuario', TextType::class, array('disabled' => $disabled,'attr' => array('autocomplete'=>'off','class' => 'form-control input-medium')))
-            ->add('activo',null,array('disabled' => $disabled,'required'=>false,'attr'=>array('data-on-text'=>'Si','data-off-text'=>'No')))
-            ->add('area', null, array('choices'=>$area,'disabled' => $auxdisabled,'label' => 'area',  'placeholder'=>'select_areaplaceholder', 'required' => true, 'attr' => array('class' => 'form-control input-medium')))
-            /*    ->add('cargo',null,array('required'=>true,'attr'=>array('class'=>'form-control input-medium')));*/
-            ->add('cargo', EntityType::class, array('disabled' => $disabled,
-                'required' => true,
-                'class' => Cargo::class,
-                'choices' => array()
-            , 'attr' => array(
-                    'class' => 'form form-control input-medium'
-                )));
+            ->add('nombre', TextType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge')))
+            ->add('correo', EmailType::class, array('disabled' => $disabled, 'attr' => array('autocomplete' => 'off', 'class' => 'form-control input-medium')))
+            ->add('usuario', TextType::class, array('disabled' => $disabled, 'attr' => array('autocomplete' => 'off', 'class' => 'form-control input-medium')))
+            ->add('activo', null, array('disabled' => $disabled, 'required' => false, 'attr' => array('data-on-text' => 'Si', 'data-off-text' => 'No')))
+            ->add('area', null, array('choices' => $area, 'disabled' => $disabled, 'label' => 'Área', 'placeholder' => 'Seleccione un área', 'required' => true, 'attr' => array('class' => 'form-control input-medium')))
+            ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $obj) {
             $form = $obj->getForm();
             $data = $obj->getData();
             $required = false;
-            $constraint=array();
-            if (null == $data->getId()){
+            $constraint = array();
+            if (null == $data->getId()) {
                 $required = true;
-                $constraint[]=new Assert\NotBlank();
+                $constraint[] = new Assert\NotBlank();
             }
 
             $form->add('password', RepeatedType::class, array('required' => $required,
                 'type' => PasswordType::class,
                 'constraints' => $constraint,
-                'invalid_message' => 'confirm_password_field_error',
-                'first_options' => array('label' => 'password_field'
+                'invalid_message' => 'Ambas contraseñas deben coincidir',
+                'first_options' => array('label' => 'Contraseña'
                 , 'attr' => array('class' => 'form-control input-medium')),
-                'second_options' => array('label' => 'confirm_password_field', 'attr' => array('class' => 'form-control input-medium'))
+                'second_options' => array('label' => 'Confirmar contraseña', 'attr' => array('class' => 'form-control input-medium'))
             ));
         });
 
         if ($esAdmin) {
-            $builder->add('idrol', null, array('disabled' => $disabled,'label' => 'Rol', 'required' => true, 'attr' => array('class' => 'form-control input-medium')));
-            $builder->add('jefe', null, array('choices'=>$options['parameters']['directivos'],'disabled' =>  $disabled,'label' => 'Jefe',  'placeholder'=>'Seleccione un directivo', 'required' => false, 'attr' => array('class' => 'form-control input-medium')));
+            $builder->add('idrol', null, array('disabled' => $disabled, 'label' => 'Rol', 'required' => true, 'attr' => array('class' => 'form-control input-medium')));
+            $builder->add('jefe', null, array('choices' => $this->areaService->obtenerDirectivos(), 'disabled' => $disabled, 'label' => 'Jefe', 'placeholder' => 'Seleccione un directivo', 'required' => false, 'attr' => array('class' => 'form-control input-medium')));
         } else
             $builder->add('idrol', null, array(
                 'disabled' => $disabled,
@@ -79,12 +82,12 @@ class UsuarioType extends AbstractType
                         ->setParameter('roles', ['ROLE_DIRECTIVO', 'ROLE_USER']);
                 },
                 //'choice_label' => 'u.nombre',
-                'label' => 'Rol','disabled' => $disabled, 'required' => true, 'attr' => array('class' => 'form-control input-medium')
+                'label' => 'Rol', 'disabled' => $disabled, 'required' => true, 'attr' => array('class' => 'form-control input-medium')
             ));;
 
 
-        $factory=$builder->getFormFactory();
-        $builder->addEventSubscriber(new AddCargoFieldSubscriber($factory));
+        $factory = $builder->getFormFactory();
+        $builder->addEventSubscriber(new AddCargoFieldSubscriber($factory,$disabled));
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -92,6 +95,5 @@ class UsuarioType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Usuario::class,
         ]);
-        $resolver->setRequired(['parameters']);
     }
 }

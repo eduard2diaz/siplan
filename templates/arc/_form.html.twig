@@ -1,20 +1,24 @@
-{{form_start(form,{'attr':{
-                            'id': form_id|default('arc_new')
-}})}}
+{{ form_start(form,{'attr':{
+    'id': form_id|default('arc_new')
+}}) }}
 <div class="modal-body" id="modal-body">
-<div class="row">
-    <div class="col-md-6">
-    {{form_row(form.nombre)}}
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_row(form.nombre) }}
+        </div>
     </div>
-
-</div>
+    <div class="row m--margin-top-20">
+        <div class="col-md-12">
+            {{ form_row(form.objetivos) }}
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
-    <a class="btn btn-metal" data-dismiss="modal">Cancelar</a>
-    <button class="btn btn-primary mt-ladda-btn ladda-button" data-style="expand-right" type="submit">
-        <span class="ladda-label">{{ action |default('Guardar')}}</span>
+    <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
+    <button class="btn btn-sm btn-primary mt-ladda-btn ladda-button" data-style="expand-right" type="submit">
+        <span class="ladda-label">{{ action |default('Guardar') }}</span>
         <span class="ladda-spinner"></span>
     </button>
 </div>
-{{form_end(form)}}
+{{ form_end(form) }}
 

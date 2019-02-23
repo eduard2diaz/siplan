@@ -1,13 +1,12 @@
-{% extends 'layout/autenticado.html.twig' %}
- {% block page_title %}Plan de trabajo{% endblock page_title %}
-{% block body %}
+{% extends 'layout/userprofile.html.twig' %}
+{% block content %}
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
                     <h3 class="m-portlet__head-text">
-                        Listado
+                        Planes de trabajo
                     </h3>
                 </div>
             </div>
@@ -15,12 +14,12 @@
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
                     <li class="m-portlet__nav-item">
-                        <a data-href="{{ path('plantrabajo_index',{'id':id}) }}" class="btn btn-sm m-btn" id="plantrabajo_tablerefrescar">
+                        <a data-href="{{ path('plantrabajo_index',{'id':user_id}) }}" class="btn btn-sm m-btn" id="plantrabajo_tablerefrescar">
                             <span><i class="flaticon-refresh"></i></span> Refrescar
                         </a>
                     </li>
                     <li class="m-portlet__nav-item">
-                        <a data-href="{{ path('plantrabajo_new',{'id':id}) }}" class="btn btn-sm btn-info m-btn edicion text-uppercase"  data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Adicionar plan de trabajo">
+                        <a data-href="{{ path('plantrabajo_new',{'id':user_id}) }}" class="btn btn-sm btn-primary m-btn edicion text-uppercase"  data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Adicionar plan de trabajo">
                             <span><i class="flaticon-add"></i></span> Nuevo
                         </a>
                     </li>
@@ -38,7 +37,7 @@
 
 {% block javascripts %}
     {{parent()}}
-    <script src="{{ asset('script/entity/plantrabajo.js','sitrans') }}"></script>
+    <script src="{{ asset('script/entity/plantrabajo.js','siplan') }}"></script>
     <script>
         var total ={{plantrabajos |length }}
             plantrabajo.init();

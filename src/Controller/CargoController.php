@@ -71,6 +71,7 @@ class CargoController extends Controller
                 return new JsonResponse(array('mensaje' =>'El cargo fue registrado satisfactoriamente',
                     'nombre' => $cargo->getNombre(),
                     'area' => $cargo->getArea()->getNombre(),
+                    'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$cargo->getId())->getValue(),
                     'id' => $cargo->getId(),
                 ));
             } else {
@@ -129,13 +130,15 @@ class CargoController extends Controller
      */
     public function delete(Request $request, Cargo $cargo): Response
     {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$cargo->getId(), $request->query->get('_token'))) {
 
-        $this->denyAccessUnlessGranted('DELETE', $cargo);
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($cargo);
-        $em->flush();
-        return new JsonResponse(array('mensaje' => 'El cargo fue eliminado satisfactoriamente'));
+            $this->denyAccessUnlessGranted('DELETE', $cargo);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($cargo);
+            $em->flush();
+            return new JsonResponse(array('mensaje' => 'El cargo fue eliminado satisfactoriamente'));
+        }
+
+        throw $this->createAccessDeniedException();
     }
 }

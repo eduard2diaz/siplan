@@ -21,12 +21,12 @@ use Symfony\Component\Form\FormFactoryInterface;
 class AddCargoFieldSubscriber  implements EventSubscriberInterface{
 
     private $factory;
-    /**
-     * AddTarjetaFieldSubscriber constructor.
-     */
-    public function __construct(FormFactoryInterface $factory)
+    private $disabled;
+
+    public function __construct(FormFactoryInterface $factory, $disabled=true)
     {
         $this->factory = $factory;
+        $this->disabled = $disabled;
     }
 
     public static function getSubscribedEvents() {
@@ -53,6 +53,7 @@ class AddCargoFieldSubscriber  implements EventSubscriberInterface{
     protected function addElements($form, $area) {
         $form->add($this->factory->createNamed('cargo',EntityType::class,null,array(
             'auto_initialize'=>false,
+            'disabled'=>$this->disabled,
             'class'         =>'App:Cargo',
             'query_builder'=>function(EntityRepository $repository)use($area){
                 $qb=$repository->createQueryBuilder('cargo')

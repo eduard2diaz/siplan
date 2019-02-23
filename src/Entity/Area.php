@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Area
@@ -43,19 +44,12 @@ class Area
     private $padre;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ARC", inversedBy="areas")
-     */
-    private $areaconocimiento;
-
-    /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ? int
     {
         return $this->id;
     }
-
-
 
     /**
      * @return null|string
@@ -71,11 +65,6 @@ class Area
     public function setNombre(?string $nombre): void
     {
         $this->nombre = $nombre;
-    }
-
-    public function __toString()
-    {
-        return $this->getNombre();
     }
 
     /**
@@ -94,16 +83,41 @@ class Area
         $this->padre = $area;
     }
 
-    public function getAreaconocimiento(): ?ARC
+    public function __toString()
     {
-        return $this->areaconocimiento;
+        return $this->getNombre();
     }
 
-    public function setAreaconocimiento(?ARC $areaconocimiento): self
-    {
-        $this->areaconocimiento = $areaconocimiento;
 
-        return $this;
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+
+        if (null != $this->getPadre())
+            if ($this->getPadre()->getId() == $this->getId())
+                $context->buildViolation('Un área no puede ser padre de si misma')
+                    ->atPath('padre')
+                    ->addViolation();
+            else {
+                $hijo = $this->cicloInfinito($this->getId(), $this->getPadre());
+                if (null != $hijo)
+                    $context->buildViolation('Referencia circular: Esta área es padre de ' . $hijo)
+                        ->atPath('padre')
+                        ->addViolation();
+            }
+    }
+
+    private function cicloInfinito($current, Area $padre)
+    {
+        if ($padre->getPadre() != null) {
+            if ($padre->getPadre()->getId() == $current)
+                return $padre->getNombre();
+            else
+                return $this->cicloInfinito($current, $padre->getPadre());
+        }
+        return null;
     }
 
 }

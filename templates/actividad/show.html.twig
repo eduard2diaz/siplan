@@ -1,8 +1,8 @@
-<div class="modal-dialog modal-lg">
+<div class="modal-dialog modal-full">
     <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
             <h4 class="modal-title">{{ actividad.nombre }}</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         </div>
         <div>
             <table class="table table-striped" style="margin-bottom: 0px">
@@ -23,19 +23,37 @@
                     <td>{{ actividad.fechaf |date('d-m-Y H:i') }}</td>
                 </tr>
                 <tr>
-                    <th>Descripción</th>
-                    <td  colspan="3"><p>{{ actividad.descripcion }}</p></td>
-                </tr>
-                <tr>
                     <th>Es una actividad objetivo</th>
                     <td>{{ actividad.esobjetivo ? 'Si' : 'No' }}</td>
                     <th>Externa</th>
                     <td colspan="3">{{ actividad.esexterna ? 'Si' : 'No' }}</td>
                 </tr>
+                <tr>
+                    <th>Archivos</th>
+                    <td  colspan="3">
+                        <ul class="m-nav m-nav--inline">
+                            {% for archivo in actividad.ficheros %}
+                            <li class="m-nav__item">
+                                <a href="{{ path('fichero_download',{'id':archivo.id}) }}" class="m-nav__link">
+										<span class="m-nav__link-text">
+											<i class="flaticon-download"></i> {{ archivo.nombre }}
+										</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>Descripción</th>
+                    <td  colspan="3"><p>{{ actividad.descripcion |raw}}</p></td>
+                </tr>
+
             </table>
         </div>
         <div class="modal-footer">
-            <a class="btn blue" data-dismiss="modal">Cerrar</a>
+            <a class="btn btn-sm btn-primary active" data-dismiss="modal">Cerrar</a>
         </div>
     </div>
 </div>

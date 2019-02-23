@@ -30,7 +30,7 @@ class DefaultController extends Controller
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             if ($this->isGranted('ROLE_ADMIN'))
-                return $this->redirectToRoute('usuario_index');
+                return $this->redirectToRoute('usuario_index',array('id'=>$this->getUser()->getId()));
 
             return $this->redirectToRoute('plantrabajo_index',['id'=>$this->getUser()->getId()]);
 

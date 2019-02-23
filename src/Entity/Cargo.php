@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Usuario
@@ -84,6 +85,17 @@ class Cargo
 
     public function __toString()
     {
-     return $this->getNombre();
+        return $this->getNombre();
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if (null == $this->getArea())
+            $context->buildViolation('Seleccione un área')
+                ->atPath('padre')
+                ->addViolation();
     }
 }

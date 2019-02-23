@@ -24,17 +24,17 @@
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
-                        <a class="btn btn-info btn-sm" href="{{ path('plantrabajo_show', { 'id': plan.id }) }}">
-                            <i class="flaticon-eye"></i> Visualizar</a>
+                        <a class="btn  btn-sm" href="{{ path('plantrabajo_show', { 'id': plan.id }) }}" >
+                            <i class="flaticon-eye"></i></a>
                     </li>
-                    {% if app.user.id==id or (null!=jefe and app.user.id==jefe.id)%}
+                    {% if app.user.id==user_id or (null!=jefe and app.user.id==jefe.id)%}
                     <li class="m-nav__item">
-                        <a class="btn btn-sm edicion" data-href="{{ path('plantrabajo_edit', { 'id': plan.id }) }}">
-                            <i class="flaticon-edit-1"></i> Editar</a>
+                        <a class="btn btn-info btn-sm edicion" data-href="{{ path('plantrabajo_edit', { 'id': plan.id }) }}">
+                            <i class="flaticon-edit-1"></i></a>
                     </li>
                     <li class="m-nav__item">
                         <a class="btn btn-danger btn-sm  eliminar_plantrabajo" data-href="{{ path('plantrabajo_delete', { 'id': plan.id }) }}">
-                            <i class="flaticon-delete-1"></i> Eliminar</a>
+                            <i class="flaticon-delete-1"></i></a>
                     </li>
                     {% endif %}
                 </ul>

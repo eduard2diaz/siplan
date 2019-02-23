@@ -14,7 +14,7 @@ class CargoType extends AbstractType
     {
         $builder
             ->add('nombre', TextType::class,array('attr'=>array('autocomplete'=>'off','class'=>'form-control input-xlarge')))
-            ->add('area',null,array('label'=>'area','required'=>true,'attr'=>array('class'=>'form-control input-medium')))
+            ->add('area',null,array('label'=>'Área','required'=>true,'attr'=>array('class'=>'form-control input-medium')))
         ;
     }
 

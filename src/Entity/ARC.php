@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ARCRepository")
+ * @ORM\Entity
+ * @UniqueEntity(fields={"nombre"})
  */
 class ARC
 {
@@ -22,6 +24,11 @@ class ARC
      * @ORM\Column(type="string", length=255)
      */
     private $nombre;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $objetivos;
 
 
     public function getId()
@@ -41,9 +48,21 @@ class ARC
         return $this;
     }
 
+    public function getObjetivos(): ?string
+    {
+        return $this->objetivos;
+    }
+
+    public function setObjetivos(string $objetivos): self
+    {
+        $this->objetivos = $objetivos;
+
+        return $this;
+    }
+
     public function __toString()
     {
-     return $this->getNombre();
+        return $this->getNombre();
     }
 
 }

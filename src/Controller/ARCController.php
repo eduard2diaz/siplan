@@ -39,7 +39,6 @@ class ARCController extends Controller
      */
     public function new(Request $request): Response
     {
-
         $arc = new ARC();
         $em = $this->getDoctrine()->getManager();
 
@@ -52,6 +51,7 @@ class ARCController extends Controller
                 $em->flush();
                 return new JsonResponse(array('mensaje' =>'El área del conocimiento fue registrada satisfactoriamente',
                     'nombre' => $arc->getNombre(),
+                    'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$arc->getId())->getValue(),
                     'id' => $arc->getId(),
                 ));
             } else {
@@ -68,6 +68,18 @@ class ARCController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/{id}/show", name="arc_show",options={"expose"=true}, methods="GET")
+     */
+    public function show(Request $request, ARC $arc): Response
+    {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
+        return $this->render('arc/_show.html.twig', [
+            'arc' => $arc,
+        ]);
+    }
 
     /**
      * @Route("/{id}/edit", name="arc_edit",options={"expose"=true}, methods="GET|POST")
@@ -109,13 +121,14 @@ class ARCController extends Controller
      */
     public function delete(Request $request, ARC $arc): Response
     {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$arc->getId(), $request->query->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($arc);
+            $em->flush();
+            return new JsonResponse(array('mensaje' =>'El área del conocimiento fue eliminada satisfactoriamente'));
+        }
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($arc);
-        $em->flush();
-        return new JsonResponse(array('mensaje' =>'El área del conocimiento fue eliminada satisfactoriamente'));
+        throw $this->createAccessDeniedException();
     }
 
 }

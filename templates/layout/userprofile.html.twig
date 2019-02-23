@@ -25,47 +25,35 @@
                             <span class="m-nav__section-text">Section</span>
                         </li>
                         <li class="m-nav__item">
-                            <a href="header/profile&amp;demo=default.html" class="m-nav__link">
+                            <a href="{{ path('usuario_show',{'id':user_id}) }}" class="m-nav__link">
                                 <i class="m-nav__link-icon flaticon-profile-1"></i>
                                 <span class="m-nav__link-title">
 														<span class="m-nav__link-wrap">
 															<span class="m-nav__link-text">Mi perfil</span>
-															<span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
 														</span>
 													</span>
                             </a>
                         </li>
                         <li class="m-nav__item">
-                            <a href="header/profile&amp;demo=default.html" class="m-nav__link">
+                            <a href="{{ path('usuario_index',{'id':user_id}) }}" class="m-nav__link">
                                 <i class="m-nav__link-icon flaticon-users"></i>
                                 <span class="m-nav__link-text">Subordinados</span>
                             </a>
                         </li>
+                        {% if not is_granted('ROLE_ADMIN') %}
                         <li class="m-nav__item">
-                            <a href="header/profile&amp;demo=default.html" class="m-nav__link">
+                            <a href="{{ path('grupo_index',{'id':user_id}) }}" class="m-nav__link">
                                 <i class="m-nav__link-icon flaticon-chat-1"></i>
                                 <span class="m-nav__link-text">Grupos</span>
                             </a>
                         </li>
                         <li class="m-nav__item">
-                            <a href="{{ path('plantrabajo_index',{'id':app.user.id}) }}" class="m-nav__link">
+                            <a href="{{ path('plantrabajo_index',{'id':user_id}) }}" class="m-nav__link">
                                 <i class="m-nav__link-icon flaticon-time-3"></i>
                                 <span class="m-nav__link-text">Planes de trabajo</span>
                             </a>
                         </li>
-                        <li class="m-nav__item">
-                            <a href="header/profile&amp;demo=default.html" class="m-nav__link">
-                                <i class="m-nav__link-icon flaticon-graphic-2"></i>
-                                <span class="m-nav__link-text">Sales</span>
-                            </a>
-                        </li>
-
-                        <li class="m-nav__item">
-                            <a href="header/profile&amp;demo=default.html" class="m-nav__link">
-                                <i class="m-nav__link-icon flaticon-lifebuoy"></i>
-                                <span class="m-nav__link-text">Support</span>
-                            </a>
-                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -278,8 +266,8 @@
                 </div>
             </div>
             --->
-            {% block prueba %}
-            {% endblock prueba %}
+            {% block content %}
+            {% endblock content %}
         </div>
     </div>
 

@@ -24,11 +24,11 @@
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
-                        <a class="btn btn-sm edicion" data-href="{{ path('area_edit', { 'id': area.id }) }}">
+                        <a class="btn btn-info btn-sm edicion" data-href="{{ path('area_edit', { 'id': area.id }) }}">
                             <i class="flaticon-edit-1"></i> Editar</a>
                     </li>
                     <li class="m-nav__item">
-                        <a class="btn btn-danger btn-sm  eliminar_area" data-href="{{ path('area_delete', { 'id': area.id }) }}">
+                        <a class="btn btn-danger btn-sm  eliminar_area" data-href="{{ path('area_delete', { 'id': area.id }) }}"  data-csrf="{{ csrf_token('delete' ~ area.id) }}">
                             <i class="flaticon-delete-1"></i> Eliminar</a>
                     </li>
                 </ul>

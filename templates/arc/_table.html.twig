@@ -20,11 +20,15 @@
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
-                        <a class="btn btn-sm edicion" data-href="{{ path('arc_edit', { 'id': area.id }) }}">
+                        <a class="btn btn-sm arc_show" data-href="{{ path('arc_show', { 'id': area.id }) }}">
+                            <i class="flaticon-eye"></i> Visualizar</a>
+                    </li>
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm btn-info edicion" data-href="{{ path('arc_edit', { 'id': area.id }) }}">
                             <i class="flaticon-edit-1"></i> Editar</a>
                     </li>
                     <li class="m-nav__item">
-                        <a class="btn btn-danger btn-sm  eliminar_arc" data-href="{{ path('arc_delete', { 'id': area.id }) }}">
+                        <a class="btn btn-danger btn-sm  eliminar_arc" data-href="{{ path('arc_delete', { 'id': area.id }) }}" data-csrf="{{ csrf_token('delete' ~ area.id) }}">
                             <i class="flaticon-delete-1"></i> Eliminar</a>
                     </li>
                 </ul>

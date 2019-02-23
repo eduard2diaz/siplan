@@ -1,10 +1,9 @@
-<li class="m-nav__item m-dropdown m-dropdown--medium m-dropdown--arrow  m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" m-dropdown-toggle="click">
+<li class="m-nav__item m-dropdown m-dropdown--medium m-dropdown--arrow  m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
+    m-dropdown-toggle="click">
     <a href="#" class="m-nav__link m-dropdown__toggle">
-												<span class="m-topbar__username m--hidden-mobile">
-													{{ app.user.nombre }}
-												</span>
         <span class="m-topbar__userpic">
-													<img src="{{ asset('app/media/img/users/user4.jpg','template') }}" class="m--img-rounded m--marginless m--img-centered" alt=""/>
+													<img src="{{ asset('app/media/img/users/user4.jpg','template') }}"
+                                                         class="m--img-rounded m--marginless m--img-centered" alt=""/>
 												</span>
         <span class="m-nav__link-icon m-topbar__usericon  m--hide">
 													<span class="m-nav__link-icon-wrapper">
@@ -13,18 +12,21 @@
 												</span>
     </a>
     <div class="m-dropdown__wrapper">
-        <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust" style="color: #6f47d0 !important;"></span>
+        <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"
+              style="color: #6f47d0 !important;"></span>
         <div class="m-dropdown__inner">
             <div class="m-dropdown__header m--align-center" id="usertopmenu_header">
                 <div class="m-card-user m-card-user--skin-light">
                     <div class="m-card-user__pic">
-                        <img src="{{ asset('app/media/img/users/user4.jpg','template') }}" class="m--img-rounded m--marginless" alt=""/>
+                        <img src="{{ asset('app/media/img/users/user4.jpg','template') }}"
+                             class="m--img-rounded m--marginless" alt=""/>
                     </div>
                     <div class="m-card-user__details">
 																<span class="m-card-user__name m--font-weight-500">
 																	{{ app.user.nombre }}
 																</span>
-                        <a data-href="{{ path('usuario_show',{'id':app.user.id}) }}" class="m-card-user__email m--font-weight-300 m-link ajax_show ">
+                        <a href="{{ path('usuario_show',{'id':app.user.id}) }}"
+                           class="m-card-user__email m--font-weight-300 m-link">
                             {{ app.user.correo }}
                         </a>
                     </div>
@@ -39,7 +41,8 @@
 																	</span>
                         </li>
                         <li class="m-nav__item">
-                            <a data-href="{{ path('usuario_show',{'id':app.user.id}) }}" class="m-nav__link" id="usuarioshow_ajax">
+                            <a href="{{ path('usuario_show',{'id':app.user.id}) }}"
+                               class="m-nav__link">
                                 <i class="m-nav__link-icon flaticon-profile-1"></i>
                                 <span class="m-nav__link-title">
 																			<span class="m-nav__link-wrap">

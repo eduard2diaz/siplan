@@ -34,7 +34,8 @@ class PlantrabajoController extends Controller
             ->getRepository(Plantrabajo::class)
             ->findBy(array('usuario' => $usuario), array('anno' => 'DESC', 'mes' => 'DESC'));
 
-        $parameters= ['id' => $usuario->getId(), 'jefe' => $usuario->getJefe(),
+        $parameters= ['user_id' => $usuario->getId(),
+                      'jefe' => $usuario->getJefe(),
                       'plantrabajos' => $plantrabajos];
 
         return $this->render('plantrabajo/index.html.twig', $parameters);
@@ -88,6 +89,7 @@ class PlantrabajoController extends Controller
         $actividads = $this->getDoctrine()
             ->getRepository(Actividad::class)
             ->findBy(array('plantrabajo' => $plantrabajo));
+
         if ($request->isXmlHttpRequest()) {
             if ($request->query->has('filtro')) {
                 $filtro = $request->get('filtro');
@@ -102,7 +104,7 @@ class PlantrabajoController extends Controller
         }
 
         return $this->render('plantrabajo/show.html.twig', ['plantrabajo' => $plantrabajo,
-            'actividads' => $actividads]);
+            'actividads' => $actividads,'user_id'=>$plantrabajo->getUsuario()->getId()]);
     }
 
 
@@ -126,7 +128,7 @@ class PlantrabajoController extends Controller
             } else {
                 $page = $this->renderView('plantrabajo/_form.html.twig', array(
                     'form' => $form->createView(),
-                    'action' => 'update_button',
+                    'action' => 'Actualizar',
                     'form_id' => 'plantrabajo_edit',
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));

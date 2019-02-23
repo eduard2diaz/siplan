@@ -1,0 +1,47 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                Detalles del grupo
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div>
+            <div class="modal-body" id="modal-body">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Nombre</th>
+                    <td>{{ grupo.nombre }}</td>
+                </tr>
+                <tr>
+                    <th>Creador</th>
+                    <td>{{ grupo.creador }}</td>
+                </tr>
+                <tr>
+                    <th>Miembros</th>
+                    <td>
+                        <ul class="">
+                        {%  for miembro in grupo.idmiembro %}
+                            <li>{{ miembro }}</li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+            <div class="modal-footer">
+                {% if pendiente_confirmacion is defined %}
+                <a class="btn btn-sm btn-primary" id="confirmar_grupo" data-csrf="{{ csrf_token('confirmar' ~ grupo.id) }}" data-href="{{ path('grupo_confirmarsolicitud',{'grupo':grupo.id}) }}">Confirmar</a>
+                <a class="btn btn-sm btn-danger" id="rechazar_grupo" data-csrf="{{ csrf_token('rechazar' ~ grupo.id) }}" data-href="{{ path('grupo_rechazarsolicitud',{'grupo':grupo.id}) }}">Rechazar</a>
+                {% elseif confirmacion_aceptada is defined %}
+                    <a class="btn btn-sm btn-danger" id="rechazar_grupo" data-csrf="{{ csrf_token('rechazar' ~ grupo.id) }}" data-href="{{ path('grupo_rechazarsolicitud',{'grupo':grupo.id}) }}">Cancelar subscripción</a>
+                {% endif %}
+                <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
+            </div>
+        </div>
+    </div>
+
+</div>

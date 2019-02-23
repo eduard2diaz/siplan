@@ -15,13 +15,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Form\Transformer\DateTimetoStringTransformer;
+use App\Entity\Fichero;
 
 /**
- * @Route({
- *     "en": "/activity",
- *     "es": "/actividad",
- *     "fr": "/activitie",
- * })
+ * @Route("/actividad")
  */
 class ActividadController extends Controller
 {
@@ -33,31 +30,36 @@ class ActividadController extends Controller
     public function new(Request $request, Plantrabajo $plantrabajo): Response
     {
         $actividad = new Actividad();
+
         $actividad->setPlantrabajo($plantrabajo);
         $actividad->setResponsable($plantrabajo->getUsuario());
         $actividad->setAsignadapor($this->getUser());
         $this->denyAccessUnlessGranted('NEW', $actividad);
-        $form = $this->createForm(ActividadType::class, $actividad, array('disab'=>false,'action' => $this->generateUrl('actividad_new', array('id' => $plantrabajo->getId()))));
-
+        $form = $this->createForm(ActividadType::class, $actividad, array('action' => $this->generateUrl('actividad_new', array('id' => $plantrabajo->getId()))));
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
             if ($form->isValid()) {
+                $ruta = $this->getParameter('storage_directory');
                 $em = $this->getDoctrine()->getManager();
+                foreach ($form->getData()->getFicheros() as $value) {
+                    $value->setActividad($actividad);
+                    $value->setRuta($value->subirArchivo($ruta));
+                    $value->setNombre($value->getFile()->getClientOriginalName());
+                    $em->persist($value);
+                }
                 $em->persist($actividad);
                 $em->flush();
+
                 return new JsonResponse(array('mensaje' => "La actividad fue registrada satisfactoriamente",
                     'nombre' => $actividad->getNombre(),
-                    'esobjetivo' => $actividad->getEsobjetivo(),
-                    'fecha' => $actividad->getFecha()->format('d-m-Y H:i'),
-                    'fechaf' => $actividad->getFecha()->format('d-m-Y') == $actividad->getFechaF()->format('d-m-Y') ? $actividad->getFechaF()->format('H:i') : $actividad->getFechaF()->format('d-m-Y H:i'),
-                    'estadocolor' => $actividad->getEstadoColor(),
-                    'estado' => $actividad->getEstadoString(),
+                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $actividad->getId())->getValue(),
                     'id' => $actividad->getId(),
                 ));
             } else {
                 $page = $this->renderView('actividad/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'actividad' => $actividad,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -80,13 +82,13 @@ class ActividadController extends Controller
         if (!$request->request->has('array'))
             return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
 
-        $array=json_decode($request->request->get('array'));
+        $array = json_decode($request->request->get('array'));
         if (empty($array))
             return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
 
         $em = $this->getDoctrine()->getManager();
 
-        $actividades=$em->createQuery('SELECT a FROM App:Actividad a WHERE a.id IN (:lista)')->setParameter('lista',$array)->getResult();
+        $actividades = $em->createQuery('SELECT a FROM App:Actividad a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
 
         foreach ($actividades as $actividad) {
             $activity = new Actividad();
@@ -122,44 +124,37 @@ class ActividadController extends Controller
     public function edit(Request $request, Actividad $actividad): Response
     {
         $this->denyAccessUnlessGranted('EDIT', $actividad);
-        $disabled=$this->getUser()->getId() != $actividad->getAsignadapor()->getId() && (null!=$actividad->getResponsable()->getJefe() && $this->getUser()->getId()!=$actividad->getResponsable()->getJefe()->getId()) ? true : false;
-        $form = $this->createForm(ActividadType::class, $actividad, array('disab'=>$disabled,'action' => $this->generateUrl('actividad_edit', array('id' => $actividad->getId()))));
-
-        $choices = ['Registrada' => 1, 'En proceso' => 2, 'Culminada' => 3];
-
-        if ($this->getUser()->getId() == $actividad->getAsignadapor()->getId() || ($actividad->getResponsable()->getJefe()!=null && $actividad->getResponsable()->getJefe()->getId()==$this->getUser()->getId())) {
-            $choices['Cumplida'] = 4;
-            $choices['Incumplida'] = 5;
-        }
-     
-
-        $form->add('estado', ChoiceType::class, array(
-            'choices' => $choices, 'attr' => array('class' => 'form-control input-medium')));
-
+        $form = $this->createForm(ActividadType::class, $actividad, array('action' => $this->generateUrl('actividad_edit', array('id' => $actividad->getId()))));
+        $ficherosIniciales = $actividad->getFicheros()->toArray();
         $form->handleRequest($request);
         if ($form->isSubmitted())
             if ($form->isValid()) {
+                $ruta = $this->getParameter('storage_directory');
                 $em = $this->getDoctrine()->getManager();
+
+                foreach ($form->getData()->getFicheros() as $value) {
+                    $value->setActividad($actividad);
+                    $value->setRuta($value->subirArchivo($ruta));
+                    $value->setNombre($value->getFile()->getClientOriginalName());
+                    $em->persist($value);
+                }
+
                 $em->persist($actividad);
                 $em->flush();
+
                 return new JsonResponse(array('mensaje' => "La actividad fue actualizada satisfactoriamente",
                     'nombre' => $actividad->getNombre(),
-                    'fecha' => $actividad->getFecha()->format('d-m-Y H:i'),
-                    'fechaf' => $actividad->getFecha()->format('d-m-Y') == $actividad->getFechaF()->format('d-m-Y') ? $actividad->getFechaF()->format('H:i') : $actividad->getFechaF()->format('d-m-Y H:i'),
-                    'esobjetivo' => $actividad->getEsobjetivo(),
-                    'estadocolor' => $actividad->getEstadoColor(),
-                    'estado' => $actividad->getEstadoString(),
                 ));
             } else {
                 $page = $this->renderView('actividad/_form.html.twig', array(
                     'form' => $form->createView(),
                     'action' => 'Actualizar',
-                      'form_id' => 'actividad_edit',
+                    'form_id' => 'actividad_edit',
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
 
-        return $this->render('actividad/_edit.html.twig', [
+        return $this->render('actividad/_new.html.twig', [
             'actividad' => $actividad,
             'title' => 'Editar actividad',
             'action' => 'Actualizar',
@@ -172,25 +167,62 @@ class ActividadController extends Controller
     /**
      * @Route("/{id}/delete", name="actividad_delete",options={"expose"=true})
      */
-    public function delete(Request $request, Actividad $actividad): Response
+    public
+    function delete(Request $request, Actividad $actividad): Response
     {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $actividad->getId(), $request->query->get('_token'))) {
+            //  $this->denyAccessUnlessGranted('DELETE', $actividad);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($actividad);
+            $em->flush();
+            return new JsonResponse(array('mensaje' => "La actividad fue eliminada satisfactoriamente"));
+        }
 
-        $this->denyAccessUnlessGranted('DELETE', $actividad);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($actividad);
-        $em->flush();
-        return new JsonResponse(array('mensaje' => "La actividad fue eliminada satisfactoriamente"));
+        throw $this->createAccessDeniedException();
     }
 
-    //FUNCIONES AJAX
+    /**
+     * @Route("/{id}/ficherodelete", name="fichero_delete",options={"expose"=true})
+     */
+    public function ficheroDelete(Request $request, Fichero $fichero): Response
+    {
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $fichero->getId(), $request->query->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($fichero);
+            $em->flush();
+            return new JsonResponse(array('mensaje' => "El fichero fue eliminado satisfactoriamente"));
+        }
+
+        throw $this->createAccessDeniedException();
+    }
+
+    /**
+     * @Route("/{id}/ficherodownload", name="fichero_download")
+     */
+    public function downloadAction(Fichero $fichero)
+    {
+
+        $ruta = $this->getParameter('storage_directory') . DIRECTORY_SEPARATOR . $fichero->getRuta();
+
+        if (!file_exists($ruta))
+            throw $this->createNotFoundException();
+
+        $archivo = file_get_contents($ruta);
+        return new Response($archivo, 200, array(
+            'Content-Type' => 'application/force-download',
+            'Content-Transfer-Encoding' => 'binary',
+            'Content-length' => strlen($archivo),
+            'Pragma' => 'no-cache',
+            'Expires' => '0'));
+    }
+
+//FUNCIONES AJAX
 
     /**
      * @Route("/pendientes", name="actividades_pendientes",options={"expose"=true})
      */
-    public function pendiente(Request $request): Response
+    public
+    function pendiente(Request $request): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
@@ -200,18 +232,19 @@ class ActividadController extends Controller
         $sql = 'SELECT a.id, a.nombre, a.fecha,a.esobjetivo FROM actividad a join usuario r on(a.responsable=r.id) WHERE r.id=:id AND  DATE(fecha)<=(CURRENT_DATE + INTERVAL  \'3 day\' )AND a.estado!=3 AND a.estado!=4 ORDER BY a.fecha ASC, a.estado DESC LIMIT 5';
         $stmt = $conn->prepare($sql);
         $stmt->execute(['id' => $this->getUser()->getId()]);
-        $actividades=$stmt->fetchAll();
-        $total=count($actividades);
-        return new JsonResponse(array('total' => $total,'html'=>$this->renderView('actividad/ajax/_notificaciones.html.twig',['actividades'=>$actividades])));
+        $actividades = $stmt->fetchAll();
+        $total = count($actividades);
+        return new JsonResponse(array('total' => $total, 'html' => $this->renderView('actividad/ajax/_notificaciones.html.twig', ['actividades' => $actividades])));
     }
-
 
 
     /**
      * @Route("/{id}/ajax", name="plantrabajo_actividadesajax", methods="GET",options={"expose"=true})
      */
-    public function actividadesAjax(Request $request, Plantrabajo $plantrabajo): Response
+    public
+    function actividadesAjax(Request $request, Plantrabajo $plantrabajo): Response
     {
+
         if (!$request->isXmlHttpRequest())
             $this->createAccessDeniedException();
 

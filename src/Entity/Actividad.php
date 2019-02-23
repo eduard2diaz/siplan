@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Plantrabajo;
 use App\Entity\Usuario;
@@ -111,19 +113,26 @@ class Actividad
     private $areaconocimiento;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Fichero", mappedBy="actividad", cascade={"persist", "remove"})
+     * @Assert\Valid()
+     */
+    private $ficheros;
+
+    /**
      * Actividad constructor.
      * @param int $id
      */
     public function __construct()
     {
         $this->estado = 1;
+        $this->ficheros= new ArrayCollection();
     }
 
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -313,6 +322,46 @@ class Actividad
     {
         $this->plantrabajo = $plantrabajo;
     }
+
+    /**
+     * @return Collection|Fichero[]
+     */
+    public function getFicheros(): Collection
+    {
+        return $this->ficheros;
+    }
+
+    public function addFichero(Fichero $fichero): self
+    {
+        if (!$this->ficheros->contains($fichero)) {
+            $this->ficheros[] = $fichero;
+            $fichero->setActividad($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFichero(Fichero $fichero): self
+    {
+        if ($this->ficheros->contains($fichero)) {
+            $this->ficheros->removeElement($fichero);
+            // set the owning side to null (unless already changed)
+            /*if ($fichero->getActividad() === $this) {
+                $fichero->setActividad(null);
+            }*/
+        }
+
+        return $this;
+    }
+
+    public function setFichero($ficheros)
+    {
+        $this->ficheros = $ficheros;
+        foreach ($ficheros as $address) {
+            $address->setActividad($this);
+        }
+    }
+
 
 
     /**

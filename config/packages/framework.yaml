@@ -13,10 +13,10 @@ framework:
         packages:
             template:
                 base_path: /template
-            sitrans:
-                base_path: /sitrans
+            siplan:
+                base_path: /siplan
             pages:
-                base_path: /sitrans/css/page
+                base_path: /siplan/css/page
     #esi: true
     #fragments: true
     php_errors:

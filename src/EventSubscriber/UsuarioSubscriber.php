@@ -5,9 +5,7 @@ namespace App\EventSubscriber;
 use Doctrine\Common\EventSubscriber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\Process\Process;
 use App\Entity\Usuario;
-use App\Entity\UsuarioPerfil;
 
 class UsuarioSubscriber implements EventSubscriber
 {
@@ -35,7 +33,6 @@ class UsuarioSubscriber implements EventSubscriber
     {
         return [
             'prePersist',
-     //       'postPersist',
         ];
     }
 }

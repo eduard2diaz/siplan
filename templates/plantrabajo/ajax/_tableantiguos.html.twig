@@ -1,29 +1,50 @@
-<table class="table table-striped table-hover dataTable demo-list" id="table_antiguos">
-    <thead>
-    <tr>
-        <th>No.</th>
-        <th>Mes</th>
-        <th>Año</th>
-    </tr>
-    </thead>
-    <tbody>
-    {%set i=1%}
-    {% for plan in plantrabajos %}
-        <tr>
-            <td><input name="antiguo" id="antiguo" type="radio" value="{{ plan.id }}"/></td>
-            <td>{{ plan.getMestoString() }}</td>
-            <td>{{ plan.anno }}</td>
-        </tr>
-        {%set i=1+i%}
-    {% endfor %}
-    </tbody>
-    <tfoot>
-    <tr>
-        <th>No.</th>
-        <th>Mes</th>
-        <th>Año</th>
-    </tr>
-    </tfoot>
-</table>
-<a class="btn green pull-right margin-right-10 hidden mt-ladda-btn ladda-button" data-style="expand-right" data-spinner-color="#333" id="cargar_actividades_link">Cargar Actividades</a>
-<br/>
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Planes de trabajo antiguo</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+        <div class="m--padding-30">
+            <table class="table table-hover dataTable" id="table_antiguos">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Mes</th>
+                    <th>Año</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%set i=1%}
+                {% for plan in plantrabajos %}
+                    <tr>
+                        <td>
+                            <label class="m-radio m-radio--bold m-radio--state-success">
+                                <input name="antiguo" id="antiguo" type="radio" value="{{ plan.id }}"/>
+                                <span></span>
+                            </label>
+
+                        </td>
+                        <td>{{ plan.getMestoString() }}</td>
+                        <td>{{ plan.anno }}</td>
+                    </tr>
+                    {%set i=1+i%}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>No.</th>
+                    <th>Mes</th>
+                    <th>Año</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary m--hidden-desktop mt-ladda-btn ladda-button" data-style="expand-right" data-spinner-color="#333" id="cargar_actividades_link">Cargar Actividades</a>
+            <a class="btn btn-sm btn-secondary active" data-dismiss="modal">Cerrar</a>
+        </div>
+    </div>
+</div>
+
+
+

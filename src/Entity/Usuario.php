@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use function Sodium\randombytes_buf;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * Usuario
  *
@@ -16,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("usuario")
  * @UniqueEntity("correo")
  */
-class Usuario implements AdvancedUserInterface
+class Usuario implements UserInterface
 {
     /**
      * @var int
@@ -116,6 +119,21 @@ class Usuario implements AdvancedUserInterface
     private $cargo;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Grupo", mappedBy="creador")
+     */
+    private $grupos;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Grupo", mappedBy="idmiembro")
+     */
+    private $grupospertenece;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SolicitudGrupo", mappedBy="usuario")
+     */
+    private $solicitudGrupos;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -123,6 +141,9 @@ class Usuario implements AdvancedUserInterface
         $this->idrol = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setSalt(md5(time()));
         $this->setActivo(true);
+        $this->grupos = new ArrayCollection();
+        $this->grupospertenece = new ArrayCollection();
+        $this->solicitudGrupos = new ArrayCollection();
     }
 
     /**
@@ -298,26 +319,6 @@ class Usuario implements AdvancedUserInterface
         $this->idrol = $idrol;
     }
 
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    public function isEnabled()
-    {
-       return $this->activo;
-    }
-
     public function getRoles()
     {
         $array=array();
@@ -339,6 +340,96 @@ class Usuario implements AdvancedUserInterface
     public function __toString()
     {
      return $this->getNombre();
+    }
+
+    /**
+     * @return Collection|Grupo[]
+     */
+    public function getGrupos(): Collection
+    {
+        return $this->grupos;
+    }
+
+    public function addGrupo(Grupo $grupo): self
+    {
+        if (!$this->grupos->contains($grupo)) {
+            $this->grupos[] = $grupo;
+            $grupo->setCreador($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrupo(Grupo $grupo): self
+    {
+        if ($this->grupos->contains($grupo)) {
+            $this->grupos->removeElement($grupo);
+            // set the owning side to null (unless already changed)
+            if ($grupo->getCreador() === $this) {
+                $grupo->setCreador(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Grupo[]
+     */
+    public function getGrupospertenece(): Collection
+    {
+        return $this->grupospertenece;
+    }
+
+    public function addGrupospertenece(Grupo $grupospertenece): self
+    {
+        if (!$this->grupospertenece->contains($grupospertenece)) {
+            $this->grupospertenece[] = $grupospertenece;
+            $grupospertenece->addIdmiembro($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrupospertenece(Grupo $grupospertenece): self
+    {
+        if ($this->grupospertenece->contains($grupospertenece)) {
+            $this->grupospertenece->removeElement($grupospertenece);
+            $grupospertenece->removeIdmiembro($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SolicitudGrupo[]
+     */
+    public function getSolicitudGrupos(): Collection
+    {
+        return $this->solicitudGrupos;
+    }
+
+    public function addSolicitudGrupo(SolicitudGrupo $solicitudGrupo): self
+    {
+        if (!$this->solicitudGrupos->contains($solicitudGrupo)) {
+            $this->solicitudGrupos[] = $solicitudGrupo;
+            $solicitudGrupo->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitudGrupo(SolicitudGrupo $solicitudGrupo): self
+    {
+        if ($this->solicitudGrupos->contains($solicitudGrupo)) {
+            $this->solicitudGrupos->removeElement($solicitudGrupo);
+            // set the owning side to null (unless already changed)
+            if ($solicitudGrupo->getUsuario() === $this) {
+                $solicitudGrupo->setUsuario(null);
+            }
+        }
+
+        return $this;
     }
 
     public function getEstadoColor(){
@@ -367,9 +458,32 @@ class Usuario implements AdvancedUserInterface
      */
     public function comprobarCargo(ExecutionContextInterface $context)
     {
-        if ($this->getCargo()->getArea()->getId() != $this->getArea()->getId()) {
+        $roles=$this->getRoles();
+        if (null==$this->getArea()) {
+            $context->setNode($context, 'area', null, 'data.area');
+            $context->addViolation('Seleccione un área');
+        }
+        if (null==$this->getCargo()) {
+            $context->setNode($context, 'cargo', null, 'data.cargo');
+            $context->addViolation('Seleccione un cargo');
+        }elseif ($this->getCargo()->getArea()->getId() != $this->getArea()->getId()) {
             $context->setNode($context, 'cargo', null, 'data.cargo');
             $context->addViolation('El cargo indicado no pertenece al área.');
+        }
+
+        if(count($roles)!=1){
+            $context->setNode($context, 'idrol', null, 'data.idrol');
+            $context->addViolation('Seleccione un rol');
+        }elseif(in_array('ROLE_ADMIN',$roles)) {
+            if ($this->getJefe() != null)
+                $context->buildViolation('Un administrador no puede tener jefe')
+                    ->atPath('idrol')
+                    ->addViolation();
+        }elseif(in_array('ROLE_USER',$roles)) {
+            if ($this->getJefe() == null)
+                $context->buildViolation('Seleccione el jefe')
+                    ->atPath('idrol')
+                    ->addViolation();
         }
     }
 

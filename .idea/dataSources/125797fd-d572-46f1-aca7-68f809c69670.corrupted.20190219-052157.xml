@@ -1,0 +1,1156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="siplanv4@localhost">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.14">
+    <root id="1">
+      <ServerVersion>11.1</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="ihatuey">
+      <ObjectId>45234</ObjectId>
+      <StateNumber>8271</StateNumber>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="3" parent="1" name="milab">
+      <ObjectId>21981</ObjectId>
+      <StateNumber>2361</StateNumber>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="4" parent="1" name="postgres">
+      <ObjectId>13102</ObjectId>
+      <Comment>default administrative connection database</Comment>
+      <StateNumber>566</StateNumber>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="5" parent="1" name="siplanv3">
+      <ObjectId>16384</ObjectId>
+      <StateNumber>568</StateNumber>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="6" parent="1" name="siplanv4">
+      <ObjectId>49299</ObjectId>
+      <StateNumber>10208</StateNumber>
+      <Owner>postgres</Owner>
+      <IntrospectionStateNumber>518</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+      <Relations>sequence|table|49317|49319|1
+sequence|table|49351|49353|1
+sequence|table|49360|49362|1
+sequence|table|49369|49371|1
+sequence|table|49391|49393|1
+sequence|table|49400|49402|1
+</Relations>
+    </database>
+    <database id="7" parent="1" name="siplanvladap">
+      <ObjectId>49157</ObjectId>
+      <StateNumber>10155</StateNumber>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="8" parent="1" name="sitrans">
+      <ObjectId>48082</ObjectId>
+      <StateNumber>9515</StateNumber>
+      <Owner>postgres</Owner>
+    </database>
+    <role id="9" parent="1" name="pg_execute_server_program">
+      <ObjectId>4571</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="10" parent="1" name="pg_monitor">
+      <ObjectId>3373</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="11" parent="1" name="pg_read_all_settings">
+      <ObjectId>3374</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="12" parent="1" name="pg_read_all_stats">
+      <ObjectId>3375</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="13" parent="1" name="pg_read_server_files">
+      <ObjectId>4569</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="14" parent="1" name="pg_signal_backend">
+      <ObjectId>4200</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="15" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="16" parent="1" name="pg_write_server_files">
+      <ObjectId>4570</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="17" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+      <BypassRls>1</BypassRls>
+    </role>
+    <schema id="18" parent="6" name="information_schema">
+      <ObjectId>12807</ObjectId>
+      <StateNumber>365</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="19" parent="6" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+      <Comment>system catalog schema</Comment>
+      <StateNumber>358</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="20" parent="6" name="pg_temp_1">
+      <ObjectId>11804</ObjectId>
+      <StateNumber>120</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="21" parent="6" name="pg_toast">
+      <ObjectId>99</ObjectId>
+      <Comment>reserved schema for TOAST tables</Comment>
+      <StateNumber>1</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="22" parent="6" name="pg_toast_temp_1">
+      <ObjectId>11805</ObjectId>
+      <StateNumber>120</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="23" parent="6" name="public">
+      <ObjectId>2200</ObjectId>
+      <Comment>standard public schema</Comment>
+      <StateNumber>359</StateNumber>
+      <Owner>postgres</Owner>
+      <IntrospectionTimestamp>2019-02-18.19:46:58.379</IntrospectionTimestamp>
+      <IntrospectionStateNumber>10262</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <access-method id="24" parent="6" name="btree">
+      <ObjectId>403</ObjectId>
+      <Comment>b-tree index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.bthandler</Handler>
+      <HandlerId>330</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="25" parent="6" name="hash">
+      <ObjectId>405</ObjectId>
+      <Comment>hash index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.hashhandler</Handler>
+      <HandlerId>331</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="26" parent="6" name="gist">
+      <ObjectId>783</ObjectId>
+      <Comment>GiST index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.gisthandler</Handler>
+      <HandlerId>332</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="27" parent="6" name="gin">
+      <ObjectId>2742</ObjectId>
+      <Comment>GIN index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.ginhandler</Handler>
+      <HandlerId>333</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="28" parent="6" name="spgist">
+      <ObjectId>4000</ObjectId>
+      <Comment>SP-GiST index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.spghandler</Handler>
+      <HandlerId>334</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="29" parent="6" name="brin">
+      <ObjectId>3580</ObjectId>
+      <Comment>block range index (BRIN) access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.brinhandler</Handler>
+      <HandlerId>335</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <extension id="30" parent="6" name="plpgsql">
+      <ObjectId>13088</ObjectId>
+      <Comment>PL/pgSQL procedural language</Comment>
+      <StateNumber>518</StateNumber>
+      <Version>1.0</Version>
+      <SchemaName>pg_catalog</SchemaName>
+      <SchemaId>11</SchemaId>
+    </extension>
+    <sequence id="31" parent="23" name="arc_id_seq">
+      <ObjectId>49417</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10242</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="32" parent="23" name="grupo_id_seq">
+      <ObjectId>49421</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10244</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="33" parent="23" name="notificacion_id_seq">
+      <ObjectId>49415</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10241</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="34" parent="23" name="solicitud_grupo_id_seq">
+      <ObjectId>49419</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10243</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>bigint</DataType>
+    </sequence>
+    <sequence id="35" parent="23" name="actividad_id_seq">
+      <ObjectId>49400</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10236</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="36" parent="23" name="area_id_seq">
+      <ObjectId>49391</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10234</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="37" parent="23" name="cargo_id_seq">
+      <ObjectId>49351</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10224</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="38" parent="23" name="plantrabajo_id_seq">
+      <ObjectId>49360</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10226</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="39" parent="23" name="rol_id_seq">
+      <ObjectId>49369</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10228</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="40" parent="23" name="usuario_id_seq">
+      <ObjectId>49317</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10212</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <table id="41" parent="23" name="actividad">
+      <ObjectId>49402</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10259</StateNumber>
+    </table>
+    <table id="42" parent="23" name="arc">
+      <ObjectId>49309</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10262</StateNumber>
+    </table>
+    <table id="43" parent="23" name="area">
+      <ObjectId>49393</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10247</StateNumber>
+    </table>
+    <table id="44" parent="23" name="cargo">
+      <ObjectId>49353</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10248</StateNumber>
+    </table>
+    <table id="45" parent="23" name="grupo">
+      <ObjectId>49378</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10251</StateNumber>
+    </table>
+    <table id="46" parent="23" name="grupo_usuario">
+      <ObjectId>49384</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10256</StateNumber>
+    </table>
+    <table id="47" parent="23" name="notificacion">
+      <ObjectId>49300</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10245</StateNumber>
+    </table>
+    <table id="48" parent="23" name="plantrabajo">
+      <ObjectId>49362</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10254</StateNumber>
+    </table>
+    <table id="49" parent="23" name="rol">
+      <ObjectId>49371</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10250</StateNumber>
+    </table>
+    <table id="50" parent="23" name="solicitud_grupo">
+      <ObjectId>49344</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10251</StateNumber>
+    </table>
+    <table id="51" parent="23" name="usuario">
+      <ObjectId>49319</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10245</StateNumber>
+    </table>
+    <table id="52" parent="23" name="usuario_rol">
+      <ObjectId>49337</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>10249</StateNumber>
+    </table>
+    <column id="53" parent="41" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10236</StateNumber>
+      <DefaultExpression>nextval(&apos;actividad_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="54" parent="41" name="responsable">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10236</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="55" parent="41" name="asignadapor">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10236</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="56" parent="41" name="plantrabajo">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10236</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="57" parent="41" name="areaconocimiento_id">
+      <Position>5</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10236</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="58" parent="41" name="fecha">
+      <Position>6</Position>
+      <DataType>timestamp(0)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10236</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="59" parent="41" name="fechaf">
+      <Position>7</Position>
+      <DataType>timestamp(0)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10236</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="60" parent="41" name="nombre">
+      <Position>8</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10236</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="61" parent="41" name="descripcion">
+      <Position>9</Position>
+      <DataType>text|0s</DataType>
+      <StateNumber>10236</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <column id="62" parent="41" name="estado">
+      <Position>10</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10236</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="63" parent="41" name="esobjetivo">
+      <Position>11</Position>
+      <DataType>boolean|0s</DataType>
+      <StateNumber>10236</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="64" parent="41" name="esexterna">
+      <Position>12</Position>
+      <DataType>boolean|0s</DataType>
+      <StateNumber>10236</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <index id="65" parent="41" name="actividad_pkey">
+      <ObjectId>49409</ObjectId>
+      <StateNumber>10236</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="66" parent="41" name="idx_8df2bd0652520d07">
+      <ObjectId>49412</ObjectId>
+      <StateNumber>10238</StateNumber>
+      <ColNames>responsable</ColNames>
+    </index>
+    <index id="67" parent="41" name="idx_8df2bd0632dbfd56">
+      <ObjectId>49413</ObjectId>
+      <StateNumber>10239</StateNumber>
+      <ColNames>asignadapor</ColNames>
+    </index>
+    <index id="68" parent="41" name="idx_8df2bd06b0bd47fb">
+      <ObjectId>49414</ObjectId>
+      <StateNumber>10240</StateNumber>
+      <ColNames>plantrabajo</ColNames>
+    </index>
+    <index id="69" parent="41" name="idx_8df2bd0664a0876">
+      <ObjectId>49411</ObjectId>
+      <StateNumber>10237</StateNumber>
+      <ColNames>areaconocimiento_id</ColNames>
+    </index>
+    <key id="70" parent="41" name="actividad_pkey">
+      <ObjectId>49410</ObjectId>
+      <StateNumber>10236</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>actividad_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="71" parent="41" name="fk_8df2bd0652520d07">
+      <ObjectId>49493</ObjectId>
+      <StateNumber>10259</StateNumber>
+      <ColNames>responsable</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="72" parent="41" name="fk_8df2bd0632dbfd56">
+      <ObjectId>49498</ObjectId>
+      <StateNumber>10260</StateNumber>
+      <ColNames>asignadapor</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="73" parent="41" name="fk_8df2bd06b0bd47fb">
+      <ObjectId>49503</ObjectId>
+      <StateNumber>10261</StateNumber>
+      <ColNames>plantrabajo</ColNames>
+      <RefTableId>49362</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>plantrabajo</RefTableName>
+      <RefKeyName>plantrabajo_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="74" parent="41" name="fk_8df2bd0664a0876">
+      <ObjectId>49508</ObjectId>
+      <StateNumber>10262</StateNumber>
+      <ColNames>areaconocimiento_id</ColNames>
+      <RefTableId>49309</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>arc</RefTableName>
+      <RefKeyName>arc_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="75" parent="42" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10211</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="76" parent="42" name="nombre">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10211</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="77" parent="42" name="objetivos">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10211</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <index id="78" parent="42" name="arc_pkey">
+      <ObjectId>49315</ObjectId>
+      <StateNumber>10211</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="79" parent="42" name="arc_pkey">
+      <ObjectId>49316</ObjectId>
+      <StateNumber>10211</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>arc_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="80" parent="43" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10234</StateNumber>
+      <DefaultExpression>nextval(&apos;area_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="81" parent="43" name="padre">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10234</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="82" parent="43" name="nombre">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10234</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="83" parent="43" name="area_pkey">
+      <ObjectId>49397</ObjectId>
+      <StateNumber>10234</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="84" parent="43" name="idx_d7943d68d3656aeb">
+      <ObjectId>49399</ObjectId>
+      <StateNumber>10235</StateNumber>
+      <ColNames>padre</ColNames>
+    </index>
+    <key id="85" parent="43" name="area_pkey">
+      <ObjectId>49398</ObjectId>
+      <StateNumber>10234</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>area_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="86" parent="43" name="fk_d7943d68d3656aeb">
+      <ObjectId>49488</ObjectId>
+      <StateNumber>10258</StateNumber>
+      <ColNames>padre</ColNames>
+      <RefTableId>49393</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>area</RefTableName>
+      <RefKeyName>area_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="87" parent="44" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10224</StateNumber>
+      <DefaultExpression>nextval(&apos;cargo_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="88" parent="44" name="area">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10224</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="89" parent="44" name="nombre">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10224</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="90" parent="44" name="cargo_pkey">
+      <ObjectId>49357</ObjectId>
+      <StateNumber>10224</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="91" parent="44" name="idx_226eq5b05d35bc9846">
+      <ObjectId>49359</ObjectId>
+      <StateNumber>10225</StateNumber>
+      <ColNames>area</ColNames>
+    </index>
+    <key id="92" parent="44" name="cargo_pkey">
+      <ObjectId>49358</ObjectId>
+      <StateNumber>10224</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>cargo_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="93" parent="44" name="fk_3bee5771d7943d68">
+      <ObjectId>49463</ObjectId>
+      <StateNumber>10253</StateNumber>
+      <ColNames>area</ColNames>
+      <RefTableId>49393</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>area</RefTableName>
+      <RefKeyName>area_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="94" parent="45" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10229</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="95" parent="45" name="creador">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10229</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="96" parent="45" name="nombre">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10229</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="97" parent="45" name="grupo_pkey">
+      <ObjectId>49381</ObjectId>
+      <StateNumber>10229</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="98" parent="45" name="idx_8c0e9bd3a0204913">
+      <ObjectId>49383</ObjectId>
+      <StateNumber>10230</StateNumber>
+      <ColNames>creador</ColNames>
+    </index>
+    <key id="99" parent="45" name="grupo_pkey">
+      <ObjectId>49382</ObjectId>
+      <StateNumber>10229</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>grupo_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="100" parent="45" name="fk_8c0e9bd3a0204913">
+      <ObjectId>49473</ObjectId>
+      <StateNumber>10255</StateNumber>
+      <ColNames>creador</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="101" parent="46" name="grupo_id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10231</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="102" parent="46" name="usuario_id">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10231</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="103" parent="46" name="grupo_usuario_pkey">
+      <ObjectId>49387</ObjectId>
+      <StateNumber>10231</StateNumber>
+      <ColNames>grupo_id
+usuario_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="104" parent="46" name="idx_7d6c3efa9c833003">
+      <ObjectId>49389</ObjectId>
+      <StateNumber>10232</StateNumber>
+      <ColNames>grupo_id</ColNames>
+    </index>
+    <index id="105" parent="46" name="idx_7d6c3efadb38439e">
+      <ObjectId>49390</ObjectId>
+      <StateNumber>10233</StateNumber>
+      <ColNames>usuario_id</ColNames>
+    </index>
+    <key id="106" parent="46" name="grupo_usuario_pkey">
+      <ObjectId>49388</ObjectId>
+      <StateNumber>10231</StateNumber>
+      <ColNames>grupo_id
+usuario_id</ColNames>
+      <UnderlyingIndexName>grupo_usuario_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="107" parent="46" name="fk_7d6c3efa9c833003">
+      <ObjectId>49478</ObjectId>
+      <StateNumber>10256</StateNumber>
+      <ColNames>grupo_id</ColNames>
+      <RefTableId>49378</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>grupo</RefTableName>
+      <RefKeyName>grupo_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="108" parent="46" name="fk_7d6c3efadb38439e">
+      <ObjectId>49483</ObjectId>
+      <StateNumber>10257</StateNumber>
+      <ColNames>usuario_id</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="109" parent="47" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10209</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="110" parent="47" name="destinatario">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10209</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="111" parent="47" name="fecha">
+      <Position>3</Position>
+      <DataType>timestamp(0)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10209</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="112" parent="47" name="descripcion">
+      <Position>4</Position>
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10209</StateNumber>
+      <TypeId>25</TypeId>
+    </column>
+    <index id="113" parent="47" name="notificacion_pkey">
+      <ObjectId>49306</ObjectId>
+      <StateNumber>10209</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="114" parent="47" name="idx_729a19eca7399187">
+      <ObjectId>49308</ObjectId>
+      <StateNumber>10210</StateNumber>
+      <ColNames>destinatario</ColNames>
+    </index>
+    <key id="115" parent="47" name="notificacion_pkey">
+      <ObjectId>49307</ObjectId>
+      <StateNumber>10209</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>notificacion_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="116" parent="47" name="fk_729a19eca7399187">
+      <ObjectId>49423</ObjectId>
+      <StateNumber>10245</StateNumber>
+      <ColNames>destinatario</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="117" parent="48" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10226</StateNumber>
+      <DefaultExpression>nextval(&apos;plantrabajo_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="118" parent="48" name="usuario">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10226</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="119" parent="48" name="mes">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10226</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="120" parent="48" name="anno">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10226</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="121" parent="48" name="plantrabajo_pkey">
+      <ObjectId>49366</ObjectId>
+      <StateNumber>10226</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="122" parent="48" name="idx_b0bd47fb2265b05d">
+      <ObjectId>49368</ObjectId>
+      <StateNumber>10227</StateNumber>
+      <ColNames>usuario</ColNames>
+    </index>
+    <key id="123" parent="48" name="plantrabajo_pkey">
+      <ObjectId>49367</ObjectId>
+      <StateNumber>10226</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>plantrabajo_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="124" parent="48" name="fk_b0bd47fb2265b05d">
+      <ObjectId>49468</ObjectId>
+      <StateNumber>10254</StateNumber>
+      <ColNames>usuario</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="125" parent="49" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10228</StateNumber>
+      <DefaultExpression>nextval(&apos;rol_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="126" parent="49" name="nombre">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>10228</StateNumber>
+      <DefaultExpression>NULL::character varying</DefaultExpression>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="127" parent="49" name="rol_pkey">
+      <ObjectId>49376</ObjectId>
+      <StateNumber>10228</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="128" parent="49" name="rol_pkey">
+      <ObjectId>49377</ObjectId>
+      <StateNumber>10228</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>rol_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="129" parent="50" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10221</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="130" parent="50" name="grupo">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10221</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="131" parent="50" name="usuario">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10221</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="132" parent="50" name="estado">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10221</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="133" parent="50" name="fecha">
+      <Position>5</Position>
+      <DataType>timestamp(0)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10221</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <index id="134" parent="50" name="solicitud_grupo_pkey">
+      <ObjectId>49347</ObjectId>
+      <StateNumber>10221</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="135" parent="50" name="idx_5e3fd1658c0e9bd3">
+      <ObjectId>49349</ObjectId>
+      <StateNumber>10222</StateNumber>
+      <ColNames>grupo</ColNames>
+    </index>
+    <index id="136" parent="50" name="idx_5e3fd1652265b05d">
+      <ObjectId>49350</ObjectId>
+      <StateNumber>10223</StateNumber>
+      <ColNames>usuario</ColNames>
+    </index>
+    <key id="137" parent="50" name="solicitud_grupo_pkey">
+      <ObjectId>49348</ObjectId>
+      <StateNumber>10221</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>solicitud_grupo_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="138" parent="50" name="fk_5e3fd1658c0e9bd3">
+      <ObjectId>49453</ObjectId>
+      <StateNumber>10251</StateNumber>
+      <ColNames>grupo</ColNames>
+      <RefTableId>49378</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>grupo</RefTableName>
+      <RefKeyName>grupo_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="139" parent="50" name="fk_5e3fd1652265b05d">
+      <ObjectId>49458</ObjectId>
+      <StateNumber>10252</StateNumber>
+      <ColNames>usuario</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="140" parent="51" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10212</StateNumber>
+      <DefaultExpression>nextval(&apos;usuario_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="141" parent="51" name="jefe">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>10212</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="142" parent="51" name="area">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10212</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="143" parent="51" name="cargo">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10212</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="144" parent="51" name="nombre">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10212</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="145" parent="51" name="correo">
+      <Position>6</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>10212</StateNumber>
+      <DefaultExpression>NULL::character varying</DefaultExpression>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="146" parent="51" name="usuario">
+      <Position>7</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>10212</StateNumber>
+      <DefaultExpression>NULL::character varying</DefaultExpression>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="147" parent="51" name="password">
+      <Position>8</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>10212</StateNumber>
+      <DefaultExpression>NULL::character varying</DefaultExpression>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="148" parent="51" name="salt">
+      <Position>9</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>10212</StateNumber>
+      <DefaultExpression>NULL::character varying</DefaultExpression>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="149" parent="51" name="activo">
+      <Position>10</Position>
+      <DataType>boolean|0s</DataType>
+      <StateNumber>10212</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <index id="150" parent="51" name="usuario_pkey">
+      <ObjectId>49330</ObjectId>
+      <StateNumber>10212</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="151" parent="51" name="uniq_2265b05d77040bc9">
+      <ObjectId>49332</ObjectId>
+      <StateNumber>10213</StateNumber>
+      <ColNames>correo</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="152" parent="51" name="uniq_2265b05d2265b05d">
+      <ObjectId>49333</ObjectId>
+      <StateNumber>10214</StateNumber>
+      <ColNames>usuario</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="153" parent="51" name="idx_2265b05d35bc9846">
+      <ObjectId>49336</ObjectId>
+      <StateNumber>10217</StateNumber>
+      <ColNames>jefe</ColNames>
+    </index>
+    <index id="154" parent="51" name="idx_2265b05dd7943d68">
+      <ObjectId>49334</ObjectId>
+      <StateNumber>10215</StateNumber>
+      <ColNames>area</ColNames>
+    </index>
+    <index id="155" parent="51" name="idx_2265b05d3bee5771">
+      <ObjectId>49335</ObjectId>
+      <StateNumber>10216</StateNumber>
+      <ColNames>cargo</ColNames>
+    </index>
+    <key id="156" parent="51" name="usuario_pkey">
+      <ObjectId>49331</ObjectId>
+      <StateNumber>10212</StateNumber>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>usuario_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="157" parent="51" name="fk_2265b05d35bc9846">
+      <ObjectId>49428</ObjectId>
+      <StateNumber>10246</StateNumber>
+      <ColNames>jefe</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="158" parent="51" name="fk_2265b05dd7943d68">
+      <ObjectId>49433</ObjectId>
+      <StateNumber>10247</StateNumber>
+      <ColNames>area</ColNames>
+      <RefTableId>49393</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>area</RefTableName>
+      <RefKeyName>area_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="159" parent="51" name="fk_2265b05d3bee5771">
+      <ObjectId>49438</ObjectId>
+      <StateNumber>10248</StateNumber>
+      <ColNames>cargo</ColNames>
+      <RefTableId>49353</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>cargo</RefTableName>
+      <RefKeyName>cargo_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="160" parent="52" name="idusuario">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10218</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="161" parent="52" name="idrol">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>10218</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="162" parent="52" name="usuario_rol_pkey">
+      <ObjectId>49340</ObjectId>
+      <StateNumber>10218</StateNumber>
+      <ColNames>idusuario
+idrol</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="163" parent="52" name="idx_72edd1a4fd61e233">
+      <ObjectId>49342</ObjectId>
+      <StateNumber>10219</StateNumber>
+      <ColNames>idusuario</ColNames>
+    </index>
+    <index id="164" parent="52" name="idx_72edd1a417506450">
+      <ObjectId>49343</ObjectId>
+      <StateNumber>10220</StateNumber>
+      <ColNames>idrol</ColNames>
+    </index>
+    <key id="165" parent="52" name="usuario_rol_pkey">
+      <ObjectId>49341</ObjectId>
+      <StateNumber>10218</StateNumber>
+      <ColNames>idusuario
+idrol</ColNames>
+      <UnderlyingIndexName>usuario_rol_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="166" parent="52" name="fk_72edd1a4fd61e233">
+      <ObjectId>49443</ObjectId>
+      <StateNumber>10249</StateNumber>
+      <ColNames>idusuario</ColNames>
+      <RefTableId>49319</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>usuario</RefTableName>
+      <RefKeyName>usuario_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="167" parent="52" name="fk_72edd1a417506450">
+      <ObjectId>49448</ObjectId>
+      <StateNumber>10250</StateNumber>
+      <ColNames>idrol</ColNames>
+      <RefTableId>49371</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>rol</RefTableName>
+      <RefKeyName>rol_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>

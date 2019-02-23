@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>
-        {% block title %}SITRANS{% endblock title %}
+        {% block title %}SIPLAN-Controla tu tiempo{% endblock title %}
     </title>
     <meta name="description" content="Latest updates and statistic charts">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,9 +16,9 @@
     <link href="{{ asset('vendors/base/vendors.bundle.css','template')}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo/demo9/base/style.bundle.css','template')}}" rel="stylesheet" type="text/css" />
     <!--end::Base Styles -->
-    <link href="{{ asset('plugins/ladda/ladda-themeless.min.css','sitrans')}}" rel="stylesheet" type="text/css" />
-    <link rel="shortcut icon" href="{{ asset('img/icono.ico','sitrans')}}" />
-    <link rel="stylesheet" type="text/css"  href="{{ asset('css/base/sitrans.css','sitrans')}}" />
+    <link href="{{ asset('plugins/ladda/ladda-themeless.min.css','siplan')}}" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="{{ asset('img/calendar.jpg','siplan')}}" />
+    <link rel="stylesheet" type="text/css"  href="{{ asset('css/base/siplan.css','siplan')}}" />
     {% block stylesheets %}{% endblock stylesheets %}
 </head>
 <!-- end::Head -->
@@ -35,6 +35,8 @@
     <!-- begin::Body -->
     <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor-desktop m-grid--desktop m-body">
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-container m-container--responsive m-container--xxl m-container--full-height">
+
+
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
                 <!-- BEGIN: Subheader -->
                 {% block subheader %}
@@ -62,11 +64,11 @@
 <!--end::Base Scripts -->
 <!--begin::Page Snippets -->
 <script src="{{ asset('app/js/dashboard.js','template')}}" type="text/javascript"></script>
-<script src="{{ asset('script/base/base.js','sitrans') }}"></script>
+<script src="{{ asset('script/base/base.js','siplan') }}"></script>
 <!--end::Page Snippets -->
 <!--cargando componenete ladda-->
-<script src="{{ asset('plugins/ladda/spin.min.js','sitrans') }}"></script>
-<script src="{{ asset('plugins/ladda/ladda.min.js','sitrans') }}"></script>
+<script src="{{ asset('plugins/ladda/spin.min.js','siplan') }}"></script>
+<script src="{{ asset('plugins/ladda/ladda.min.js','siplan') }}"></script>
 <!--fin de cargando componenete ladda-->
 
 <!--Definiendo las configuraciones necesarias para JSRoutingBundle-->

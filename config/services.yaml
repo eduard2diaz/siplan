@@ -3,6 +3,7 @@
 parameters:
     locale: 'es'
     is_system_maintance: '%env(IS_SYSTEM_MAINTANCE)%'
+    storage_directory: '%env(STORAGE_DIRECTORY)%'
 
 services:
     # default configuration for services in *this* file
@@ -33,8 +34,20 @@ services:
     usuario_subscriber:
         class: App\EventSubscriber\UsuarioSubscriber
         public: true
-        autowire: true
-        autoconfigure: true
+        tags:
+            - { name: doctrine.event_subscriber,  connection: default }
+        arguments: ['@service_container']
+
+    fichero_subscriber:
+        class: App\EventSubscriber\FicheroSubscriber
+        public: true
+        tags:
+            - { name: doctrine.event_subscriber,  connection: default }
+        arguments: ['@service_container']
+
+    grupo_subscriber:
+        class: App\EventSubscriber\GrupoSubscriber
+        public: true
         tags:
             - { name: doctrine.event_subscriber,  connection: default }
         arguments: ['@service_container']
