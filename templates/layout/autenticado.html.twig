@@ -23,25 +23,17 @@
     {% if is_granted('ROLE_ADMIN') %}
         {{ include('layout/recortes/topmenu/admin_topmenu.html.twig') }}
     {% endif %}
-
-
-    <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
-        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-           data-close-others="true">
-            <i class="icon-bell"></i>
-            <span class="badge badge-default pending_task_counter"></span>
-        </a>
-        <ul class="dropdown-menu" id="pending_task">
-        </ul>
-    </li>
-
 {% endblock top_menu %}
     {% block user_shortcut_menu %}
 
     {% if is_granted('ROLE_JEFETRANSPORTE') or is_granted('ROLE_CAJERO') %}
             {{ include('layout/recortes/topmenu/shortcuts.html.twig') }}
     {% endif %}
-    {{ include('layout/recortes/topmenu/user_topmenu.html.twig') }}
+
+        {{ include('layout/recortes/topmenu/notification_topmenu.html.twig') }}
+        {{ include('layout/recortes/topmenu/message_topmenu.html.twig') }}
+        {{ include('layout/recortes/topmenu/user_topmenu.html.twig') }}
+
 
     {% endblock %}
 
@@ -74,15 +66,15 @@
     <script src="{{ asset('plugins/jquery.fileDownload.js','siplan') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/bootbox/bootbox.min.js','siplan') }}"></script>
     <!--IMPORTANDO LAS LIBRERIAS DE AMCHART-->
-    <script src="{{ asset('assets/siplan/plugins/amcharts4/core.js') }}"></script>
-    <script src="{{ asset('assets/siplan/plugins/amcharts4/charts.js') }}"></script>
-    <script src="{{ asset('assets/siplan/plugins/amcharts4/themes/animated.js') }}"></script>
+    <script src="{{ asset('siplan/plugins/amcharts4/core.js') }}"></script>
+    <script src="{{ asset('siplan/plugins/amcharts4/charts.js') }}"></script>
+    <script src="{{ asset('siplan/plugins/amcharts4/themes/animated.js') }}"></script>
     <!--FIN DE IMPORTANDO LAS LIBRERIAS DE AMCHART-->
     <script src="{{ asset('script/base/authenticated.js','siplan') }}"></script>
     <script src="{{ asset('script/base/reporte.js','siplan') }}"></script>
     <script>
         authenticated.init();
         reporte.init();
-        var datatable_translation='{{ asset('assets/siplan/plugins/datatable/es.json') }}';
+        var datatable_url='{{ asset('siplan/plugins/datatable/es.json') }}';
     </script>
 {% endblock %}

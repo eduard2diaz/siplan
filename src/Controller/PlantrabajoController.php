@@ -34,9 +34,18 @@ class PlantrabajoController extends Controller
             ->getRepository(Plantrabajo::class)
             ->findBy(array('usuario' => $usuario), array('anno' => 'DESC', 'mes' => 'DESC'));
 
-        $parameters= ['user_id' => $usuario->getId(),
-                      'jefe' => $usuario->getJefe(),
-                      'plantrabajos' => $plantrabajos];
+        if ($request->isXmlHttpRequest())
+            return $this->render('plantrabajo/_table.html.twig', [
+                'plantrabajos' => $plantrabajos,
+            ]);
+
+        $parameters = [
+            'user_id' => $usuario->getId(),
+            'user_foto'=>null!=$usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_nombre'=>$usuario->getNombre(),
+            'user_correo'=>$usuario->getCorreo(),
+            'jefe' => $usuario->getJefe(),
+            'plantrabajos' => $plantrabajos];
 
         return $this->render('plantrabajo/index.html.twig', $parameters);
     }
@@ -91,57 +100,32 @@ class PlantrabajoController extends Controller
             ->findBy(array('plantrabajo' => $plantrabajo));
 
         if ($request->isXmlHttpRequest()) {
+            $array = [];
             if ($request->query->has('filtro')) {
                 $filtro = $request->get('filtro');
-                $result = array();
-                foreach ($actividads as $activity)
-                    if ($activity->getEstado() == $filtro)
-                        $result[] = $activity;
-                return $this->render('actividad/_table.html.twig', ['actividads' => $result, 'plantrabajo' => $plantrabajo]);
-            } else
-                return $this->render('actividad/_table.html.twig', ['actividads' => $actividads, 'plantrabajo' => $plantrabajo]);
-
+                if ($filtro >= 1 && $filtro <= 5) {
+                    $result = array();
+                    $status = ['registradas', 'en proceso', 'culminadas', 'cumplidas', 'incumplidas'];
+                    $array['filtro'] = 'Actividades ' . $status[$filtro - 1];
+                    foreach ($actividads as $activity)
+                        if ($activity->getEstado() == $filtro)
+                            $result[] = $activity;
+                    $actividads = $result;
+                }
+            }
+            $array['table'] = $this->renderView('actividad/_table.html.twig', ['actividads' => $actividads, 'plantrabajo' => $plantrabajo]);
+            return new JsonResponse($array);
         }
 
         return $this->render('plantrabajo/show.html.twig', ['plantrabajo' => $plantrabajo,
-            'actividads' => $actividads,'user_id'=>$plantrabajo->getUsuario()->getId()]);
-    }
-
-
-
-    /**
-     * @Route("/{id}/edit", name="plantrabajo_edit",options={"expose"=true}, methods="GET|POST")
-     */
-    public function edit(Request $request, Plantrabajo $plantrabajo): Response
-    {
-        $this->denyAccessUnlessGranted('EDIT', $plantrabajo);
-        $form = $this->createForm(PlantrabajoType::class, $plantrabajo,
-            array('action' => $this->generateUrl('plantrabajo_edit', array('id' => $plantrabajo->getId()))));
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted())
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($plantrabajo);
-                $em->flush();
-                return new JsonResponse(array('mensaje' => 'El plan de trabajo fue actualizado satisfactoriamente', 'mes' => $plantrabajo->getMestoString(), 'anno' => $plantrabajo->getAnno()));
-            } else {
-                $page = $this->renderView('plantrabajo/_form.html.twig', array(
-                    'form' => $form->createView(),
-                    'action' => 'Actualizar',
-                    'form_id' => 'plantrabajo_edit',
-                ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
-            }
-
-        return $this->render('plantrabajo/_new.html.twig', [
-            'plantrabajo' => $plantrabajo,
-            'title' => 'Editar plan de trabajo',
-            'action' => 'Actualizar',
-            'form_id' => 'plantrabajo_edit',
-            'form' => $form->createView(),
+            'actividads' => $actividads,
+            'user_id' => $plantrabajo->getUsuario()->getId(),
+            'user_foto'=>null!=$plantrabajo->getUsuario()->getFicheroFoto() ? $plantrabajo->getUsuario()->getFicheroFoto()->getRuta() : null,
+            'user_nombre'=>$plantrabajo->getUsuario()->getNombre(),
+            'user_correo'=>$plantrabajo->getUsuario()->getCorreo(),
         ]);
     }
+
 
     /**
      * @Route("/{id}/delete",options={"expose"=true}, name="plantrabajo_delete")
@@ -171,14 +155,26 @@ class PlantrabajoController extends Controller
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $estados = [0, 0, 0, 0, 0];
-        $total=0;
+        $estados = ['Registrada'=>0, 'En_proceso'=>0, 'Culminada'=>0,'Cumplida'=>0,'Incumplida'=>0];
+        $total = 0;
         foreach ($actividads as $activity) {
-            $estados[$activity->getEstado() - 1] = $estados[$activity->getEstado() - 1] + 1;
+            $estados[$activity->getEstadoString()]++;
             $total++;
         }
 
-        return $this->render('plantrabajo/ajax/_estadisticas.html.twig', ['plantrabajo'=>$plantrabajo,'estadisticas'=>$estados,'total'=>$total]);
+        $result=[];
+        foreach ($estados as $key=>$value){
+            $result[]=[
+                'estado' => $key,
+                'cantidad' => (Integer)$value,
+            ];
+        }
+
+        return new JsonResponse(
+            [
+                'view'=>$this->renderView('plantrabajo/ajax/_estadisticas.html.twig', ['plantrabajo' => $plantrabajo, 'estadisticas' => $estados, 'total' => $total]),
+                'data'=>json_encode($result)
+            ]);
     }
 
     /**
@@ -197,12 +193,6 @@ class PlantrabajoController extends Controller
             'plantrabajos' => $plantrabajos,
         ]);
     }
-
-
-
-
-
-
 
 
     /**
@@ -235,7 +225,7 @@ class PlantrabajoController extends Controller
         $ultimoDia = $fistDay->modify('last day of this month');
         $fistDay = new \DateTime($plantrabajo->getAnno() . '-' . $plantrabajo->getMes() . '-01');
 
-        $first=$ultimodomingo->add(new \DateInterval('P1D'));
+        $first = $ultimodomingo->add(new \DateInterval('P1D'));
         $ultimodomingo = $fistDay->modify('last Sun');
         while ($ultimodomingo < $fistDay) {
             $actividadesTable[$ultimodomingo->format('Y-m-d')] = array();
@@ -293,7 +283,7 @@ class PlantrabajoController extends Controller
         $parameters['first'] = $first;
 
         $html = $this->renderView('plantrabajo/exportar.html.twig', $parameters);
-       // return new Response($html);
+        // return new Response($html);
         return new PdfResponse(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
             'file.pdf'

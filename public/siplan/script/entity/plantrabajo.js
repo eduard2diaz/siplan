@@ -18,6 +18,35 @@ var plantrabajo = function () {
         Ladda.bind( '.mt-ladda-btn');
     }
 
+    var refrescar = function () {
+        $('a#plantrabajo_tablerefrescar').click(function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando..."});
+                },
+                success: function (data) {
+                    $('table#plantrabajo_table').html(data);
+                    table.destroy();
+                    configurarDataTable();
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body")
+                }});
+        });
+    }
+
     var edicion = function () {
         $('body').on('click', 'a.edicion', function (evento)
         {
@@ -52,9 +81,9 @@ var plantrabajo = function () {
     var configurarDataTable = function () {
         table = $('table#plantrabajo_table').DataTable({
             "pagingType": "simple_numbers",
-            /*"language": {
+            "language": {
                 url: datatable_url
-            },*/
+            },
             columns: [
                 {data: 'numero'},
                 {data: 'mes'},
@@ -100,8 +129,6 @@ var plantrabajo = function () {
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                                 "<li class='m-nav__item'>" +
                                 "<a class='btn  btn-sm' href=" + Routing.generate('plantrabajo_show',{id:data['id']}) + "><i class='flaticon-eye'></i></a></li>" +
-                                "<li class='m-nav__item'>" +
-                                "<a class='btn btn-sm btn-info edicion' data-href=" + Routing.generate('plantrabajo_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i></a></li>" +
                                 "<li class='m-nav__item'>" +
                                 "<a class='btn btn-danger btn-sm  eliminar_plantrabajo' data-href=" + Routing.generate('plantrabajo_delete',{id:data['id']}) + ">" +
                                 "<i class='flaticon-delete-1'></i></a></li></ul>",
@@ -202,12 +229,11 @@ var plantrabajo = function () {
         });
     }
 
-
-
     return {
         init: function () {
             $().ready(function () {
                     configurarDataTable();
+                    refrescar();
                     newAction();
                     edicion();
                     edicionAction();

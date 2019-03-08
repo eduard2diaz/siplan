@@ -5,9 +5,9 @@ var arc = function () {
     var configurarDataTable = function () {
         table = $('table#arc_table').DataTable({
             "pagingType": "simple_numbers",
-            /*"language": {
+            "language": {
                 url: datatable_url
-            },*/
+            },
             columns: [
                 {data: 'numero'},
                 {data: 'nombre'},
@@ -219,7 +219,7 @@ var arc = function () {
             var token = $(this).attr('data-csrf');
             bootbox.confirm({
                 title: 'Eliminar área  del conocimiento',
-                message: '¿Esta seguro que desea eliminar esta área del conocimiento?',
+                message: '¿Está seguro que desea eliminar esta área del conocimiento?',
                 buttons: {
                     confirm: {
                         label: 'Si, estoy seguro',

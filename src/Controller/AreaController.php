@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\AreaType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ use App\Entity\Usuario;
 /**
  * @Route("/area")
  */
-class AreaController extends Controller
+class AreaController extends AbstractController
 {
 
     /**
@@ -84,7 +85,6 @@ class AreaController extends Controller
      */
     public function edit(Request $request, Area $area): Response
     {
-        $this->denyAccessUnlessGranted('EDIT', $area);
         $form = $this->createForm(AreaType::class, $area,
             array('action' => $this->generateUrl('area_edit', array('id' => $area->getId()))));
         $form->handleRequest($request);
@@ -99,7 +99,7 @@ class AreaController extends Controller
                 $page = $this->renderView('area/_form.html.twig', array(
                     'form' => $form->createView(),
                     'form_id' => 'area_edit',
-                    'action' => 'update_button',
+                    'action' => 'Actualizar',
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -137,6 +137,7 @@ class AreaController extends Controller
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
+
         $area=$usuario->getArea();
         $areas=$this->get('area_service')->areasHijas($area);
 

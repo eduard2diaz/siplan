@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ARCType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ use App\Entity\Usuario;
 /**
  * @Route("/arc")
  */
-class ARCController extends Controller
+class ARCController extends AbstractController
 {
 
     /**
@@ -102,7 +103,7 @@ class ARCController extends Controller
                 $page = $this->renderView('arc/_form.html.twig', array(
                     'form' => $form->createView(),
                     'form_id' => 'arc_edit',
-                    'action' => 'update_button',
+                    'action' => 'Actualizar',
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }

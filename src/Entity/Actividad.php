@@ -9,12 +9,14 @@ use App\Entity\Plantrabajo;
 use App\Entity\Usuario;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use App\Validator\Period as PeriodConstraint;
 
 /**
  * Actividad
  *
  * @ORM\Table(name="actividad", indexes={@ORM\Index(name="IDX_8DF2BD0652520D07", columns={"responsable"}), @ORM\Index(name="IDX_8DF2BD0632DBFD56", columns={"asignadapor"}), @ORM\Index(name="IDX_8DF2BD06B0BD47FB", columns={"plantrabajo"})})
  * @ORM\Entity
+ * @PeriodConstraint(from="fecha",to="fechaF",foreign="plantrabajo")
  */
 class Actividad
 {
@@ -52,9 +54,37 @@ class Actividad
     /**
      * @var string|null
      *
+     * @ORM\Column(name="lugar", type="string", nullable=true)
+     */
+    private $lugar;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="dirigen", type="string", nullable=true)
+     */
+    private $dirigen;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="participan", type="text", nullable=true)
+     */
+    private $participan;
+
+    /**
+     * @var string|null
+     *
      * @ORM\Column(name="descripcion", type="text", nullable=true)
      */
     private $descripcion;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="aseguramiento", type="text", nullable=true)
+     */
+    private $aseguramiento;
 
     /**
      * @var int|null
@@ -362,7 +392,69 @@ class Actividad
         }
     }
 
+    /**
+     * @return null|string
+     */
+    public function getLugar(): ?string
+    {
+        return $this->lugar;
+    }
 
+    /**
+     * @param null|string $lugar
+     */
+    public function setLugar(?string $lugar): void
+    {
+        $this->lugar = $lugar;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDirigen(): ?string
+    {
+        return $this->dirigen;
+    }
+
+    /**
+     * @param null|string $dirigen
+     */
+    public function setDirigen(?string $dirigen): void
+    {
+        $this->dirigen = $dirigen;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getParticipan(): ?string
+    {
+        return $this->participan;
+    }
+
+    /**
+     * @param null|string $participan
+     */
+    public function setParticipan(?string $participan): void
+    {
+        $this->participan = $participan;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAseguramiento(): ?string
+    {
+        return $this->aseguramiento;
+    }
+
+    /**
+     * @param null|string $aseguramiento
+     */
+    public function setAseguramiento(?string $aseguramiento): void
+    {
+        $this->aseguramiento = $aseguramiento;
+    }
 
     /**
      * @Assert\Callback

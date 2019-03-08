@@ -41,8 +41,6 @@ class CargoController extends Controller
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_DIRECTIVO']);
-
         $cargos = $this->getDoctrine()->getRepository(Cargo::class)->findByArea($area);
         $cargosHtml = "";
         foreach ($cargos as $value)
@@ -58,7 +56,6 @@ class CargoController extends Controller
     public function new(Request $request): Response
     {
         $cargo = new Cargo();
-        $this->denyAccessUnlessGranted('NEW', $cargo);
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(CargoType::class, $cargo, array('action' => $this->generateUrl('cargo_new')));
@@ -94,13 +91,10 @@ class CargoController extends Controller
      */
     public function edit(Request $request, Cargo $cargo): Response
     {
-        $this->denyAccessUnlessGranted('EDIT', $cargo);
         $form = $this->createForm(CargoType::class, $cargo,
             array('action' => $this->generateUrl('cargo_edit', array('id' => $cargo->getId()))));
 
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
@@ -110,7 +104,7 @@ class CargoController extends Controller
             } else {
                 $page = $this->renderView('cargo/_form.html.twig', array(
                     'form' => $form->createView(),
-                    'action' => 'update_button',
+                    'action' => 'Actualizar',
                     'form_id' => 'cargo_edit',
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
@@ -131,7 +125,6 @@ class CargoController extends Controller
     public function delete(Request $request, Cargo $cargo): Response
     {
         if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$cargo->getId(), $request->query->get('_token'))) {
-
             $this->denyAccessUnlessGranted('DELETE', $cargo);
             $em = $this->getDoctrine()->getManager();
             $em->remove($cargo);

@@ -12,7 +12,8 @@ class AreaVoter extends Voter
 {
     private $decisionManager;
 
-    public function __construct(AccessDecisionManagerInterface $decisionManager) {
+    public function __construct(AccessDecisionManagerInterface $decisionManager)
+    {
         $this->decisionManager = $decisionManager;
     }
 
@@ -20,8 +21,7 @@ class AreaVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['NEW', 'DELETE','EDIT'])
-            && $subject instanceof Area;
+        return in_array($attribute, ['DELETE']) && $subject instanceof Area;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -32,12 +32,10 @@ class AreaVoter extends Voter
             return false;
         }
         switch ($attribute) {
-            case 'NEW':
-            case 'EDIT':
             case 'DELETE':
-                    if ($this->decisionManager->decide($token, array('ROLE_ADMIN')))
-                        return true;
-            break;
+                if ($this->decisionManager->decide($token, array('ROLE_ADMIN')) && $token->getUser()->getArea()->getId() != $subject->getId())
+                    return true;
+                break;
         }
 
         return false;

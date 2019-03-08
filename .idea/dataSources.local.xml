@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="siplanv4@localhost" uuid="8cf5ddd7-b9c3-4143-b5f0-7ea417945de9">
+    <data-source name="siplanv4@localhost" uuid="b03b5527-4f6b-4979-ba0b-e1948fd95758">
       <database-info product="PostgreSQL" version="9.2.4" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.1">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>postgres</user-name>
-      <introspection-schemas>siplanv4:public</introspection-schemas>
+      <introspection-schemas>@:@|siplanv4:</introspection-schemas>
     </data-source>
   </component>
 </project>

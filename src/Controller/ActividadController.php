@@ -2,27 +2,21 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Actividad;
 use App\Entity\Plantrabajo;
 use App\Form\ActividadType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use App\Form\Transformer\DateTimetoStringTransformer;
 use App\Entity\Fichero;
 
 /**
  * @Route("/actividad")
  */
-class ActividadController extends Controller
+class ActividadController extends AbstractController
 {
-
 
     /**
      * @Route("/{id}/new", name="actividad_new", methods="GET|POST")
@@ -44,8 +38,7 @@ class ActividadController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 foreach ($form->getData()->getFicheros() as $value) {
                     $value->setActividad($actividad);
-                    $value->setRuta($value->subirArchivo($ruta));
-                    $value->setNombre($value->getFile()->getClientOriginalName());
+
                     $em->persist($value);
                 }
                 $em->persist($actividad);
@@ -53,6 +46,8 @@ class ActividadController extends Controller
 
                 return new JsonResponse(array('mensaje' => "La actividad fue registrada satisfactoriamente",
                     'nombre' => $actividad->getNombre(),
+                    'fecha' => $actividad->getFecha()->format('d-m-Y H:i'),
+                    'fechaF' => $actividad->getFechaF()->format('d-m-Y H:i'),
                     'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $actividad->getId())->getValue(),
                     'id' => $actividad->getId(),
                 ));
@@ -89,7 +84,8 @@ class ActividadController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $actividades = $em->createQuery('SELECT a FROM App:Actividad a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
-
+        $validator=$this->get('validator');
+        $errores=[];
         foreach ($actividades as $actividad) {
             $activity = new Actividad();
             $activity->setResponsable($actividad->getResponsable());
@@ -102,11 +98,18 @@ class ActividadController extends Controller
             $activity->setEsobjetivo($actividad->getEsobjetivo());
             $activity->setAsignadapor($actividad->getAsignadapor());
             $activity->setPlantrabajo($plantrabajo);
-            $em->persist($activity);
+
+            $errors = $validator->validate($actividad);
+            if(count($errors)==0)
+                $em->persist($activity);
+            else
+                $errores[]='La actividad '.$activity->getNombre().' no puedo ser clonada';
+
         }
+        dump($errores);
         $em->flush();
 
-        return new JsonResponse(array('mensaje' => 'Las actividades fueron clonadas satisfactoriamente.'));
+        return new JsonResponse(array('mensaje' => 'Las actividades fueron clonadas satisfactoriamente.','errors'=>$errores));
     }
 
     /**
@@ -115,7 +118,10 @@ class ActividadController extends Controller
     public function show(Actividad $actividad): Response
     {
         $this->denyAccessUnlessGranted('VIEW', $actividad);
-        return $this->render('actividad/show.html.twig', ['actividad' => $actividad]);
+
+        $em=$this->getDoctrine()->getManager();
+        $respuesta=$em->getRepository('App:Respuesta')->find($actividad);
+        return $this->render('actividad/show.html.twig', ['actividad' => $actividad,'existeRespuesta'=>null!=$respuesta]);
     }
 
     /**
@@ -144,10 +150,13 @@ class ActividadController extends Controller
 
                 return new JsonResponse(array('mensaje' => "La actividad fue actualizada satisfactoriamente",
                     'nombre' => $actividad->getNombre(),
+                    'fecha' => $actividad->getFecha()->format('d-m-Y H:i'),
+                    'fechaF' => $actividad->getFechaF()->format('d-m-Y H:i')
                 ));
             } else {
                 $page = $this->renderView('actividad/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'actividad' => $actividad,
                     'action' => 'Actualizar',
                     'form_id' => 'actividad_edit',
                 ));
@@ -167,8 +176,7 @@ class ActividadController extends Controller
     /**
      * @Route("/{id}/delete", name="actividad_delete",options={"expose"=true})
      */
-    public
-    function delete(Request $request, Actividad $actividad): Response
+    public function delete(Request $request, Actividad $actividad): Response
     {
         if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $actividad->getId(), $request->query->get('_token'))) {
             //  $this->denyAccessUnlessGranted('DELETE', $actividad);
@@ -201,7 +209,6 @@ class ActividadController extends Controller
      */
     public function downloadAction(Fichero $fichero)
     {
-
         $ruta = $this->getParameter('storage_directory') . DIRECTORY_SEPARATOR . $fichero->getRuta();
 
         if (!file_exists($ruta))
@@ -221,8 +228,7 @@ class ActividadController extends Controller
     /**
      * @Route("/pendientes", name="actividades_pendientes",options={"expose"=true})
      */
-    public
-    function pendiente(Request $request): Response
+    public function pendiente(Request $request): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
@@ -241,8 +247,7 @@ class ActividadController extends Controller
     /**
      * @Route("/{id}/ajax", name="plantrabajo_actividadesajax", methods="GET",options={"expose"=true})
      */
-    public
-    function actividadesAjax(Request $request, Plantrabajo $plantrabajo): Response
+    public function actividadesAjax(Request $request, Plantrabajo $plantrabajo): Response
     {
 
         if (!$request->isXmlHttpRequest())

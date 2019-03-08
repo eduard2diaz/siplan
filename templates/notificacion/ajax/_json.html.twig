@@ -1,0 +1,17 @@
+<div class="m-list-timeline m-list-timeline--skin-light">
+    <div class="m-list-timeline__items">
+        {% for notificacion in notificaciones %}
+            <div class="m-list-timeline__item">
+                <span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
+                <span class="m-list-timeline__text">{{ notificacion.descripcion }}</span>
+                <span class="m-list-timeline__time">{{ notificacion.fecha | ago }}</span>
+            </div>
+        {% else %}
+            <div class="m-list-timeline__item">
+                <span class="m-list-timeline__badge -m-list-timeline__badge--state-danger"></span>
+                 <span class="m-list-timeline__text">No hay nuevas notificaciones</span>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>

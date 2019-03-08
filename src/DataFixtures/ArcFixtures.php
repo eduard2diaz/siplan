@@ -15,7 +15,7 @@ class ArcFixtures extends Fixture
             ['nombre'=>'Formación de postgrado y capacitación','objetivo'=>''],
             ['nombre'=>'Extensión universitaria','objetivo'=>''],
             ['nombre'=>'Ciencia,tecnología e innovación','objetivo'=>''],
-            ['nombre'=>'Cpital humano','objetivo'=>'']
+            ['nombre'=>'Capital humano','objetivo'=>'']
         ];
 
         foreach ($arcs as $arc){

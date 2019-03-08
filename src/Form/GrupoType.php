@@ -9,15 +9,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\ORM\EntityRepository;
-
+use Doctrine\Common\Persistence\ObjectManager;
+use App\Form\Subscriber\AddMiembroFieldSubscriber;
 
 class GrupoType extends AbstractType
 {
     private $token;
+    private $em;
 
-    public function __construct(TokenStorageInterface $token)
+    public function __construct(TokenStorageInterface $token, ObjectManager $em)
     {
         $this->token = $token;
+        $this->em=$em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -26,14 +29,16 @@ class GrupoType extends AbstractType
         $id = $this->token->getToken()->getUser()->getId();
         $builder
             ->add('nombre', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('idmiembro', null, ['label' => 'Miembros',
+            /*->add('idmiembro', null, ['label' => 'Miembros',
                 'query_builder' => function (EntityRepository $er) use ($id) {
                     return $er->createQueryBuilder('u')
                         ->join('u.idrol', 'r')
                         ->where('r.nombre IN (:roles) AND u.id!= :id')
                         ->setParameters(['roles' => ['ROLE_DIRECTIVO', 'ROLE_USER'], 'id' => $id]);
                 }
-            ]);
+            ])*/
+            ->add('idmiembro',null,array('choices'=>array(),'required'=>true,'label'=>'Miembros','attr'=>array('placeholder'=>'Escriba el/ los miembros',)))
+            ;
         if (null != $data->getId()) {
             $grupo = $data->getId();
             $id = $data->getCreador()->getId();
@@ -60,6 +65,9 @@ class GrupoType extends AbstractType
 
             ]);
         }
+
+        $factory=$builder->getFormFactory();
+        $builder->addEventSubscriber(new AddMiembroFieldSubscriber($factory,$this->em));
     }
 
     public function configureOptions(OptionsResolver $resolver)

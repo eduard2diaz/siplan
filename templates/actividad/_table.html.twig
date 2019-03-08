@@ -1,7 +1,9 @@
 <table class="table table-striped table-hover dataTable" id="actividad_table">
     <thead>
     <tr>
-        <th>Nombre</th>
+        <th style="min-width: 37%">Nombre</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha de Fin</th>
         <th style="width: 25%"></th>
     </tr>
     </thead>
@@ -10,6 +12,8 @@
     {% for actividad in actividads %}
         <tr>
             <td>{{ actividad.nombre }}</td>
+            <td>{{ actividad.fecha | date('d-m-Y H:i') }}</td>
+            <td>{{ actividad.fechaF | date('d-m-Y H:i') }}</td>
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
@@ -19,7 +23,7 @@
                     </li>
                     {% if app.user.id==plantrabajo.usuario.id  or (plantrabajo.usuario.jefe!=null and plantrabajo.usuario.jefe.id==app.user.id and actividad.asignadapor.id==app.user.id) %}
                     <li class="m-nav__item">
-                        <a class="btn btn-info btn-sm edicion" data-href="{{ path('actividad_edit', { 'id': actividad.id }) }}"><i class="flaticon-edit-1"></i></a>
+                        <a class="btn btn-info btn-sm edicion_actividad" data-href="{{ path('actividad_edit', { 'id': actividad.id }) }}"><i class="flaticon-edit-1"></i></a>
                     </li>
                     <li class="m-nav__item">
                         <a class="btn btn-danger btn-sm  eliminar_actividad" data-csrf="{{ csrf_token('delete' ~ actividad.id) }}" data-href="{{ path('actividad_delete', { 'id': actividad.id }) }}"><i class="flaticon-delete-1"></i></a>
@@ -34,6 +38,8 @@
     <tfoot>
     <tr>
         <th>Nombre</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha de Fin</th>
         <th></th>
     </tr>
     </tfoot>

@@ -82,6 +82,11 @@ class AreaService
         return $this->subordinadosAux($usuario,$array);
     }
 
+    public function subordinadosKey(Usuario $usuario){
+        $array=array();
+        return $this->subordinadosKeyAux($usuario,$array);
+    }
+
     /*
      * FUNCION RECURSIVA QUE OBTIENE LOS SUPORDINADOS DE UNA DETERMINADA PERSONA
      */
@@ -91,6 +96,16 @@ class AreaService
         foreach ($hijos as $hijo){
             $subordinados[]=$hijo;
             $this->subordinadosAux($hijo,$subordinados);
+        }
+        return $subordinados;
+    }
+
+    private function subordinadosKeyAux(Usuario $usuario,&$subordinados){
+        $em=$this->getEm();
+        $hijos=$em->getRepository('App:Usuario')->findByJefe($usuario);
+        foreach ($hijos as $hijo){
+            $subordinados[]=$hijo->getId();
+            $this->subordinadosKeyAux($hijo,$subordinados);
         }
         return $subordinados;
     }

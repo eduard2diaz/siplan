@@ -12,7 +12,6 @@ var actividad = function () {
 
     //Funcionalidad para las estadisticas de las actividades
     var estadistica = function () {
-
         $('body').on('click', 'a#plantrabajo_estadistica', function (evento)
         {
             evento.preventDefault();
@@ -20,17 +19,31 @@ var actividad = function () {
             obj = $(this);
             $.ajax({
                 type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-                dataType: 'html',
                 url: link,
                 beforeSend: function (data) {
-                    //base.blockUI({message: window.loadingMessage});
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando estadísticas..."});
                 },
                 success: function (data) {
-                    if ($('div#basicmodal').html(data)) {
+                    if ($('div#basicmodal').html(data.view)) {
                         $('div#basicmodal').modal('show');
-                       /* $('span.counterup').counterUp({            delay: 10,
-                            time: 1000
-                        });*/
+                        am4core.useTheme(am4themes_animated);
+                        // Themes end
+                        // Create chart instance
+                        var chart = am4core.create("plantrabajo_grafica", am4charts.PieChart);
+                        // Add data
+                        chart.data=JSON.parse(data.data);
+                        // Add and configure Series
+                        var pieSeries = chart.series.push(new am4charts.PieSeries());
+                        pieSeries.dataFields.value = "cantidad";
+                        pieSeries.dataFields.category = "estado";
+                        pieSeries.slices.template.stroke = am4core.color("#fff");
+                        pieSeries.slices.template.strokeWidth = 2;
+                        pieSeries.slices.template.strokeOpacity = 1;
+                        // This creates initial animation
+                        pieSeries.hiddenState.properties.opacity = 1;
+                        pieSeries.hiddenState.properties.endAngle = -90;
+                        pieSeries.hiddenState.properties.startAngle = -90;
                     }
                 },
                 error: function ()
@@ -38,7 +51,7 @@ var actividad = function () {
                     base.Error();
                 },
                 complete: function () {
-                   // base.unblockUI();
+                    mApp.unblock("body")
                 }
             });
         });
@@ -46,16 +59,19 @@ var actividad = function () {
 
 
     }
-
-
-
-    //Configuracion del Datatable de las actividades del plan actual
+    
+    //Configuracion del Datatable de las actividades del plan actual(OPTIMIZADO)
     var configurarDataTable = function () {
         table = $('table#actividad_table').DataTable({
             "pagingType": "simple_numbers",
             // definimos el valor inicial de elementos por pagina
+            "language": {
+                url: datatable_url
+            },
             columns: [
                 {data: 'nombre'},
+                {data: 'fecha'},
+                {data: 'fechaF'},
                 {data: 'acciones'}
             ]}
         );
@@ -67,15 +83,42 @@ var actividad = function () {
             evento.preventDefault();
             var link =  $(this).attr('data-href');
             $.ajax({
-                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-                dataType: 'html',
+                type: 'get',
                 url: link,
                 beforeSend: function (data) {
                     mApp.block("body",
                         {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando..."});
                 },
                 success: function (data) {
-                    $('table#actividad_table').html(data);
+                    $('table#actividad_table').html(data['table']);
+                    table.destroy();
+                    configurarDataTable();
+                    $('small#filtro').html('');
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body")
+                }
+            });
+        });
+
+        $('body').on('click', 'a.refrescar', function (evento){
+            evento.preventDefault();
+            var link =  $(this).attr('data-href');
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando..."});
+                },
+                success: function (data) {
+                    $('table#actividad_table').html(data['table']);
+                    if(data['filtro']!=null)
+                        $('small#filtro').html("<span class=\"m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger\"></span> "+data['filtro']);
                     table.destroy();
                     configurarDataTable();
                 },
@@ -88,11 +131,6 @@ var actividad = function () {
                 }
             });
         });
-
-        $('div.block-information').on('click', 'a.refrescar', function (evento){
-            evento.preventDefault();
-            refrescarAction()
-        });
     }
 
     var refrescarAction = function () {
@@ -100,13 +138,13 @@ var actividad = function () {
         obj = $(this);
         $.ajax({
             type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-            dataType: 'html',
+            //dataType: 'html',
             url: link,
             beforeSend: function (data) {
               //  base.blockUI({message: 'Actualizando datos'});
             },
             success: function (data) {
-                $('table#actividad_table').html(data);
+                $('table#actividad_table').html(data['table']);
                 table.destroy();
                 configurarDataTable();
             },
@@ -119,11 +157,9 @@ var actividad = function () {
             }
         });
     }
-
-
-
-    //Confeccion del formulario para una nueva actividad
-    var configurarFormulario= function () {
+    
+    //Confeccion del formulario para una nueva actividad(OPTIMIZADO)
+    var configurarFormularioActividad= function () {
         $('input#actividad_fecha').datetimepicker();
         $('input#actividad_fechaf').datetimepicker();
         $('select#actividad_estado').select2({
@@ -140,10 +176,20 @@ var actividad = function () {
             focus: true
         });
     }
+    
+    //Confeccion del formulario para una nueva respuesta(OPTIMIZADO)
+    var configurarFormularioRespuesta= function () {
+        Ladda.bind( '.mt-ladda-btn', { timeout: 2000 } );
+        $('textarea#respuesta_descripcion').summernote({
+            placeholder: 'Escriba una breve descripción sobre la actividad',
+            height: 100,
+            focus: true,
+        });
+    }
 
     //Funcionalidad para la carga de formularios de registro y edicion
-    var edicion = function () {
-        $('body').on('click', 'a.edicion', function (evento)
+    var edicionActividad = function () {
+        $('body').on('click', 'a.edicion_actividad', function (evento)
         {
             evento.preventDefault();
             var link = $(this).attr('data-href');
@@ -158,7 +204,7 @@ var actividad = function () {
                 },
                 success: function (data) {
                     if ($('div#basicmodal').html(data)) {
-                        configurarFormulario();
+                        configurarFormularioActividad();
                         $('div#basicmodal').modal('show');
                     }
                 },
@@ -173,7 +219,39 @@ var actividad = function () {
         });
     }
 
-    var show = function () {
+    //Funcionalidad para la carga de formularios de registro y edicion
+    var edicionRespuesta = function () {
+        $('div#basicmodal').on('click', 'a.edicion_respuesta', function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data)) {
+                        configurarFormularioRespuesta();
+                        $('div#basicmodal').modal('show');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                }
+            });
+        });
+    }
+
+    var showActividad = function () {
         $('table#actividad_table').on('click', 'a.actividad_show', function (evento)
         {
             evento.preventDefault();
@@ -203,8 +281,38 @@ var actividad = function () {
         });
     }
 
+    var showRespuesta = function () {
+        $('div#basicmodal').on('click', 'a.respuesta_show', function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data)) {
+                        $('div#basicmodal').modal('show');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                }
+            });
+        });
+    }
+
     //Funcionalidad para el  registro de una nueva actividad
-    var newAction = function () {
+    var newActionActividad = function () {
         $('div#basicmodal').on('submit', 'form#actividad_new', function (evento)
         {
             evento.preventDefault();
@@ -229,7 +337,7 @@ var actividad = function () {
                 success: function (data) {
                     if (data['error']) {
                         padre.html(data['form']);
-                        configurarFormulario();
+                        configurarFormularioActividad();
                     } else {
                         if (data['mensaje'])
                             toastr.success(data['mensaje']);
@@ -239,12 +347,14 @@ var actividad = function () {
                         var pagina = table.page();
                         objeto = table.row.add({
                             "nombre": data['nombre'],
+                            "fecha": data['fecha'],
+                            "fechaF": data['fechaF'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                                 "<li class='m-nav__item'>" +
                                 "<a class='btn btn-sm actividad_show' data-href=" + Routing.generate('actividad_show',{id:data['id']}) + "><i class='flaticon-eye'></i></a>" +
                                 "</li>" +
                                 "<li class='m-nav__item'>" +
-                                "<a class='btn btn-info btn-sm edicion' data-href=" + Routing.generate('actividad_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i></a>" +
+                                "<a class='btn btn-info btn-sm edicion_actividad' data-href=" + Routing.generate('actividad_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i></a>" +
                                 "</li>" +
                                 "<li class='m-nav__item'>" +
                                 "<a class='btn btn-danger btn-sm  eliminar_actividad'  data-csrf=" + data['csrf'] +" data-href=" + Routing.generate('actividad_delete',{id:data['id']}) + ">" +
@@ -262,8 +372,45 @@ var actividad = function () {
         });
     }
 
+    var newActionRespuesta = function () {
+        $('div#basicmodal').on('submit', 'form#respuesta_new', function (evento)
+        {
+            evento.preventDefault();
+            var padre = $(this).parent();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: new FormData(this), //para enviar el formulario hay que serializarlo
+                contentType: false,
+                cache: false,
+                processData:false,
+                beforeSend: function () {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                },
+                success: function (data) {
+                    if (data['error']) {
+                        padre.html(data['form']);
+                        configurarFormularioRespuesta();
+                    } else {
+                        if (data['mensaje'])
+                            toastr.success(data['mensaje']);
+                        $('div#basicmodal').modal('hide');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                }
+            });
+        });
+    }
+
     //Funcionalidad para la edicion de una nueva actividad
-    var edicionAction = function () {
+    var edicionActionActividad = function () {
         $('div#basicmodal').on('submit', 'form#actividad_edit', function (evento)
         {
             evento.preventDefault();
@@ -287,7 +434,7 @@ var actividad = function () {
                  success: function (data) {
                      if (data['error']) {
                          padre.html(data['form']);
-                         configurarFormulario();
+                         configurarFormularioActividad();
                      } else {
                          if (data['mensaje'])
                              toastr.success(data['mensaje']);
@@ -295,6 +442,44 @@ var actividad = function () {
                          $('div#basicmodal').modal('hide');
                          var pagina = table.page();
                          obj.parents('tr').children('td:nth-child(1)').html(data['nombre']);
+                         obj.parents('tr').children('td:nth-child(2)').html(data['fecha']);
+                         obj.parents('tr').children('td:nth-child(3)').html(data['fechaF']);
+                     }
+                 },
+                 error: function ()
+                 {
+                     base.Error();
+                 }
+             });
+        });
+    }
+
+    var edicionActionRespuesta = function () {
+        $('div#basicmodal').on('submit', 'form#respuesta_edit', function (evento)
+        {
+            evento.preventDefault();
+             var padre = $(this).parent();
+             $.ajax({
+                 url: $(this).attr("action"),
+                 type: "POST",
+                 data: new FormData(this), //para enviar el formulario hay que serializarlo
+                 contentType: false,
+                 cache: false,
+                 processData:false,
+                 beforeSend: function () {
+                     //    base.blockUI({message: 'Cargando'});
+                 },
+                 complete: function () {
+                     //  base.unblockUI();
+                 },
+                 success: function (data) {
+                     if (data['error']) {
+                         padre.html(data['form']);
+                         configurarFormularioRespuesta();
+                     } else {
+                         if (data['mensaje'])
+                             toastr.success(data['mensaje']);
+                         $('div#basicmodal').modal('hide');
                      }
                  },
                  error: function ()
@@ -306,7 +491,7 @@ var actividad = function () {
     }
 
     //Funcionalidad para la eliminacion de una actividad
-    var eliminar = function () {
+    var eliminarActividad = function () {
         $('table#actividad_table').on('click', 'a.eliminar_actividad', function (evento)
         {
             evento.preventDefault();
@@ -315,7 +500,7 @@ var actividad = function () {
             var token = $(this).attr('data-csrf');
             bootbox.confirm({
                 title: "Eliminar actividad",
-                message: "<p>¿Está seguro que desea eliminar esta actividad, <b>esta acción no se podrá deshacer</b>?.</p>",
+                message: "<p>¿Está seguro que desea eliminar esta actividad.</p>",
                 buttons: {
                     confirm: {
                         label: 'Sí, estoy seguro',
@@ -346,6 +531,55 @@ var actividad = function () {
                                     .remove()
                                     .draw('page');
                                 toastr.success(data['mensaje']);
+                            },
+                            error: function ()
+                            {
+                                base.Error();
+                            }
+                        });
+                }
+            });
+        });
+    }
+
+    var eliminarRespuesta = function () {
+        $('div#basicmodal').on('click', 'a.eliminar_respuesta', function (evento)
+        {
+            evento.preventDefault();
+            var obj = $(this);
+            var link = $(this).attr('data-href');
+            var token = $(this).attr('data-csrf');
+            bootbox.confirm({
+                title: "Eliminar respuesta",
+                message: "<p>¿Está seguro que desea eliminar esta respuesta, <b>esta acción no se podrá deshacer</b>?.</p>",
+                buttons: {
+                    confirm: {
+                        label: 'Sí, estoy seguro',
+                        className: 'btn-sm btn-primary'
+                    },
+                    cancel: {
+                        label: 'Cancelar',
+                        className: 'btn-sm btn-metal'
+                    }
+                },
+                callback: function (result) {
+                    if (result == true)
+                        $.ajax({
+                            type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                            url: link,
+                            data: {
+                                _token: token
+                            },
+                            beforeSend: function () {
+                                mApp.block("body",
+                                    {overlayColor:"#000000",type:"loader",state:"success",message:"Eliminando..."});
+                            },
+                            complete: function () {
+                                mApp.unblock("body");
+                            },
+                            success: function (data) {
+                                toastr.success(data['mensaje']);
+                                $('div#basicmodal').modal('hide');
                             },
                             error: function ()
                             {
@@ -529,10 +763,9 @@ var actividad = function () {
                      //base.unblockUI();
                  },
                  success: function (data) {
-                     if(!data['error']){
                          refrescarAction();
                          $('div#basicmodal').modal('hide');
-                     }
+
                     // base.enviarMensaje('Confirmacion','success',data['mensaje']);
                  },
                  error: function ()
@@ -545,13 +778,30 @@ var actividad = function () {
      }
 
     //Funcionlidad que agrega un input de tipo file al formulario
-    var agregarArchivo = function () {
-        $('div#basicmodal').on('click', 'a#adicionar_archivo', function (evento)
+    var agregarArchivoActividad = function () {
+        $('div#basicmodal').on('click', 'a#adicionar_archivo_actividad', function (evento)
         {
             evento.preventDefault();
             var datos='<tr>\n' +
                 '    <td>\n' +
                 '            <input id="actividad_ficheros_'+cantidadarchivos+'_file" name="actividad[ficheros]['+cantidadarchivos+'][file]" required="required" class="form-control" aria-describedby="actividad_ficheros_'+cantidadarchivos+'_file-error" aria-invalid="false" type="file"><div id="actividad_fichero_'+cantidadarchivos+'_button-error" class="form-control-feedback"></td>\n' +
+                '</td>\n' +
+                '    <td>\n' +
+                '        <a class="btn btn-danger btn-sm eliminar_archivo pull-right"><i class="flaticon flaticon-delete-1"></i></a>\n' +
+                '    </td>\n' +
+                '</tr>';
+            cantidadarchivos++;
+            $('div#archivos table').append(datos);
+        });
+    }
+
+    var agregarArchivoRespuesta = function () {
+        $('div#basicmodal').on('click', 'a#adicionar_archivo_respuesta', function (evento)
+        {
+            evento.preventDefault();
+            var datos='<tr>\n' +
+                '    <td>\n' +
+                '            <input id="respuesta_ficheros_'+cantidadarchivos+'_file" name="respuesta[ficheros]['+cantidadarchivos+'][file]" required="required" class="form-control" aria-describedby="respuesta_ficheros_'+cantidadarchivos+'_file-error" aria-invalid="false" type="file"><div id="respuesta_fichero_'+cantidadarchivos+'_button-error" class="form-control-feedback"></td>\n' +
                 '</td>\n' +
                 '    <td>\n' +
                 '        <a class="btn btn-danger btn-sm eliminar_archivo pull-right"><i class="flaticon flaticon-delete-1"></i></a>\n' +
@@ -629,21 +879,28 @@ var actividad = function () {
             $().ready(function () {
                     configurarDataTable();
                     refrescar();
-                    edicion();
-                    show();
-                    newAction();
-                    edicionAction();
-                    eliminar();
+                    edicionActividad();
+                    edicionRespuesta();
+                    showActividad();
+                    showRespuesta()
+                    newActionActividad();
+                    newActionRespuesta();
+                    edicionActionActividad();
+                    edicionActionRespuesta();
+                    eliminarActividad();
+                    eliminarRespuesta();
                     estadistica();
                     cargarPlanesAntiguos();
                     cargarActividadesAntiguas();
-                    agregarArchivo();
+                    agregarArchivoActividad();
+                    agregarArchivoRespuesta();
                     eliminarArchivo();
                     eliminarFichero();
 
-                    $('div#basicmodal').on('hide.bs.modal',function(){actividad
+                    $('div#basicmodal').on('hide.bs.modal',function(){
                         tableantiguos=null;
                         objantiguo = null;
+                        listadoactividades=new Array();
                     });
 
                 }

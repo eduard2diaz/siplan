@@ -11,7 +11,6 @@
                     </h3>
                 </div>
             </div>
-
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
                     <li class="m-portlet__nav-item">
@@ -20,7 +19,7 @@
                         </a>
                     </li>
                     <li class="m-portlet__nav-item">
-                        <a data-href="{{ path('area_new') }}" class="btn btn-sm btn-primary m-btn edicion text-uppercase"  data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Adicionar área">
+                        <a data-href="{{ path('area_new') }}" class="btn btn-sm btn-primary m-btn edicion text-uppercase"  data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Registrar una nueva área">
                             <span><i class="flaticon-add"></i></span> Nuevo
                         </a>
                     </li>
@@ -35,7 +34,6 @@
         </div>
     </div>
 {% endblock %}
-
 {% block javascripts %}
     {{parent()}}
     <script src="{{ asset('script/entity/area.js','siplan') }}"></script>

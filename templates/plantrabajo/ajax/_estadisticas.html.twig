@@ -1,137 +1,97 @@
-<div class="modal-dialog modal-lg">
+<div class="modal-dialog modal-full">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">Estadísticas del plan</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         </div>
-    <div>
-        <div class="modal-body">
-
-            <div class="portlet light bordered">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="icon-layers font-dark"></i>
-                        <span class="caption-subject font-purple-soft bold uppercase">{{ 'generalinformation'|trans }}</span>
+        <div>
+            <div class="modal-body" style="padding: 0px">
+                <div class="m-portlet  m-portlet--full-height" style="margin-bottom: 0px">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h3 class="m-portlet__head-text">
+                                    Información general
+                                </h3>
+                            </div>
+                        </div>
                     </div>
-
-                </div>
-                <div class="portlet-body">
-
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#tab_1_1" data-toggle="tab" aria-expanded="true"> <i class="fa fa-th-large"></i> {{ 'resume'|trans }} </a>
-                        </li>
-                        <li class="">
-                            <a href="#tab_1_2" data-toggle="tab" aria-expanded="false"> <i class="fa fa-pie-chart"></i> {{ 'graph'|trans }}</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane fade active in" id="tab_1_1">
-
+                    <div class="m-portlet__body">
+                        <div class="m-widget16">
                             <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <a class="dashboard-stat dashboard-stat-v2  green-soft filtro" data-href="{{ path('plantrabajo_show',{'id':plantrabajo.id,'filtro':2}) }}">
-                                    <div class="visual">
-                                        <i class="fa fa-calendar"></i>
+                                <div class="col-md-5">
+                                    <div class="m-widget16__head">
+                                        <div class="m-widget16__item">
+															<span class="m-widget16__sceduled">
+																Estado
+															</span>
+                                            <span class="m-widget16__amount m--align-right">
+																Cantidad
+															</span>
+                                        </div>
                                     </div>
-                                    <div class="details">
-                                        <div class="number">
-                                            <span data-counter="counterup" data-value="{{ total }}" id="task_total">{{ total}}</span>
+
+                                    <div class="m-widget16__body">
+                                        <div class="m-widget16__item">
+															<span class="m-widget16__date">
+																Registradas
+															</span>
+                                            <span class="m-widget16__price m--align-right m--font-metal">
+                                                            {{ estadisticas['Registrada'] }}
+															</span>
                                         </div>
-                                        <div class="desc"> Total de tareas </div>
+
+
+                                        <div class="m-widget16__item">
+															<span class="m-widget16__date">
+																En proceso
+															</span>
+                                            <span class="m-widget16__price m--align-right m--font-accent">
+																{{ estadisticas['En_proceso'] }}
+															</span>
+                                        </div>
+
+                                        <div class="m-widget16__item">
+															<span class="m-widget16__date">
+																Culminada
+															</span>
+                                            <span class="m-widget16__price m--align-right m--font-brand">
+																{{ estadisticas['Culminada'] }}
+															</span>
+                                        </div>
+                                        <div class="m-widget16__item">
+															<span class="m-widget16__date">
+																Cumplidas
+															</span>
+                                            <span class="m-widget16__price m--align-right m--font-success">
+																{{ estadisticas['Cumplida'] }}
+															</span>
+                                        </div>
+                                        <div class="m-widget16__item">
+															<span class="m-widget16__date">
+																Incumplidas
+															</span>
+                                            <span class="m-widget16__price m--align-right m--font-danger">
+																{{ estadisticas["Incumplida"] }}
+															</span>
+                                        </div>
                                     </div>
-                                    </a>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <a class="dashboard-stat dashboard-stat-v2 default filtro" style="margin-bottom: inherit" data-href="{{ path('plantrabajo_show',{'id':plantrabajo.id,'filtro':1}) }}">
-                                        <div class="visual">
-                                            <i class="fa fa-pencil"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number">
-                                                <span class="counterup" data-counter="counterup" data-value="0" id="taks_registrada">{{ estadisticas[0] }}</span>
-                                            </div>
-                                            <div class="desc"> Registradas </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <a class="dashboard-stat dashboard-stat-v2  green-soft filtro" data-href="{{ path('plantrabajo_show',{'id':plantrabajo.id,'filtro':2}) }}">
-                                        <div class="visual">
-                                            <i class="fa fa-star-half-empty"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number">
-                                                <span  class="counterup"  data-counter="counterup" data-value="0"  id="taks_proceso">{{ estadisticas[1] }}</span>
-                                            </div>
-                                            <div class="desc"> En proceso </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <a class="dashboard-stat dashboard-stat-v2 green filtro" data-href="{{ path('plantrabajo_show',{'id':plantrabajo.id,'filtro':3}) }}">
-                                        <div class="visual">
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="details">
-                                            <div class="number">
-                                                <span class="counterup" data-counter="counterup" data-value="0" id="taks_culminada">{{ estadisticas[2] }}</span>
-                                            </div>
-                                            <div class="desc"> Culminada </div>
-                                        </div>
-                                    </a>
+                                <div class="col-md-7">
+                                    <div style="height: 100%" class="plantrabajo_grafica"></div>
                                 </div>
                             </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a class="dashboard-stat dashboard-stat-v2 yellow filtro" data-href="{{ path('plantrabajo_show',{'id':plantrabajo.id,'filtro':4}) }}">
-                                            <div class="visual">
-                                                <i class="fa fa-check"></i>
-                                            </div>
-                                            <div class="details">
-                                                <div class="number">
-                                                    <span class="counterup" data-counter="counterup" data-value="0"  id="taks_cumplida">{{ estadisticas[3] }}</span>
-                                                </div>
-                                                <div class="desc"> Cumplidas</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a class="dashboard-stat dashboard-stat-v2 red filtro" data-href="{{ path('plantrabajo_show',{'id':plantrabajo.id,'filtro':5}) }}">
-                                            <div class="visual">
-                                                <i class="fa fa-close"></i>
-                                            </div>
-                                            <div class="details">
-                                                <div class="number">
-                                                    <span class="counterup" data-counter="counterup" data-value="0" id="taks_incumplida">{{ estadisticas[4] }}</span>
-                                                </div>
-                                                <div class="desc"> Incumplidas </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-
-                        </div>
-                        <div class="tab-pane fade" id="tab_1_2">
-                            <p> Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                                craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-                                helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art
-                                party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park. </p>
                         </div>
                     </div>
 
                 </div>
             </div>
-
-
-
-
-        </div>
             <div class="modal-footer">
                 <a class="btn btn-sm btn-primary" data-dismiss="modal">Cancelar</a>
-
             </div>
         </div>
     </div>
 </div>
+<script>
+
+</script>

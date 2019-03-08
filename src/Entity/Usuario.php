@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use function Sodium\randombytes_buf;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -19,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity("usuario")
  * @UniqueEntity("correo")
  */
-class Usuario implements UserInterface
+class Usuario implements UserInterface/*, \Serializable, EquatableInterface*/
 {
     /**
      * @var int
@@ -35,13 +34,18 @@ class Usuario implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="nombre", type="string")
+     * @Assert\Regex("/^[A-Za-záéíóúñ]{2,}([\s][A-Za-záéíóúñ]{2,})*$/")
      */
     private $nombre;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="correo", type="string", nullable=true,unique=true)
+     * @ORM\Column(name="correo", type="string", nullable=true,unique=false)
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     strict = true
+     * )
      */
     private $correo;
 
@@ -49,6 +53,7 @@ class Usuario implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="usuario", type="string", nullable=true,unique=true)
+     * @Assert\Regex("/^([a-zA-Z]((\.|_|-)?[a-zA-Z0-9]+){3})*$/")
      */
     private $usuario;
 
@@ -134,6 +139,31 @@ class Usuario implements UserInterface
     private $solicitudGrupos;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Mensaje", mappedBy="iddestinatario")
+     */
+    private $idmensaje;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $ultimologin;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $ultimologout;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Fichero", cascade={"persist", "remove"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(nullable=true)
+     * })
+     */
+    private $ficheroFoto=null;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -144,6 +174,7 @@ class Usuario implements UserInterface
         $this->grupos = new ArrayCollection();
         $this->grupospertenece = new ArrayCollection();
         $this->solicitudGrupos = new ArrayCollection();
+        $this->idmensaje = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -432,12 +463,93 @@ class Usuario implements UserInterface
         return $this;
     }
 
+    /**
+     * Add idmensaje
+     *
+     * @param \App\Entity\Mensaje $idmensaje
+     *
+     * @return Usuario
+     */
+    public function addIdmensaje(\App\Entity\Mensaje $idmensaje)
+    {
+        $this->idmensaje[] = $idmensaje;
+
+        return $this;
+    }
+
+    /**
+     * Remove idmensaje
+     *
+     * @param \App\Entity\Mensaje $idmensaje
+     */
+    public function removeIdmensaje(\App\Entity\Mensaje $idmensaje)
+    {
+        $this->idmensaje->removeElement($idmensaje);
+    }
+
+    /**
+     * Get idmensaje
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIdmensaje()
+    {
+        return $this->idmensaje;
+    }
+
     public function getEstadoColor(){
         return $this->getActivo() ? 'success' : 'danger';
     }
 
     public function getEstadoIcono(){
         return $this->getActivo() ? 'play' : 'close';
+    }
+
+    public function getUltimologin(): ?\DateTimeInterface
+    {
+        return $this->ultimologin;
+    }
+
+    public function setUltimologin(?\DateTimeInterface $ultimologin): self
+    {
+        $this->ultimologin = $ultimologin;
+
+        return $this;
+    }
+
+    public function getUltimologout(): ?\DateTimeInterface
+    {
+        return $this->ultimologout;
+    }
+
+    public function setUltimologout(?\DateTimeInterface $ultimologout): self
+    {
+        $this->ultimologout = $ultimologout;
+
+        return $this;
+    }
+
+    public function getFicheroFoto(): ?Fichero
+    {
+        return $this->ficheroFoto;
+    }
+
+    public function setFicheroFoto(?Fichero $ficheroFoto): self
+    {
+        $this->ficheroFoto = $ficheroFoto;
+
+        return $this;
+    }
+
+    public function cicloInfinito($current, Usuario $usuario)
+    {
+        if ($usuario->getJefe() != null) {
+            if ($usuario->getJefe()->getId() == $current)
+                return true;
+            else
+                return $this->cicloInfinito($current, $usuario->getJefe());
+        }
+        return false;
     }
 
     /*
@@ -471,6 +583,11 @@ class Usuario implements UserInterface
             $context->addViolation('El cargo indicado no pertenece al área.');
         }
 
+        if(true==$this->cicloInfinito($this->getId(),$this)){
+            $context->setNode($context, 'nombre', null, 'data.nombre');
+            $context->addViolation('Compruebe el jefe seleccionado.');
+        }
+
         if(count($roles)!=1){
             $context->setNode($context, 'idrol', null, 'data.idrol');
             $context->addViolation('Seleccione un rol');
@@ -486,5 +603,4 @@ class Usuario implements UserInterface
                     ->addViolation();
         }
     }
-
 }

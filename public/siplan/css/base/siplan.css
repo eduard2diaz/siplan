@@ -16,8 +16,8 @@ button.bootbox-close-button{
 
 /*Mi personalizacion*/
 div.m-body{
-   /* background-color: #e9ebee;*/
-    background-color: white;
+    background-color: #e9ebee;
+    /*background-color: white;*/
 }
 div.m-portlet{
     border-radius: 0.3%;
@@ -172,7 +172,7 @@ input.select2-search__field{
     color: black;
 }
 
-div#shortcuts_header
+div.user_notification
 {
     background-image: url('../../../template/app/media/img/misc/quick_actions_bg.jpg');
     color: white;
@@ -181,6 +181,10 @@ div#shortcuts_header
 div#usertopmenu_header
 {
     background-image: url('../../../template/app/media/img/misc/user_profile_bg.jpg');
+}
+
+header span.m-dropdown__arrow{
+    color: rgb(111, 71, 208) !important;
 }
 .m-card-user__name, .m-card-user__email{
     color: white !important;

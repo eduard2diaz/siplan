@@ -8,7 +8,7 @@
             Nombre
         </th>
         <th>
-            Área madre
+            Área padre
         </th>
         <th>
         </th>
@@ -27,10 +27,12 @@
                         <a class="btn btn-info btn-sm edicion" data-href="{{ path('area_edit', { 'id': area.id }) }}">
                             <i class="flaticon-edit-1"></i> Editar</a>
                     </li>
+                    {% if app.user.area.id!=area.id %}
                     <li class="m-nav__item">
                         <a class="btn btn-danger btn-sm  eliminar_area" data-href="{{ path('area_delete', { 'id': area.id }) }}"  data-csrf="{{ csrf_token('delete' ~ area.id) }}">
                             <i class="flaticon-delete-1"></i> Eliminar</a>
                     </li>
+                    {% endif %}
                 </ul>
             </td>
         </tr>
@@ -46,7 +48,7 @@
             Nombre
         </th>
         <th>
-            Área madre
+            Área padre
         </th>
         <th>
         </th>

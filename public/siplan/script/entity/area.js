@@ -5,9 +5,9 @@ var area = function () {
     var configurarDataTable = function () {
         table = $('table#area_table').DataTable({
             "pagingType": "simple_numbers",
-            /*"language": {
+            "language": {
                 url: datatable_url
-            },*/
+            },
             columns: [
                 {data: 'numero'},
                 {data: 'nombre'},

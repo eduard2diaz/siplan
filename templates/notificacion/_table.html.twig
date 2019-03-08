@@ -1,0 +1,56 @@
+<table class="table table-hover m-table m-table--head-separator-brand" id="notificacion_table">
+    <thead>
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {%set i=1%}
+    {% for notificacion in notificacions %}
+        <tr>
+            <td>{{ i }}</td>
+            <td>{{ notificacion.descripcion }}</td>
+            <td>{{ notificacion.fecha |date('d-m-Y H:i') }}</td>
+            <td>
+                <ul class="m-nav m-nav--inline m--pull-right">
+                    <li class="m-nav__item">
+                        <a class="btn  btn-sm notificacion_show" data-href="{{ path('notificacion_show', { 'id': notificacion.id }) }}" >
+                            <i class="flaticon-eye"></i></a>
+                    </li>
+                    
+                    <li class="m-nav__item">
+                        <a class="btn btn-danger btn-sm  eliminar_notificacion"  data-csrf="{{ csrf_token('delete' ~ notificacion.id) }}" data-href="{{ path('notificacion_delete', { 'id': notificacion.id }) }}">
+                            <i class="flaticon-delete-1"></i></a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        {%set i=1+i%}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th>
+        </th>
+    </tr>
+    </tfoot>
+</table>

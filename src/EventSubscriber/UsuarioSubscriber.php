@@ -23,9 +23,17 @@ class UsuarioSubscriber implements EventSubscriber
     }
 
     public function prePersist(LifecycleEventArgs $args) {
+
         $entity = $args->getEntity();
+        $em=$args->getEntityManager();
         if ($entity instanceof Usuario){
             $entity->setPassword($this->getServiceContainer()->get('security.password_encoder')->encodePassword($entity,$entity->getPassword()));
+            if (null != $entity->getFicheroFoto() && null!=$entity->getFicheroFoto()->getFile()) {
+                $entity->getFicheroFoto()->subirArchivo($this->getServiceContainer()->getParameter('storage_directory'));
+            }
+
+
+
         }
     }
 

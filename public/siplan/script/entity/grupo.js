@@ -5,9 +5,9 @@ var grupo = function () {
     var configurarDataTable = function () {
         table = $('table#grupo_table').DataTable({
             "pagingType": "simple_numbers",
-            /*"language": {
+            "language": {
                 url: datatable_url
-            },*/
+            },
             columns: [
                 {data: 'numero'},
                 {data: 'nombre'},
@@ -23,6 +23,18 @@ var grupo = function () {
         });
         $('select#grupo_idmiembro').select2({
             dropdownParent: $("#basicmodal"),
+            ajax: {
+                url: Routing.generate('usuario_grupoajax'),
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        //results: [{'id': 00, 'text' : 'tag-name' }]
+                        results: data
+                    };
+                },
+                cache: true
+            }
             //allowClear: true
         });
         Ladda.bind('.mt-ladda-btn');
@@ -177,15 +189,15 @@ var grupo = function () {
             evento.preventDefault();
             var padre = $(this).parent();
             var l = Ladda.create(document.querySelector('.ladda-button'));
-            l.start();
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
                 data: $(this).serialize(), //para enviar el formulario hay que serializarlo
                 beforeSend: function () {
+                    l.start();
                 },
                 complete: function () {
-                    l.start();
+                    l.stop();
                 },
                 success: function (data) {
                     if (data['error']) {
@@ -277,6 +289,7 @@ var grupo = function () {
             var link = $(this).attr('data-href');
             var token = $(this).attr('data-csrf');
             obj = $(this);
+            var l = Ladda.create(document.querySelector('.ladda-button'));
             $.ajax({
                 type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
                 url: link,
@@ -284,8 +297,7 @@ var grupo = function () {
                     _token: token
                 },
                 beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor: "#000000", type: "loader", state: "success", message: "Cargando..."});
+                    l.start();
                 },
                 success: function (data) {
                     toastr.success(data['mensaje']);
@@ -296,7 +308,7 @@ var grupo = function () {
                     base.Error();
                 },
                 complete: function () {
-                    mApp.unblock("body")
+                    l.stop();
                 }
             });
         });
@@ -307,7 +319,7 @@ var grupo = function () {
             evento.preventDefault();
             var link = $(this).attr('data-href');
             var token = $(this).attr('data-csrf');
-
+            var l = Ladda.create(document.querySelector('.ladda-buttonrechazar'));
             $.ajax({
                 type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
                 url: link,
@@ -315,8 +327,7 @@ var grupo = function () {
                     _token: token
                 },
                 beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor: "#000000", type: "loader", state: "success", message: "Cargando..."});
+                    l.start();
                 },
                 success: function (data) {
                     toastr.success(data['mensaje']);
@@ -330,7 +341,7 @@ var grupo = function () {
                     base.Error();
                 },
                 complete: function () {
-                    mApp.unblock("body")
+                    l.stop();
                 }
             });
         });

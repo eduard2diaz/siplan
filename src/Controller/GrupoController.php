@@ -19,12 +19,17 @@ use App\Entity\Notificacion;
 class GrupoController extends Controller
 {
     /**
+     * Listado de grupos a los que pertence o de los cuales es el creador el usuario pasado por parámetro
+     *
      * @Route("/{id}/index", name="grupo_index", methods="GET",options={"expose"=true})
      */
-    public function index(Request $request,Usuario $usuario): Response
+    public function index(Request $request, Usuario $usuario): Response
     {
+        if ($usuario->getId() != $this->getUser()->getId() && !in_array($usuario->getId(), $this->get('area_service')->subordinadosKey($this->getUser())))
+            throw $this->createAccessDeniedException();
+
         $em = $this->getDoctrine()->getManager();
-        $id=$usuario->getId();
+        $id = $usuario->getId();
         $connection = $em->getConnection();
         $query = $connection->prepare("SELECT g1.* FROM grupo as g1 JOIN usuario as u1 on(g1.creador=u1.id) WHERE u1.id= $id UNION
                                 SELECT g2.* FROM solicitud_grupo as sg JOIN grupo as g2 on(sg.grupo=g2.id) JOIN usuario u2 on(sg.usuario=u2.id) WHERE u2.id=$id
@@ -37,7 +42,13 @@ class GrupoController extends Controller
                 'grupos' => $grupos,
             ]);
 
-        return $this->render('grupo/index.html.twig', ['grupos' => $grupos,'user_id'=>$id]);
+        return $this->render('grupo/index.html.twig', [
+            'grupos' => $grupos,
+            'user_id' => $id,
+            'user_nombre'=>$usuario->getNombre(),
+            'user_correo'=>$usuario->getCorreo(),
+            'user_foto'=>null!=$usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+        ]);
     }
 
     /**
@@ -81,21 +92,21 @@ class GrupoController extends Controller
      */
     public function show(Grupo $grupo): Response
     {
-        $em=$this->getDoctrine()->getManager();
-        $parameters=['grupo' => $grupo];
-        if($this->getUser()->getId()!=$grupo->getCreador()->getId()){
-            $solicitud=$em->getRepository('App:SolicitudGrupo')->findOneBy([
-                'usuario'=>$this->getUser(),
-                'grupo'=>$grupo
+        $this->denyAccessUnlessGranted('SHOW', $grupo);
+
+        $em = $this->getDoctrine()->getManager();
+        $parameters = ['grupo' => $grupo];
+        if ($this->getUser()->getId() != $grupo->getCreador()->getId()) {
+            $solicitud = $em->getRepository('App:SolicitudGrupo')->findOneBy([
+                'usuario' => $this->getUser(),
+                'grupo' => $grupo
             ]);
 
-            if(!$solicitud)
-                throw new AccessDeniedException();
-
-            if($solicitud->getEstado()==0)
-                $parameters['pendiente_confirmacion']=true;
-            else
-                $parameters['confirmacion_aceptada']=true;
+            if ($solicitud != null)
+                if ($solicitud->getEstado() == 0)
+                    $parameters['pendiente_confirmacion'] = true;
+                else
+                    $parameters['confirmacion_aceptada'] = true;
         }
 
         return $this->render('grupo/show.html.twig', $parameters);
@@ -106,7 +117,8 @@ class GrupoController extends Controller
      */
     public function edit(Request $request, Grupo $grupo): Response
     {
-        $creador=$this->getUser()->getId();
+        $this->denyAccessUnlessGranted('EDIT', $grupo);
+        $creador = $this->getUser()->getId();
         $form = $this->createForm(GrupoType::class, $grupo, array('action' => $this->generateUrl('grupo_edit', array('id' => $grupo->getId()))));
         $form->handleRequest($request);
 
@@ -116,18 +128,19 @@ class GrupoController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($grupo);
 
-                if($grupo->getCreador()->getId()!=$creador){
-                    $notificacion=new Notificacion();
+                if ($grupo->getCreador()->getId() != $creador) {
+                    $notificacion = new Notificacion();
                     $notificacion->setFecha(new \DateTime());
+                    $notificacion->setGrupo($grupo);
                     $notificacion->setDestinatario($grupo->getCreador());
-                    $notificacion->setDescripcion("El usuario ".$this->getUser()." lo asignó comoresponsable del grupo ".$grupo->getNombre());
+                    $notificacion->setDescripcion("El usuario " . $this->getUser() . " lo asignó comoresponsable del grupo " . $grupo->getNombre());
                     $em->persist($notificacion);
                 }
                 $em->flush();
 
                 return new JsonResponse(array('mensaje' => 'El grupo fue actualizado satisfactoriamente',
                     'nombre' => $grupo->getNombre(),
-                    'escreador'=>$this->getUser()->getId()==$grupo->getCreador()->getId(),
+                    'escreador' => $this->getUser()->getId() == $grupo->getCreador()->getId(),
                     'id' => $grupo->getId(),
                 ));
             } else {
@@ -155,6 +168,7 @@ class GrupoController extends Controller
     public function delete(Request $request, Grupo $grupo): Response
     {
         if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $grupo->getId(), $request->query->get('_token'))) {
+            $this->denyAccessUnlessGranted('DELETE', $grupo);
             $em = $this->getDoctrine()->getManager();
             $em->remove($grupo);
             $em->flush();
@@ -165,6 +179,9 @@ class GrupoController extends Controller
     }
 
     /**
+     * Función que permite confirmar la solicitud de pertenencia a un grupo creada por otro usuario que desea añadirlo
+     * a dicho grupo
+     *
      * @Route("/{grupo}/confirmarsolicitud", name="grupo_confirmarsolicitud")
      */
     public function confirmarSolicitud(Request $request, Grupo $grupo): Response
@@ -172,10 +189,14 @@ class GrupoController extends Controller
         if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('confirmar' . $grupo->getId(), $request->query->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
 
-            $solicitud=$em->getRepository('App:SolicitudGrupo')->findOneBy([
-                'usuario'=>$this->getUser(),
-                'grupo'=>$grupo
+            $solicitud = $em->getRepository('App:SolicitudGrupo')->findOneBy([
+                'usuario' => $this->getUser(),
+                'grupo' => $grupo
             ]);
+
+            if (!$solicitud)
+                throw $this->createAccessDeniedException();
+
             $solicitud->setEstado(1);
             $em->persist($solicitud);
             $em->flush();
@@ -186,6 +207,9 @@ class GrupoController extends Controller
     }
 
     /**
+     * Función que permite rechazar la solicitud de pertenencia a un grupo creada por otro usuario que desea añadirlo
+     * a dicho grupo. Además se utiliza cuando un usuario que pertenece a un determinado grupo decide darse baja de este
+     *
      * @Route("/{grupo}/rechazarsolicitud", name="grupo_rechazarsolicitud")
      */
     public function rechazarSolicitud(Request $request, Grupo $grupo): Response
@@ -193,10 +217,14 @@ class GrupoController extends Controller
         if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('rechazar' . $grupo->getId(), $request->query->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
 
-            $solicitud=$em->getRepository('App:SolicitudGrupo')->findOneBy([
-                'usuario'=>$this->getUser(),
-                'grupo'=>$grupo
+            $solicitud = $em->getRepository('App:SolicitudGrupo')->findOneBy([
+                'usuario' => $this->getUser(),
+                'grupo' => $grupo
             ]);
+
+            if (!$solicitud)
+                throw $this->createAccessDeniedException();
+
             $grupo->getIdmiembro()->removeElement($this->getUser());
             $em->remove($solicitud);
             $em->persist($grupo);

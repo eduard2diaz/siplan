@@ -12,13 +12,14 @@ class CargoVoter extends Voter
 {
     private $decisionManager;
 
-    public function __construct(AccessDecisionManagerInterface $decisionManager) {
+    public function __construct(AccessDecisionManagerInterface $decisionManager)
+    {
         $this->decisionManager = $decisionManager;
     }
 
     protected function supports($attribute, $subject)
     {
-        return ((in_array($attribute, ['NEW', 'DELETE','EDIT','AJAX'])) && ($subject instanceof Cargo));
+        return ((in_array($attribute, ['DELETE'])) && ($subject instanceof Cargo));
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -29,16 +30,10 @@ class CargoVoter extends Voter
             return false;
         }
         switch ($attribute) {
-            case 'NEW':
-            case 'EDIT':
             case 'DELETE':
-                    if ($this->decisionManager->decide($token, array('ROLE_ADMIN')))
-                        return true;
-            break;
-            case 'AJAX':
-                if ($this->decisionManager->decide($token, array('ROLE_ADMIN','ROLE_DIRECTIVO')))
+                if ($this->decisionManager->decide($token, array('ROLE_ADMIN')) && $token->getUser()->getCargo()->getId() != $subject->getId())
                     return true;
-            break;
+                break;
         }
 
         return false;

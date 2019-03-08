@@ -2,47 +2,12 @@ var usuario = function () {
     var table = null;
     var obj = null;
 
-    var configurarFormulario = function () {
-        $('select#usuario_jefe').select2({
-            dropdownParent: $("#basicmodal"),
-        });
-        $('select#usuario_area').select2({
-            dropdownParent: $("#basicmodal"),
-        });
-        $('select#usuario_cargo').select2({
-            dropdownParent: $("#basicmodal"),
-        });
-        $('select#usuario_idrol').select2({
-            dropdownParent: $("#basicmodal"),
-        });
-
-        $("div#basicmodal form#usuario_new").validate({
-            rules: {
-                'usuario[nombre]': {required: true},
-                'usuario[area]': {required: true},
-                'usuario[cargo]': {required: true},
-                'usuario[usuario]': {required: true},
-                'usuario[correo]': {required: true},
-                'usuario[password][first]': {required: true},
-                'usuario[password][second]': {equalTo: "#usuario_password_first"},
-                'usuario[idrol][]': {required: true},
-            },
-            highlight: function (element) {
-                $(element).parent().parent().addClass('has-danger');
-            },
-            unhighlight: function (element) {
-                $(element).parent().parent().removeClass('has-danger');
-                $(element).parent().parent().addClass('has-success');
-            }
-        });
-    }
-
     var configurarDataTable = function () {
         table = $('table#usuario_table').DataTable({
             "pagingType": "simple_numbers",
-            /*"language": {
+            "language": {
                 url: datatable_url
-            },*/
+            },
             columns: [
                 {data: 'numero'},
                 {data: 'nombre'},
@@ -81,7 +46,6 @@ var usuario = function () {
         });
     }
 
-
     var nuevo = function () {
         $('body').on('click', 'a#nuevo_usuario', function (evento) {
             evento.preventDefault();
@@ -97,7 +61,7 @@ var usuario = function () {
                 },
                 success: function (data) {
                     if ($('div#basicmodal').html(data)) {
-                        configurarFormulario();
+                        configurarFormularioUsuario();
                         $('div#basicmodal').modal('show');
                     }
                 },
@@ -120,7 +84,10 @@ var usuario = function () {
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
-                data: $(this).serialize(), //para enviar el formulario hay que serializarlo
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
                 beforeSend: function () {
                     mApp.block("body",
                         {overlayColor: "#000000", type: "loader", state: "success", message: "Cargando..."});
@@ -132,7 +99,7 @@ var usuario = function () {
                 success: function (data) {
                     if (data['error']) {
                         padre.html(data['form']);
-                        configurarFormulario();
+                        configurarFormularioUsuario();
                     }
                     else {
                         if (data['mensaje'])

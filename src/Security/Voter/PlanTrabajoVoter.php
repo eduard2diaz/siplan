@@ -13,7 +13,7 @@ class PlanTrabajoVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['DELETE', 'NEW', 'EDIT', 'VIEW'])
+        return in_array($attribute, ['DELETE', 'NEW','VIEW'])
             && $subject instanceof Plantrabajo;
     }
 
@@ -28,7 +28,6 @@ class PlanTrabajoVoter extends Voter
         switch ($attribute) {
             //Solo pueden modificar o agregar plan de trabajo,el usuario o su jefe
             case 'NEW':
-            case 'EDIT':
             case 'DELETE':
                 {
                     if (($subject->getUsuario()->getJefe() != null && $subject->getUsuario()->getJefe()->getId() == $token->getUser()->getId()) || ($subject->getUsuario()->getId() == $token->getUser()->getId()))

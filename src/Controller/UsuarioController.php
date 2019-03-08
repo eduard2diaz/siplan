@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Plantrabajo;
@@ -34,7 +35,13 @@ class UsuarioController extends Controller
         if ($request->isXmlHttpRequest())
             return $this->render('usuario/_table.html.twig', ['usuarios' => $usuarios]);
 
-        return $this->render('usuario/index.html.twig', ['usuarios' => $usuarios,'user_id'=>$usuario->getId()]);
+        return $this->render('usuario/index.html.twig', [
+            'usuarios' => $usuarios,
+            'user_id'=>$usuario->getId(),
+            'user_foto'=>null!=$usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_nombre'=>$usuario->getNombre(),
+            'user_correo'=>$usuario->getCorreo(),
+        ]);
     }
 
     /**
@@ -54,6 +61,11 @@ class UsuarioController extends Controller
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                if(null!=$usuario->getFicheroFoto()->getFile()){
+                    $em->persist($usuario->getFicheroFoto());
+                }else
+                    $usuario->setFicheroFoto(null);
+
                 $em->persist($usuario);
                 $em->flush();
                 return new JsonResponse(array('mensaje' => 'El usuario fue registrado satisfactoriamente',
@@ -66,6 +78,7 @@ class UsuarioController extends Controller
             } else {
                 $page = $this->renderView('usuario/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'usuario' => $usuario,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -81,7 +94,12 @@ class UsuarioController extends Controller
      */
     public function show(Request $request, Usuario $usuario): Response
     {
-        return $this->render('usuario/_show.html.twig', ['usuario' => $usuario,'user_id' => $usuario->getId()]);
+        return $this->render('usuario/_show.html.twig', ['usuario' => $usuario,
+            'user_id' => $usuario->getId(),
+            'user_foto'=>null!=$usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_nombre'=>$usuario->getNombre(),
+            'user_correo'=>$usuario->getCorreo(),
+        ]);
     }
 
 
@@ -94,9 +112,6 @@ class UsuarioController extends Controller
             throw $this->createAccessDeniedException();
 
         $this->denyAccessUnlessGranted('EDIT',$usuario);
-        if($this->isGranted('ROLE_ADMIN'))
-            $parameters['directivos']=$this->get('area_service')->obtenerDirectivos($usuario->getId());
-
         $form = $this->createForm(UsuarioType::class, $usuario, array('action' => $this->generateUrl('usuario_edit', array('id' => $usuario->getId()))));
         $passwordOriginal = $form->getData()->getPassword();
 		$em = $this->getDoctrine()->getManager();        
@@ -108,6 +123,18 @@ class UsuarioController extends Controller
                     $usuario->setPassword($passwordOriginal);
                 else
                     $usuario->setPassword($this->get('security.password_encoder')->encodePassword($usuario,$usuario->getPassword()));
+
+                if (null != $usuario->getFicheroFoto())
+                    if($usuario->getFicheroFoto()->getFile()!=null)
+                        $usuario->getFicheroFoto()->reemplazarArchivo($this->container->getParameter('storage_directory'));
+                    else
+                        $usuario->getFicheroFoto()->subirArchivo($this->container->getParameter('storage_directory'));
+
+                if(null!=$usuario->getFicheroFoto()){
+                    $usuario->getFicheroFoto()->setFile(null);
+                    $em->persist($usuario->getFicheroFoto());
+                }
+
                 $em->persist($usuario);
                 $em->flush();
                 return new JsonResponse(array('mensaje' => 'El usuario fue actualizado satisfactoriamente',
@@ -115,11 +142,10 @@ class UsuarioController extends Controller
                     'area' => $usuario->getArea()->getNombre(),
                     'cargo' => $usuario->getCargo()->getNombre()));
             } else {
-				$form = $this->createForm(UsuarioType::class, $usuario, array('action' => $this->generateUrl('usuario_edit', array('id' => $usuario->getId())), 'parameters'=>$parameters));
-
                 $page = $this->renderView('usuario/_form.html.twig', array(
                     'form' => $form->createView(),
-                    'action' => 'update_button',
+                    'action' => 'Actualizar',
+                    'usuario' => $usuario,
                      'form_id' => 'usuario_edit',
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
@@ -151,8 +177,43 @@ class UsuarioController extends Controller
         throw $this->createAccessDeniedException();
     }
 
+    /**
+     * @Route("/ajax", name="usuario_ajax", options={"expose"=true})
+     */
+    public function ajax(Request $request): Response
+    {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
 
+        $result=[];
+        if($request->get('q')!=null) {
+            $em = $this->getDoctrine()->getManager();
+            $parameter = $request->get('q');
+            $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u WHERE u.nombre LIKE :nombre ORDER BY u.nombre ASC')
+                ->setParameter('nombre', '%' . $parameter . '%');
+            $result = $query->getResult();
+            return new Response(json_encode($result));
+        }
+        return new Response(json_encode($result));
+    }
 
+    /**
+     * @Route("/grupoajax", name="usuario_grupoajax", options={"expose"=true})
+     */
+    public function grupoAjax(Request $request): Response
+    {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
 
-
+        $result=[];
+        if($request->get('q')!=null) {
+            $em = $this->getDoctrine()->getManager();
+            $parameter = $request->get('q');
+            $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u JOIN u.idrol r WHERE u.id!= :id AND u.nombre LIKE :nombre AND r.nombre IN (:roles) ORDER BY u.nombre ASC')
+                ->setParameters(['nombre'=> '%' . $parameter . '%','id'=>$this->getUser()->getId(),'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER']]);
+            $result = $query->getResult();
+            return new Response(json_encode($result));
+        }
+        return new Response(json_encode($result));
+    }
 }

@@ -34,10 +34,13 @@
         </div>
             <div class="modal-footer">
                 {% if pendiente_confirmacion is defined %}
-                <a class="btn btn-sm btn-primary" id="confirmar_grupo" data-csrf="{{ csrf_token('confirmar' ~ grupo.id) }}" data-href="{{ path('grupo_confirmarsolicitud',{'grupo':grupo.id}) }}">Confirmar</a>
-                <a class="btn btn-sm btn-danger" id="rechazar_grupo" data-csrf="{{ csrf_token('rechazar' ~ grupo.id) }}" data-href="{{ path('grupo_rechazarsolicitud',{'grupo':grupo.id}) }}">Rechazar</a>
+                <a class="btn btn-sm btn-primary mt-ladda-btn ladda-button" data-style="expand-right" id="confirmar_grupo" data-csrf="{{ csrf_token('confirmar' ~ grupo.id) }}" data-href="{{ path('grupo_confirmarsolicitud',{'grupo':grupo.id}) }}"><span class="ladda-label">Confirmar</span>
+                    <span class="ladda-spinner"></span></a>
+                <a class="btn btn-sm btn-danger mt-ladda-btn ladda-button ladda-buttonrechazar" data-style="expand-right" id="rechazar_grupo" data-csrf="{{ csrf_token('rechazar' ~ grupo.id) }}" data-href="{{ path('grupo_rechazarsolicitud',{'grupo':grupo.id}) }}"><span class="ladda-label">Rechazar</span>
+                    <span class="ladda-spinner"></span></a>
                 {% elseif confirmacion_aceptada is defined %}
-                    <a class="btn btn-sm btn-danger" id="rechazar_grupo" data-csrf="{{ csrf_token('rechazar' ~ grupo.id) }}" data-href="{{ path('grupo_rechazarsolicitud',{'grupo':grupo.id}) }}">Cancelar subscripción</a>
+                    <a class="btn btn-sm btn-danger mt-ladda-btn ladda-button ladda-buttonrechazar" data-style="expand-right" id="rechazar_grupo" data-csrf="{{ csrf_token('rechazar' ~ grupo.id) }}" data-href="{{ path('grupo_rechazarsolicitud',{'grupo':grupo.id}) }}"><span class="ladda-label">Cancelar subscripción</span>
+                        <span class="ladda-spinner"></span></a>
                 {% endif %}
                 <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
             </div>

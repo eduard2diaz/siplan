@@ -1,0 +1,39 @@
+<div class="modal-dialog modal-full">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Detalles de la respuesta</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+        <div>
+            <table class="table" style="margin-bottom: 0px">
+                <tr>
+                    <th>Archivos</th>
+                    <td colspan="3">
+                        <ul class="m-nav m-nav--inline">
+                            {% for archivo in respuesta.ficheros %}
+                                <li class="m-nav__item">
+                                    <a href="{{ path('fichero_download',{'id':archivo.id}) }}" class="m-nav__link">
+										<span class="m-nav__link-text">
+											<i class="flaticon-download"></i> {{ archivo.nombre }}
+										</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>Descripción</th>
+                    <td colspan="3"><p>{{ respuesta.descripcion |raw }}</p></td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary edicion_respuesta active"  data-href="{{ path('respuesta_edit',{'id':respuesta.id.id}) }}"><i class="flaticon-edit-1"></i>Editar</a>
+            <a class="btn btn-sm btn-danger eliminar_respuesta" data-csrf="{{ csrf_token('delete' ~ respuesta.id.id) }}" data-href="{{ path('respuesta_delete',{'id':respuesta.id.id}) }}"><i class="flaticon-delete-1"></i>Eliminar</a>
+            <a class="btn btn-sm btn-metal active" data-dismiss="modal">Cerrar</a>
+        </div>
+    </div>
+</div>

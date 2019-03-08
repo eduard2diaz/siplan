@@ -32,6 +32,7 @@ class GrupoSubscriber implements EventSubscriber
 
                     $notificacion=new Notificacion();
                     $notificacion->setFecha($fecha);
+                    $notificacion->setGrupo($entity);
                     $notificacion->setDestinatario($value);
                     $notificacion->setDescripcion("El usuario ".$entity->getCreador()." lo añadió al grupo ".$entity->getNombre());
                     $manager->persist($notificacion);

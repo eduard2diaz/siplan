@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Rol;
 use App\Entity\Usuario;
 use App\Entity\Cargo;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -42,12 +43,12 @@ class UsuarioType extends AbstractType
         $disabled = $options['data']->getId() == $this->token->getToken()->getUser()->getId();
 
         $builder
-            ->add('nombre', TextType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge')))
-            ->add('correo', EmailType::class, array('disabled' => $disabled, 'attr' => array('autocomplete' => 'off', 'class' => 'form-control input-medium')))
-            ->add('usuario', TextType::class, array('disabled' => $disabled, 'attr' => array('autocomplete' => 'off', 'class' => 'form-control input-medium')))
+            ->add('ficheroFoto', FotoType::class)
+            ->add('nombre', TextType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge', 'pattern' => '^([A-Za-záéíóúñ]{2,}((\s[A-Za-záéíóúñ]{2,})*))*$')))
+            ->add('correo', EmailType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-medium', 'pattern' => '^[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$')))
+            ->add('usuario', TextType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-medium')))
             ->add('activo', null, array('disabled' => $disabled, 'required' => false, 'attr' => array('data-on-text' => 'Si', 'data-off-text' => 'No')))
-            ->add('area', null, array('choices' => $area, 'disabled' => $disabled, 'label' => 'Área', 'placeholder' => 'Seleccione un área', 'required' => true, 'attr' => array('class' => 'form-control input-medium')))
-            ;
+            ->add('area', null, array('choices' => $area, 'disabled' => $disabled, 'label' => 'Área', 'placeholder' => 'Seleccione un área', 'required' => true, 'attr' => array('class' => 'form-control input-medium')));
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $obj) {
             $form = $obj->getForm();
@@ -69,9 +70,31 @@ class UsuarioType extends AbstractType
             ));
         });
 
-        if ($esAdmin) {
+        if ($esAdmin == true) {
             $builder->add('idrol', null, array('disabled' => $disabled, 'label' => 'Rol', 'required' => true, 'attr' => array('class' => 'form-control input-medium')));
-            $builder->add('jefe', null, array('choices' => $this->areaService->obtenerDirectivos(), 'disabled' => $disabled, 'label' => 'Jefe', 'placeholder' => 'Seleccione un directivo', 'required' => false, 'attr' => array('class' => 'form-control input-medium')));
+            if (null == $options['data']->getId())
+                $builder->add('jefe', null, array('choices' => $this->areaService->obtenerDirectivos(), 'label' => 'Jefe', 'placeholder' => 'Seleccione un directivo', 'required' => false, 'attr' => array('class' => 'form-control input-medium')));
+            else {
+                $subordinados = $this->areaService->subordinadosKey($options['data']);
+                $id = $options['data']->getId();
+                $builder->add('jefe', null, array(
+                    'disabled' => $disabled,
+                    'required' => false,
+                    'class' => Usuario::class,
+                    'query_builder' => function (EntityRepository $er) use ($subordinados, $id) {
+                        $qb = $er->createQueryBuilder('u')
+                            ->join('u.idrol', 'r')
+                            ->where('r.nombre= :role AND u.id!= :id')
+                            ->setParameters(['role' => 'ROLE_DIRECTIVO', 'id' => $id]);
+                        if (!empty($subordinados)) {
+                            $qb->andWhere('u.id NOT IN (:subordinados)')->setParameter('subordinados', $subordinados);
+                        }
+                        return $qb;
+                    },
+                    'placeholder' => 'Seleccione un directivo', 'attr' => array('class' => 'form-control input-medium')
+                ));
+            }
+
         } else
             $builder->add('idrol', null, array(
                 'disabled' => $disabled,
@@ -81,13 +104,11 @@ class UsuarioType extends AbstractType
                         ->where('u.nombre IN (:roles)')
                         ->setParameter('roles', ['ROLE_DIRECTIVO', 'ROLE_USER']);
                 },
-                //'choice_label' => 'u.nombre',
                 'label' => 'Rol', 'disabled' => $disabled, 'required' => true, 'attr' => array('class' => 'form-control input-medium')
-            ));;
+            ));
 
-
-        $factory = $builder->getFormFactory();
-        $builder->addEventSubscriber(new AddCargoFieldSubscriber($factory,$disabled));
+            $factory = $builder->getFormFactory();
+            $builder->addEventSubscriber(new AddCargoFieldSubscriber($factory, $disabled));
     }
 
     public function configureOptions(OptionsResolver $resolver)

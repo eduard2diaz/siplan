@@ -1,0 +1,41 @@
+<table class="table table-hover" id="table_mensaje">
+    <thead>
+    <tr>
+        <th></th>
+        <th style="width: 60%">Descripción</th>
+        <th>Fecha</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for mensaje in mensajes %}
+        <tr>
+            <td></td>
+            <td>{{ mensaje.descripcion }}</td>
+            <td>{{ mensaje.fecha |date('d-m-Y H:i') }}</td>
+            <td>
+                <ul class="m-nav m-nav--inline m--pull-right">
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm btn-default mensaje_show" data-href="{{ path('mensaje_show', { 'id': mensaje.id }) }}">
+                            <i class="flaticon-eye"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm btn-danger eliminar_mensaje" data-href="{{ path('mensaje_delete', { 'id': mensaje.id }) }}">
+                            <i class="flaticon-delete-1"></i>
+                        </a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th></th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+        <th></th>
+    </tr>
+    </tfoot>
+</table>

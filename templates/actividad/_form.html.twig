@@ -24,6 +24,12 @@
                     ARCHIVOS
                 </a>
             </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_4" role="tab" aria-selected="false">
+                    <i class="la la-glass"></i>
+                    ASEGURAMIENTO
+                </a>
+            </li>
         </ul>
     </div>
 </div>
@@ -37,13 +43,20 @@
                     <div class="col-md-6">{{ form_row(form.areaconocimiento) }}</div>
                 </div>
                 <div class="row m--margin-bottom-20">
+                    <div class="col-md-6">{{ form_row(form.lugar) }}</div>
+                </div>
+                <div class="row m--margin-bottom-20">
                     <div class="col-md-3">{{ form_row(form.fecha) }}</div>
                     <div class="col-md-3">{{ form_row(form.fechaf) }}</div>
                     {% if form.estado is defined %}
-                    <div class="col-md-3">{{ form_row(form.estado) }}</div>
+                        <div class="col-md-3">{{ form_row(form.estado) }}</div>
                     {% endif %}
-
                 </div>
+                <div class="row m--margin-bottom-20">
+                    <div class="col-md-6">{{ form_row(form.dirigen) }}</div>
+                    <div class="col-md-6">{{ form_row(form.participan) }}</div>
+                </div>
+
                 <div class="row m--margin-top-10">
                     <div class="col-md-6">
                         <ul class="list-inline">
@@ -78,7 +91,7 @@
         </div>
 
         <div class="tab-pane" id="m_tabs_6_3" role="tabpanel">
-            <a class="btn btn-sm" id="adicionar_archivo">Añadir archivo</a>
+            <a class="btn btn-sm" id="adicionar_archivo_actividad">Añadir archivo</a>
             <div id="archivos">
                 <table class="table" id="ficheros_table">
                     <thead>
@@ -94,7 +107,7 @@
                             </td>
                             <td>
                                 {% if obj.id==null %}
-                                    <a class="btn btn-sm btn-danger eliminar_fichero" ><i class="flaticon-delete-1"></i></a>
+                                    <a class="btn btn-sm btn-danger eliminar_archivo" ><i class="flaticon-delete-1"></i></a>
                                 {% else %}
                                     <a class="btn btn-sm btn-danger eliminar_fichero" data-csrf="{{ csrf_token('delete' ~ obj.id) }}" data-href="{{ path('fichero_delete',{'id':obj.id}) }}"><i class="flaticon-delete-1"></i></a>
                                 {% endif %}
@@ -116,6 +129,11 @@
                             {{ form_widget(form.ficheros) }}
                     {% endfor %}
                 </table>
+            </div>
+        </div>
+        <div class="tab-pane" id="m_tabs_6_4" role="tabpanel">
+            <div class="row">
+                <div class="col-md-12">{{ form_row(form.aseguramiento) }}</div>
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         </div>
         <div>
-            <table class="table table-striped" style="margin-bottom: 0px">
+            <table class="table" style="margin-bottom: 0px">
                 <tr>
                     <th>Nombre</th>
                     <td colspan="3">{{ actividad.nombre }}</td>
@@ -17,10 +17,22 @@
                     <td>{{ actividad.getEstadoString() }}</td>
                 </tr>
                 <tr>
+                    <th>Lugar</th>
+                    <td colspan="3">
+                        {{ actividad.lugar }}
+                    </td>
+                </tr>
+                <tr>
                     <th>Fecha de Inicio</th>
                     <td>{{ actividad.fechaf |date('d-m-Y H:i') }}</td>
                     <th>Fecha de Fin</th>
                     <td>{{ actividad.fechaf |date('d-m-Y H:i') }}</td>
+                </tr>
+                <tr>
+                    <th>Dirige(n)</th>
+                    <td><p>{{ actividad.dirigen }}</p></td>
+                    <th>Participa(n)</th>
+                    <td><p>{{ actividad.participan }}</p></td>
                 </tr>
                 <tr>
                     <th>Es una actividad objetivo</th>
@@ -30,16 +42,16 @@
                 </tr>
                 <tr>
                     <th>Archivos</th>
-                    <td  colspan="3">
+                    <td colspan="3">
                         <ul class="m-nav m-nav--inline">
                             {% for archivo in actividad.ficheros %}
-                            <li class="m-nav__item">
-                                <a href="{{ path('fichero_download',{'id':archivo.id}) }}" class="m-nav__link">
+                                <li class="m-nav__item">
+                                    <a href="{{ path('fichero_download',{'id':archivo.id}) }}" class="m-nav__link">
 										<span class="m-nav__link-text">
 											<i class="flaticon-download"></i> {{ archivo.nombre }}
 										</span>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
                             {% endfor %}
                         </ul>
 
@@ -47,13 +59,24 @@
                 </tr>
                 <tr>
                     <th>Descripción</th>
-                    <td  colspan="3"><p>{{ actividad.descripcion |raw}}</p></td>
+                    <td colspan="3"><p>{{ actividad.descripcion |raw }}</p></td>
+                </tr>
+                <tr>
+                    <th>Aseguramiento</th>
+                    <td colspan="3">
+                        <p>{{ actividad.aseguramiento  }}</p>
+                    </td>
                 </tr>
 
             </table>
         </div>
         <div class="modal-footer">
-            <a class="btn btn-sm btn-primary active" data-dismiss="modal">Cerrar</a>
+            {% if existeRespuesta== true %}
+                <a class="btn btn-primary btn-sm respuesta_show" data-href="{{ path('respuesta_show',{'id':actividad.id}) }}">Ver respuesta</a>
+            {% else %}
+                <a class="btn btn-primary btn-sm edicion_respuesta" data-href="{{ path('respuesta_new',{'id':actividad.id}) }}">Responder</a>
+            {% endif %}
+            <a class="btn btn-sm btn-metal active" data-dismiss="modal">Cerrar</a>
         </div>
     </div>
 </div>

@@ -1,0 +1,30 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                Detalles de la notificación
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div>
+            <div class="modal-body" id="modal-body">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Fecha</th>
+                        <td>{{ notificacion.fecha | date('d-m-Y H:i') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descripción</th>
+                        <td>{{ notificacion.descripcion }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
+            </div>
+        </div>
+    </div>
+
+</div>

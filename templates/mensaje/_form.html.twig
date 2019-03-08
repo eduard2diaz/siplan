@@ -1,0 +1,26 @@
+{{ form_start(form,{'attr':{
+    'id': form_id|default('message_new')
+}}) }}
+<div class="modal-body" id="modal-body">
+    <div>
+        {{form_row(form.iddestinatario,{'attr':{
+            'class':'form-control input-xlarge'
+        }})}}
+    </div>
+    <div class="margin-top-10">
+        {{form_row(form.asunto,{'attr':{
+            'class':'form-control input-xlarge'
+        }})}}
+    </div>
+    <div class="margin-top-10">
+        {{ form_row(form.descripcion) }}
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-sm btn-primary  ladda-button" data-style="expand-right" type="submit">Enviar</button>
+    <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
+</div>
+{{ form_end(form) }}
+
+
+

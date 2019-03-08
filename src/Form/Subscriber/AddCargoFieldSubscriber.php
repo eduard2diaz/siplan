@@ -46,8 +46,9 @@ class AddCargoFieldSubscriber  implements EventSubscriberInterface{
         if(null===$data){
             return;
         }
-        $area= is_array($data) ? $data['area'] : $data->getArea();
-        $this->addElements($event->getForm(), $area);
+
+        if(isset($data['area']))
+            $this->addElements($event->getForm(), $data['area']);
     }
 
     protected function addElements($form, $area) {

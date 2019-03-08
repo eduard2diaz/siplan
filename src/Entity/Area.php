@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Table(name="area")
  * @ORM\Entity
- * @UniqueEntity(fields={"nombre","padre"})
+ * @UniqueEntity(fields={"nombre","padre"},ignoreNull=false)
  */
 class Area
 {
@@ -78,7 +78,7 @@ class Area
     /**
      * @param \Area $area
      */
-    public function setPadre(Area $area): void
+    public function setPadre(Area $area=null): void
     {
         $this->padre = $area;
     }

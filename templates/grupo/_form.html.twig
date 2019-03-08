@@ -1,23 +1,47 @@
 {{form_start(form,{'attr':{
-    'id': form_id|default('grupo_new')
+    'id': form_id|default('grupo_new'),
+    'class': 'm-form m-form--state'
 }})}}
 <div class="modal-body" id="modal-body">
     <div class="row">
         <div class="col-md-12">
-            {{form_row(form.nombre)}}
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.nombre) }}
+                </label>
+                <div>
+                    {{ form_widget(form.nombre) }}
+                    {{ form_errors(form.nombre) }}
+                </div>
+            </div>
         </div>
     </div>
-
     {% if grupo.id!=null %}
-    <div class="row m--margin-top-20-desktop">
+    <div class="row m--margin-top-20">
         <div class="col-md-12">
-            {{form_row(form.creador)}}
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.creador) }}
+                </label>
+                <div>
+                    {{ form_widget(form.creador) }}
+                    {{ form_errors(form.creador) }}
+                </div>
+            </div>
         </div>
     </div>
     {% endif %}
-    <div class="row m--margin-top-20-desktop">
+    <div class="row m--margin-top-20">
         <div class="col-md-12">
-            {{form_row(form.idmiembro)}}
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.idmiembro) }}
+                </label>
+                <div>
+                    {{ form_widget(form.idmiembro) }}
+                    {{ form_errors(form.idmiembro) }}
+                </div>
+            </div>
         </div>
     </div>
 {{ form_errors(form) }}

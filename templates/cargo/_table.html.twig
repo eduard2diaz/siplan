@@ -27,10 +27,12 @@
                         <a class="btn btn-sm btn-info edicion" data-href="{{ path('cargo_edit', { 'id': cargo.id }) }}">
                             <i class="flaticon-edit-1"></i> Editar</a>
                     </li>
+                    {% if app.user.cargo.id!=cargo.id %}
                     <li class="m-nav__item">
                         <a class="btn btn-danger btn-sm  eliminar_cargo" data-href="{{ path('cargo_delete', { 'id': cargo.id }) }}" data-csrf="{{ csrf_token('delete' ~ cargo.id) }}">
                             <i class="flaticon-delete-1"></i> Eliminar</a>
                     </li>
+                    {% endif %}
                 </ul>
             </td>
         </tr>
