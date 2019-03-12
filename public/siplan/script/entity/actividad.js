@@ -613,7 +613,6 @@ var actividad = function () {
                      if($('div#basicmodal').html(data)) {
                          configurarDataTableAntiguos();
                          $('div#basicmodal').modal('show');
-                         //dibujariCheck();
                      }
                  },
                  error: function ()
@@ -764,9 +763,15 @@ var actividad = function () {
                  },
                  success: function (data) {
                          refrescarAction();
+                         if(data['mensaje'])
+                             toastr.success(data['mensaje']);
+                         else
+                             if(data['error'])
+                                toastr.error(data['error']);
+                             else
+                                 if(data['warning'])
+                                    toastr.warning(data['warning']);
                          $('div#basicmodal').modal('hide');
-
-                    // base.enviarMensaje('Confirmacion','success',data['mensaje']);
                  },
                  error: function ()
                  {

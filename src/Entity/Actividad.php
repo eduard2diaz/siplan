@@ -375,10 +375,6 @@ class Actividad
     {
         if ($this->ficheros->contains($fichero)) {
             $this->ficheros->removeElement($fichero);
-            // set the owning side to null (unless already changed)
-            /*if ($fichero->getActividad() === $this) {
-                $fichero->setActividad(null);
-            }*/
         }
 
         return $this;

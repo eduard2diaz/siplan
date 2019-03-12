@@ -102,6 +102,32 @@ class UsuarioController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/{id}/organigrama", name="usuario_organigrama", methods="GET")
+     */
+    public function organigrama(Request $request, Usuario $usuario): Response
+    {
+        return new JsonResponse([
+            'view'=>$this->renderView('usuario/_organigrama.html.twig'),
+            'data'=>$this->obtenerOrganigrama($usuario),
+        ]);
+    }
+
+    private function obtenerOrganigrama(Usuario $usuario){
+        $result=['id'=>$usuario->getId(),'name'=>$usuario->getNombre(),'title'=>$usuario->getCargo()->getNombre()];
+        $em=$this->getDoctrine()->getManager();
+        $subordinadosDirectos=$em->getRepository('App:Usuario')->findByJefe($usuario);
+        if(count($subordinadosDirectos)>0){
+            $result['children']=[];
+            foreach ($subordinadosDirectos as $value){
+                $result['children'][]=$this->obtenerOrganigrama($value);
+            }
+        }
+        return $result;
+    }
+
+
+
 
     /**
      * @Route("/{id}/edit", name="usuario_edit",options={"expose"=true}, methods="GET|POST")

@@ -16,8 +16,8 @@ button.bootbox-close-button{
 
 /*Mi personalizacion*/
 div.m-body{
-    background-color: #e9ebee;
-    /*background-color: white;*/
+    /*background-color: #e9ebee;*/
+    background-color: white;
 }
 div.m-portlet{
     border-radius: 0.3%;
@@ -59,10 +59,6 @@ header{
     border-top: 0;
 }
 
-
-footer.m-footer{
-    background-color: #333 !important;
-}
 
 td:last-child{
     width: 32% !important;
@@ -124,13 +120,13 @@ ul.m-footer__nav li a.m-nav__link span{
 }
 
 div.prefooter{
-    background-color: #1d262d;
-
+    background-color: white;
     font-size: 90%;
+    box-shadow: 0 1px 15px 1px rgba(69,65,78,.08);
 }
 
 div.prefooter h6{
-    color: white;
+    color: black;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -158,7 +154,11 @@ div.prefooter h6.underline{
 div.prefooter a:hover{
     color: #5867dd !important;
 }
-footer.m-footer{ background-color: #1d262d !important;
+footer.m-footer{
+    background-color: #5867dd !important;
+}
+span.m-footer__copyright, footer span.m-nav__link-text{
+    color: white !important;
 }
 
 div.prefooter i[class^="socicon-"], [class*=" socicon-"] {

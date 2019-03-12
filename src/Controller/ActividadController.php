@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Actividad;
 use App\Entity\Plantrabajo;
 use App\Form\ActividadType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +15,7 @@ use App\Entity\Fichero;
 /**
  * @Route("/actividad")
  */
-class ActividadController extends AbstractController
+class ActividadController extends Controller
 {
 
     /**
@@ -37,8 +37,8 @@ class ActividadController extends AbstractController
                 $ruta = $this->getParameter('storage_directory');
                 $em = $this->getDoctrine()->getManager();
                 foreach ($form->getData()->getFicheros() as $value) {
+                    $value->subirArchivo($ruta);
                     $value->setActividad($actividad);
-
                     $em->persist($value);
                 }
                 $em->persist($actividad);
@@ -84,11 +84,16 @@ class ActividadController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $actividades = $em->createQuery('SELECT a FROM App:Actividad a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
-        $validator=$this->get('validator');
         $errores=[];
+        $validator=$this->get('validator');
+        $contador=0;
         foreach ($actividades as $actividad) {
             $activity = new Actividad();
             $activity->setResponsable($actividad->getResponsable());
+            $activity->setAseguramiento($actividad->getAseguramiento());
+            $activity->setDirigen($actividad->getDirigen());
+            $activity->setParticipan($actividad->getParticipan());
+            $activity->setLugar($actividad->getLugar());
             $activity->setNombre($actividad->getNombre());
             $activity->setFecha($actividad->getFecha());
             $activity->setFechaF($actividad->getFechaF());
@@ -98,18 +103,25 @@ class ActividadController extends AbstractController
             $activity->setEsobjetivo($actividad->getEsobjetivo());
             $activity->setAsignadapor($actividad->getAsignadapor());
             $activity->setPlantrabajo($plantrabajo);
-
-            $errors = $validator->validate($actividad);
-            if(count($errors)==0)
+            $errors = $validator->validate($activity);
+            if(count($errors)==0) {
                 $em->persist($activity);
-            else
-                $errores[]='La actividad '.$activity->getNombre().' no puedo ser clonada';
+                $contador++;
+            }
 
         }
-        dump($errores);
-        $em->flush();
 
-        return new JsonResponse(array('mensaje' => 'Las actividades fueron clonadas satisfactoriamente.','errors'=>$errores));
+        $array=[];
+        if($contador>0) {
+            $em->flush();
+            if($contador==count($actividades))
+                $array['mensaje']='Las actividades fueron clonadas satisfactoriamente';
+            else
+                $array['warning']='Algunas actividades no pudieron ser clonadas';
+        }else
+            $array['error']='Las actividades no pudieron ser clonadas';
+
+        return new JsonResponse($array);
     }
 
     /**
@@ -140,8 +152,7 @@ class ActividadController extends AbstractController
 
                 foreach ($form->getData()->getFicheros() as $value) {
                     $value->setActividad($actividad);
-                    $value->setRuta($value->subirArchivo($ruta));
-                    $value->setNombre($value->getFile()->getClientOriginalName());
+                    $value->subirArchivo($ruta);
                     $em->persist($value);
                 }
 
@@ -179,7 +190,7 @@ class ActividadController extends AbstractController
     public function delete(Request $request, Actividad $actividad): Response
     {
         if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $actividad->getId(), $request->query->get('_token'))) {
-            //  $this->denyAccessUnlessGranted('DELETE', $actividad);
+            $this->denyAccessUnlessGranted('DELETE', $actividad);
             $em = $this->getDoctrine()->getManager();
             $em->remove($actividad);
             $em->flush();

@@ -75,6 +75,43 @@ var usuario = function () {
         });
     }
 
+    var organigrama = function () {
+        $('body').on('click', 'a#ver_organigrama', function (evento) {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor: "#000000", type: "loader", state: "success", message: "Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data['view'])) {
+                        $('div#basicmodal').modal('show');
+
+                            var datascource = data['data'];
+                            $('#chart-container').orgchart({
+                                'data' : datascource,
+                                'visibleLevel': 2,
+                                'nodeContent': 'title',
+                                'nodeID': 'id',
+                                'exportButton': true,
+                                'exportFilename': 'Mi organigrama'
+                            });
+                    }
+                },
+                error: function () {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body")
+                }
+            });
+        });
+    }
+
     var newAction = function () {
         $('div#basicmodal').on('submit', 'form#usuario_new', function (evento) {
             evento.preventDefault();
@@ -196,6 +233,7 @@ var usuario = function () {
                     newAction();
                     nuevo();
                     eliminar();
+                    organigrama();
                 }
             );
         }

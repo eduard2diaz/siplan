@@ -16,7 +16,7 @@ use App\Entity\Usuario;
 /**
  * @Route("/arc")
  */
-class ARCController extends AbstractController
+class ARCController extends Controller
 {
 
     /**

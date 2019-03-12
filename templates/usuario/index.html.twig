@@ -12,16 +12,51 @@
             </div>
 
             <div class="m-portlet__head-tools">
-                <ul class="m-portlet__nav">
-                    <li class="m-portlet__nav-item">
-                        <a data-href="{{ path('usuario_index',{'id':user_id}) }}" class="btn btn-sm m-btn" id="usuario_tablerefrescar">
-                            <span><i class="flaticon-refresh"></i></span> Refrescar
-                        </a>
-                    </li>
-                    <li class="m-portlet__nav-item">
-                        <a data-href="{{ path('usuario_new') }}" class="btn btn-sm btn-primary m-btn text-uppercase" id="nuevo_usuario" data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Registrar un nuevo usuario">
-                            <span><i class="flaticon-add"></i></span> Nuevo
-                        </a>
+                <ul class="m-footer__nav m-nav m-nav--inline m--margin-top-10">
+                    <li class="m-nav__item">
+                        <div>
+                            <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
+                                 m-dropdown-toggle="hover" aria-expanded="true">
+                                <a href="#"
+                                   class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                                    <i class="la la-plus m--hide"></i>
+                                    <i class="la la-ellipsis-h"></i>
+                                </a>
+                                <div class="m-dropdown__wrapper">
+                                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                    <div class="m-dropdown__inner">
+                                        <div class="m-dropdown__body">
+                                            <div class="m-dropdown__content">
+                                                <ul class="m-nav">
+                                                    <li class="m-nav__section m-nav__section--first">
+                                                        <span class="m-nav__section-text">Acciones rápidas</span>
+                                                    </li>
+                                                    <li class="m-nav__item">
+                                                        <a id="usuario_tablerefrescar" data-href="{{ path('usuario_index',{'id':user_id}) }}" class="m-nav__link refrescar">
+                                                            <i class="m-nav__link-icon flaticon-refresh"></i>
+                                                            <span class="m-nav__link-text">Refrescar</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-nav__item">
+                                                        <a id="nuevo_usuario" data-href="{{ path('usuario_new') }}" class="m-nav__link refrescar">
+                                                            <i class="m-nav__link-icon flaticon-user-add"></i>
+                                                            <span class="m-nav__link-text">Nuevo subordinado</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-nav__item">
+                                                        <a id="ver_organigrama" data-href="{{ path('usuario_organigrama',{'id':user_id}) }}" class="m-nav__link refrescar">
+                                                            <i class="m-nav__link-icon flaticon-users"></i>
+                                                            <span class="m-nav__link-text">Ver organigrama</span>
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>

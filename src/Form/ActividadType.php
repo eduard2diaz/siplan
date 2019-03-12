@@ -43,8 +43,8 @@ class ActividadType extends AbstractType
             ->add('nombre', TextType::class, array('disabled' => $disabled, 'attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge')))
             ->add('lugar', TextType::class, array('disabled' => $disabled,'required' => false, 'attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge')))
             ->add('descripcion', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'label' => 'Descripción', 'attr' => array('class' => 'form-control')))
-            ->add('dirigen', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'label' => 'Dirige(n)', 'attr' => array('class' => 'form-control')))
-            ->add('participan', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'label' => 'Participa(n)', 'attr' => array('class' => 'form-control')))
+            ->add('dirigen', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('participan', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'attr' => array('class' => 'form-control')))
             ->add('aseguramiento', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'attr' => array('class' => 'form-control')))
             ->add('esobjetivo', CheckboxType::class, array('disabled' => $disabled, 'label' => 'Marcar como objetivo del plan.', 'required' => false,
                 'attr' => array('class' => 'pull-left margin-right-10')

@@ -5835,95 +5835,71 @@
 </head>
 <body>
 <!--DEFINICION DE LAS PRINCIPALES TAREAS DEL JEFE-->
-<div>
-    <h3 style="text-align: left">ANEXO NO. 5</h3>
-    <ul class="estadisticas">
-        <li>APROBADO: ________________________</li>
-        <li>NOMBRES Y
-            APELLIDOS: {{ plantrabajo.usuario.jefe!=null ? plantrabajo.usuario.jefe.nombre :  plantrabajo.usuario.nombre }}</li>
-        <li>
-            CARGO: {{ plantrabajo.usuario.jefe!=null ? plantrabajo.usuario.jefe.cargo :  plantrabajo.usuario.cargo }}</li>
-    </ul>
-
-    <h3 style="margin-top: 15%">PLAN DE TRABAJO DE {{ plantrabajo.usuario.cargo }}</h3>
-    <h3>{{ plantrabajo.getMesToString() }} {{ plantrabajo.anno }}</h3>
-    <h3>TAREAS PRINCIPALES</h3>
-    <ol>
-        {% for actividad in actividadesObjetivo %}
-            <li>{{ actividad["nombre"] }}</li>
-        {% endfor %}
-    </ol>
-</div>
-
-
-<div>
-
-</div>
-<div style="display:inline !important;">
-    <div style="width: 30%; display:inline !important;float: left">
+{% if actividadesObjetivo is defined %}
+    <div>
+        <h3 style="text-align: left">ANEXO NO. 5</h3>
         <ul class="estadisticas">
             <li>APROBADO: ________________________</li>
             <li>NOMBRES Y
-                APELLIDOS: {{ plantrabajo.usuario.jefe  ? plantrabajo.usuario.jefe.nombre : plantrabajo.usuario.nombre }}</li>
-            <li>CARGO: {{ plantrabajo.usuario.jefe  ? plantrabajo.usuario.jefe.cargo : plantrabajo.usuario.cargo }}</li>
+                APELLIDOS: {{ plantrabajo.usuario.jefe!=null ? plantrabajo.usuario.jefe.nombre :  plantrabajo.usuario.nombre }}</li>
+            <li>
+                CARGO: {{ plantrabajo.usuario.jefe!=null ? plantrabajo.usuario.jefe.cargo :  plantrabajo.usuario.cargo }}</li>
         </ul>
-    </div>
-    <div style="width: 30%; display:inline !important;float: left;text-align: center">
-        PLAN DE TRABAJO INDIVIDUAL <br/><b>DIRECTORA ECONÓMICA</b>.
-        <br/>MES {{ plantrabajo.getMesToString() }} {{ plantrabajo.anno }}
-    </div>
-    <div style="width: 30%; display:inline !important;float: right">
-        <ul class="estadisticas">
-            <li>ELABORADO POR:___________________</li>
-            <li>NOMBRES Y APELLIDOS: {{ plantrabajo.usuario.nombre }}</li>
-            <li>CARGO: {{ plantrabajo.usuario.cargo }}</li>
-        </ul>
-    </div>
-</div>
 
-{% set totalElementos=actividades | length -1%}
-{% set totalSemanas=actividades|length/7 %}
-{% if  actividades|length %7 > 0 %}
-    {% set totalSemanas=totalSemanas+1 %}
-{% endif %}
-{% set contador=0 %}
-{% set keys=actividades|keys %}
-<table class="table table-striped table-bordered">
-    {% for i in 1..totalSemanas %}
-        <tr>
-            <th>LUNES {{ first|date('m')== mesActual ? first|date('d') : '' }}</th>
-            <th>MARTES {{  first|date_modify('+1 day') |date('m')== mesActual ? first |date_modify('+1 day') | date('d')  : ''}}</th>
-            <th>MIÉRCOLES {{ first|date_modify('+2 day') |date('m')== mesActual ? first |date_modify('+2 day') | date('d')  : ''}}</th>
-            <th>JUEVES {{ first|date_modify('+3 day') |date('m')== mesActual ? first |date_modify('+3 day') | date('d')  : ''}}</th>
-            <th>VIERNES {{ first|date_modify('+4 day') |date('m')== mesActual ? first |date_modify('+4 day') | date('d')  : ''}}</th>
-            <th>SÁBADO {{ first|date_modify('+5 day') |date('m')== mesActual ? first |date_modify('+5 day') | date('d')  : ''}}</th>
-            <th>DOMINGO {{ first|date_modify('+6 day') |date('m')== mesActual ? first |date_modify('+6 day') | date('d')  : ''}}</th>
-        </tr>
-        <tr>
-            {% for j in 1..7 %}
-                {% if contador<=totalElementos %}
-                    <td>
-                        {% for value in actividades[keys[contador]] %}
-                            {% if value["fecha"] |date('Y-m-d')==value["fechaF"] |date('Y-m-d') %}
-                                <b>{{ value["fecha"]|date('H:i') ~'-'~value["fechaF"]|date('H:i') }}</b>
-                                {% else %}
-                                    <b>Del {{ value["fecha"]|date('d') ~' al '~value["fechaF"]|date('d') }}</b>
-                            {% endif %}
-                            {{ value["nombre"] }}
-                        {% endfor %}
-                    </td>
-                {% else %}
-                    <td></td>
-                {% endif %}
-                {% set contador=contador+1 %}
+        <h3 style="margin-top: 15%">PLAN DE TRABAJO DE {{ plantrabajo.usuario.cargo }}</h3>
+        <h3>{{ plantrabajo.getMesToString() }} {{ plantrabajo.anno }}</h3>
+        <h3>TAREAS PRINCIPALES</h3>
+        <ol>
+            {% for actividad in actividadesObjetivo %}
+                <li>{{ actividad["nombre"] }}</li>
             {% endfor %}
-        </tr>
+        </ol>
+    </div>
+{% endif %}
 
-        {% set first=first |date_modify('+7 day') %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>No</th>
+        <th>ACTIVIDADES</th>
+        <th>FECHA/HORA/LUGAR</th>
+        <th>DIRIGEN</th>
+        <th>PARTICIPAN</th>
+    </tr>
+    </thead>
+
+    {% for actividad in actividades %}
+        {% set i=1 %}
+        {% set j=1 %}
+        {% if actividad.actividades is not empty %}
+            <tr>
+                <th colspan="5">ARC.{{ i }}- {{ actividad.arc }}</th>
+            </tr>
+            {% for auxiliar in actividad.actividades %}
+                <tr>
+                    <td>{{ j }}</td>
+                    <td>{{ auxiliar.nombre }}</td>
+                    <td>{{ auxiliar.fecha|date('d-m-Y') }} {{ auxiliar.lugar }}</td>
+                    <td><p>{{ auxiliar.dirigen }}</p></td>
+                    <td><p>{{ auxiliar.participan }}</p></td>
+                </tr>
+                {% set j=1+j %}
+            {% endfor %}
+            {% set i=1+i %}
+        {% endif %}
     {% endfor %}
-
-
+    <tfoot>
+    <tr>
+        <th>No</th>
+        <th>ACTIVIDADES</th>
+        <th>FECHA/HORA/LUGAR</th>
+        <th>DIRIGEN</th>
+        <th>PARTICIPAN</th>
+    </tr>
+    </tfoot>
 </table>
+
+
 
 <!--SE DEFINE EL PLAN DE CUMPLIMIENTO DEL MES ANTERIOR-->
 {% if mesAnterior is defined %}
@@ -5948,5 +5924,6 @@
         </ul>
     </div>
 {% endif %}
+
 </body>
 </html>

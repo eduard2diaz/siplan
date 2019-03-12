@@ -9,25 +9,31 @@
                 <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_tabs_6_1" role="tab"
                    aria-selected="true">
                     <i class="la la-calendar-plus-o"></i>
-                    GENERAL
+                    General
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_2" role="tab" aria-selected="false">
                     <i class="la la-info-circle"></i>
-                    DETALLES
+                    Detalles
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_3" role="tab" aria-selected="false">
-                    <i class="la la-files-o"></i>
-                    ARCHIVOS
+                    <i class="la la-file-pdf-o"></i>
+                    Archivos
                 </a>
             </li>
             <li class="nav-item m-tabs__item">
                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_4" role="tab" aria-selected="false">
+                    <i class="la la-users"></i>
+                    Participantes
+                </a>
+            </li>
+            <li class="nav-item m-tabs__item">
+                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_5" role="tab" aria-selected="false">
                     <i class="la la-glass"></i>
-                    ASEGURAMIENTO
+                    Aseguramiento
                 </a>
             </li>
         </ul>
@@ -52,11 +58,6 @@
                         <div class="col-md-3">{{ form_row(form.estado) }}</div>
                     {% endif %}
                 </div>
-                <div class="row m--margin-bottom-20">
-                    <div class="col-md-6">{{ form_row(form.dirigen) }}</div>
-                    <div class="col-md-6">{{ form_row(form.participan) }}</div>
-                </div>
-
                 <div class="row m--margin-top-10">
                     <div class="col-md-6">
                         <ul class="list-inline">
@@ -132,6 +133,12 @@
             </div>
         </div>
         <div class="tab-pane" id="m_tabs_6_4" role="tabpanel">
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.dirigen) }}</div>
+                <div class="col-md-6">{{ form_row(form.participan) }}</div>
+            </div>
+        </div>
+        <div class="tab-pane" id="m_tabs_6_5" role="tabpanel">
             <div class="row">
                 <div class="col-md-12">{{ form_row(form.aseguramiento) }}</div>
             </div>

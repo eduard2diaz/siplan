@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ARC;
 use App\Entity\Plantrabajo;
 use App\Form\PlantrabajoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -155,7 +156,7 @@ class PlantrabajoController extends Controller
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $estados = ['Registrada'=>0, 'En_proceso'=>0, 'Culminada'=>0,'Cumplida'=>0,'Incumplida'=>0];
+        $estados = ['Registrada'=>0, 'En proceso'=>0, 'Culminada'=>0,'Cumplida'=>0,'Incumplida'=>0];
         $total = 0;
         foreach ($actividads as $activity) {
             $estados[$activity->getEstadoString()]++;
@@ -203,47 +204,30 @@ class PlantrabajoController extends Controller
         $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
         $em = $this->getDoctrine()->getManager();
 
+        $parameters = ['plantrabajo' => $plantrabajo];
         //Listado de actividades objetivos del jefe en el mes Actual
-        $usuario = $this->getUser()->getId();
-        if ($plantrabajo->getUsuario()->getJefe() != null)
-            $usuario = $this->getUser()->getJefe()->getId();
-        $consulta = $em->createQuery('SELECT a.nombre FROM App:Actividad a join a.plantrabajo p JOIN p.usuario u WHERE u.id=:usuario AND p.mes=:mes AND p.anno=:anno AND a.esobjetivo=1 ORDER BY a.fecha');
-        $consulta->setParameters(array('usuario' => $usuario, 'mes' => $plantrabajo->getMes(), 'anno' => $plantrabajo->getAnno()));
-        $actividadesObjetivo = $consulta->getResult();
-
-        $actividadesTable = array();
-
-
-        //Listado de actividades del mes actual
-        $consulta = $em->createQuery('SELECT a.fecha,a.fechaF, a.nombre, a.esobjetivo  FROM App:Actividad a join a.plantrabajo p JOIN p.usuario u WHERE u.id=:usuario AND p.mes=:mes AND p.anno=:anno GROUP BY a.fecha, a.id ORDER BY a.fecha ');
-        $consulta->setParameters(array('usuario' => $plantrabajo->getUsuario()->getId(), 'mes' => $plantrabajo->getMes(), 'anno' => $plantrabajo->getAnno()));
-        $actividades = $consulta->getResult();
-
-        $fistDay = new \DateTime($plantrabajo->getAnno() . '-' . $plantrabajo->getMes() . '-01');
-        $ultimodomingo = $fistDay->modify('last Sun');
-        $fistDay = new \DateTime($plantrabajo->getAnno() . '-' . $plantrabajo->getMes() . '-01');
-        $ultimoDia = $fistDay->modify('last day of this month');
-        $fistDay = new \DateTime($plantrabajo->getAnno() . '-' . $plantrabajo->getMes() . '-01');
-
-        $first = $ultimodomingo->add(new \DateInterval('P1D'));
-        $ultimodomingo = $fistDay->modify('last Sun');
-        while ($ultimodomingo < $fistDay) {
-            $actividadesTable[$ultimodomingo->format('Y-m-d')] = array();
-            $ultimodomingo->add(new \DateInterval('P1D'));
+        if ($plantrabajo->getUsuario()->getJefe() != null){
+            $consulta = $em->createQuery('SELECT a.nombre FROM App:Actividad a join a.plantrabajo p JOIN p.usuario u WHERE u.id=:usuario AND p.mes=:mes AND p.anno=:anno AND a.esobjetivo=true ORDER BY a.fecha');
+            $consulta->setParameters(array('usuario' => $plantrabajo->getUsuario()->getJefe()->getId(), 'mes' => $plantrabajo->getMes(), 'anno' => $plantrabajo->getAnno()));
+            $actividadesObjetivoJefe = $consulta->getResult();
+            $parameters['actividadesObjetivo']=$actividadesObjetivoJefe;
         }
 
-        while ($fistDay <= $ultimoDia) {
-            if (!array_key_exists($fistDay->format('Y-m-d'), $actividadesTable))
-                $actividadesTable[$fistDay->format('Y-m-d')] = array();
-
-            foreach ($actividades as $actividad) {
-                if ($fistDay->format('Y-m-d') == $actividad["fecha"]->format('Y-m-d'))
-                    $actividadesTable[$fistDay->format('Y-m-d')][] = $actividad;
-            }
-            $fistDay->add(new \DateInterval('P1D'));
+        $em=$this->getDoctrine()->getManager();
+        $arcs=$em->getRepository(ARC::class)->findAll();
+        $result=[];
+        foreach ($arcs as $arc){
+            //Listado de actividades del usuario en el mes actual
+            $consulta = $em->createQuery('SELECT a.fecha,a.fechaF, a.nombre, a.esobjetivo, a.lugar, a.dirigen, a.participan  FROM App:Actividad a join a.plantrabajo p JOIN p.usuario u JOIN a.areaconocimiento arc WHERE u.id=:usuario AND p.mes=:mes AND p.anno=:anno AND arc.id= :arc GROUP BY a.fecha, a.id ORDER BY a.fecha ');
+            $consulta->setParameters(array('usuario' => $plantrabajo->getUsuario()->getId(), 'mes' => $plantrabajo->getMes(), 'anno' => $plantrabajo->getAnno(),'arc'=>$arc->getId()));
+            $actividades = $consulta->getResult();
+            $result[]=[
+                'arc'=>$arc->getNombre(),
+                'actividades'=>$actividades,
+            ];
         }
 
-        $parameters = ['plantrabajo' => $plantrabajo, 'actividadesObjetivo' => $actividadesObjetivo, 'actividades' => $actividadesTable];
+        $parameters['actividades']=$result;
 
         //Gestion de meses anteriores
         $mesAnterior = $plantrabajo->getMes() - 1;
@@ -279,15 +263,31 @@ class PlantrabajoController extends Controller
             $parameters['actividadesanterioresObjetivo'] = $actividadesanterioresObjetivo;
 
         }
-        $parameters['mesActual'] = $plantrabajo->getMes();
-        $parameters['first'] = $first;
 
-        $html = $this->renderView('plantrabajo/exportar.html.twig', $parameters);
-        // return new Response($html);
+
+
+        $html=$this->renderView('plantrabajo/exportar.html.twig',$parameters);
+        return new Response($html);
         return new PdfResponse(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
             'file.pdf'
         );
+    }
+
+    private function lastDay($year,$month){
+        $day=31;
+        switch ($month){
+            case 2:
+              $day=($year%4==0) ? 29 : 28;
+            break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                $day=30;
+            break;
+        }
+        return $day;
     }
 
 

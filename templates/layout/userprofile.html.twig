@@ -1,5 +1,9 @@
 {% extends 'layout/autenticado.html.twig' %}
 {% block page_title %}{{ app.user.id==user_id ? 'Mi perfil' : 'Perfil de '~user_nombre  }}{% endblock page_title %}
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock stylesheets %}
 {% block body %}
     <div class="row">
         <div class="col-lg-3">

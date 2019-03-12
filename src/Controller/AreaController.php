@@ -16,7 +16,7 @@ use App\Entity\Usuario;
 /**
  * @Route("/area")
  */
-class AreaController extends AbstractController
+class AreaController extends Controller
 {
 
     /**

@@ -16,6 +16,8 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('vendors/custom/datatables/datatables.bundle.css','template') }}"/>
+    <link rel="stylesheet" href="{{ asset('siplan/plugins/OrgChart/demo/css/jquery.orgchart.css') }}">
+    <link rel="stylesheet" href="{{ asset('siplan/plugins/OrgChart/demo/css/style.css') }}">
 {% endblock %}
 {% block header %}
 {% embed "layout/recortes/header.html.twig" %}
@@ -65,6 +67,9 @@
     <script type="text/javascript" src="{{ asset('vendors/custom/datatables/datatables.bundle.js','template') }}"></script>
     <script src="{{ asset('plugins/jquery.fileDownload.js','siplan') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/bootbox/bootbox.min.js','siplan') }}"></script>
+
+    <script  src="{{ asset('siplan/plugins/OrgChart/demo/js/html2canvas.min.js') }}"></script>
+    <script  src="{{ asset('siplan/plugins/OrgChart/demo/js/jquery.orgchart.js') }}"></script>
     <!--IMPORTANDO LAS LIBRERIAS DE AMCHART-->
     <script src="{{ asset('siplan/plugins/amcharts4/core.js') }}"></script>
     <script src="{{ asset('siplan/plugins/amcharts4/charts.js') }}"></script>
@@ -76,5 +81,6 @@
         authenticated.init();
         reporte.init();
         var datatable_url='{{ asset('siplan/plugins/datatable/es.json') }}';
+        var profile_img='{{ asset('template/app/media/img/users/user4.jpg') }}';
     </script>
 {% endblock %}

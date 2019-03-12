@@ -41,4 +41,4 @@ security:
         - { path: ^/usuario, roles: [ROLE_ADMIN, ROLE_DIRECTIVO] }
        # - { path: ^/plantrabajo, roles: IS_AUTHENTICATED_FULLY }
        # - { path: ^/actividad, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/*, roles: IS_AUTHENTICATED_FULLY }
+        #- { path: ^/*, roles: IS_AUTHENTICATED_FULLY }

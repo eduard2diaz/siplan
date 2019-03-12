@@ -1,0 +1,61 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig' %}
+{% block  page_title %}Acerca de nosotros{% endblock %}
+{% block body %}
+    <style>
+        div.about-box {
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 3% 10%;
+            padding: 2%;
+        }
+
+        div.about-box img {
+            width: 70%;
+            border-radius: 2px;
+        }
+    </style>
+    <div class="row about-box">
+        <div class="col-md-6">
+            <h4>¿Cuál es nuestra misión?</h4>
+            <p>
+                ¡El motivo por el que lo hacemos es porque realmente nos interesa! Nuestra misión es guiar a las
+                personas en su manera de lograr sus objetivos y comunicarse eficazmente, ganando así más tiempo para
+                pasar con la gente y con las cosas que les gustan.
+            </p>
+
+        </div>
+        <div class="col-md-6">
+            <img src="{{ asset('siplan/img/rocket@2x.png') }}" alt="¿Cuál es nuestra misión?"/>
+        </div>
+    </div>
+
+    <div class="row about-box">
+        <div class="col-md-6">
+            <img src="{{ asset('siplan/img/working@2x.png') }}" alt="¿como trabajamos?"/>
+        </div>
+        <div class="col-md-6">
+            <h4>¿Cómo trabajamos?</h4>
+            <p>
+                En SIPLAN creemos que el trabajo no es un lugar al que ir sino una cosa que hacemos. Este es el
+                motivo por el que todos trabajamos de forma remota y a decir verdad no tenemos oficina. Es más, no
+                utilizamos correo electrónico para la comunicación interna. Sino más bien, todos nos comunicamos
+                mediante tareas y comentarios en la aplicación SIPLAN. Aquí, puedes obtener más información acerca
+                nuestros valores empresariales…
+            </p>
+        </div>
+    </div>
+    <div class="row about-box">
+        <div class="col-md-6">
+            <h4>¿Para quién trabajamos?</h4>
+            <p>
+                SIPLAN es para ti, sin importar quien seas ni donde vivas. Esta es nuestra forma de ayudarte a aprovechar
+                tu tiempo, optimizar no solo tu trabajo sino también tus tareas diarias. A tu alcance, libre, gratuito
+                y personalizable.
+            </p>
+
+        </div>
+        <div class="col-md-6">
+            <img src="{{ asset('siplan/img/worldmap.png') }}" alt="¿Cuál es nuestra misión?"/>
+        </div>
+    </div>
+{% endblock %}
