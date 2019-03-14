@@ -11,6 +11,7 @@ var grupo = function () {
             columns: [
                 {data: 'numero'},
                 {data: 'nombre'},
+                {data: 'creador'},
                 {data: 'acciones'}
             ]
         });
@@ -162,6 +163,7 @@ var grupo = function () {
                         objeto = table.row.add({
                             "numero": total,
                             "nombre": data['nombre'],
+                            "creador": data['creador'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                             "<li class='m-nav__item'>" +
                             "<a class='btn btn-sm grupo_show' data-href=" + Routing.generate('grupo_show', {id: data['id']}) + "><i class='flaticon-eye'></i></a>" +
@@ -219,6 +221,7 @@ var grupo = function () {
                         $('div#basicmodal').modal('hide');
                         var pagina = table.page();
                         obj.parents('tr').children('td:nth-child(2)').html(data['nombre']);
+                        obj.parents('tr').children('td:nth-child(3)').html(data['creador']);
                     }
                 },
                 error: function () {

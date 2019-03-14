@@ -42,7 +42,7 @@ class GrupoType extends AbstractType
         if (null != $data->getId()) {
             $grupo = $data->getId();
             $id = $data->getCreador()->getId();
-            $builder->add('creador', null, [
+            $builder->add('creador', null, ['label'=>'Responsable',
                 'query_builder' => function (EntityRepository $er) use ($grupo, $id) {
                     $qb = $er->createQueryBuilder('creador');
                     $qb->distinct(true);

@@ -25,7 +25,7 @@ class UsuarioController extends Controller
     /**
      * @Route("/{id}/index", name="usuario_index", methods="GET", options={"expose"=true})
      */
-    public function index(Request $request,Usuario $usuario): Response
+    public function index(Request $request, Usuario $usuario): Response
     {
         if ($this->isGranted('ROLE_ADMIN'))
             $usuarios = $this->getDoctrine()->getManager()->createQuery('SELECT u FROM App:Usuario u WHERE u.id!=:id')->setParameter('id', $this->getUser()->getId())->getResult();
@@ -37,10 +37,10 @@ class UsuarioController extends Controller
 
         return $this->render('usuario/index.html.twig', [
             'usuarios' => $usuarios,
-            'user_id'=>$usuario->getId(),
-            'user_foto'=>null!=$usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
-            'user_nombre'=>$usuario->getNombre(),
-            'user_correo'=>$usuario->getCorreo(),
+            'user_id' => $usuario->getId(),
+            'user_foto' => null != $usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_nombre' => $usuario->getNombre(),
+            'user_correo' => $usuario->getCorreo(),
         ]);
     }
 
@@ -53,7 +53,7 @@ class UsuarioController extends Controller
             throw $this->createAccessDeniedException();
 
         $usuario = new Usuario();
-        if (in_array('ROLE_DIRECTIVO',$this->getUser()->getRoles()))
+        if (in_array('ROLE_DIRECTIVO', $this->getUser()->getRoles()))
             $usuario->setJefe($this->getUser());
         $form = $this->createForm(UsuarioType::class, $usuario, array('action' => $this->generateUrl('usuario_new')));
         $form->handleRequest($request);
@@ -61,9 +61,9 @@ class UsuarioController extends Controller
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                if(null!=$usuario->getFicheroFoto()->getFile()){
+                if (null != $usuario->getFicheroFoto()->getFile()) {
                     $em->persist($usuario->getFicheroFoto());
-                }else
+                } else
                     $usuario->setFicheroFoto(null);
 
                 $em->persist($usuario);
@@ -72,7 +72,7 @@ class UsuarioController extends Controller
                     'nombre' => $usuario->getNombre(),
                     'area' => $usuario->getArea()->getNombre(),
                     'cargo' => $usuario->getCargo()->getNombre(),
-                    'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$usuario->getId())->getValue(),
+                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $usuario->getId())->getValue(),
                     'id' => $usuario->getId(),
                 ));
             } else {
@@ -96,9 +96,9 @@ class UsuarioController extends Controller
     {
         return $this->render('usuario/_show.html.twig', ['usuario' => $usuario,
             'user_id' => $usuario->getId(),
-            'user_foto'=>null!=$usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
-            'user_nombre'=>$usuario->getNombre(),
-            'user_correo'=>$usuario->getCorreo(),
+            'user_foto' => null != $usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_nombre' => $usuario->getNombre(),
+            'user_correo' => $usuario->getCorreo(),
         ]);
     }
 
@@ -108,25 +108,24 @@ class UsuarioController extends Controller
     public function organigrama(Request $request, Usuario $usuario): Response
     {
         return new JsonResponse([
-            'view'=>$this->renderView('usuario/_organigrama.html.twig'),
-            'data'=>$this->obtenerOrganigrama($usuario),
+            'view' => $this->renderView('usuario/_organigrama.html.twig'),
+            'data' => $this->obtenerOrganigrama($usuario),
         ]);
     }
 
-    private function obtenerOrganigrama(Usuario $usuario){
-        $result=['id'=>$usuario->getId(),'name'=>$usuario->getNombre(),'title'=>$usuario->getCargo()->getNombre()];
-        $em=$this->getDoctrine()->getManager();
-        $subordinadosDirectos=$em->getRepository('App:Usuario')->findByJefe($usuario);
-        if(count($subordinadosDirectos)>0){
-            $result['children']=[];
-            foreach ($subordinadosDirectos as $value){
-                $result['children'][]=$this->obtenerOrganigrama($value);
+    private function obtenerOrganigrama(Usuario $usuario)
+    {
+        $result = ['id' => $usuario->getId(), 'name' => $usuario->getNombre(), 'title' => $usuario->getCargo()->getNombre()];
+        $em = $this->getDoctrine()->getManager();
+        $subordinadosDirectos = $em->getRepository('App:Usuario')->findByJefe($usuario);
+        if (count($subordinadosDirectos) > 0) {
+            $result['children'] = [];
+            foreach ($subordinadosDirectos as $value) {
+                $result['children'][] = $this->obtenerOrganigrama($value);
             }
         }
         return $result;
     }
-
-
 
 
     /**
@@ -137,10 +136,11 @@ class UsuarioController extends Controller
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $this->denyAccessUnlessGranted('EDIT',$usuario);
+        $this->denyAccessUnlessGranted('EDIT', $usuario);
         $form = $this->createForm(UsuarioType::class, $usuario, array('action' => $this->generateUrl('usuario_edit', array('id' => $usuario->getId()))));
         $passwordOriginal = $form->getData()->getPassword();
-		$em = $this->getDoctrine()->getManager();        
+        $em = $this->getDoctrine()->getManager();
+        $tieneFoto = $usuario->getFicheroFoto() != null && $usuario->getFicheroFoto()->getRuta() != null;
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
@@ -148,18 +148,17 @@ class UsuarioController extends Controller
                 if (null == $usuario->getPassword())
                     $usuario->setPassword($passwordOriginal);
                 else
-                    $usuario->setPassword($this->get('security.password_encoder')->encodePassword($usuario,$usuario->getPassword()));
+                    $usuario->setPassword($this->get('security.password_encoder')->encodePassword($usuario, $usuario->getPassword()));
 
-                if (null != $usuario->getFicheroFoto())
-                    if($usuario->getFicheroFoto()->getFile()!=null)
+                if (null != $usuario->getFicheroFoto()->getFile()) {
+                    if (true == $tieneFoto)
                         $usuario->getFicheroFoto()->reemplazarArchivo($this->container->getParameter('storage_directory'));
                     else
                         $usuario->getFicheroFoto()->subirArchivo($this->container->getParameter('storage_directory'));
-
-                if(null!=$usuario->getFicheroFoto()){
-                    $usuario->getFicheroFoto()->setFile(null);
-                    $em->persist($usuario->getFicheroFoto());
                 }
+
+                    $usuario->getFicheroFoto()->setFile(null);
+
 
                 $em->persist($usuario);
                 $em->flush();
@@ -172,7 +171,7 @@ class UsuarioController extends Controller
                     'form' => $form->createView(),
                     'action' => 'Actualizar',
                     'usuario' => $usuario,
-                     'form_id' => 'usuario_edit',
+                    'form_id' => 'usuario_edit',
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -191,7 +190,7 @@ class UsuarioController extends Controller
      */
     public function delete(Request $request, Usuario $usuario): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$usuario->getId(), $request->query->get('_token'))) {
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $usuario->getId(), $request->query->get('_token'))) {
             $this->denyAccessUnlessGranted('DELETE', $usuario);
             $em = $this->getDoctrine()->getManager();
             $em->remove($usuario);
@@ -211,8 +210,8 @@ class UsuarioController extends Controller
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $result=[];
-        if($request->get('q')!=null) {
+        $result = [];
+        if ($request->get('q') != null) {
             $em = $this->getDoctrine()->getManager();
             $parameter = $request->get('q');
             $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u WHERE u.nombre LIKE :nombre ORDER BY u.nombre ASC')
@@ -231,12 +230,12 @@ class UsuarioController extends Controller
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $result=[];
-        if($request->get('q')!=null) {
+        $result = [];
+        if ($request->get('q') != null) {
             $em = $this->getDoctrine()->getManager();
             $parameter = $request->get('q');
             $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u JOIN u.idrol r WHERE u.id!= :id AND u.nombre LIKE :nombre AND r.nombre IN (:roles) ORDER BY u.nombre ASC')
-                ->setParameters(['nombre'=> '%' . $parameter . '%','id'=>$this->getUser()->getId(),'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER']]);
+                ->setParameters(['nombre' => '%' . $parameter . '%', 'id' => $this->getUser()->getId(), 'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER']]);
             $result = $query->getResult();
             return new Response(json_encode($result));
         }

@@ -50,7 +50,7 @@ services:
         public: true
         tags:
             - { name: doctrine.event_subscriber,  connection: default }
-        arguments: ['@service_container']
+        arguments: ['@app.notificacion_service']
 
     app_bundle.locale_listener:
         class: App\EventListener\TranslateListener
@@ -84,4 +84,8 @@ services:
     app.email_service:
         class: App\Services\EmailService
         arguments: ['%env(MAILER_URL)%']
+        public: true
+
+    app.notificacion_service:
+        class: App\Services\NotificacionService
         public: true

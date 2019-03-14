@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Notificacion;
+use App\Services\NotificacionService;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use App\Entity\Grupo;
@@ -10,8 +11,19 @@ use App\Entity\SolicitudGrupo;
 
 class GrupoSubscriber implements EventSubscriber
 {
+    private $notificacion;
 
-   public function postPersist(LifecycleEventArgs $args)
+    /**
+     * GrupoSubscriber constructor.
+     * @param $notificacion
+     */
+    public function __construct(NotificacionService $notificacion)
+    {
+        $this->notificacion = $notificacion;
+    }
+
+
+    public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $manager = $args->getEntityManager();
@@ -30,12 +42,9 @@ class GrupoSubscriber implements EventSubscriber
                     $solicitud->setFecha($fecha);
                     $manager->persist($solicitud);
 
-                    $notificacion=new Notificacion();
-                    $notificacion->setFecha($fecha);
-                    $notificacion->setGrupo($entity);
-                    $notificacion->setDestinatario($value);
-                    $notificacion->setDescripcion("El usuario ".$entity->getCreador()." lo añadió al grupo ".$entity->getNombre());
-                    $manager->persist($notificacion);
+                    $message = "El usuario " . $entity->getCreador()->getNombre() . " lo agregó al grupo " . $entity->getNombre();
+                    $this->notificacion->nuevaNotificacion($value->getId(), $message, $entity->getId());
+
                 }
             }
             $manager->flush();
@@ -60,24 +69,6 @@ class GrupoSubscriber implements EventSubscriber
                     $solicitud->setEstado(0);
                     $solicitud->setFecha($fecha);
                     $manager->persist($solicitud);
-
-                    $notificacion=new Notificacion();
-                    $notificacion->setFecha($fecha);
-                    $notificacion->setDestinatario($value);
-                    $notificacion->setDescripcion("El usuario ".$entity->getCreador()." lo añadió al grupo ".$entity->getNombre());
-                    $manager->persist($notificacion);
-                }
-            }
-
-            $solicitudes=$manager->getRepository('App:SolicitudGrupo')->findByGrupo($entity);
-            foreach ($solicitudes as $value){
-                if(!$entity->getIdmiembro()->contains($value->getUsuario())){
-                    $manager->remove($value);
-                    $notificacion=new Notificacion();
-                    $notificacion->setFecha($fecha);
-                    $notificacion->setDestinatario($value->getUsuario());
-                    $notificacion->setDescripcion("El usuario ".$entity->getCreador()." lo eliminó del grupo ".$entity->getNombre());
-                    $manager->persist($notificacion);
                 }
             }
             $manager->flush();

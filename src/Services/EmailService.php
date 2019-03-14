@@ -29,12 +29,16 @@ class EmailService
 
 
     public function sendEmail($from,$to,$subject,$body){
-        $transport = (new \Swift_SmtpTransport($this->host, $this->port))
-            ->setUsername($this->username)
-            ->setPassword($this->password);
+        try{
+            $transport = (new \Swift_SmtpTransport($this->host, $this->port))
+                ->setUsername($this->username)
+                ->setPassword($this->password);
 
-        $mailer = new \Swift_Mailer($transport);
-        $message = (new \Swift_Message($subject))->setFrom($from)->setTo($to)->setBody($body);
-        $mailer->send($message);
+            $mailer = new \Swift_Mailer($transport);
+            $message = (new \Swift_Message($subject))->setFrom($from)->setTo($to)->setBody($body);
+            $mailer->send($message);
+        }
+        catch (\Exception $e){
+        }
     }
 }

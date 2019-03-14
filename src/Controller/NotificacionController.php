@@ -26,8 +26,9 @@ class NotificacionController extends Controller
         if ($request->isXmlHttpRequest()) {
             if ($request->query->get('_format') == 'json') {
 
-                if (null == $this->getUser()->getUltimologin())
-                    $notificacions = $this->getDoctrine()->getRepository(Notificacion::class)->findBy(['destinatario' => $this->getUser()], ['fecha' => 'DESC'],5);
+                if (null == $this->getUser()->getUltimologout()) {
+                    $notificacions = $this->getDoctrine()->getRepository(Notificacion::class)->findBy(['destinatario' => $this->getUser()->getId()], ['fecha' => 'DESC'], 5);
+                }
                 else {
                     $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT n FROM App:Notificacion n JOIN n.destinatario u WHERE u.id= :usuario AND n.fecha>= :fecha');
                     $consulta->setParameters(['usuario' => $this->getUser()->getId(), 'fecha' => $this->getUser()->getUltimologout()]);

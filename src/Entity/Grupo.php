@@ -115,7 +115,8 @@ class Grupo
         if (null == $this->getCreador()) {
             $context->setNode($context, 'creador', null, 'data.creador');
             $context->addViolation('Seleccione un creador');
-        } elseif ($this->getIdmiembro()->contains($this->getCreador())) {
+        }
+        elseif ($this->getIdmiembro()->contains($this->getCreador())) {
             $context->setNode($context, 'idmiembro', null, 'data.idmiembro');
             $context->addViolation('El creador del grupo no debe ser miembro del mismo.');
         }

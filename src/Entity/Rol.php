@@ -82,6 +82,9 @@ class Rol extends Role
             case 'ROLE_USER':
                 return 'Trabajador';
             break;
+            case 'ROLE_COORDINADOR':
+                return 'Coordinador';
+            break;
         }
         return $this->getNombre();
     }

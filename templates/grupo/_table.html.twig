@@ -3,6 +3,7 @@
     <tr>
         <th>#</th>
         <th>Nombre</th>
+        <th>Creador</th>
         <th></th>
     </tr>
     </thead>
@@ -12,13 +13,14 @@
         <tr>
             <td>{{ i }}</td>
             <td>{{ grupo.nombre }}</td>
+            <td>{{ grupo.creador }}</td>
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
                         <a class="btn btn-sm edicion" data-href="{{ path('grupo_show', { 'id': grupo.id }) }}">
                             <i class="flaticon-eye"></i></a>
                     </li>
-                    {% if app.user.id==grupo.creador %}
+                    {% if app.user.id==grupo.creador.id %}
                     <li class="m-nav__item">
                         <a class="btn btn-sm btn-info edicion" data-href="{{ path('grupo_edit', { 'id': grupo.id }) }}">
                             <i class="flaticon-edit-1"></i></a>
@@ -39,9 +41,8 @@
         <th>
             #
         </th>
-        <th>
-            Nombre
-        </th>
+        <th>Nombre</th>
+        <th>Creador</th>
         <th></th>
     </tr>
     </tfoot>
