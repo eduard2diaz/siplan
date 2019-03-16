@@ -52,12 +52,6 @@ services:
             - { name: doctrine.event_subscriber,  connection: default }
         arguments: ['@app.notificacion_service']
 
-    app_bundle.locale_listener:
-        class: App\EventListener\TranslateListener
-        arguments: ["%kernel.default_locale%"]
-        tags:
-            - { name: kernel.event_subscriber }
-
     area_service:
         class: App\Services\AreaService
         public: true

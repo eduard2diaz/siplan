@@ -48,8 +48,9 @@ class AddMiembroFieldSubscriber  implements EventSubscriberInterface{
             return;
         }
 
-        $miembro= is_array($data['idmiembro']) ? $data['idmiembro'] : [$data['idmiembro']];
-        $this->addElements($event->getForm(), $miembro);
+        if(isset($data['idmiembro']))
+            $this->addElements($event->getForm(), $data['idmiembro']);
+
     }
 
     protected function addElements($form, $miembro) {
@@ -66,7 +67,7 @@ class AddMiembroFieldSubscriber  implements EventSubscriberInterface{
         $form = $event->getForm();
 
        if(null==$data->getId()){
-           $form->add('idmiembro',null,array('choices'=>array(),'required'=>true,'label'=>'Miembros','attr'=>array('placeholder'=>'Escriba los miembros',)));
+           $form->add('idmiembro',null,array('choices'=>array(),'required'=>false,'label'=>'Miembros','attr'=>array('placeholder'=>'Escriba los miembros',)));
         }
 
     }

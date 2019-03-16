@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity("usuario")
  * @UniqueEntity("correo")
  */
-class Usuario implements UserInterface/*, \Serializable, EquatableInterface*/
+class Usuario implements UserInterface
 {
     /**
      * @var int
@@ -274,8 +274,6 @@ class Usuario implements UserInterface/*, \Serializable, EquatableInterface*/
     {
         return $this->activo;
     }
-
-
 
     /**
      * @param bool|null $activo
@@ -588,10 +586,7 @@ class Usuario implements UserInterface/*, \Serializable, EquatableInterface*/
             $context->addViolation('Compruebe el jefe seleccionado.');
         }
 
-        if(count($roles)!=1){
-            $context->setNode($context, 'idrol', null, 'data.idrol');
-            $context->addViolation('Seleccione un rol');
-        }elseif(in_array('ROLE_ADMIN',$roles)) {
+         if(in_array('ROLE_ADMIN',$roles)) {
             if ($this->getJefe() != null)
                 $context->buildViolation('Un administrador no puede tener jefe')
                     ->atPath('idrol')

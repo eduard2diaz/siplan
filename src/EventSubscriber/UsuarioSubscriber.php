@@ -28,7 +28,8 @@ class UsuarioSubscriber implements EventSubscriber
         $em=$args->getEntityManager();
         if ($entity instanceof Usuario){
             $entity->setPassword($this->getServiceContainer()->get('security.password_encoder')->encodePassword($entity,$entity->getPassword()));
-            if (null!=$entity->getFicheroFoto()->getFile()) {
+            //Si estan subiendo una instancia de un fichero y se envió algún archivo
+            if (null!=$entity->getFicheroFoto() && null!=$entity->getFicheroFoto()->getFile()) {
                 $entity->getFicheroFoto()->subirArchivo($this->getServiceContainer()->getParameter('storage_directory'));
             }
         }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ARC;
+use App\Entity\MiembroConsejoDireccion;
 use App\Entity\Plantrabajo;
 use App\Form\PlantrabajoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -96,6 +97,11 @@ class PlantrabajoController extends Controller
     {
         $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
 
+        $esmiembroCD=false;
+        if($plantrabajo->getUsuario()->getId()==$this->getUser()->getId() && $this->getDoctrine()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser())!=null)
+            $esmiembroCD=true;
+
+
         $actividads = $this->getDoctrine()
             ->getRepository(Actividad::class)
             ->findBy(array('plantrabajo' => $plantrabajo));
@@ -124,6 +130,7 @@ class PlantrabajoController extends Controller
             'user_foto'=>null!=$plantrabajo->getUsuario()->getFicheroFoto() ? $plantrabajo->getUsuario()->getFicheroFoto()->getRuta() : null,
             'user_nombre'=>$plantrabajo->getUsuario()->getNombre(),
             'user_correo'=>$plantrabajo->getUsuario()->getCorreo(),
+            'esmiembroCD'=>$esmiembroCD
         ]);
     }
 

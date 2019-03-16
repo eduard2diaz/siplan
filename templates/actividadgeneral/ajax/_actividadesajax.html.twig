@@ -1,0 +1,48 @@
+<div class="modal-dialog modal-full">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Actividades del plan de trabajo general</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+        <div class="m--padding-30">
+            <table class="table table-hover dataTable" id="table_actividadesantiguas">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%set i=1%}
+                {% for actividad in actividades %}
+                    <tr>
+                        <td>
+                            <label class="m-checkbox m-checkbox--bold m-checkbox--state-success">
+                                <input name="actividad" id="actividad" type="checkbox" value="{{ actividad.id }}"/>
+                                <span></span>
+                            </label>
+                        </td>
+                        <td>{{ actividad.nombre }}</td>
+                        <td>{{ actividad.fecha|date('d-m-Y') }}</td>
+                    </tr>
+                    {%set i=1+i%}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>No.</th>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary m--hidden-desktop mt-ladda-btn ladda-button" data-style="expand-right" data-spinner-color="#333" id="enviar_actividadesgeneral"><i class="fa fa-send"></i>Clonar actividades</a>
+            <a class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</a>
+        </div>
+    </div>
+</div>
+
+

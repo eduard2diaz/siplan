@@ -4,11 +4,11 @@ security:
 
     role_hierarchy:
         ROLE_DIRECTIVO:  ROLE_USER
+        ROLE_COORDINADOR:  ROLE_USER
 
     providers:
         usuarios:
             entity: { class: App:Usuario}
-
 
     firewalls:
         secured_area:
@@ -28,6 +28,7 @@ security:
                 secret:  '%env(APP_SECRET)%'
                 lifetime: 604800 # 1 week in seconds
                 path: index
+
     access_control:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/area, roles: ROLE_ADMIN }
@@ -39,6 +40,9 @@ security:
         - { path: ^/usuario/\d+/edit, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/usuario/\d+/show, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/usuario, roles: [ROLE_ADMIN, ROLE_DIRECTIVO] }
-       # - { path: ^/plantrabajo, roles: IS_AUTHENTICATED_FULLY }
-       # - { path: ^/actividad, roles: IS_AUTHENTICATED_FULLY }
-        #- { path: ^/*, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/plantrabajo, roles: ROLE_USER }
+        - { path: ^/actividad, roles: ROLE_USER }
+        - { path: ^/planmensualgeneral, roles: ROLE_COORDINADOR }
+        - { path: ^/actividadgeneral, roles: ROLE_COORDINADOR }
+        - { path: ^/miembroconsejodireccion, roles: ROLE_COORDINADOR }
+        - { path: ^/*, roles: IS_AUTHENTICATED_FULLY }

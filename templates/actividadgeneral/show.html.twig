@@ -1,0 +1,48 @@
+<div class="modal-dialog modal-full">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">{{ actividad.nombre }}</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+        <div>
+            <table class="table" style="margin-bottom: 0px">
+                <tr>
+                    <th>Nombre</th>
+                    <td colspan="3">{{ actividad.nombre }}</td>
+                </tr>
+                <tr>
+                    <th>Lugar</th>
+                    <td colspan="3">
+                        {{ actividad.lugar }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Fecha de Inicio</th>
+                    <td>{{ actividad.fechaf |date('d-m-Y H:i') }}</td>
+                    <th>Fecha de Fin</th>
+                    <td>{{ actividad.fechaf |date('d-m-Y H:i') }}</td>
+                </tr>
+                <tr>
+                    <th>Dirigen</th>
+                    <td><p>{{ actividad.dirigen }}</p></td>
+                    <th>Participan</th>
+                    <td><p>{{ actividad.participan }}</p></td>
+                </tr>
+                <tr>
+                    <th>Descripción</th>
+                    <td colspan="3"><p>{{ actividad.descripcion |raw }}</p></td>
+                </tr>
+                <tr>
+                    <th>Aseguramiento</th>
+                    <td colspan="3">
+                        <p>{{ actividad.aseguramiento  }}</p>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-metal active" data-dismiss="modal">Cerrar</a>
+        </div>
+    </div>
+</div>

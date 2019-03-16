@@ -31,16 +31,6 @@ class Notificacion
     private $destinatario;
 
     /**
-     * @var \Grupo
-     *
-     * @ORM\ManyToOne(targetEntity="Grupo")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="grupo", referencedColumnName="id",onDelete="Cascade")
-     * })
-     */
-    private $grupo;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $fecha;
@@ -72,24 +62,6 @@ class Notificacion
     {
         $this->destinatario = $destinatario;
     }
-
-    /**
-     * @return \Grupo
-     */
-    public function getGrupo(): Grupo
-    {
-        return $this->grupo;
-    }
-
-    /**
-     * @param \Grupo $grupo
-     */
-    public function setGrupo(Grupo $grupo): void
-    {
-        $this->grupo = $grupo;
-    }
-
-
 
     /**
      * @return mixed

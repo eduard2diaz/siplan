@@ -43,7 +43,7 @@ class GrupoSubscriber implements EventSubscriber
                     $manager->persist($solicitud);
 
                     $message = "El usuario " . $entity->getCreador()->getNombre() . " lo agregó al grupo " . $entity->getNombre();
-                    $this->notificacion->nuevaNotificacion($value->getId(), $message, $entity->getId());
+                    $this->notificacion->nuevaNotificacion($value->getId(), $message);
 
                 }
             }
@@ -75,11 +75,24 @@ class GrupoSubscriber implements EventSubscriber
         }
     }
 
+    public function preRemove(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        $manager = $args->getEntityManager();
+        if ($entity instanceof Grupo) {
+            $miembros = $entity->getIdmiembro();
+            $fecha = new \DateTime();
+            foreach ($miembros as $value) {
+                $message = "El usuario " . $entity->getCreador()->getNombre() . " eliminó el grupo " . $entity->getNombre();
+                $this->notificacion->nuevaNotificacion($value->getId(), $message);
+            }
+        }
+    }
+
     public function getSubscribedEvents()
     {
         return [
-            'postPersist' => 'postPersist',
-            'postUpdate' => 'postUpdate',
+            'postPersist','postUpdate','preRemove',
         ];
     }
 }

@@ -110,10 +110,20 @@
                                                             <a id="cargar_antiguos_link" class="m-nav__link" data-href="{{ path('plantrabajo_antiguos',{'id':plantrabajo.id}) }}">
                                                                 <i class="m-nav__link-icon flaticon-add"></i>
                                                                 <span class="m-nav__link-text">
-																	Clonar actividad
+																	Clonar mis actividades anteriores
 																</span>
                                                             </a>
                                                         </li>
+                                                        {% if esmiembroCD==true %}
+                                                            <li class="m-nav__item">
+                                                                <a id="cargar_actividadesgeneral_link" class="m-nav__link" data-href="{{ path('actividadgeneral_plangeneral') }}">
+                                                                    <i class="m-nav__link-icon flaticon-add"></i>
+                                                                    <span class="m-nav__link-text">
+                                                                        Clonar actividades general
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        {% endif %}
 
                                                         <li class="m-nav__item">
                                                             <a id="plantrabajo_estadistica" data-href="{{ path('plantrabajo_estadistica',{'id':plantrabajo.id}) }}" class="m-nav__link">

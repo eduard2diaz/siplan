@@ -145,45 +145,6 @@ var plantrabajo = function () {
         });
     }
 
-    var edicionAction = function () {
-        $('div#basicmodal').on('submit', 'form#plantrabajo_edit', function (evento)
-        {
-            evento.preventDefault();
-            var padre = $(this).parent();
-            var l = Ladda.create(document.querySelector( '.ladda-button' ) );
-            $.ajax({
-                url: $(this).attr("action"),
-                type: "POST",
-                data: $(this).serialize(), //para enviar el formulario hay que serializarlo
-                beforeSend: function () {
-                    l.start();
-                },
-                complete: function () {
-                    l.stop();
-                },
-                success: function (data) {
-                    if (data['error']) {
-                        padre.html(data['form']);
-                        configurarFormulario();
-                    }
-                    else
-                    {
-                        if (data['mensaje'])
-                            toastr.success(data['mensaje']);
-                        $('div#basicmodal').modal('hide');
-                        var pagina = table.page();
-                        obj.parents('tr').children('td:nth-child(2)').html(data['mes']);
-                        obj.parents('tr').children('td:nth-child(3)').html(data['anno']);
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                }
-            });
-        });
-    }
-
     var eliminar = function () {
         $('table#plantrabajo_table').on('click', 'a.eliminar_plantrabajo', function (evento)
         {
@@ -236,7 +197,6 @@ var plantrabajo = function () {
                     refrescar();
                     newAction();
                     edicion();
-                    edicionAction();
                     eliminar();
                 }
             );

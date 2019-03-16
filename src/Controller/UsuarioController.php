@@ -150,15 +150,14 @@ class UsuarioController extends Controller
                 else
                     $usuario->setPassword($this->get('security.password_encoder')->encodePassword($usuario, $usuario->getPassword()));
 
-                if (null != $usuario->getFicheroFoto()->getFile()) {
+                if (null != $usuario->getFicheroFoto() && null != $usuario->getFicheroFoto()->getFile()) {
                     if (true == $tieneFoto)
                         $usuario->getFicheroFoto()->reemplazarArchivo($this->container->getParameter('storage_directory'));
                     else
                         $usuario->getFicheroFoto()->subirArchivo($this->container->getParameter('storage_directory'));
-                }
 
                     $usuario->getFicheroFoto()->setFile(null);
-
+                }
 
                 $em->persist($usuario);
                 $em->flush();

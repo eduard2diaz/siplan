@@ -27,22 +27,20 @@ class GrupoType extends AbstractType
     {
         $data = $options['data'];
         $id = $this->token->getToken()->getUser()->getId();
+        $choices=[];
+        if(null!=$data->getId())
+            $choices=$data->getIdmiembro();
+
         $builder
             ->add('nombre', TextType::class, ['attr' => ['class' => 'form-control']])
-            /*->add('idmiembro', null, ['label' => 'Miembros',
-                'query_builder' => function (EntityRepository $er) use ($id) {
-                    return $er->createQueryBuilder('u')
-                        ->join('u.idrol', 'r')
-                        ->where('r.nombre IN (:roles) AND u.id!= :id')
-                        ->setParameters(['roles' => ['ROLE_DIRECTIVO', 'ROLE_USER'], 'id' => $id]);
-                }
-            ])*/
-            ->add('idmiembro',null,array('choices'=>array(),'required'=>true,'label'=>'Miembros','attr'=>array('placeholder'=>'Escriba el/ los miembros',)))
+
+            ->add('idmiembro',null,array('choices'=>$choices,'required'=>false,'label'=>'Miembros','attr'=>array('placeholder'=>'Escriba el/ los miembros',)))
             ;
         if (null != $data->getId()) {
             $grupo = $data->getId();
             $id = $data->getCreador()->getId();
             $builder->add('creador', null, ['label'=>'Responsable',
+                'required'=>true,
                 'query_builder' => function (EntityRepository $er) use ($grupo, $id) {
                     $qb = $er->createQueryBuilder('creador');
                     $qb->distinct(true);

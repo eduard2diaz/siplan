@@ -211,11 +211,9 @@ var grupo = function () {
                             toastr.success(data['mensaje'])
 
                         if (false == data['escreador']) {
-                            var button = "<ul class='m-nav m-nav--inline m--pull-right'>" +
-                                "<li class='m-nav__item'>" +
-                                "<a class='btn btn-sm grupo_show' data-href=" + Routing.generate('grupo_show', {id: data['id']}) + "><i class='flaticon-eye'></i></a>" +
-                                "</li></ul>";
-                            obj.parents('tr').children('td:nth-child(3)').html(button);
+                            table.row(obj.parents('tr'))
+                                .remove()
+                                .draw('page');
                         }
 
                         $('div#basicmodal').modal('hide');

@@ -94,20 +94,6 @@ class Actividad
     private $estado;
 
     /**
-     * @var boolean|null
-     *
-     * @ORM\Column(name="esobjetivo", type="boolean", nullable=true)
-     */
-    private $esobjetivo;
-
-    /**
-     * @var boolean|null
-     *
-     * @ORM\Column(name="esexterna", type="boolean", nullable=true)
-     */
-    private $esexterna;
-
-    /**
      * @var \Usuario
      *
      * @ORM\ManyToOne(targetEntity="Usuario")
@@ -147,6 +133,11 @@ class Actividad
      * @Assert\Valid()
      */
     private $ficheros;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ActividadGeneral")
+     */
+    private $actividadGeneral;
 
     /**
      * Actividad constructor.
@@ -271,38 +262,6 @@ class Actividad
     public function setEstado(?int $estado): void
     {
         $this->estado = $estado;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getEsobjetivo(): ?bool
-    {
-        return $this->esobjetivo;
-    }
-
-    /**
-     * @param bool|null $esobjetivo
-     */
-    public function setEsobjetivo(?bool $esobjetivo): void
-    {
-        $this->esobjetivo = $esobjetivo;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getEsexterna(): ?bool
-    {
-        return $this->esexterna;
-    }
-
-    /**
-     * @param bool|null $esexterna
-     */
-    public function setEsexterna(?bool $esexterna): void
-    {
-        $this->esexterna = $esexterna;
     }
 
     /**
@@ -452,6 +411,30 @@ class Actividad
         $this->aseguramiento = $aseguramiento;
     }
 
+    public function getAreaconocimiento(): ?ARC
+    {
+        return $this->areaconocimiento;
+    }
+
+    public function setAreaconocimiento(?ARC $areaconocimiento): self
+    {
+        $this->areaconocimiento = $areaconocimiento;
+
+        return $this;
+    }
+
+    public function getActividadGeneral(): ?ActividadGeneral
+    {
+        return $this->actividadGeneral;
+    }
+
+    public function setActividadGeneral(?ActividadGeneral $actividadGeneral): self
+    {
+        $this->actividadGeneral = $actividadGeneral;
+
+        return $this;
+    }
+
     /**
      * @Assert\Callback
      */
@@ -476,15 +459,4 @@ class Actividad
 
     }
 
-    public function getAreaconocimiento(): ?ARC
-    {
-        return $this->areaconocimiento;
-    }
-
-    public function setAreaconocimiento(?ARC $areaconocimiento): self
-    {
-        $this->areaconocimiento = $areaconocimiento;
-
-        return $this;
-    }
 }

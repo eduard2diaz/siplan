@@ -1,5 +1,5 @@
 {% extends 'layout/autenticado.html.twig' %}
-{% block page_title %}{{ app.user.id==user_id ? 'Mi perfil' : 'Perfil de '~user_nombre  }}{% endblock page_title %}
+{% block page_title %}{{ app.user.id==user_id ? 'Mi perfil' : 'Perfil de '~user_nombre }}{% endblock page_title %}
 {% block stylesheets %}
     {{ parent() }}
 
@@ -13,7 +13,7 @@
                         <div class="m-card-profile__title m--hide">
                             {{ app.user.id==user_id ? 'Mi perfil' : 'Perfil' }}
                         </div>
-                        {%if user_foto!=null %}
+                        {% if user_foto!=null %}
                             {% set rutaFoto=  asset('archivos/'~user_foto) %}
                         {% else %}
                             {% set rutaFoto= asset('app/media/img/users/user4.jpg','template') %}
@@ -43,27 +43,41 @@
 													</span>
                             </a>
                         </li>
-                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTIVO')%}
-                        <li class="m-nav__item">
-                            <a href="{{ path('usuario_index',{'id':user_id}) }}" class="m-nav__link">
-                                <i class="m-nav__link-icon flaticon-users"></i>
-                                <span class="m-nav__link-text">Subordinados</span>
-                            </a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTIVO') %}
+                            <li class="m-nav__item">
+                                <a href="{{ path('usuario_index',{'id':user_id}) }}" class="m-nav__link">
+                                    <i class="m-nav__link-icon flaticon-users"></i>
+                                    <span class="m-nav__link-text">Subordinados</span>
+                                </a>
+                            </li>
                         {% endif %}
                         {% if not is_granted('ROLE_ADMIN') %}
-                        <li class="m-nav__item">
-                            <a href="{{ path('grupo_index',{'id':user_id}) }}" class="m-nav__link">
-                                <i class="m-nav__link-icon flaticon-chat-1"></i>
-                                <span class="m-nav__link-text">Grupos</span>
-                            </a>
-                        </li>
-                        <li class="m-nav__item">
-                            <a href="{{ path('plantrabajo_index',{'id':user_id}) }}" class="m-nav__link">
-                                <i class="m-nav__link-icon flaticon-time-3"></i>
-                                <span class="m-nav__link-text">Planes de trabajo</span>
-                            </a>
-                        </li>
+                            <li class="m-nav__item">
+                                <a href="{{ path('grupo_index',{'id':user_id}) }}" class="m-nav__link">
+                                    <i class="m-nav__link-icon flaticon-chat-1"></i>
+                                    <span class="m-nav__link-text">Grupos</span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="{{ path('plantrabajo_index',{'id':user_id}) }}" class="m-nav__link">
+                                    <i class="m-nav__link-icon flaticon-time-3"></i>
+                                    <span class="m-nav__link-text">Planes de trabajo</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if is_granted('ROLE_COORDINADOR') %}
+                            <li class="m-nav__item">
+                                <a href="{{ path('planmensualgeneral_index') }}" class="m-nav__link">
+                                    <i class="m-nav__link-icon flaticon-time-3"></i>
+                                    <span class="m-nav__link-text">Planes de trabajo general</span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="{{ path('miembro_consejo_direccion_index') }}" class="m-nav__link">
+                                    <i class="m-nav__link-icon flaticon-users"></i>
+                                    <span class="m-nav__link-text">Consejo de dirección</span>
+                                </a>
+                            </li>
                         {% endif %}
                     </ul>
                 </div>

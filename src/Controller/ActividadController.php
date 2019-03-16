@@ -66,65 +66,6 @@ class ActividadController extends Controller
     }
 
     /**
-     * @Route("/{id}/clonar", name="actividad_clonar",options={"expose"=true}, methods="POST")
-     */
-    public function clonar(Request $request, Plantrabajo $plantrabajo): Response
-    {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
-
-
-        if (!$request->request->has('array'))
-            return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
-
-        $array = json_decode($request->request->get('array'));
-        if (empty($array))
-            return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
-
-        $em = $this->getDoctrine()->getManager();
-
-        $actividades = $em->createQuery('SELECT a FROM App:Actividad a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
-        $errores=[];
-        $validator=$this->get('validator');
-        $contador=0;
-        foreach ($actividades as $actividad) {
-            $activity = new Actividad();
-            $activity->setResponsable($actividad->getResponsable());
-            $activity->setAseguramiento($actividad->getAseguramiento());
-            $activity->setDirigen($actividad->getDirigen());
-            $activity->setParticipan($actividad->getParticipan());
-            $activity->setLugar($actividad->getLugar());
-            $activity->setNombre($actividad->getNombre());
-            $activity->setFecha($actividad->getFecha());
-            $activity->setFechaF($actividad->getFechaF());
-            $activity->getFecha()->setDate($plantrabajo->getAnno(), $plantrabajo->getMes(), $actividad->getFecha()->format('d'));
-            $activity->getFechaF()->setDate($plantrabajo->getAnno(), $plantrabajo->getMes(), $actividad->getFechaF()->format('d'));
-            $activity->setEsexterna($actividad->getEsexterna());
-            $activity->setEsobjetivo($actividad->getEsobjetivo());
-            $activity->setAsignadapor($actividad->getAsignadapor());
-            $activity->setPlantrabajo($plantrabajo);
-            $errors = $validator->validate($activity);
-            if(count($errors)==0) {
-                $em->persist($activity);
-                $contador++;
-            }
-
-        }
-
-        $array=[];
-        if($contador>0) {
-            $em->flush();
-            if($contador==count($actividades))
-                $array['mensaje']='Las actividades fueron clonadas satisfactoriamente';
-            else
-                $array['warning']='Algunas actividades no pudieron ser clonadas';
-        }else
-            $array['error']='Las actividades no pudieron ser clonadas';
-
-        return new JsonResponse($array);
-    }
-
-    /**
      * @Route("/{id}/show", name="actividad_show",options={"expose"=true}, methods="GET")
      */
     public function show(Actividad $actividad): Response
@@ -181,6 +122,63 @@ class ActividadController extends Controller
             'form_id' => 'actividad_edit',
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/clonar", name="actividad_clonar",options={"expose"=true}, methods="POST")
+     */
+    public function clonar(Request $request, Plantrabajo $plantrabajo): Response
+    {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
+
+        if (!$request->request->has('array'))
+            return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
+
+        $array = json_decode($request->request->get('array'));
+        if (empty($array))
+            return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $actividades = $em->createQuery('SELECT a FROM App:Actividad a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
+        $errores=[];
+        $validator=$this->get('validator');
+        $contador=0;
+        foreach ($actividades as $actividad) {
+            $activity = new Actividad();
+            $activity->setResponsable($actividad->getResponsable());
+            $activity->setAseguramiento($actividad->getAseguramiento());
+            $activity->setDirigen($actividad->getDirigen());
+            $activity->setParticipan($actividad->getParticipan());
+            $activity->setLugar($actividad->getLugar());
+            $activity->setNombre($actividad->getNombre());
+            $activity->setFecha($actividad->getFecha());
+            $activity->setFechaF($actividad->getFechaF());
+            $activity->getFecha()->setDate($plantrabajo->getAnno(), $plantrabajo->getMes(), $actividad->getFecha()->format('d'));
+            $activity->getFechaF()->setDate($plantrabajo->getAnno(), $plantrabajo->getMes(), $actividad->getFechaF()->format('d'));
+            $activity->setAsignadapor($actividad->getAsignadapor());
+            $activity->setPlantrabajo($plantrabajo);
+            $errors = $validator->validate($activity);
+            if(count($errors)==0) {
+                $em->persist($activity);
+                $contador++;
+            }
+
+        }
+
+        $array=[];
+        if($contador>0) {
+            $em->flush();
+            if($contador==count($actividades))
+                $array['mensaje']='Las actividades fueron clonadas satisfactoriamente';
+            else
+                $array['warning']='Algunas actividades no pudieron ser clonadas';
+        }else
+            $array['error']='Las actividades no pudieron ser clonadas';
+
+        return new JsonResponse($array);
     }
 
 
@@ -246,7 +244,7 @@ class ActividadController extends Controller
 
         $conn = $this->getDoctrine()->getManager()->getConnection();
         //PARA HACER CONSULTAS EN SQL EN CASO DE QUE NO EXISTAN LAS MISMAS PALABRAS RESERVADAS DE SQL EN DQL , PODEMOS UTILIZAR:
-        $sql = 'SELECT a.id, a.nombre, a.fecha,a.esobjetivo FROM actividad a join usuario r on(a.responsable=r.id) WHERE r.id=:id AND  DATE(fecha)<=(CURRENT_DATE + INTERVAL  \'3 day\' )AND a.estado!=3 AND a.estado!=4 ORDER BY a.fecha ASC, a.estado DESC LIMIT 5';
+        $sql = 'SELECT a.id, a.nombre, a.fecha FROM actividad a join usuario r on(a.responsable=r.id) WHERE r.id=:id AND  DATE(fecha)<=(CURRENT_DATE + INTERVAL  \'3 day\' )AND a.estado!=3 AND a.estado!=4 ORDER BY a.fecha ASC, a.estado DESC LIMIT 5';
         $stmt = $conn->prepare($sql);
         $stmt->execute(['id' => $this->getUser()->getId()]);
         $actividades = $stmt->fetchAll();
@@ -266,7 +264,7 @@ class ActividadController extends Controller
 
         $actividades = $this->getDoctrine()
             ->getRepository(Actividad::class)
-            ->findBy(array('plantrabajo' => $plantrabajo, 'asignadapor' => $this->getUser()), array('fecha' => 'DESC'));
+            ->findBy(array('plantrabajo' => $plantrabajo, 'asignadapor' => $this->getUser(),'actividadGeneral'=>null), array('fecha' => 'DESC'));
 
         return $this->render('actividad/ajax/_actividadesajax.html.twig', [
             'actividades' => $actividades,

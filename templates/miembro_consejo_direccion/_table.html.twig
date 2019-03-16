@@ -1,0 +1,48 @@
+<table class="table table-hover m-table m-table--head-separator-brand" id="miembro_consejo_direccion_table">
+    <thead>
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {%set i=1%}
+    {% for miembro in miembro_consejo_direccions %}
+        <tr>
+            <td>{{ i }}</td>
+            <td>{{ miembro.usuario.nombre }}</td>
+            <td>
+                <ul class="m-nav m-nav--inline m--pull-right">
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm btn-info edicion" data-href="{{ path('miembro_consejo_direccion_edit', { 'id': miembro.id }) }}">
+                            <i class="flaticon-edit-1"></i> Editar</a>
+                    </li>
+                    <li class="m-nav__item">
+                        <a class="btn btn-danger btn-sm  eliminar_miembro_consejo_direccion" data-href="{{ path('miembro_consejo_direccion_delete', { 'id': miembro.id }) }}" data-csrf="{{ csrf_token('delete' ~ miembro.id) }}">
+                            <i class="flaticon-delete-1"></i> Eliminar</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        {%set i=1+i%}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+        </th>
+    </tr>
+    </tfoot>
+</table>

@@ -119,7 +119,9 @@ class GrupoController extends Controller
         $this->denyAccessUnlessGranted('EDIT', $grupo);
         $creador = $this->getUser()->getId();
         $creadorNombre = $this->getUser()->getNombre();
+        $miembrosOriginales=clone $grupo->getIdmiembro();
         $form = $this->createForm(GrupoType::class, $grupo, array('action' => $this->generateUrl('grupo_edit', array('id' => $grupo->getId()))));
+
         $form->handleRequest($request);
 
 
@@ -132,19 +134,23 @@ class GrupoController extends Controller
                     $message="El usuario " . $creadorNombre . " lo asignó como responsable del grupo " . $grupo->getNombre();
                     $this->get('app.notificacion_service')->nuevaNotificacion($grupo->getCreador()->getId(),$message,$grupo->getId());
                 }
-                $em->flush();
 
-                /*$solicitudes = $manager->getRepository('App:SolicitudGrupo')->findByGrupo($entity);
-                foreach ($solicitudes as $value) {
-                    if (!$entity->getIdmiembro()->contains($value->getUsuario())) {
-                        $manager->remove($value);
-                        $notificacion = new Notificacion();
-                        $notificacion->setFecha($fecha);
-                        $notificacion->setDestinatario($value->getUsuario());
-                        $notificacion->setDescripcion("El usuario " . $entity->getCreador() . " lo eliminó del grupo " . $entity->getNombre());
-                        $manager->persist($notificacion);
+                $message = "El usuario " . $grupo->getCreador()->getNombre() . " lo agregó al grupo " . $grupo->getNombre();
+                foreach ($grupo->getIdmiembro() as $miembro) {
+                    if ($miembrosOriginales->contains($miembro)){
+                      $miembrosOriginales->removeElement($miembro);
+                      dump('eliminado del listado viejo');
                     }
-                }*/
+                    else {
+                        $this->get('app.notificacion_service')->nuevaNotificacion($miembro->getId(), $message);
+                    }
+                }
+
+                $message = "El usuario " . $grupo->getCreador()->getNombre() . " lo eliminó del grupo " . $grupo->getNombre();
+                foreach ($miembrosOriginales as $miembro) {
+                    $this->get('app.notificacion_service')->nuevaNotificacion($miembro->getId(), $message);
+                }
+                $em->flush();
 
                 return new JsonResponse(array('mensaje' => 'El grupo fue actualizado satisfactoriamente',
                     'nombre' => $grupo->getNombre(),
@@ -211,7 +217,7 @@ class GrupoController extends Controller
             $em->flush();
 
             $message="El usuario " . $this->getUser()->getNombre() . " confirmó ser miembro del grupo " . $grupo->getNombre();
-            $this->get('app.notificacion_service')->nuevaNotificacion($grupo->getCreador()->getId(),$message,$grupo->getId());
+            $this->get('app.notificacion_service')->nuevaNotificacion($grupo->getCreador()->getId(),$message);
 
             return new JsonResponse(array('mensaje' => 'Su membresía fue confirmada satisfactoriamente'));
         }
@@ -244,7 +250,7 @@ class GrupoController extends Controller
             $em->flush();
 
             $message="El usuario " . $this->getUser()->getNombre() . " abandonó el grupo " . $grupo->getNombre();
-            $this->get('app.notificacion_service')->nuevaNotificacion($grupo->getCreador()->getId(),$message,$grupo->getId());
+            $this->get('app.notificacion_service')->nuevaNotificacion($grupo->getCreador()->getId(),$message);
 
             return new JsonResponse(array('mensaje' => 'Su membresía fue rechazada satisfactoriamente'));
         }

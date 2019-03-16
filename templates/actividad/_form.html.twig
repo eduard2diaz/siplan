@@ -58,29 +58,6 @@
                         <div class="col-md-3">{{ form_row(form.estado) }}</div>
                     {% endif %}
                 </div>
-                <div class="row m--margin-top-10">
-                    <div class="col-md-6">
-                        <ul class="list-inline">
-                            <li>
-                                <label class="m-checkbox m-checkbox--solid m-checkbox--state-brand">
-                                    {{ form_widget(form.esexterna) }}
-                                    {{ form_label(form.esexterna) }}
-                                    {{ form_errors(form.esexterna) }}
-                                    <span></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="m-checkbox m-checkbox--solid m-checkbox--state-brand">
-                                    {{ form_widget(form.esobjetivo) }}
-                                    {{ form_label(form.esobjetivo) }}
-                                    {{ form_errors(form.esobjetivo) }}
-                                    <span></span>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
             </div>
             {{ form_errors(form) }}
         </div>

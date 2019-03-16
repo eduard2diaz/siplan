@@ -593,7 +593,6 @@ var actividad = function () {
 
     //CLONACION DE LAS ACTIVIDADES DE PLANES ANTERTIORES
     //PASO 1.Gestion de planes antiguos
-
      var cargarPlanesAntiguos=function(){
          //Cargado de planes antiguos
          $('body').on('click', 'a#cargar_antiguos_link', function (evento)
@@ -666,7 +665,6 @@ var actividad = function () {
      }
 
      //PASO 2. Gestion de actividades
-
      var cargarActividadesAntiguas=function(){
          $('div#basicmodal').on('click', 'a#cargar_actividades_link', function (evento)
          {
@@ -751,6 +749,123 @@ var actividad = function () {
          {
              evento.preventDefault();
              var link = Routing.generate('actividad_clonar',{'id':plantrabajo});
+             $.ajax({
+                 url: link,
+                 type: "POST",
+                 data: {'array':JSON.stringify(listadoactividades)},
+                 beforeSend: function () {
+                    // base.blockUI({message: 'Cargando'});
+                 },
+                 complete: function () {
+                     //base.unblockUI();
+                 },
+                 success: function (data) {
+                         refrescarAction();
+                         if(data['mensaje'])
+                             toastr.success(data['mensaje']);
+                         else
+                             if(data['error'])
+                                toastr.error(data['error']);
+                             else
+                                 if(data['warning'])
+                                    toastr.warning(data['warning']);
+                         $('div#basicmodal').modal('hide');
+                 },
+                 error: function ()
+                 {
+                     base.Error();
+                 }
+             });
+         });
+
+     }
+
+     var cargarActividadesGeneral=function(){
+         $('body').on('click', 'a#cargar_actividadesgeneral_link', function (evento)
+         {
+
+             evento.preventDefault();
+             var padre = $('div#basicmodal');
+             var link = $(this).attr('data-href');
+             $.ajax({
+                 url: link,
+                 type: "GET",
+                 beforeSend: function () {
+                  //   base.blockUI({message: 'Cargando'});
+                 },
+                 complete: function () {
+                    // base.unblockUI();
+                 },
+                 success: function (data) {
+                     if(padre.html(data)) {
+                         configurarDataTableAntiguasActividades();
+                         padre.modal('show')
+                     }
+                 },
+                 error: function ()
+                 {
+                     base.Error();
+                 }
+             });
+         });
+
+         //Gestion de actividades antiguas
+         var configurarDataTableAntiguasActividades = function () {
+             tableantiguos = $('table#table_actividadesantiguas').DataTable({
+                 "pagingType": "simple_numbers",
+                 "language": {
+                     "paginate": {
+                         "first": "|<",
+                         "previous": "Ant.",
+                         "next": "Sig.",
+                         "last": ">|",
+                     },
+                     "lengthMenu": "Mostrar _MENU_ registros por página",
+                     "zeroRecords": "No hay elementos hasta el momento",
+                     "info": "Mostrando página _PAGE_ de _PAGES_",
+                     "infoEmpty": "No hay registros disponibles",
+                     "infoFiltered": "(filtrando de_MAX_ total registros)",
+                     "search": "Buscar"
+                 },
+                 columns: [
+                     {data: 'numero'},
+                     {data: 'nombre'},
+                     {data: 'fecha'}
+                 ]}
+             );
+             Ladda.bind( '.mt-ladda-btn');
+         }
+
+         $('div#basicmodal').on('draw.dt','table#table_actividadesantiguas',function(){
+             $("table#table_actividadesantiguas input[type=checkbox]").prop('checked', false);
+
+             $('table#table_actividadesantiguas input').each(function(obj,valor){
+                 if(listadoactividades.indexOf($(this).attr('value'))!=-1)
+                     $(this).prop('checked', true);
+             });
+         });
+
+         $('div#basicmodal').on('click','table#table_actividadesantiguas input',function(){
+             if( $(this).is(':checked') ) {
+                 listadoactividades.push($(this).attr('value'));
+                 $('a#enviar_actividadesgeneral').removeClass('m--hidden-desktop');
+                 $('a#enviar_actividadesgeneral').fadeIn(800);
+             }else{
+                 var pendienteeliminar=$(this).attr('value');
+                 indice=listadoactividades.indexOf(pendienteeliminar);
+                 if(indice>=0) {
+                     listadoactividades.splice(indice, 1);
+                     if (listadoactividades.length == 0)
+                         $('a#enviar_actividadesgeneral').addClass('m--hidden-desktop');
+                 }
+             }
+         });
+
+
+         $('div#basicmodal').on('click', 'a#enviar_actividadesgeneral', function (evento)
+         {
+             evento.preventDefault();
+             var link = Routing.generate('actividadgeneral_clonar');
              $.ajax({
                  url: link,
                  type: "POST",
@@ -901,6 +1016,7 @@ var actividad = function () {
                     agregarArchivoRespuesta();
                     eliminarArchivo();
                     eliminarFichero();
+                    cargarActividadesGeneral();
 
                     $('div#basicmodal').on('hide.bs.modal',function(){
                         tableantiguos=null;
