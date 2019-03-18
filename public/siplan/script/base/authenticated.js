@@ -324,10 +324,11 @@ var authenticated = function () {
         $('select#mensaje_iddestinatario').select2({
             dropdownParent: $("#basicmodal"),
             ajax: {
-                url: Routing.generate('usuario_ajax'),
+                url: Routing.generate('usuario_mensajedestinatario'),
                 dataType: 'json',
                 delay: 250,
                 processResults: function (data) {
+                    console.log(data);
                     return {
                         //results: [{'id': 00, 'text' : 'tag-name' }]
                         results: data
@@ -468,6 +469,51 @@ var authenticated = function () {
         });
     }
 
+    var nuevaActividad = function () {
+        $('body').on('click', 'a#nueva_actividad', function (evento) {
+            evento.preventDefault();
+            obj = $(this);
+            var link = $(this).attr('data-href');
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data)) {
+                        configurarFormularioActividadNueva();
+                        $('div#basicmodal').modal('show');
+                        //validarEditUser();
+                    }
+                },
+                error: function () {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                }
+            });
+        });
+    }
+
+    var configurarFormularioActividadNueva= function () {
+        $('input#actividad_grupo_fecha').datetimepicker();
+        $('input#actividad_grupo_fechaf').datetimepicker();
+        $('select#actividad_grupo_areaconocimiento').select2({
+            dropdownParent: $("#basicmodal"),
+        });
+        Ladda.bind( '.mt-ladda-btn', { timeout: 2000 } );
+
+        $('textarea#actividad_grupo_descripcion').summernote({
+            placeholder: 'Escriba una breve descripción sobre la actividad',
+            height: 100,
+            focus: true
+        });
+    }
+
     return {
         init: function () {
             $().ready(function(){
@@ -481,6 +527,7 @@ var authenticated = function () {
                 enviarMensajeAction();
                 mensajeShow();
                 reiniciarFoto();
+                nuevaActividad();
             });
         },
     };

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Actividad;
 use App\Entity\Plantrabajo;
+use App\Form\ActividadGrupoType;
 use App\Form\ActividadType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,49 @@ use App\Entity\Fichero;
  */
 class ActividadController extends Controller
 {
+
+    /**
+     * @Route("/nueva", name="actividad_nueva", methods="GET|POST")
+     */
+    public function nueva(Request $request): Response
+    {
+        $actividad = new Actividad();
+        $actividad->setAsignadapor($this->getUser());
+        $form = $this->createForm(ActividadGrupoType::class, $actividad, array('action' => $this->generateUrl('actividad_nueva')));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted())
+            if ($form->isValid()) {
+                $ruta = $this->getParameter('storage_directory');
+                $em = $this->getDoctrine()->getManager();
+                foreach ($form->getData()->getFicheros() as $value) {
+                    $value->subirArchivo($ruta);
+                    $value->setActividad($actividad);
+                    $em->persist($value);
+                }
+                $em->persist($actividad);
+                $em->flush();
+
+                return new JsonResponse(array('mensaje' => "La actividad fue registrada satisfactoriamente",
+                    'nombre' => $actividad->getNombre(),
+                    'fecha' => $actividad->getFecha()->format('d-m-Y H:i'),
+                    'fechaF' => $actividad->getFechaF()->format('d-m-Y H:i'),
+                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $actividad->getId())->getValue(),
+                    'id' => $actividad->getId(),
+                ));
+            } else {
+                $page = $this->renderView('actividad/_form.html.twig', array(
+                    'form' => $form->createView(),
+                    'actividad' => $actividad,
+                ));
+                return new JsonResponse(array('form' => $page, 'error' => true));
+            }
+
+        return $this->render('actividad/_new.html.twig', [
+            'actividad' => $actividad,
+            'form' => $form->createView(),
+        ]);
+    }
 
     /**
      * @Route("/{id}/new", name="actividad_new", methods="GET|POST")

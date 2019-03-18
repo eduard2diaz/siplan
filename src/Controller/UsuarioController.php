@@ -103,32 +103,6 @@ class UsuarioController extends Controller
     }
 
     /**
-     * @Route("/{id}/organigrama", name="usuario_organigrama", methods="GET")
-     */
-    public function organigrama(Request $request, Usuario $usuario): Response
-    {
-        return new JsonResponse([
-            'view' => $this->renderView('usuario/_organigrama.html.twig'),
-            'data' => $this->obtenerOrganigrama($usuario),
-        ]);
-    }
-
-    private function obtenerOrganigrama(Usuario $usuario)
-    {
-        $result = ['id' => $usuario->getId(), 'name' => $usuario->getNombre(), 'title' => $usuario->getCargo()->getNombre()];
-        $em = $this->getDoctrine()->getManager();
-        $subordinadosDirectos = $em->getRepository('App:Usuario')->findByJefe($usuario);
-        if (count($subordinadosDirectos) > 0) {
-            $result['children'] = [];
-            foreach ($subordinadosDirectos as $value) {
-                $result['children'][] = $this->obtenerOrganigrama($value);
-            }
-        }
-        return $result;
-    }
-
-
-    /**
      * @Route("/{id}/edit", name="usuario_edit",options={"expose"=true}, methods="GET|POST")
      */
     public function edit(Request $request, Usuario $usuario): Response
@@ -201,6 +175,33 @@ class UsuarioController extends Controller
         throw $this->createAccessDeniedException();
     }
 
+    //Funcionalidades ajax
+
+    /**
+     * @Route("/{id}/organigrama", name="usuario_organigrama", methods="GET")
+     */
+    public function organigrama(Request $request, Usuario $usuario): Response
+    {
+        return new JsonResponse([
+            'view' => $this->renderView('usuario/_organigrama.html.twig'),
+            'data' => $this->obtenerOrganigrama($usuario),
+        ]);
+    }
+
+    private function obtenerOrganigrama(Usuario $usuario)
+    {
+        $result = ['id' => $usuario->getId(), 'name' => $usuario->getNombre(), 'title' => $usuario->getCargo()->getNombre()];
+        $em = $this->getDoctrine()->getManager();
+        $subordinadosDirectos = $em->getRepository('App:Usuario')->findByJefe($usuario);
+        if (count($subordinadosDirectos) > 0) {
+            $result['children'] = [];
+            foreach ($subordinadosDirectos as $value) {
+                $result['children'][] = $this->obtenerOrganigrama($value);
+            }
+        }
+        return $result;
+    }
+
     /**
      * @Route("/ajax", name="usuario_ajax", options={"expose"=true})
      */
@@ -222,9 +223,10 @@ class UsuarioController extends Controller
     }
 
     /**
-     * @Route("/grupoajax", name="usuario_grupoajax", options={"expose"=true})
+     * @Route("/grupomiembro", name="usuario_grupomiembro", options={"expose"=true})
+     * Retorna todos los usuario que el usuario puede asignar como miembros de su grupo
      */
-    public function grupoAjax(Request $request): Response
+    public function grupoMiembro(Request $request): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
@@ -237,6 +239,45 @@ class UsuarioController extends Controller
                 ->setParameters(['nombre' => '%' . $parameter . '%', 'id' => $this->getUser()->getId(), 'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER']]);
             $result = $query->getResult();
             return new Response(json_encode($result));
+        }
+        return new Response(json_encode($result));
+    }
+
+    /**
+     * @Route("/mensajedestinatario", name="usuario_mensajedestinatario", options={"expose"=true})
+     * Define los posibles destinatarios de un mensaje ya sea usuario o grupo
+     */
+    public function mensajeDestinatario(Request $request): Response
+    {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
+        $result = [];
+        if ($request->get('q') != null) {
+            $em = $this->getDoctrine()->getManager();
+            $parameter = $request->get('q');
+            $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u WHERE u.nombre LIKE :nombre ORDER BY u.nombre ASC')
+                ->setParameter('nombre', '%' . $parameter . '%');
+            $usuarios = $query->getResult();
+
+            foreach ($usuarios as $usuario)
+                $result[] = ['id' => $usuario['id'], 'text' => $usuario['text']];
+
+            $query = $em->createQuery('SELECT g FROM App:Grupo g JOIN g.creador c WHERE g.nombre LIKE :nombre AND c.id= :creador ORDER BY g.nombre ASC')
+                ->setParameters(['nombre'=> '%' . $parameter . '%','creador'=>$this->getUser()->getId()]);
+            $grupos = $query->getResult();
+
+            $query = $em->createQuery('SELECT g FROM App:Grupo g JOIN g.idmiembro m WHERE g.nombre LIKE :nombre AND m.id= :miembro ORDER BY g.nombre ASC')
+                ->setParameters(['nombre'=> '%' . $parameter . '%','miembro'=>$this->getUser()->getId()]);
+            $grupoMiembro = $query->getResult();
+
+            foreach ($grupoMiembro as $value)
+                $grupos[]=$value;
+
+            foreach ($grupos as $grupo) {
+                $result[] = ['id' => 'grupo-'.$grupo->getId(), 'text' => $grupo->getNombre(),/*'miembro'=>$miembros*/];
+            }
+
         }
         return new Response(json_encode($result));
     }

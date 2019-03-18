@@ -25,7 +25,7 @@ var grupo = function () {
         $('select#grupo_idmiembro').select2({
             dropdownParent: $("#basicmodal"),
             ajax: {
-                url: Routing.generate('usuario_grupoajax'),
+                url: Routing.generate('usuario_grupomiembro'),
                 dataType: 'json',
                 delay: 250,
                 processResults: function (data) {

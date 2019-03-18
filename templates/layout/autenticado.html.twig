@@ -8,7 +8,11 @@
             </h3>
         </div>
         <div>
-            {% block rightoptions_block %}{% endblock rightoptions_block %}
+            {% block rightoptions_block %}
+                {% if is_granted('ROLE_DIRECTIVO')%}
+                    <a id="nueva_actividad" class="btn btn-lg m-btn--pill m-btn--outline-2x btn-outline-info btn-sm active m--margin-top-20 m--margin-left-60 text-uppercase" data-href="{{ path('actividad_nueva') }}"><i class="flaticon-calendar-1"></i> Crear</a>
+                {% endif %}
+            {% endblock rightoptions_block %}
         </div>
     </div>
 </div>

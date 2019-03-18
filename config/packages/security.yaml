@@ -45,4 +45,5 @@ security:
         - { path: ^/planmensualgeneral, roles: ROLE_COORDINADOR }
         - { path: ^/actividadgeneral, roles: ROLE_COORDINADOR }
         - { path: ^/miembroconsejodireccion, roles: ROLE_COORDINADOR }
+        - { path: ^/prueba, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/*, roles: IS_AUTHENTICATED_FULLY }
