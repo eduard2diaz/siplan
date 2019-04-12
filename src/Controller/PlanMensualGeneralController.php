@@ -31,7 +31,7 @@ class PlanMensualGeneralController extends Controller
 
         $parameters = [
             'user_id' => $this->getUser()->getId(),
-            'user_foto'=>null!=$this->getUser()->getFicheroFoto() ? $this->getUser()->getFicheroFoto()->getRuta() : null,
+            'user_foto'=>null!=$this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'user_nombre'=>$this->getUser()->getNombre(),
             'user_correo'=>$this->getUser()->getCorreo(),
             'planmensualgenerals' => $planmensualgenerals];
@@ -84,7 +84,7 @@ class PlanMensualGeneralController extends Controller
         return $this->render('planmensualgeneral/show.html.twig', ['planmensualgeneral' => $planmensualgeneral,
             'actividads' => $actividads,
             'user_id' => $this->getUser()->getId(),
-            'user_foto'=>null!=$this->getUser()->getFicheroFoto() ? $this->getUser()->getFicheroFoto()->getRuta() : null,
+            'user_foto'=>null!=$this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'user_nombre'=>$this->getUser()->getNombre(),
             'user_correo'=>$this->getUser()->getCorreo(),
         ]);

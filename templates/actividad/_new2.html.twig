@@ -1,0 +1,16 @@
+<div class="modal-dialog modal-full">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                {{ title| default('Nueva actividad') }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div>
+            <div class="m-portlet m-portlet--tabs" style="margin-bottom: 0px !important;">
+                {%include 'actividad/_form2.html.twig'%}
+            </div>
+        </div>
+    </div>
+</div>
+

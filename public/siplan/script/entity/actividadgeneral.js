@@ -55,8 +55,12 @@ var actividadgeneral = function () {
         $('select#actividad_general_areaconocimiento').select2({
             dropdownParent: $("#basicmodal"),
         });
-        Ladda.bind( '.mt-ladda-btn', { timeout: 2000 } );
-
+        $('select#actividad_general_capitulo').select2({
+            dropdownParent: $("#basicmodal"),
+        });
+        $('select#actividad_general_subcapitulo').select2({
+            dropdownParent: $("#basicmodal"),
+        });
         $('textarea#actividad_general_descripcion').summernote({
             placeholder: 'Escriba una breve descripción sobre la actividad',
             height: 100,
@@ -274,6 +278,52 @@ var actividadgeneral = function () {
         });
     }
 
+    var capituloListener = function () {
+        $('div#basicmodal').on('change', 'select#actividad_general_capitulo', function (evento) {
+            if ($(this).val() > 0)
+                $.ajax({
+                    type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                    dataType: 'html',
+                    url: Routing.generate('subcapitulo_findbycapitulo', {'capitulo': $(this).val()}),
+                    beforeSend: function (data) {
+                        mApp.block("div#basicmodal div#modal-body",
+                            {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando datos..."});
+                    },
+                    success: function (data) {
+                        data="<option><option>"+data;
+                        $('select#actividad_general_subcapitulo').html(data);
+                    },
+                    error: function () {
+                        base.Error();
+                    },
+                    complete: function () {
+                        mApp.unblock("div#basicmodal div#modal-body");
+                    }
+                });
+        });
+        $('div#basicmodal').on('change', 'select#actividad_general_subcapitulo', function (evento) {
+            if ($(this).val() > 0)
+                $.ajax({
+                    type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                    dataType: 'html',
+                    url: Routing.generate('arc_findbysubcapitulo', {'subcapitulo': $(this).val()}),
+                    beforeSend: function (data) {
+                        mApp.block("div#basicmodal div#modal-body",
+                            {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando datos..."});
+                    },
+                    success: function (data) {
+                        $('select#actividad_general_areaconocimiento').html(data);
+                    },
+                    error: function () {
+                        base.Error();
+                    },
+                    complete: function () {
+                        mApp.unblock("div#basicmodal div#modal-body");
+                    }
+                });
+        });
+    }
+
     return {
         init: function () {
             $().ready(function () {
@@ -284,6 +334,7 @@ var actividadgeneral = function () {
                     newActionActividad();
                     edicionActionActividad();
                     eliminarActividad();
+                    capituloListener();
                 }
             );
         }

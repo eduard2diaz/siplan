@@ -29,6 +29,30 @@
             </div>
         </div>
     </div>
+    <div class="row m--margin-top-20">
+        <div class="col-md-6">
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.capitulo) }}
+                </label>
+                <div>
+                    {{ form_widget(form.capitulo) }}
+                    {{ form_errors(form.capitulo) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.subcapitulo) }}
+                </label>
+                <div>
+                    {{ form_widget(form.subcapitulo) }}
+                    {{ form_errors(form.subcapitulo) }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
     <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
@@ -36,6 +60,10 @@
         <span class="ladda-label">{{ action |default('Guardar') }}</span>
         <span class="ladda-spinner"></span>
     </button>
+    {% if eliminable is defined and eliminable==true %}
+        <a class="btn btn-danger btn-sm  eliminar_arc" data-href="{{ path('arc_delete', { 'id': arc.id }) }}" data-csrf="{{ csrf_token('delete' ~ arc.id) }}">
+            <i class="flaticon-delete-1"></i> Eliminar</a>
+    {% endif %}
 </div>
 {{ form_end(form) }}
 

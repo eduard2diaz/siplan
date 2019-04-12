@@ -34,5 +34,9 @@
         <span class="ladda-label">{{ action |default('Guardar')}}</span>
         <span class="ladda-spinner"></span>
     </button>
+    {% if eliminable is defined and eliminable==true %}
+        <a class="btn btn-danger btn-sm  eliminar_cargo" data-href="{{ path('cargo_delete', { 'id': cargo.id }) }}" data-csrf="{{ csrf_token('delete' ~ cargo.id) }}">
+            <i class="flaticon-delete-1"></i> Eliminar</a>
+    {% endif %}
 </div>
 {{form_end(form)}}

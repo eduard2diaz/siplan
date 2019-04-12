@@ -19,9 +19,10 @@ class MiembroConsejoDireccionController extends AbstractController
     /**
      * @Route("/", name="miembro_consejo_direccion_index", methods={"GET"})
      */
-    public function index(Request $request,MiembroConsejoDireccionRepository $miembroConsejoDireccionRepository): Response
+    public function index(Request $request): Response
     {
-        $miembros = $miembroConsejoDireccionRepository->findAll();
+        $em=$this->getDoctrine()->getManager();
+        $miembros = $em->getRepository(MiembroConsejoDireccion::class)->findAll();
 
         if ($request->isXmlHttpRequest())
             return $this->render('miembro_consejo_direccion/_table.html.twig', [
@@ -30,7 +31,7 @@ class MiembroConsejoDireccionController extends AbstractController
 
         return $this->render('miembro_consejo_direccion/index.html.twig', ['miembro_consejo_direccions' => $miembros,
             'user_id' => $this->getUser()->getId(),
-            'user_foto'=>null!=$this->getUser()->getFicheroFoto() ? $this->getUser()->getFicheroFoto()->getRuta() : null,
+            'user_foto'=>null!=$this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'user_nombre'=>$this->getUser()->getNombre(),
             'user_correo'=>$this->getUser()->getCorreo(),
             ]);

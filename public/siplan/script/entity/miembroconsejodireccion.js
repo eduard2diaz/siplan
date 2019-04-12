@@ -16,7 +16,6 @@ var miembroconsejodireccion = function () {
     }
 
     var configurarFormulario = function () {
-        Ladda.bind( '.mt-ladda-btn' );
         $('select#miembro_consejo_direccion_usuario').select2({
             dropdownParent: $("#basicmodal"),
         });
@@ -125,7 +124,7 @@ var miembroconsejodireccion = function () {
                                 "<li class='m-nav__item'>" +
                                 "<a class='btn btn-sm btn-info edicion' data-href=" + Routing.generate('miembro_consejo_direccion_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i>Editar</a></li>" +
                                 "<li class='m-nav__item'>" +
-                                "<a class='btn btn-danger btn-sm  eliminar_miembroconsejodireccion' data-csrf=" + data['csrf'] +" data-href=" + Routing.generate('miembro_consejo_direccion_delete',{id:data['id']}) + ">" +
+                                "<a class='btn btn-danger btn-sm  eliminar_miembro_consejo_direccion' data-csrf=" + data['csrf'] +" data-href=" + Routing.generate('miembro_consejo_direccion_delete',{id:data['id']}) + ">" +
                                 "<i class='flaticon-delete-1'></i>Eliminar</a></li></ul>",
                         });
                         objeto.draw();

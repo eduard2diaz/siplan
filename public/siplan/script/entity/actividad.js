@@ -783,7 +783,6 @@ var actividad = function () {
      var cargarActividadesGeneral=function(){
          $('body').on('click', 'a#cargar_actividadesgeneral_link', function (evento)
          {
-
              evento.preventDefault();
              var padre = $('div#basicmodal');
              var link = $(this).attr('data-href');

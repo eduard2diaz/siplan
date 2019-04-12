@@ -36,5 +36,9 @@
         <i class="flaticon-edit-1 ladda-label"></i> {{ action |default('Guardar')}}
         <span class="ladda-spinner"></span>
     </button>
+    {% if eliminable is defined and eliminable==true %}
+    <a class="btn btn-danger btn-sm  eliminar_area" data-href="{{ path('area_delete', { 'id': area.id }) }}"  data-csrf="{{ csrf_token('delete' ~ area.id) }}">
+        <i class="flaticon-delete-1"></i> Eliminar</a>
+    {% endif %}
 </div>
 {{form_end(form)}}

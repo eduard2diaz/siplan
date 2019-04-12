@@ -3,12 +3,14 @@
 namespace App\Form;
 
 use App\Entity\ActividadGeneral;
+use App\Form\Subscriber\AddArcFieldSubscriber;
 use App\Form\Transformer\DateTimetoStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use App\Form\Subscriber\AddSubcapituloFieldSubscriber;
 
 class ActividadGeneralType extends AbstractType
 {
@@ -29,15 +31,18 @@ class ActividadGeneralType extends AbstractType
             ->add('dirigen', TextareaType::class, array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('participan', TextareaType::class, array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('aseguramiento', TextareaType::class, array('required' => false, 'attr' => array('class' => 'form-control')))
-            ->add('areaconocimiento', null, array('label' => 'Área del conocimiento', 'required' => true,
-                'attr' => array('class' => 'form-control input-large')
-            ))
+            ->add('capitulo')
             ;
 
         $builder->get('fecha')
             ->addModelTransformer(new DateTimetoStringTransformer());
         $builder->get('fechaf')
             ->addModelTransformer(new DateTimetoStringTransformer());
+
+
+        $factory = $builder->getFormFactory();
+        $builder->addEventSubscriber(new AddSubcapituloFieldSubscriber($factory,false));
+        $builder->addEventSubscriber(new AddArcFieldSubscriber($factory));
     }
 
     public function configureOptions(OptionsResolver $resolver)

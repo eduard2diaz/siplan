@@ -20,15 +20,17 @@
                 </tr>
                 <tr>
                     <th>Miembros</th>
+                </tr>
+                {%  for miembro in miembros %}
+                <tr>
                     <td>
-                        <ul class="">
-                        {%  for miembro in grupo.idmiembro %}
-                            <li>{{ miembro }}</li>
-                        {% endfor %}
-                        </ul>
+                        {{ miembro.usuario }}
+                    </td>
+                    <td>
+                        <span class="m-badge m-badge--{{ miembro.estado==0 ? 'danger' : 'success'  }}">{{ miembro.estado==0 ? 'Pendiente a confirmación' : 'Confirmado'  }}</span>
                     </td>
                 </tr>
-
+                {% endfor %}
                 </tbody>
             </table>
         </div>

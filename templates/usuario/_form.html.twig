@@ -11,16 +11,16 @@
                 </div>
                 <div class="m-card-profile__pic">
                     <div class="m-card-profile__pic-wrapper">
-                        {%if usuario.ficheroFoto!=null %}
-                            {% set rutaFoto=  asset('archivos/'~usuario.ficheroFoto.ruta) %}
+                        {%if usuario.rutaFoto!=null %}
+                            {% set rutaFoto=  asset('archivos/'~usuario.rutaFoto) %}
                             {% else %}
                                 {% set rutaFoto= asset('app/media/img/users/user4.jpg','template') %}
                         {% endif %}
 
                         <img src="{{ rutaFoto }}" alt="No se pudo cargar la imagen" id="foto_perfil" data-image="{{ rutaFoto }}" data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Cabiar foto de perfil"/>
-                        {{ form_label(form.ficheroFoto,' ') }}
-                        {{ form_widget(form.ficheroFoto) }}
-                        {{ form_errors(form.ficheroFoto) }}
+                        {{ form_label(form.file,' ') }}
+                        {{ form_widget(form.file) }}
+                        {{ form_errors(form.file) }}
                     </div>
                 </div>
                 <div class="m-card-profile__details">

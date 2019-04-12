@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Usuario
@@ -156,14 +157,16 @@ class Usuario implements UserInterface
     private $ultimologout;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Fichero", cascade={"persist", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(nullable=true)
-     * })
+     * @Assert\Image()
      */
-    private $ficheroFoto=null;
+    private $file;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rutaFoto;
+
+     /**
      * Constructor
      */
     public function __construct()
@@ -331,6 +334,21 @@ class Usuario implements UserInterface
         $this->cargo = $cargo;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRutaFoto()
+    {
+        return $this->rutaFoto;
+    }
+
+    /**
+     * @param mixed $rutaFoto
+     */
+    public function setRutaFoto($rutaFoto): void
+    {
+        $this->rutaFoto = $rutaFoto;
+    }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
@@ -527,19 +545,53 @@ class Usuario implements UserInterface
         return $this;
     }
 
-    public function getFicheroFoto(): ?Fichero
-    {
-        return $this->ficheroFoto;
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile($file) {
+        $this->file = $file;
     }
 
-    public function setFicheroFoto(?Fichero $ficheroFoto): self
-    {
-        $this->ficheroFoto = $ficheroFoto;
-
-        return $this;
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile() {
+        return $this->file;
     }
 
-    public function cicloInfinito($current, Usuario $usuario)
+    public function Upload($ruta) {
+        if (null === $this->file) {
+            return;
+        }
+        $fs = new Filesystem();
+        $camino = $fs->makePathRelative($ruta, __DIR__);
+        $directorioDestino = __DIR__ . DIRECTORY_SEPARATOR . $camino;
+        $nombreArchivoFoto = uniqid('siplan-') . '-' . $this->file->getClientOriginalName();
+        $this->file->move($directorioDestino.DIRECTORY_SEPARATOR, $nombreArchivoFoto);
+        $this->setRutaFoto($nombreArchivoFoto);
+    }
+
+    public function actualizarFoto($directorioDestino) {
+
+        if (null !== $this->getFile()) {
+            $this->removeUpload($directorioDestino);
+            $this->Upload($directorioDestino);
+        }
+    }
+
+    public function removeUpload($directorioDestino) {
+        $fs=new Filesystem();
+        $rutaPc = $directorioDestino.DIRECTORY_SEPARATOR.$this->getRutaFoto();
+        if (null!=$this->getRutaFoto()  && $fs->exists($rutaPc)) {
+            $fs->remove($rutaPc);
+        }
+    }
+
+     public function cicloInfinito($current, Usuario $usuario)
     {
         if ($usuario->getJefe() != null) {
             if ($usuario->getJefe()->getId() == $current)
@@ -554,7 +606,7 @@ class Usuario implements UserInterface
      *Funcionalidad que recibe un usuario como parametro y dice si ese usuario
      * es superior del actual usuario.
      */
-    public function esJefe(Usuario $usuario){
+    public function esJefe(Usuario $usuario):bool {
         if($this->getJefe()==$usuario)
             return true;
         if(null!=$this->getJefe())

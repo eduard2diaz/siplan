@@ -7,6 +7,9 @@ use App\Entity\Plantrabajo;
 use App\Form\ActividadGrupoType;
 use App\Form\ActividadType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,37 +29,83 @@ class ActividadController extends Controller
     {
         $actividad = new Actividad();
         $actividad->setAsignadapor($this->getUser());
+        $ruta = $this->getParameter('storage_directory');
+        $em = $this->getDoctrine()->getManager();
+        $validator = $this->get('validator');
+
+        $fs = new Filesystem();
         $form = $this->createForm(ActividadGrupoType::class, $actividad, array('action' => $this->generateUrl('actividad_nueva')));
         $form->handleRequest($request);
-
+        $registrado = 0;
         if ($form->isSubmitted())
             if ($form->isValid()) {
-                $ruta = $this->getParameter('storage_directory');
-                $em = $this->getDoctrine()->getManager();
-                foreach ($form->getData()->getFicheros() as $value) {
-                    $value->subirArchivo($ruta);
-                    $value->setActividad($actividad);
-                    $em->persist($value);
-                }
-                $em->persist($actividad);
-                $em->flush();
+                $mes = $actividad->getFecha()->format('m');
+                $anno = $actividad->getFecha()->format('Y');
+                $iteracion = 1;
+                $nombreficheros = [];
+                foreach ($request->request->get('actividad_grupo')['iddestinatario'] as $destinatario) {
+                    $activity = clone $actividad;
+                    $destinatario = $em->getRepository('App:Usuario')->find($destinatario);
+                    $activity->setResponsable($destinatario);
+                    $plantrabajo = $em->getRepository(Plantrabajo::class)->findOneBy(['mes' => $mes, 'anno' => $anno, 'usuario' => $destinatario]);
+                    if (null == $plantrabajo) {
+                        $plantrabajo = new Plantrabajo();
+                        $plantrabajo->setMes($mes);
+                        $plantrabajo->setAnno($anno);
+                        $plantrabajo->setUsuario($destinatario);
+                    }
 
-                return new JsonResponse(array('mensaje' => "La actividad fue registrada satisfactoriamente",
-                    'nombre' => $actividad->getNombre(),
-                    'fecha' => $actividad->getFecha()->format('d-m-Y H:i'),
-                    'fechaF' => $actividad->getFechaF()->format('d-m-Y H:i'),
-                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $actividad->getId())->getValue(),
-                    'id' => $actividad->getId(),
-                ));
+//                    if (count($validator->validate($activity)) > 0)
+  //                      break;
+
+                    $em->persist($plantrabajo);
+                    $em->persist($activity);
+                    $activity->setPlantrabajo($plantrabajo);
+                    $em->flush();
+
+                    if ($iteracion == 1)
+                        foreach ($form->getData()->getFicheros() as $value) {
+                            $value->subirArchivo($ruta);
+                            $nombreficheros[] = ['nombre' => $value->getNombre(), 'ruta' => $value->getRuta()];
+                            $value->setActividad($activity);
+                            $em->persist($value);
+                        }
+                    else {
+                        foreach ($nombreficheros as $value) {
+                            $fichero = new Fichero();
+                            $fichero->setActividad($activity);
+                            $fichero->setNombre($value['nombre']);
+                            $rutaArchivo = uniqid('siplan') . $value['nombre'];
+                            $fichero->setRuta($rutaArchivo);
+                            $fs->copy($ruta . DIRECTORY_SEPARATOR . $value['ruta'], $ruta . DIRECTORY_SEPARATOR . $rutaArchivo);
+                            $em->persist($fichero);
+                        }
+
+
+                    }
+
+                    $iteracion++;
+                }
+
+                $em->flush();
+                $message="La actividad fue registrada satisfactoriamente";
+                if($iteracion==0)
+                    $message="La actividad no pudo ser asignada a los usuarios, comprueba los planes de trabajo";
+                    elseif($iteracion<count($request->request->get('actividad_grupo')['iddestinatario']))
+                        $message="Algunas actividades no pudieron ser asignadas a los usuarios, comprueba los planes de trabajo";
+
+
+                return new JsonResponse(array('mensaje' => $message));
             } else {
-                $page = $this->renderView('actividad/_form.html.twig', array(
+                $page = $this->renderView('actividad/_form2.html.twig', array(
                     'form' => $form->createView(),
                     'actividad' => $actividad,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
 
-        return $this->render('actividad/_new.html.twig', [
+
+        return $this->render('actividad/_new2.html.twig', [
             'actividad' => $actividad,
             'form' => $form->createView(),
         ]);
@@ -116,9 +165,9 @@ class ActividadController extends Controller
     {
         $this->denyAccessUnlessGranted('VIEW', $actividad);
 
-        $em=$this->getDoctrine()->getManager();
-        $respuesta=$em->getRepository('App:Respuesta')->find($actividad);
-        return $this->render('actividad/show.html.twig', ['actividad' => $actividad,'existeRespuesta'=>null!=$respuesta]);
+        $em = $this->getDoctrine()->getManager();
+        $respuesta = $em->getRepository('App:Respuesta')->find($actividad);
+        return $this->render('actividad/show.html.twig', ['actividad' => $actividad, 'existeRespuesta' => null != $respuesta]);
     }
 
     /**
@@ -187,9 +236,9 @@ class ActividadController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $actividades = $em->createQuery('SELECT a FROM App:Actividad a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
-        $errores=[];
-        $validator=$this->get('validator');
-        $contador=0;
+        $errores = [];
+        $validator = $this->get('validator');
+        $contador = 0;
         foreach ($actividades as $actividad) {
             $activity = new Actividad();
             $activity->setResponsable($actividad->getResponsable());
@@ -205,22 +254,22 @@ class ActividadController extends Controller
             $activity->setAsignadapor($actividad->getAsignadapor());
             $activity->setPlantrabajo($plantrabajo);
             $errors = $validator->validate($activity);
-            if(count($errors)==0) {
+            if (count($errors) == 0) {
                 $em->persist($activity);
                 $contador++;
             }
 
         }
 
-        $array=[];
-        if($contador>0) {
+        $array = [];
+        if ($contador > 0) {
             $em->flush();
-            if($contador==count($actividades))
-                $array['mensaje']='Las actividades fueron clonadas satisfactoriamente';
+            if ($contador == count($actividades))
+                $array['mensaje'] = 'Las actividades fueron clonadas satisfactoriamente';
             else
-                $array['warning']='Algunas actividades no pudieron ser clonadas';
-        }else
-            $array['error']='Las actividades no pudieron ser clonadas';
+                $array['warning'] = 'Algunas actividades no pudieron ser clonadas';
+        } else
+            $array['error'] = 'Las actividades no pudieron ser clonadas';
 
         return new JsonResponse($array);
     }
@@ -308,7 +357,7 @@ class ActividadController extends Controller
 
         $actividades = $this->getDoctrine()
             ->getRepository(Actividad::class)
-            ->findBy(array('plantrabajo' => $plantrabajo, 'asignadapor' => $this->getUser(),'actividadGeneral'=>null), array('fecha' => 'DESC'));
+            ->findBy(array('plantrabajo' => $plantrabajo, 'asignadapor' => $this->getUser(), 'actividadGeneral' => null), array('fecha' => 'DESC'));
 
         return $this->render('actividad/ajax/_actividadesajax.html.twig', [
             'actividades' => $actividades,

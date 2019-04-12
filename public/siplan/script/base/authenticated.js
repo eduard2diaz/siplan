@@ -38,16 +38,16 @@ var configurarFormularioUsuario = function () {
     });
 
     $('#foto_perfil').click(function() {
-        $('#usuario_ficheroFoto_file').click();
+        $('#usuario_file').click();
     });
-    document.getElementById('usuario_ficheroFoto_file').addEventListener('change', previewfile, false);
+    document.getElementById('usuario_file').addEventListener('change', previewfile, false);
 }
 
 var reiniciarFoto = function ()
 {
     $('div#basicmodal').on('click','a#reload_picture',function(){
         $('img#foto_perfil').attr('src', $('#foto_perfil').attr('data-image'));
-        $('#usuario_ficheroFoto_file').val('');
+        $('#usuario_file').val('');
         $('a#reload_picture').addClass('m--hidden-desktop');
     });
 }
@@ -338,7 +338,6 @@ var authenticated = function () {
             }
             //allowClear: true
         });
-        Ladda.bind('.mt-ladda-btn');
         $("div#basicmodal form#message_new").validate({
             rules:{
                 'mensaje[iddestinatario][]': {required:true},
@@ -505,12 +504,113 @@ var authenticated = function () {
         $('select#actividad_grupo_areaconocimiento').select2({
             dropdownParent: $("#basicmodal"),
         });
-        Ladda.bind( '.mt-ladda-btn', { timeout: 2000 } );
-
+        $('select#actividad_grupo_iddestinatario').select2({
+            dropdownParent: $("#basicmodal"),
+            ajax: {
+                url: Routing.generate('usuario_subordinado'),
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    console.log(data);
+                    return {
+                        //results: [{'id': 00, 'text' : 'tag-name' }]
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
         $('textarea#actividad_grupo_descripcion').summernote({
             placeholder: 'Escriba una breve descripción sobre la actividad',
             height: 100,
             focus: true
+        });
+    }
+
+    var nuevaActionActividad = function () {
+        $('div#basicmodal').on('submit', 'form#actividadgeneral_new', function (evento)
+        {
+            evento.preventDefault();
+            var padre = $(this).parent();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                // data: $(this).serialize(), //para enviar el formulario hay que serializarlo
+                data: new FormData(this), //para enviar el formulario hay que serializarlo
+                //INicio de configuracion obigatoria para el envioa de archivos por form data
+                contentType: false,
+                cache: false,
+                processData:false,
+                //FIN de configuracion obigatoria para el envioa de archivos por form data
+                beforeSend: function () {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                },
+                success: function (data) {
+                    if (data['error']) {
+                        padre.html(data['form']);
+                        configurarFormularioActividadNueva();
+                    } else {
+                        if (data['mensaje'])
+                            toastr.success(data['mensaje']);
+
+                        $('div#basicmodal').modal('hide');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                }
+            });
+        });
+    }
+
+    //Funcionlidad que agrega un input de tipo file al formulario
+    var nuevaActividadAgregarArchivo = function () {
+        $('div#basicmodal').on('click', 'a#adicionar_archivo_nuevaactividad', function (evento)
+        {
+            evento.preventDefault();
+            var datos='<tr>\n' +
+                '    <td>\n' +
+                '            <input id="actividad_grupo_ficheros_'+cantidadarchivos+'_file" name="actividad_grupo[ficheros]['+cantidadarchivos+'][file]" required="required" class="form-control" aria-describedby="actividad_grupo_ficheros_'+cantidadarchivos+'_file-error" aria-invalid="false" type="file"><div id="actividad_grupo_fichero_'+cantidadarchivos+'_button-error" class="form-control-feedback"></td>\n' +
+                '</td>\n' +
+                '    <td>\n' +
+                '        <a class="btn btn-danger btn-sm eliminar_archivo pull-right"><i class="flaticon flaticon-delete-1"></i></a>\n' +
+                '    </td>\n' +
+                '</tr>';
+            cantidadarchivos++;
+            $('div#archivos table').append(datos);
+        });
+    }
+
+    var agregarArchivoRespuesta = function () {
+        $('div#basicmodal').on('click', 'a#adicionar_archivo_respuesta', function (evento)
+        {
+            evento.preventDefault();
+            var datos='<tr>\n' +
+                '    <td>\n' +
+                '            <input id="respuesta_ficheros_'+cantidadarchivos+'_file" name="respuesta[ficheros]['+cantidadarchivos+'][file]" required="required" class="form-control" aria-describedby="respuesta_ficheros_'+cantidadarchivos+'_file-error" aria-invalid="false" type="file"><div id="respuesta_fichero_'+cantidadarchivos+'_button-error" class="form-control-feedback"></td>\n' +
+                '</td>\n' +
+                '    <td>\n' +
+                '        <a class="btn btn-danger btn-sm eliminar_archivo pull-right"><i class="flaticon flaticon-delete-1"></i></a>\n' +
+                '    </td>\n' +
+                '</tr>';
+            cantidadarchivos++;
+            $('div#archivos table').append(datos);
+        });
+    }
+
+    /*Funcionlidad que elimina un input de tipo file al formulario, dicho input en realidad no es aun un archivo
+     existente entre los ficheros de la aplicacion*/
+    var nuevaActividadEliminarArchivo = function () {
+        $('div#basicmodal').on('click', 'a.eliminar_archivo', function (evento)
+        {
+            evento.preventDefault();
+            var obj = $(this);
+            obj.parents('tr').remove();
         });
     }
 
@@ -528,6 +628,9 @@ var authenticated = function () {
                 mensajeShow();
                 reiniciarFoto();
                 nuevaActividad();
+                nuevaActionActividad();
+                nuevaActividadAgregarArchivo();
+                nuevaActividadEliminarArchivo();
             });
         },
     };

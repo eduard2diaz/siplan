@@ -16,8 +16,12 @@ var arc = function () {
     }
 
     var configurarFormulario = function () {
-        Ladda.bind( '.mt-ladda-btn' );
-
+        $('select#arc_capitulo').select2({
+            dropdownParent: $("#basicmodal"),
+        });
+        $('select#arc_subcapitulo').select2({
+            dropdownParent: $("#basicmodal"),
+        });
         $("div#basicmodal form").validate({
             rules:{
                 'arc[nombre]': {required:true},
@@ -154,9 +158,7 @@ var arc = function () {
                                 "<a class='btn btn-sm arc_show' data-href=" + Routing.generate('arc_show',{id:data['id']}) + "><i class='flaticon-eye'></i>Visualizar</a></li>" +
                                 "<li class='m-nav__item'>" +
                                 "<a class='btn btn-sm btn-info edicion' data-href=" + Routing.generate('arc_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i>Editar</a></li>" +
-                                "<li class='m-nav__item'>" +
-                                "<a class='btn btn-danger btn-sm  eliminar_arc' data-csrf=" + data['csrf'] +" data-href=" + Routing.generate('arc_delete',{id:data['id']}) + ">" +
-                                "<i class='flaticon-delete-1'></i>Eliminar</a></li></ul>",
+                                "</ul>",
                         });
                         objeto.draw();
                         table.page(pagina).draw('page');
@@ -211,15 +213,15 @@ var arc = function () {
     }
 
     var eliminar = function () {
-        $('table#arc_table').on('click', 'a.eliminar_arc', function (evento)
+        $('div#basicmodal').on('click', 'a.eliminar_arc', function (evento)
         {
             evento.preventDefault();
-            var obj = $(this);
             var link = $(this).attr('data-href');
             var token = $(this).attr('data-csrf');
+            $('div#basicmodal').modal('hide');
             bootbox.confirm({
-                title: 'Eliminar área  del conocimiento',
-                message: '¿Está seguro que desea eliminar esta área del conocimiento?',
+                title: 'Eliminar área  de resultados claves',
+                message: '¿Está seguro que desea eliminar esta área de resultados claves?',
                 buttons: {
                     confirm: {
                         label: 'Si, estoy seguro',
@@ -260,6 +262,30 @@ var arc = function () {
         });
     }
 
+    var capituloListener = function () {
+        $('div#basicmodal').on('change', 'select#arc_capitulo', function (evento) {
+            if ($(this).val() > 0)
+                $.ajax({
+                    type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                    dataType: 'html',
+                    url: Routing.generate('subcapitulo_findbycapitulo', {'capitulo': $(this).val()}),
+                    beforeSend: function (data) {
+                        mApp.block("div#basicmodal div#modal-body",
+                            {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando datos..."});
+                    },
+                    success: function (data) {
+                        $('select#arc_subcapitulo').html(data);
+                    },
+                    error: function () {
+                        base.Error();
+                    },
+                    complete: function () {
+                        mApp.unblock("div#basicmodal div#modal-body");
+                    }
+                });
+        });
+    }
+
     return {
         init: function () {
             $().ready(function () {
@@ -270,6 +296,7 @@ var arc = function () {
                     edicion();
                     edicionAction();
                     eliminar();
+                    capituloListener();
                 }
             );
         }

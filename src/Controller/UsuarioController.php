@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\MiembroConsejoDireccion;
 use App\Entity\Rol;
 use App\Entity\Usuario;
 use App\Form\UsuarioType;
@@ -38,7 +39,7 @@ class UsuarioController extends Controller
         return $this->render('usuario/index.html.twig', [
             'usuarios' => $usuarios,
             'user_id' => $usuario->getId(),
-            'user_foto' => null != $usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_foto' => null != $usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
             'user_nombre' => $usuario->getNombre(),
             'user_correo' => $usuario->getCorreo(),
         ]);
@@ -53,19 +54,16 @@ class UsuarioController extends Controller
             throw $this->createAccessDeniedException();
 
         $usuario = new Usuario();
+
         if (in_array('ROLE_DIRECTIVO', $this->getUser()->getRoles()))
             $usuario->setJefe($this->getUser());
+
         $form = $this->createForm(UsuarioType::class, $usuario, array('action' => $this->generateUrl('usuario_new')));
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                if (null != $usuario->getFicheroFoto()->getFile()) {
-                    $em->persist($usuario->getFicheroFoto());
-                } else
-                    $usuario->setFicheroFoto(null);
-
                 $em->persist($usuario);
                 $em->flush();
                 return new JsonResponse(array('mensaje' => 'El usuario fue registrado satisfactoriamente',
@@ -96,7 +94,7 @@ class UsuarioController extends Controller
     {
         return $this->render('usuario/_show.html.twig', ['usuario' => $usuario,
             'user_id' => $usuario->getId(),
-            'user_foto' => null != $usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_foto' => null != $usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
             'user_nombre' => $usuario->getNombre(),
             'user_correo' => $usuario->getCorreo(),
         ]);
@@ -114,7 +112,9 @@ class UsuarioController extends Controller
         $form = $this->createForm(UsuarioType::class, $usuario, array('action' => $this->generateUrl('usuario_edit', array('id' => $usuario->getId()))));
         $passwordOriginal = $form->getData()->getPassword();
         $em = $this->getDoctrine()->getManager();
-        $tieneFoto = $usuario->getFicheroFoto() != null && $usuario->getFicheroFoto()->getRuta() != null;
+        $tieneFoto = $usuario->getRutaFoto() != null && $usuario->getRutaFoto() != null;
+
+        $esAdmin = in_array('ROLE_ADMIN', $usuario->getRoles());
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
@@ -124,16 +124,21 @@ class UsuarioController extends Controller
                 else
                     $usuario->setPassword($this->get('security.password_encoder')->encodePassword($usuario, $usuario->getPassword()));
 
-                if (null != $usuario->getFicheroFoto() && null != $usuario->getFicheroFoto()->getFile()) {
+                if (null != $usuario->getFile()) {
                     if (true == $tieneFoto)
-                        $usuario->getFicheroFoto()->reemplazarArchivo($this->container->getParameter('storage_directory'));
+                        $usuario->actualizarFoto($this->container->getParameter('storage_directory'));
                     else
-                        $usuario->getFicheroFoto()->subirArchivo($this->container->getParameter('storage_directory'));
+                        $usuario->Upload($this->container->getParameter('storage_directory'));
 
-                    $usuario->getFicheroFoto()->setFile(null);
+                    $usuario->setFile(null);
                 }
 
                 $em->persist($usuario);
+
+                if (in_array('ROLE_ADMIN', $usuario->getRoles()) == true && $esAdmin == false)
+                    $this->eliminarAtadurasUsuario($usuario);
+
+
                 $em->flush();
                 return new JsonResponse(array('mensaje' => 'El usuario fue actualizado satisfactoriamente',
                     'nombre' => $usuario->getNombre(),
@@ -236,7 +241,7 @@ class UsuarioController extends Controller
             $em = $this->getDoctrine()->getManager();
             $parameter = $request->get('q');
             $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u JOIN u.idrol r WHERE u.id!= :id AND u.nombre LIKE :nombre AND r.nombre IN (:roles) ORDER BY u.nombre ASC')
-                ->setParameters(['nombre' => '%' . $parameter . '%', 'id' => $this->getUser()->getId(), 'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER']]);
+                ->setParameters(['nombre' => '%' . $parameter . '%', 'id' => $this->getUser()->getId(), 'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER', 'ROLE_COORDINADOR']]);
             $result = $query->getResult();
             return new Response(json_encode($result));
         }
@@ -264,21 +269,62 @@ class UsuarioController extends Controller
                 $result[] = ['id' => $usuario['id'], 'text' => $usuario['text']];
 
             $query = $em->createQuery('SELECT g FROM App:Grupo g JOIN g.creador c WHERE g.nombre LIKE :nombre AND c.id= :creador ORDER BY g.nombre ASC')
-                ->setParameters(['nombre'=> '%' . $parameter . '%','creador'=>$this->getUser()->getId()]);
+                ->setParameters(['nombre' => '%' . $parameter . '%', 'creador' => $this->getUser()->getId()]);
             $grupos = $query->getResult();
 
             $query = $em->createQuery('SELECT g FROM App:Grupo g JOIN g.idmiembro m WHERE g.nombre LIKE :nombre AND m.id= :miembro ORDER BY g.nombre ASC')
-                ->setParameters(['nombre'=> '%' . $parameter . '%','miembro'=>$this->getUser()->getId()]);
+                ->setParameters(['nombre' => '%' . $parameter . '%', 'miembro' => $this->getUser()->getId()]);
             $grupoMiembro = $query->getResult();
 
             foreach ($grupoMiembro as $value)
-                $grupos[]=$value;
+                $grupos[] = $value;
 
             foreach ($grupos as $grupo) {
-                $result[] = ['id' => 'grupo-'.$grupo->getId(), 'text' => $grupo->getNombre(),/*'miembro'=>$miembros*/];
+                $result[] = ['id' => 'grupo-' . $grupo->getId(), 'text' => $grupo->getNombre()];
             }
 
         }
         return new Response(json_encode($result));
+    }
+
+    /**
+     * @Route("/subordinado", name="usuario_subordinado", options={"expose"=true})
+     * Retorna todos los subordinados del usuario actual, esto es utilizado para la asignacion de tareas a un grupo de
+     * subordinados
+     */
+    public function subordinado(Request $request): Response
+    {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
+        $result = [];
+        if ($request->get('q') != null) {
+            $parameter = $request->get('q');
+            $usuarios = $this->get('area_service')->subordinados($this->getUser());
+            foreach ($usuarios as $usuario)
+                if (false != strstr($usuario->getNombre(), $parameter))
+                    $result[] = ['id' => $usuario->getId(), 'text' => $usuario->getNombre()];
+        }
+        return new Response(json_encode($result));
+    }
+
+    private function eliminarAtadurasUsuario(Usuario $usuario)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $gruposPertenece = $usuario->getGrupospertenece();
+        $gruposPropietario = $usuario->getGrupos();
+        foreach ($gruposPertenece as $grupo) {
+            $grupo->removeIdmiembro($usuario);
+            $em->persist($grupo);
+        }
+        foreach ($gruposPropietario as $grupo) {
+            $grupo->removeIdmiembro($usuario);
+            $em->persist($grupo);
+        }
+        $miembro = $em->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($usuario);
+        if (null != $miembro)
+            $em->remove($miembro);
+
+        $em->flush();
     }
 }

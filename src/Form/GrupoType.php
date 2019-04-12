@@ -58,7 +58,7 @@ class GrupoType extends AbstractType
                     return $er->createQueryBuilder('u')
                         ->join('u.idrol', 'r')
                         ->where('r.nombre IN (:roles)')
-                        ->setParameter('roles', ['ROLE_DIRECTIVO', 'ROLE_USER']);
+                        ->setParameter('roles', ['ROLE_DIRECTIVO', 'ROLE_USER','ROLE_COORDINADOR']);
                 }
 
             ]);

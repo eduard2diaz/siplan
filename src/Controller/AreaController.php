@@ -27,16 +27,15 @@ class AreaController extends Controller
         $areas = $this->getDoctrine()->getRepository(Area::class)->findAll();
 
         if ($request->isXmlHttpRequest())
-            if($request->get('_format')=='xml') {
+            if ($request->get('_format') == 'xml') {
                 $cadena = "";
                 foreach ($areas as $value)
                     $cadena .= "<option value={$value->getId()}>{$value->getNombre()}</option>";
                 return new Response($cadena);
-            }
-            else
-            return $this->render('area/_table.html.twig', [
-                'areas' => $areas,
-            ]);
+            } else
+                return $this->render('area/_table.html.twig', [
+                    'areas' => $areas,
+                ]);
 
         return $this->render('area/index.html.twig', ['areas' => $areas]);
     }
@@ -50,8 +49,6 @@ class AreaController extends Controller
 
         $area = new Area();
         $em = $this->getDoctrine()->getManager();
-        $this->denyAccessUnlessGranted('NEW', $area);
-
         $form = $this->createForm(AreaType::class, $area, array('action' => $this->generateUrl('area_new')));
         $form->handleRequest($request);
 
@@ -59,10 +56,10 @@ class AreaController extends Controller
             if ($form->isValid()) {
                 $em->persist($area);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El área fue registrada satisfactoriamente',
+                return new JsonResponse(array('mensaje' => 'El área fue registrada satisfactoriamente',
                     'nombre' => $area->getNombre(),
-                    'area_padre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',
-                    'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$area->getId())->getValue(),
+                    'area_padre' => null !== $area->getPadre() ? $area->getPadre()->getNombre() : '',
+                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $area->getId())->getValue(),
                     'id' => $area->getId(),
                 ));
             } else {
@@ -89,17 +86,19 @@ class AreaController extends Controller
             array('action' => $this->generateUrl('area_edit', array('id' => $area->getId()))));
         $form->handleRequest($request);
 
+        $eliminable = $this->esEliminable($area);
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($area);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El área fue actualizada satisfactoriamente', 'nombre' => $area->getNombre(),   'area_padre' => null!==$area->getPadre() ? $area->getPadre()->getNombre() : '',));
+                return new JsonResponse(array('mensaje' => 'El área fue actualizada satisfactoriamente', 'nombre' => $area->getNombre(), 'area_padre' => null !== $area->getPadre() ? $area->getPadre()->getNombre() : '',));
             } else {
                 $page = $this->renderView('area/_form.html.twig', array(
                     'form' => $form->createView(),
                     'form_id' => 'area_edit',
                     'action' => 'Actualizar',
+                    'eliminable' => $eliminable,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -109,6 +108,7 @@ class AreaController extends Controller
             'title' => 'Editar área',
             'action' => 'Actualizar',
             'form_id' => 'area_edit',
+            'eliminable' => $eliminable,
             'form' => $form->createView(),
         ]);
     }
@@ -118,7 +118,7 @@ class AreaController extends Controller
      */
     public function delete(Request $request, Area $area): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$area->getId(), $request->query->get('_token'))) {
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $area->getId(), $request->query->get('_token'))) {
             $this->denyAccessUnlessGranted('DELETE', $area);
             $em = $this->getDoctrine()->getManager();
             $em->remove($area);
@@ -130,6 +130,7 @@ class AreaController extends Controller
     }
 
     //OPCIONES AJAX ADICIONALES
+
     /**
      * @Route("/{id}/findByUsuario", name="area_findbyusuario", methods="GET",options={"expose"=true})
      */
@@ -138,13 +139,24 @@ class AreaController extends Controller
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $area=$usuario->getArea();
-        $areas=$this->get('area_service')->areasHijas($area);
+        $area = $usuario->getArea();
+        $areas = $this->get('area_service')->areasHijas($area);
 
-        $cadena="";
+        $cadena = "";
         foreach ($areas as $area)
-            $cadena.="<option value={$area->getId()}>{$area->getNombre()}</option>";
+            $cadena .= "<option value={$area->getId()}>{$area->getNombre()}</option>";
 
         return new Response($cadena);
+    }
+
+    private function esEliminable(Area $area): bool
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($em->getRepository(Area::class)->findOneByPadre($area) != null)
+            return false;
+        if ($em->getRepository(Usuario::class)->findOneByArea($area) != null)
+            return false;
+
+        return true;
     }
 }

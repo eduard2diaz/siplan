@@ -2,17 +2,97 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="419e3fcb-9e13-4f6a-b6b1-caf355360ac4" name="Default" comment="15/03/2019">
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/siplan/img/40391876-0-Who.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/siplan/img/40427086-0-prize-NEW.gif" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/siplan/img/40482376-0-hack1.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/siplan/img/40482381-0-hack2.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/siplan/img/40482386-0-hack3.jpg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/siplan/script/entity/capitulo.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/siplan/script/entity/subcapitulo.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Controller/CapituloController.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Controller/SubcapituloController.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Entity/Capitulo.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Entity/Subcapitulo.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Form/CapituloType.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Form/SubcapituloType.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Form/Subscriber/AddActividadDestinatarioFieldSubscriber.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Form/Subscriber/AddArcFieldSubscriber.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Form/Subscriber/AddSubcapituloFieldSubscriber.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Validator/PeriodActividadGeneral.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Validator/PeriodActividadGeneralValidator.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/actividad/_form2.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/actividad/_new2.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/capitulo/_form.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/capitulo/_new.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/capitulo/_table.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/capitulo/index.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/subcapitulo/_form.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/subcapitulo/_new.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/subcapitulo/_table.html.twig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/subcapitulo/index.html.twig" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b03b5527-4f6b-4979-ba0b-e1948fd95758.xml" afterPath="$PROJECT_DIR$/.idea/dataSources/b03b5527-4f6b-4979-ba0b-e1948fd95758.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b03b5527-4f6b-4979-ba0b-e1948fd95758/storage_v2/_src_/database/siplanv4.PenTIQ/schema/public.abK9xQ.meta" afterPath="$PROJECT_DIR$/.idea/dataSources/b03b5527-4f6b-4979-ba0b-e1948fd95758/storage_v2/_src_/database/siplanv4.PenTIQ/schema/public.abK9xQ.meta" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" afterPath="$PROJECT_DIR$/config/packages/security.yaml" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" afterPath="$PROJECT_DIR$/config/services.yaml" />
+      <change beforePath="$PROJECT_DIR$/public/archivos/siplan-5c8af89bb45a0-32743356_184009705752703_78365376282361856_n.jpg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/css/base/siplan.css" afterPath="$PROJECT_DIR$/public/siplan/css/base/siplan.css" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/css/page/index.css" afterPath="$PROJECT_DIR$/public/siplan/css/page/index.css" />
       <change beforePath="$PROJECT_DIR$/public/siplan/script/base/authenticated.js" afterPath="$PROJECT_DIR$/public/siplan/script/base/authenticated.js" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/base/reporte.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/actividad.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/actividad.js" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/actividadgeneral.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/actividadgeneral.js" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/arc.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/arc.js" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/area.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/area.js" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/cargo.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/cargo.js" />
       <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/grupo.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/grupo.js" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/miembroconsejodireccion.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/miembroconsejodireccion.js" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/planmensualgeneral.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/planmensualgeneral.js" />
+      <change beforePath="$PROJECT_DIR$/public/siplan/script/entity/plantrabajo.js" afterPath="$PROJECT_DIR$/public/siplan/script/entity/plantrabajo.js" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ARCController.php" afterPath="$PROJECT_DIR$/src/Controller/ARCController.php" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ActividadController.php" afterPath="$PROJECT_DIR$/src/Controller/ActividadController.php" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AreaController.php" afterPath="$PROJECT_DIR$/src/Controller/AreaController.php" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CargoController.php" afterPath="$PROJECT_DIR$/src/Controller/CargoController.php" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/EstaticaController.php" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/GrupoController.php" afterPath="$PROJECT_DIR$/src/Controller/GrupoController.php" />
       <change beforePath="$PROJECT_DIR$/src/Controller/MensajeController.php" afterPath="$PROJECT_DIR$/src/Controller/MensajeController.php" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/MiembroConsejoDireccionController.php" afterPath="$PROJECT_DIR$/src/Controller/MiembroConsejoDireccionController.php" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PlanMensualGeneralController.php" afterPath="$PROJECT_DIR$/src/Controller/PlanMensualGeneralController.php" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" afterPath="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" />
       <change beforePath="$PROJECT_DIR$/src/Controller/UsuarioController.php" afterPath="$PROJECT_DIR$/src/Controller/UsuarioController.php" />
-      <change beforePath="$PROJECT_DIR$/src/Form/Subscriber/AddDestinatarioFieldSubscriber.php" afterPath="$PROJECT_DIR$/src/Form/Subscriber/AddDestinatarioFieldSubscriber.php" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ArcFixtures.php" afterPath="$PROJECT_DIR$/src/DataFixtures/ArcFixtures.php" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/ARC.php" afterPath="$PROJECT_DIR$/src/Entity/ARC.php" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Actividad.php" afterPath="$PROJECT_DIR$/src/Entity/Actividad.php" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/ActividadGeneral.php" afterPath="$PROJECT_DIR$/src/Entity/ActividadGeneral.php" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Usuario.php" afterPath="$PROJECT_DIR$/src/Entity/Usuario.php" />
+      <change beforePath="$PROJECT_DIR$/src/EventSubscriber/UsuarioSubscriber.php" afterPath="$PROJECT_DIR$/src/EventSubscriber/UsuarioSubscriber.php" />
+      <change beforePath="$PROJECT_DIR$/src/Form/ARCType.php" afterPath="$PROJECT_DIR$/src/Form/ARCType.php" />
+      <change beforePath="$PROJECT_DIR$/src/Form/ActividadGeneralType.php" afterPath="$PROJECT_DIR$/src/Form/ActividadGeneralType.php" />
+      <change beforePath="$PROJECT_DIR$/src/Form/ActividadGrupoType.php" afterPath="$PROJECT_DIR$/src/Form/ActividadGrupoType.php" />
+      <change beforePath="$PROJECT_DIR$/src/Form/FotoType.php" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/Form/GrupoType.php" afterPath="$PROJECT_DIR$/src/Form/GrupoType.php" />
+      <change beforePath="$PROJECT_DIR$/src/Form/MiembroConsejoDireccionType.php" afterPath="$PROJECT_DIR$/src/Form/MiembroConsejoDireccionType.php" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Subscriber/AddMiembroFieldSubscriber.php" afterPath="$PROJECT_DIR$/src/Form/Subscriber/AddMiembroFieldSubscriber.php" />
+      <change beforePath="$PROJECT_DIR$/src/Form/UsuarioType.php" afterPath="$PROJECT_DIR$/src/Form/UsuarioType.php" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/ConsejoDireccionRepository.php" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/MiembroConsejoDireccionRepository.php" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/templates/actividadgeneral/_form.html.twig" afterPath="$PROJECT_DIR$/templates/actividadgeneral/_form.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/_form.html.twig" afterPath="$PROJECT_DIR$/templates/arc/_form.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/_new.html.twig" afterPath="$PROJECT_DIR$/templates/arc/_new.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/_show.html.twig" afterPath="$PROJECT_DIR$/templates/arc/_show.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/_table.html.twig" afterPath="$PROJECT_DIR$/templates/arc/_table.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/arc/index.html.twig" afterPath="$PROJECT_DIR$/templates/arc/index.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/area/_form.html.twig" afterPath="$PROJECT_DIR$/templates/area/_form.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/area/_table.html.twig" afterPath="$PROJECT_DIR$/templates/area/_table.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/cargo/_form.html.twig" afterPath="$PROJECT_DIR$/templates/cargo/_form.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/cargo/_table.html.twig" afterPath="$PROJECT_DIR$/templates/cargo/_table.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/default/index.html.twig" afterPath="$PROJECT_DIR$/templates/default/index.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/grupo/show.html.twig" afterPath="$PROJECT_DIR$/templates/grupo/show.html.twig" />
       <change beforePath="$PROJECT_DIR$/templates/layout/autenticado.html.twig" afterPath="$PROJECT_DIR$/templates/layout/autenticado.html.twig" />
-      <change beforePath="$PROJECT_DIR$/templates/layout/userprofile.html.twig" afterPath="$PROJECT_DIR$/templates/layout/userprofile.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/recortes/footer.html.twig" afterPath="$PROJECT_DIR$/templates/layout/recortes/footer.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/layout/recortes/topmenu/admin_topmenu.html.twig" afterPath="$PROJECT_DIR$/templates/layout/recortes/topmenu/admin_topmenu.html.twig" />
+      <change beforePath="$PROJECT_DIR$/templates/usuario/_form.html.twig" afterPath="$PROJECT_DIR$/templates/usuario/_form.html.twig" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,30 +129,21 @@
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="siplanv4@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="siplanv4: database" type="162271b6:PgImplModel$Database" />
+        <item name="siplanv4: database" type="6d9b600a:PostgresImplModel$Database" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="siplanv4@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="siplanv4: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="siplanv4: database" type="6d9b600a:PostgresImplModel$Database" />
+        <item name="public: schema" type="a16502c0:PostgresImplModel$Schema" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="siplanv4@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="siplanv4: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="siplanv4@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="siplanv4: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="siplanv4: database" type="6d9b600a:PostgresImplModel$Database" />
+        <item name="public: schema" type="a16502c0:PostgresImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
     </expand>
@@ -84,71 +155,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="userprofile.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/layout/userprofile.html.twig">
+      <file leaf-file-name="ActividadGeneralType.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Form/ActividadGeneralType.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="20" column="57" lean-forward="false" selection-start-line="20" selection-start-column="57" selection-end-line="20" selection-end-column="57" />
+            <state relative-caret-position="379">
+              <caret line="44" column="71" lean-forward="false" selection-start-line="44" selection-start-column="71" selection-end-line="44" selection-end-column="71" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="authenticated.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/siplan/script/base/authenticated.js">
+      <file leaf-file-name="AddArcFieldSubscriber.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Form/Subscriber/AddArcFieldSubscriber.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-52">
-              <caret line="486" column="61" lean-forward="false" selection-start-line="486" selection-start-column="61" selection-end-line="486" selection-end-column="61" />
+            <state relative-caret-position="481">
+              <caret line="70" column="49" lean-forward="false" selection-start-line="70" selection-start-column="49" selection-end-line="70" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="actividadgeneral.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/actividadgeneral.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="294">
+              <caret line="314" column="0" lean-forward="false" selection-start-line="314" selection-start-column="0" selection-end-line="314" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="services.yaml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/services.yaml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="481">
+              <caret line="93" column="20" lean-forward="false" selection-start-line="93" selection-start-column="20" selection-end-line="93" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_show.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/arc/_show.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="25" column="44" lean-forward="false" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
               <folding>
-                <element signature="e#102#1594#0" expanded="false" />
-                <element signature="e#1628#1894#0" expanded="false" />
-                <element signature="n#!!block;n#previewfile#0" expanded="false" />
-                <element signature="n#!!block;n#validarEditUser#0" expanded="false" />
-                <element signature="n#!!block;n#colorear#0" expanded="false" />
-                <element signature="e#3854#4508#0" expanded="false" />
-                <element signature="e#4547#7720#0" expanded="false" />
-                <element signature="e#7815#8854#0" expanded="false" />
-                <element signature="e#10235#11992#0" expanded="false" />
-                <element signature="e#12037#12557#0" expanded="false" />
-                <element signature="e#12670#13539#0" expanded="false" />
-                <element signature="e#13578#14401#0" expanded="false" />
-                <element signature="e#14484#15548#0" expanded="false" />
-                <element signature="e#15648#17582#0" expanded="false" />
-                <element signature="e#17618#18653#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ActividadGrupoType.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Form/ActividadGrupoType.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="59" column="9" lean-forward="false" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="autenticado.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/layout/autenticado.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ActividadController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/ActividadController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="28" column="52" lean-forward="false" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
-              <folding>
-                <element signature="e#34#59#0#PHP" expanded="true" />
-                <marker date="1552944497055" expanded="true" signature="7827:7879" ph="SELECT a FRO... App" />
-                <marker date="1552944497055" expanded="true" signature="12052:12283" ph="SELECT a.id,... actividad" />
+                <element signature="n#style#0;n#th#0;n#tr#2;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -158,51 +211,38 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>usuario_ficheroFoto</find>
-      <find>fich</find>
-      <find>Controller</find>
-      <find>user</find>
-      <find>lugar</find>
-      <find>user_foto</find>
-      <find>toas</find>
-      <find>pendiente</find>
-      <find>back</find>
-      <find>footer</find>
-      <find>h6</find>
-      <find>Nozbe</find>
-      <find>SITRANS</find>
-      <find>Emai</find>
-      <find>toSt</find>
-      <find>Tra</find>
-      <find>planmensual</find>
-      <find>plantrabajo</find>
-      <find>Actividad</find>
-      <find>token</find>
-      <find>$actividad</find>
-      <find>lastDay</find>
-      <find>Plantrabajo</find>
-      <find>obj</find>
-      <find>area</find>
-      <find>arc</find>
-      <find>dump</find>
+      <find>hide</find>
+      <find>nf</find>
+      <find>ar</find>
+      <find>newAc</find>
       <find>grupo</find>
-      <find>usuario_ajax</find>
-      <find>disa</find>
+      <find>foreign</find>
+      <find>bind</find>
+      <find>fic</find>
+      <find>file</find>
+      <find>getFi</find>
+      <find>log</find>
+      <find>del conocimiento</find>
+      <find>moda</find>
+      <find>show</find>
+      <find>getR</find>
+      <find>getFicheroFoto()</find>
+      <find>area</find>
+      <find>getPadre</find>
+      <find>ARC</find>
+      <find>área</find>
+      <find>Acti</find>
+      <find>Area</find>
+      <find>capitulo</find>
+      <find>cargos</find>
+      <find>cargo</find>
+      <find>actividad_general</find>
+      <find>requi</find>
+      <find>$capitulo</find>
+      <find>arc</find>
+      <find>$this-&gt;required</find>
     </findStrings>
     <replaceStrings>
-      <replace>siplan</replace>
-      <replace>noleido</replace>
-      <replace>configurarFormularioActividad</replace>
-      <replace>Respuesta</replace>
-      <replace>OPTIMIZADO</replace>
-      <replace>Notificacion</replace>
-      <replace>notificacion</replace>
-      <replace>La notificación</replace>
-      <replace>notificación</replace>
-      <replace>Escriba los destinatarios</replace>
-      <replace>mensaje</replace>
-      <replace>padre</replace>
-      <replace>Mensaje</replace>
       <replace>usuario</replace>
       <replace>Email</replace>
       <replace>ica</replace>
@@ -220,6 +260,19 @@
       <replace>miembro</replace>
       <replace>miembro_consejo_direccion</replace>
       <replace>miembroconsejodireccion</replace>
+      <replace>place</replace>
+      <replace>de resultados claves</replace>
+      <replace>getRutaFoto()</replace>
+      <replace>getCapitulo</replace>
+      <replace>capítulo</replace>
+      <replace>capitulo</replace>
+      <replace>Capitulo</replace>
+      <replace>subcapitulos</replace>
+      <replace>subcapitulo</replace>
+      <replace>Subcapitulo</replace>
+      <replace>arc</replace>
+      <replace>$subca</replace>
+      <replace>true</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -228,57 +281,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/EventSubscriber/GrupoSubscriber.php" />
-        <option value="$PROJECT_DIR$/src/Controller/GrupoController.php" />
-        <option value="$PROJECT_DIR$/src/Form/PlanMensualGeneralType.php" />
-        <option value="$PROJECT_DIR$/templates/planmensualgeneral/_table.html.twig" />
-        <option value="$PROJECT_DIR$/templates/planmensualgeneral/_form.html.twig" />
-        <option value="$PROJECT_DIR$/public/siplan/script/entity/plantrabajo.js" />
-        <option value="$PROJECT_DIR$/public/siplan/script/entity/planmensualgeneral.js" />
-        <option value="$PROJECT_DIR$/templates/planmensualgeneral/_new.html.twig" />
-        <option value="$PROJECT_DIR$/templates/planmensualgeneral/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/PlanMensualGeneral.php" />
-        <option value="$PROJECT_DIR$/templates/actividadgeneral/_new.html.twig" />
-        <option value="$PROJECT_DIR$/templates/actividadgeneral/_form.html.twig" />
-        <option value="$PROJECT_DIR$/templates/actividadgeneral/_table.html.twig" />
-        <option value="$PROJECT_DIR$/public/siplan/script/entity/actividadgeneral.js" />
-        <option value="$PROJECT_DIR$/templates/actividadgeneral/show.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/ActividadGeneral.php" />
-        <option value="$PROJECT_DIR$/src/Form/ActividadGeneralType.php" />
-        <option value="$PROJECT_DIR$/templates/planmensualgeneral/show.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/PlanMensualGeneralController.php" />
-        <option value="$PROJECT_DIR$/templates/actividadgeneral/ajax/_actividadesajax.html.twig" />
-        <option value="$PROJECT_DIR$/public/siplan/script/entity/actividad.js" />
-        <option value="$PROJECT_DIR$/src/Controller/ConsejoDireccionController.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Usuario.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Actividad.php" />
-        <option value="$PROJECT_DIR$/src/Form/ActividadType.php" />
-        <option value="$PROJECT_DIR$/templates/actividad/_form.html.twig" />
-        <option value="$PROJECT_DIR$/templates/actividad/show.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/ActividadGeneralController.php" />
-        <option value="$PROJECT_DIR$/templates/miembro_consejo_direccion/index.html.twig" />
-        <option value="$PROJECT_DIR$/templates/miembro_consejo_direccion/new.html.twig" />
-        <option value="$PROJECT_DIR$/templates/miembro_consejo_direccion/_form.html.twig" />
-        <option value="$PROJECT_DIR$/src/Form/MiembroConsejoDireccionType.php" />
-        <option value="$PROJECT_DIR$/public/siplan/script/entity/miembroconsejodireccion.js" />
-        <option value="$PROJECT_DIR$/templates/miembro_consejo_direccion/_table.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/MiembroConsejoDireccionController.php" />
-        <option value="$PROJECT_DIR$/src/Entity/MiembroConsejoDireccion.php" />
-        <option value="$PROJECT_DIR$/templates/plantrabajo/show.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" />
-        <option value="$PROJECT_DIR$/templates/layout/recortes/footer.html.twig" />
-        <option value="$PROJECT_DIR$/config/packages/security.yaml" />
-        <option value="$PROJECT_DIR$/src/Controller/DefaultController.php" />
-        <option value="$PROJECT_DIR$/templates/default/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Form/Subscriber/AddDestinatarioFieldSubscriber.php" />
-        <option value="$PROJECT_DIR$/src/Controller/MensajeController.php" />
-        <option value="$PROJECT_DIR$/templates/layout/userprofile.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/UsuarioController.php" />
-        <option value="$PROJECT_DIR$/public/siplan/script/entity/grupo.js" />
-        <option value="$PROJECT_DIR$/templates/layout/autenticado.html.twig" />
-        <option value="$PROJECT_DIR$/src/Form/ActividadGrupoType.php" />
-        <option value="$PROJECT_DIR$/src/Controller/ActividadController.php" />
         <option value="$PROJECT_DIR$/public/siplan/script/base/authenticated.js" />
+        <option value="$PROJECT_DIR$/src/EventSubscriber/UsuarioSubscriber.php" />
+        <option value="$PROJECT_DIR$/src/Form/UsuarioType.php" />
+        <option value="$PROJECT_DIR$/src/Controller/PlantrabajoController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/GrupoController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/PlanMensualGeneralController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/MiembroConsejoDireccionController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/UsuarioController.php" />
+        <option value="$PROJECT_DIR$/public/siplan/css/page/index.css" />
+        <option value="$PROJECT_DIR$/templates/default/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/arc/index.html.twig" />
+        <option value="$PROJECT_DIR$/../marlin/public/assets/sitrans/script/entity/institucion.js" />
+        <option value="$PROJECT_DIR$/src/Controller/MensajeController.php" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/templates/capitulo/_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/capitulo/_table.html.twig" />
+        <option value="$PROJECT_DIR$/templates/capitulo/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/subcapitulo/_new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/subcapitulo/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/Capitulo.php" />
+        <option value="$PROJECT_DIR$/templates/layout/recortes/topmenu/admin_topmenu.html.twig" />
+        <option value="$PROJECT_DIR$/src/Form/CapituloType.php" />
+        <option value="$PROJECT_DIR$/templates/capitulo/_new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/subcapitulo/_table.html.twig" />
+        <option value="$PROJECT_DIR$/src/Entity/Capitulo.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/CapituloFixtures.php" />
+        <option value="$PROJECT_DIR$/public/siplan/script/entity/capitulo.js" />
+        <option value="$PROJECT_DIR$/src/Entity/Actividad.php" />
+        <option value="$PROJECT_DIR$/public/siplan/script/entity/subcapitulo.js" />
+        <option value="$PROJECT_DIR$/templates/subcapitulo/_form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Entity/Subcapitulo.php" />
+        <option value="$PROJECT_DIR$/src/Controller/CapituloController.php" />
+        <option value="$PROJECT_DIR$/src/Entity/ActividadGeneral.php" />
+        <option value="$PROJECT_DIR$/src/Form/SubcapituloType.php" />
+        <option value="$PROJECT_DIR$/templates/actividadgeneral/_form.html.twig" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/SubcapituloFixtures.php" />
+        <option value="$PROJECT_DIR$/src/Entity/ARC.php" />
+        <option value="$PROJECT_DIR$/src/Form/ARCType.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/ArcFixtures.php" />
+        <option value="$PROJECT_DIR$/templates/arc/_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/arc/_new.html.twig" />
+        <option value="$PROJECT_DIR$/public/siplan/script/entity/arc.js" />
+        <option value="$PROJECT_DIR$/templates/arc/_show.html.twig" />
+        <option value="$PROJECT_DIR$/src/Form/Subscriber/AddCargoFieldSubscriber.php" />
+        <option value="$PROJECT_DIR$/src/Form/Subscriber/AddSubcapituloFieldSubscriber.php" />
+        <option value="$PROJECT_DIR$/src/Controller/SubcapituloController.php" />
+        <option value="$PROJECT_DIR$/config/packages/security.yaml" />
+        <option value="$PROJECT_DIR$/src/Form/Subscriber/AddArcFieldSubscriber.php" />
+        <option value="$PROJECT_DIR$/src/Form/ActividadGeneralType.php" />
+        <option value="$PROJECT_DIR$/src/Controller/ARCController.php" />
+        <option value="$PROJECT_DIR$/public/siplan/script/entity/actividadgeneral.js" />
       </list>
     </option>
   </component>
@@ -289,6 +342,12 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+      <path value="$PROJECT_DIR$/public/siplan/plugins/OrgChart/package.json" />
+    </packageJsonPaths>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true">
     <include_path>
@@ -406,8 +465,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="758" />
-    <option name="height" value="679" />
+    <option name="x" value="426" />
+    <option name="y" value="38" />
+    <option name="width" value="782" />
+    <option name="height" value="669" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -427,12 +488,24 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
               <item name="siplan" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="packages" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
@@ -475,24 +548,30 @@
               <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
               <item name="siplan" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Entity" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
+              <item name="siplan" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="Form" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
               <item name="siplan" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Form" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Subscriber" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="siplan" type="b2602c69:ProjectViewProjectNode" />
               <item name="siplan" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="layout" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -503,7 +582,7 @@
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/Edit As Language" value="PostgreSQL" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pedro" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
@@ -518,11 +597,11 @@
       <recent name="C:\xampp\htdocs\siplan\templates\layout" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\siplan\src\Form\Subscriber" />
       <recent name="C:\xampp\htdocs\siplan\src\Form" />
-      <recent name="$PROJECT_DIR$/public/siplan/script/entity" />
-      <recent name="$PROJECT_DIR$/templates/miembro_consejo_direccion" />
-      <recent name="$PROJECT_DIR$/src/Form" />
-      <recent name="$PROJECT_DIR$/src/Controller" />
+      <recent name="C:\xampp\htdocs\siplan\public\siplan\script\entity" />
+      <recent name="C:\xampp\htdocs\siplan\templates" />
+      <recent name="C:\xampp\htdocs\siplan\src\Controller" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -608,12 +687,25 @@
       <workItem from="1552778655527" duration="2340000" />
       <workItem from="1552793485031" duration="4136000" />
       <workItem from="1552838103808" duration="4163000" />
-      <workItem from="1552924804788" duration="11466000" />
+      <workItem from="1552924804788" duration="12138000" />
+      <workItem from="1553023784604" duration="5423000" />
+      <workItem from="1553049811022" duration="6594000" />
+      <workItem from="1553100218151" duration="15196000" />
+      <workItem from="1553151272894" duration="1219000" />
+      <workItem from="1553644860139" duration="4201000" />
+      <workItem from="1553669452488" duration="1133000" />
+      <workItem from="1553677420871" duration="594000" />
+      <workItem from="1553684377141" duration="4099000" />
+      <workItem from="1553691511916" duration="7562000" />
+      <workItem from="1554275145912" duration="4122000" />
+      <workItem from="1554299082784" duration="120000" />
+      <workItem from="1554880041576" duration="7515000" />
+      <workItem from="1555082991875" duration="10589000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="503486000" />
+    <option name="totallyTimeSpent" value="572525000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -628,16 +720,16 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25037822" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2397882" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32894737" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32724252" sideWeight="0.5007576" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22424242" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22390318" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294509" sideWeight="0.49924242" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294509" sideWeight="0.49924242" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6694079" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4375" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -672,9 +764,9 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="FLOATING" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="92" y="92" width="1182" height="544" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294509" sideWeight="0.49924242" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294509" sideWeight="0.49924242" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6694079" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25037822" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -699,7 +791,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/public/siplan/script/entity/grupo.js</url>
-          <line>123</line>
+          <line>120</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -722,7 +814,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/public/siplan/script/entity/grupo.js</url>
-          <line>119</line>
+          <line>116</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -739,356 +831,441 @@
           <line>4</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/Form/MensajeType.php</url>
+          <line>4</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/arc/_new.html.twig">
+    <entry file="file://$PROJECT_DIR$/templates/mensaje/_show.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/bundles.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="23" column="53" lean-forward="false" selection-start-line="23" selection-start-column="53" selection-end-line="23" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/capitulo/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="166" lean-forward="false" selection-start-line="27" selection-start-column="166" selection-end-line="27" selection-end-column="166" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/capitulo/_table.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/capitulo/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="21" column="226" lean-forward="false" selection-start-line="21" selection-start-column="226" selection-end-line="21" selection-end-column="226" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/subcapitulo/_new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/subcapitulo/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/layout/recortes/topmenu/admin_topmenu.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="41" column="56" lean-forward="false" selection-start-line="41" selection-start-column="56" selection-end-line="41" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/CapituloType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="e#28#52#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/capitulo/_new.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="12" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/miembro_consejo_direccion/_new.html.twig" />
-    <entry file="file://$PROJECT_DIR$/templates/miembro_consejo_direccion/_form.html.twig" />
-    <entry file="file://$PROJECT_DIR$/templates/arc/_form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="41" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/MiembroConsejoDireccionType.php" />
-    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/plantrabajo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="11" lean-forward="true" selection-start-line="5" selection-start-column="8" selection-end-line="7" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/miembro_consejo_direccion/_table.html.twig" />
-    <entry file="file://$PROJECT_DIR$/src/Entity/ARC.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="1" lean-forward="false" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/MiembroConsejoDireccion.php" />
-    <entry file="file://$PROJECT_DIR$/src/Controller/ARCController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="131" column="51" lean-forward="false" selection-start-line="124" selection-start-column="8" selection-end-line="131" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/miembro_consejo_direccion/index.html.twig" />
-    <entry file="file://$PROJECT_DIR$/templates/plantrabajo/show.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="124" column="65" lean-forward="false" selection-start-line="117" selection-start-column="60" selection-end-line="124" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/MiembroConsejoDireccionController.php" />
-    <entry file="file://$PROJECT_DIR$/src/Controller/PlantrabajoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="101" column="30" lean-forward="false" selection-start-line="101" selection-start-column="30" selection-end-line="101" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/services.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="52" column="48" lean-forward="false" selection-start-line="52" selection-start-column="48" selection-end-line="52" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/planmensualgeneral/exportar.html.twig" />
-    <entry file="file://$PROJECT_DIR$/templates/layout/recortes/footer.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="44" lean-forward="false" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/template/vendors/base/vendors.bundle.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="0" column="574151" lean-forward="true" selection-start-line="0" selection-start-column="574151" selection-end-line="0" selection-end-column="574151" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/framework-bundle/Controller/Controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="27" column="15" lean-forward="false" selection-start-line="27" selection-start-column="15" selection-end-line="27" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout/base.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="86" column="20" lean-forward="false" selection-start-line="86" selection-start-column="9" selection-end-line="86" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/packages/security.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="47" column="63" lean-forward="false" selection-start-line="47" selection-start-column="63" selection-end-line="47" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://b03b5527-4f6b-4979-ba0b-e1948fd95758/database/siplanv4/schema/public/table/usuario" />
-    <entry file="das://b03b5527-4f6b-4979-ba0b-e1948fd95758/database/siplanv4/schema/public/table/grupo_usuario" />
-    <entry file="das://b03b5527-4f6b-4979-ba0b-e1948fd95758/database/siplanv4/schema/public/table/grupo" />
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/form/FormEvent.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="44" column="20" lean-forward="false" selection-start-line="44" selection-start-column="20" selection-end-line="44" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Usuario.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5550">
-          <caret line="376" column="29" lean-forward="false" selection-start-line="376" selection-start-column="20" selection-end-line="376" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Grupo.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="45" column="24" lean-forward="false" selection-start-line="45" selection-start-column="15" selection-end-line="45" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/DefaultController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="41" column="5" lean-forward="false" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
-          <folding>
-            <element signature="e#34#81#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/GrupoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="36" column="9" lean-forward="false" selection-start-line="33" selection-start-column="8" selection-end-line="36" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/Subscriber/AddMiembroFieldSubscriber.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-544">
-          <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/GrupoType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="67" column="55" lean-forward="false" selection-start-line="67" selection-start-column="55" selection-end-line="67" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/MensajeType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="35" column="58" lean-forward="false" selection-start-line="35" selection-start-column="58" selection-end-line="35" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/EventSubscriber/UsuarioSubscriber.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-364">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/http-foundation/Request.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
-          <caret line="80" column="11" lean-forward="false" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
-          <folding>
-            <element signature="e#283#358#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/http-foundation/ParameterBag.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-911">
-          <caret line="18" column="6" lean-forward="false" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+          <caret line="0" column="33" lean-forward="false" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/Subscriber/AddDestinatarioFieldSubscriber.php">
+    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/capitulo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="54" column="12" lean-forward="false" selection-start-line="54" selection-start-column="12" selection-end-line="66" selection-end-column="13" />
+        <state relative-caret-position="3111">
+          <caret line="183" column="41" lean-forward="false" selection-start-line="183" selection-start-column="33" selection-end-line="183" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Actividad.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="478" column="0" lean-forward="false" selection-start-line="478" selection-start-column="0" selection-end-line="478" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Capitulo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="61" column="33" lean-forward="false" selection-start-line="61" selection-start-column="33" selection-end-line="61" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Subcapitulo.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="96" column="18" lean-forward="false" selection-start-line="96" selection-start-column="18" selection-end-line="96" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/CapituloController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="121" column="0" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/subcapitulo/_table.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="22" column="31" lean-forward="false" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/subcapitulo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2227">
+          <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/subcapitulo/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="30" lean-forward="false" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/SubcapituloType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
-            <marker date="1552926160425" expanded="true" signature="2182:2229" ph="SELECT u FRO... App" />
+            <element signature="e#28#55#0#PHP" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/MensajeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="122" column="9" lean-forward="false" selection-start-line="122" selection-start-column="9" selection-end-line="122" selection-end-column="9" />
-          <folding>
-            <element signature="e#34#55#0#PHP" expanded="false" />
-            <marker date="1552928584218" expanded="true" signature="2644:2769" ph="SELECT m FRO... App" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/default/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="60" column="19" lean-forward="false" selection-start-line="60" selection-start-column="19" selection-end-line="60" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout/userprofile.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="20" column="57" lean-forward="false" selection-start-line="20" selection-start-column="57" selection-end-line="20" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/miembroconsejodireccion.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/usuario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="14" column="32" lean-forward="false" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/mensaje.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/siplan/script/base/base.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1545174816000" expanded="true" signature="2223:2239" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/grupo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-208">
-          <caret line="19" column="43" lean-forward="false" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
-          <folding>
-            <element signature="e#521#1390#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/UsuarioController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="222" column="5" lean-forward="false" selection-start-line="222" selection-start-column="5" selection-end-line="222" selection-end-column="5" />
-          <folding>
-            <element signature="e#10461#12113#0#PHP" expanded="false" />
-            <marker date="1552941565754" expanded="true" signature="1021:1064" ph="SELECT u FRO... App" />
-            <marker date="1552941565754" expanded="true" signature="8901:8999" ph="SELECT u.id,... App" />
-            <marker date="1552941565754" expanded="true" signature="9792:9945" ph="SELECT u.id,... App" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout/autenticado.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/ActividadGeneralType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-83">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/ActividadGrupoType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="59" column="9" lean-forward="false" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/ActividadController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="28" column="52" lean-forward="false" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
-          <folding>
-            <element signature="e#34#59#0#PHP" expanded="true" />
-            <marker date="1552944497055" expanded="true" signature="7827:7879" ph="SELECT a FRO... App" />
-            <marker date="1552944497055" expanded="true" signature="12052:12283" ph="SELECT a.id,... actividad" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/actividad.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="161" column="4" lean-forward="false" selection-start-line="161" selection-start-column="4" selection-end-line="177" selection-end-column="5" />
+        <state relative-caret-position="1938">
+          <caret line="114" column="8" lean-forward="false" selection-start-line="114" selection-start-column="8" selection-end-line="114" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/siplan/script/base/authenticated.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-52">
-          <caret line="486" column="61" lean-forward="false" selection-start-line="486" selection-start-column="61" selection-end-line="486" selection-end-column="61" />
+        <state relative-caret-position="206">
+          <caret line="201" column="5" lean-forward="false" selection-start-line="135" selection-start-column="4" selection-end-line="201" selection-end-column="5" />
           <folding>
-            <element signature="e#102#1594#0" expanded="false" />
-            <element signature="e#1628#1894#0" expanded="false" />
-            <element signature="n#!!block;n#previewfile#0" expanded="false" />
-            <element signature="n#!!block;n#validarEditUser#0" expanded="false" />
-            <element signature="n#!!block;n#colorear#0" expanded="false" />
-            <element signature="e#3854#4508#0" expanded="false" />
-            <element signature="e#4547#7720#0" expanded="false" />
-            <element signature="e#7815#8854#0" expanded="false" />
-            <element signature="e#10235#11992#0" expanded="false" />
-            <element signature="e#12037#12557#0" expanded="false" />
-            <element signature="e#12670#13539#0" expanded="false" />
-            <element signature="e#13578#14401#0" expanded="false" />
-            <element signature="e#14484#15548#0" expanded="false" />
-            <element signature="e#15648#17582#0" expanded="false" />
-            <element signature="e#17618#18653#0" expanded="false" />
+            <element signature="e#4511#7684#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/CargoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="50" column="5" lean-forward="true" selection-start-line="36" selection-start-column="4" selection-end-line="50" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/UsuarioController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1553701288172" expanded="true" signature="1061:1104" ph="SELECT u FRO... App" />
+            <marker date="1553701288172" expanded="true" signature="8792:8890" ph="SELECT u.id,... App" />
+            <marker date="1553701288172" expanded="true" signature="9683:9836" ph="SELECT u.id,... App" />
+            <marker date="1553701288172" expanded="true" signature="10744:10842" ph="SELECT u.id,... App" />
+            <marker date="1553701288172" expanded="true" signature="11123:11234" ph="SELECT g FRO... App" />
+            <marker date="1553701288172" expanded="true" signature="11431:11544" ph="SELECT g FRO... App" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Area.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="7" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/ActividadGrupoType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-204">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/CapituloFixtures.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="14" column="54" lean-forward="false" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="100" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/f948dd77/b03b5527-4f6b-4979-ba0b-e1948fd95758/siplanv4.public.arc">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ArcFixtures.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="39" column="17" lean-forward="false" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/ActividadGeneral.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="118" column="25" lean-forward="false" selection-start-line="100" selection-start-column="4" selection-end-line="118" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/actividad.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="167" column="8" lean-forward="false" selection-start-line="167" selection-start-column="8" selection-end-line="169" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/arc/_new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="33" lean-forward="false" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/arc/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="50" column="51" lean-forward="false" selection-start-line="50" selection-start-column="51" selection-end-line="50" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/actividadgeneral/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="53" column="40" lean-forward="false" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/SubcapituloFixtures.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="29" column="90" lean-forward="false" selection-start-line="29" selection-start-column="90" selection-end-line="29" selection-end-column="127" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/arc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="872">
+          <caret line="266" column="0" lean-forward="false" selection-start-line="266" selection-start-column="0" selection-end-line="266" selection-end-column="0" />
+          <folding>
+            <marker date="1555091374843" expanded="true" signature="8138:9917" ph="{&quot;title&quot;: 'Eliminar área  del conocimiento'...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/ARCType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="23" column="54" lean-forward="false" selection-start-line="23" selection-start-column="54" selection-end-line="23" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/services.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="93" column="20" lean-forward="false" selection-start-line="93" selection-start-column="20" selection-end-line="93" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/UsuarioType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="113" column="88" lean-forward="false" selection-start-line="113" selection-start-column="79" selection-end-line="113" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/Subscriber/AddCargoFieldSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="23" column="21" lean-forward="false" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/Subscriber/AddDestinatarioFieldSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1552926160000" expanded="true" signature="2182:2229" ph="SELECT u FRO... App" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/Subscriber/AddMiembroFieldSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1553685356725" expanded="true" signature="1481:1568" ph="SELECT u FRO... App" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/Subscriber/AddSubcapituloFieldSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/SubcapituloController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="139" column="34" lean-forward="false" selection-start-line="139" selection-start-column="34" selection-end-line="139" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/packages/security.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="34" column="45" lean-forward="false" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/arc/_show.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="44" lean-forward="false" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
+          <folding>
+            <element signature="n#style#0;n#th#0;n#tr#2;n#table#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/ARC.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="49" column="24" lean-forward="false" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/ARCController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="160" column="55" lean-forward="false" selection-start-line="160" selection-start-column="55" selection-end-line="160" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/ActividadGeneralType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="44" column="71" lean-forward="false" selection-start-line="44" selection-start-column="71" selection-end-line="44" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/Subscriber/AddArcFieldSubscriber.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="70" column="49" lean-forward="false" selection-start-line="70" selection-start-column="49" selection-end-line="70" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/siplan/script/entity/actividadgeneral.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="314" column="0" lean-forward="false" selection-start-line="314" selection-start-column="0" selection-end-line="314" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -40,7 +40,7 @@ class MensajeController extends Controller
             'user_id' => $this->getUser()->getId(),
             'user_nombre' => $this->getUser()->getNombre(),
             'user_correo' => $this->getUser()->getCorreo(),
-            'user_foto' => null != $this->getUser()->getFicheroFoto() ? $this->getUser()->getFicheroFoto()->getRuta() : null,
+            'user_foto' => null != $this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'message_inbox' => $mensaje_inbox]);
     }
 
@@ -99,8 +99,8 @@ class MensajeController extends Controller
      */
     public function new(Request $request): Response
     {
-        //  if (!$request->isXmlHttpRequest())
-        //    throw $this->createAccessDeniedException();
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
         $em = $this->getDoctrine()->getManager();
         $parameters = $request->request->all();
         $listado = [];

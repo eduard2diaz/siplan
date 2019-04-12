@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Actividad;
+use App\Entity\ActividadGeneral;
+use App\Entity\Subcapitulo;
 use App\Form\ARCType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -50,7 +53,7 @@ class ARCController extends Controller
             if ($form->isValid()) {
                 $em->persist($arc);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El área del conocimiento fue registrada satisfactoriamente',
+                return new JsonResponse(array('mensaje' =>'El área de resultados claves fue registrada satisfactoriamente',
                     'nombre' => $arc->getNombre(),
                     'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$arc->getId())->getValue(),
                     'id' => $arc->getId(),
@@ -90,13 +93,13 @@ class ARCController extends Controller
         $form = $this->createForm(arcType::class, $arc,
             array('action' => $this->generateUrl('arc_edit', array('id' => $arc->getId()))));
         $form->handleRequest($request);
-
+        $eliminable=$this->esEliminable($arc);
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($arc);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El área del conocimiento fue actualizada satisfactoriamente',
+                return new JsonResponse(array('mensaje' =>'El área de resultados claves fue actualizada satisfactoriamente',
                     'nombre' => $arc->getNombre(),
                     ));
             } else {
@@ -104,15 +107,18 @@ class ARCController extends Controller
                     'form' => $form->createView(),
                     'form_id' => 'arc_edit',
                     'action' => 'Actualizar',
+                    'arc' => $arc,
+                    'eliminable' => $eliminable,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
 
         return $this->render('arc/_new.html.twig', [
             'arc' => $arc,
-            'title' => 'Editar área del conocimiento ',
+            'title' => 'Editar área de resultados claves ',
             'action' => 'Actualizar',
             'form_id' => 'arc_edit',
+            'eliminable' => $eliminable,
             'form' => $form->createView(),
         ]);
     }
@@ -126,10 +132,37 @@ class ARCController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($arc);
             $em->flush();
-            return new JsonResponse(array('mensaje' =>'El área del conocimiento fue eliminada satisfactoriamente'));
+            return new JsonResponse(array('mensaje' =>'El área de resultados claves fue eliminada satisfactoriamente'));
         }
 
         throw $this->createAccessDeniedException();
     }
 
+    private function esEliminable(ARC $arc): bool
+    {
+        $em = $this->getDoctrine()->getManager();
+        if ($em->getRepository(ActividadGeneral::class)->findOneByAreaconocimiento($arc) != null)
+            return false;
+        if ($em->getRepository(Actividad::class)->findOneByAreaconocimiento($arc) != null)
+            return false;
+
+        return true;
+    }
+
+    //Funciones ajax
+    /**
+     * @Route("/{subcapitulo}/findbysubcapitulo", name="arc_findbysubcapitulo", options={"expose"=true},methods="GET")
+     */
+    public function findbysubcapitulo(Request $request, Subcapitulo $subcapitulo): Response
+    {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
+        $arcs = $this->getDoctrine()->getRepository(ARC::class)->findBySubcapitulo($subcapitulo);
+        $arcsHtml = "";
+        foreach ($arcs as $value)
+            $arcsHtml .= "<option value={$value->getId()}>{$value->getNombre()}</option>";
+
+        return new Response($arcsHtml);
+    }
 }

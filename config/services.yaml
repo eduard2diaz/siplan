@@ -75,6 +75,15 @@ services:
             - { name: validator.constraint_validator, alias: entity.validator.period }
         arguments: ['@doctrine']
 
+    entity.validator.periodactividadgeneral:
+        class: App\Validator\PeriodActividadGeneralValidator
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags:
+            - { name: validator.constraint_validator, alias: entity.validator.periodactividadgeneral }
+        arguments: ['@doctrine']
+
     app.email_service:
         class: App\Services\EmailService
         arguments: ['%env(MAILER_URL)%']

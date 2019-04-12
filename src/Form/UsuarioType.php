@@ -43,7 +43,10 @@ class UsuarioType extends AbstractType
         $disabled = $options['data']->getId() == $this->token->getToken()->getUser()->getId();
 
         $builder
-            ->add('ficheroFoto', FotoType::class)
+            ->add('file', FileType::class, array('required' => false,
+                'attr' => array('style' => 'display:none',
+                    'accept' => 'image/*')
+            ))
             ->add('nombre', TextType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge', 'pattern' => '^([A-Za-záéíóúñ]{2,}((\s[A-Za-záéíóúñ]{2,})*))*$')))
             ->add('correo', EmailType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-medium', 'pattern' => '^[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$')))
             ->add('usuario', TextType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-medium')))

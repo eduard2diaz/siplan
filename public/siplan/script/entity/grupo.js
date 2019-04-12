@@ -38,8 +38,6 @@ var grupo = function () {
             }
             //allowClear: true
         });
-        Ladda.bind('.mt-ladda-btn');
-
         $("div#basicmodal form").validate({
             rules: {
                 'grupo[nombre]': {required: true}

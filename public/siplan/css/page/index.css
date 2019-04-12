@@ -1,28 +1,33 @@
-div#wall {
-    background-image: url('../../img/bg/bg.jpg');
+div#login-form {
+    background-image: url('../../img/40482376-0-hack1.jpg');
     background-repeat: no-repeat;
     background-size: 100%;
-    min-height: 600px;
-    height: 700px;
-    width: 100%;
     padding: 4% 4%;
 }
-
-div#login-form {
-    background-color: white;
-    opacity: 0.9;
-    margin-left: 40%;
-    margin-top: 3%;
-    padding: 2%;
+div#promo1{
+    background-image: url('../../img/40391876-0-Who.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding: 12% 4%;
 }
-
-div#login-form img{
-    width: 20%;
+div#promo2{
+    background-image: url('../../img/40482381-0-hack2.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding: 4% 4%;
 }
-div#login-form h4{
-    padding-top: 3%;
+div#promo2 h3{
+    color: white;
 }
-
+.text-white{
+    color: white !important;
+}
+div#promo3{
+    background-image: url('../../img/40482386-0-hack3.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding: 4% 4%;
+}
 div.m-wrapper {
     padding: 0px 0px !important;
 }

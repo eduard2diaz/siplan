@@ -15,7 +15,6 @@ var planmensualgeneral = function () {
                 'plan_mensual_general[anno]': {required:true}
             }
         })
-        Ladda.bind( '.mt-ladda-btn');
     }
 
     var refrescar = function () {

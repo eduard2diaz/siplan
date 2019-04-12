@@ -2,25 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Fichero;
+use App\Entity\Capitulo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class FotoType extends AbstractType
+class CapituloType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', FileType::class, array('label'=>' ','required' => false, 'attr' => array('style' => 'display:none', 'accept' => 'image/*')));
+            ->add('nombre', TextType::class,array('attr'=>array('autocomplete'=>'off','class'=>'form-control input-xlarge')))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Fichero::class,
+            'data_class' => Capitulo::class,
         ]);
     }
 }

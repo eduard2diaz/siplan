@@ -15,7 +15,6 @@ var plantrabajo = function () {
                 'plantrabajo[anno]': {required:true}
             }
         })
-        Ladda.bind( '.mt-ladda-btn');
     }
 
     var refrescar = function () {

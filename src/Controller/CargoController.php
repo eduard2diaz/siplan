@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Usuario;
 use App\Form\CargoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,6 +95,7 @@ class CargoController extends Controller
         $form = $this->createForm(CargoType::class, $cargo,
             array('action' => $this->generateUrl('cargo_edit', array('id' => $cargo->getId()))));
 
+        $eliminable=$this->esEliminable($cargo);
         $form->handleRequest($request);
         if ($form->isSubmitted())
             if ($form->isValid()) {
@@ -106,6 +108,7 @@ class CargoController extends Controller
                     'form' => $form->createView(),
                     'action' => 'Actualizar',
                     'form_id' => 'cargo_edit',
+                    'eliminable' => $eliminable,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -115,6 +118,7 @@ class CargoController extends Controller
             'title' => 'Editar cargo',
             'action' => 'Actualizar',
             'form_id' => 'cargo_edit',
+            'eliminable' => $eliminable,
             'form' => $form->createView(),
         ]);
     }
@@ -133,5 +137,11 @@ class CargoController extends Controller
         }
 
         throw $this->createAccessDeniedException();
+    }
+
+    private function esEliminable(Cargo $cargo): bool
+    {
+        $em = $this->getDoctrine()->getManager();
+        return ($em->getRepository(Usuario::class)->findOneByCargo($cargo) == null);
     }
 }

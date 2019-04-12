@@ -13,25 +13,23 @@ var area = function () {
                 {data: 'nombre'},
                 {data: 'area_padre'},
                 {data: 'acciones'}
-            ]});
+            ]
+        });
     }
 
     var configurarFormulario = function () {
         $('select#area_padre').select2({
             dropdownParent: $("#basicmodal"),
         });
-        Ladda.bind( '.mt-ladda-btn' );
-
         $("div#basicmodal form").validate({
-            rules:{
-                'area[nombre]': {required:true}
+            rules: {
+                'area[nombre]': {required: true}
             }
         })
     }
 
     var edicion = function () {
-        $('body').on('click', 'a.edicion', function (evento)
-        {
+        $('body').on('click', 'a.edicion', function (evento) {
             evento.preventDefault();
             var link = $(this).attr('data-href');
             obj = $(this);
@@ -41,7 +39,7 @@ var area = function () {
                 url: link,
                 beforeSend: function (data) {
                     mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                        {overlayColor: "#000000", type: "loader", state: "success", message: "Cargando..."});
                 },
                 success: function (data) {
                     if ($('div#basicmodal').html(data)) {
@@ -49,8 +47,7 @@ var area = function () {
                         $('div#basicmodal').modal('show');
                     }
                 },
-                error: function ()
-                {
+                error: function () {
                     base.Error();
                 },
                 complete: function () {
@@ -61,8 +58,7 @@ var area = function () {
     }
 
     var refrescar = function () {
-        $('a#area_tablerefrescar').click(function (evento)
-        {
+        $('a#area_tablerefrescar').click(function (evento) {
             evento.preventDefault();
             var link = $(this).attr('href');
             obj = $(this);
@@ -72,29 +68,28 @@ var area = function () {
                 url: link,
                 beforeSend: function (data) {
                     mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando..."});
+                        {overlayColor: "#000000", type: "loader", state: "success", message: "Actualizando..."});
                 },
                 success: function (data) {
                     $('table#area_tabletable').html(data);
                     table.destroy();
                     configurarDataTable();
                 },
-                error: function ()
-                {
+                error: function () {
                     base.Error();
                 },
                 complete: function () {
                     mApp.unblock("body")
-                }});
+                }
+            });
         });
     }
 
     var newAction = function () {
-        $('div#basicmodal').on('submit', 'form#area_new', function (evento)
-        {
+        $('div#basicmodal').on('submit', 'form#area_new', function (evento) {
             evento.preventDefault();
             var padre = $(this).parent();
-            var l = Ladda.create(document.querySelector( '.ladda-button' ) );
+            var l = Ladda.create(document.querySelector('.ladda-button'));
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
@@ -110,8 +105,7 @@ var area = function () {
                         padre.html(data['form']);
                         configurarFormulario();
                     }
-                    else
-                    {
+                    else {
                         if (data['mensaje'])
                             toastr.success(data['mensaje']);
 
@@ -123,18 +117,15 @@ var area = function () {
                             "nombre": data['nombre'],
                             "area_padre": data['area_padre'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
-                                "<li class='m-nav__item'>" +
-                                "<a class='btn btn-sm btn-info edicion' data-href=" + Routing.generate('area_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i>Editar</a></li>" +
-                                "<li class='m-nav__item'>" +
-                                "<a class='btn btn-danger btn-sm  eliminar_area' data-csrf=" + data['csrf'] +" data-href=" + Routing.generate('area_delete',{id:data['id']}) + ">" +
-                                "<i class='flaticon-delete-1'></i>Eliminar</a></li></ul>",
+                            "<li class='m-nav__item'>" +
+                            "<a class='btn btn-sm btn-info edicion' data-href=" + Routing.generate('area_edit', {id: data['id']}) + "><i class='flaticon-edit-1'></i>Editar</a></li>" +
+                            "</ul>",
                         });
                         objeto.draw();
                         table.page(pagina).draw('page');
                     }
                 },
-                error: function ()
-                {
+                error: function () {
                     base.Error();
                 }
             });
@@ -142,13 +133,11 @@ var area = function () {
     }
 
 
-
     var edicionAction = function () {
-        $('div#basicmodal').on('submit', 'form#area_edit', function (evento)
-        {
+        $('div#basicmodal').on('submit', 'form#area_edit', function (evento) {
             evento.preventDefault();
             var padre = $(this).parent();
-            var l = Ladda.create(document.querySelector( '.ladda-button' ) );
+            var l = Ladda.create(document.querySelector('.ladda-button'));
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
@@ -164,8 +153,7 @@ var area = function () {
                         padre.html(data['form']);
                         configurarFormulario();
                     }
-                    else
-                    {
+                    else {
                         if (data['mensaje'])
                             toastr.success(data['mensaje']);
 
@@ -175,8 +163,7 @@ var area = function () {
                         obj.parents('tr').children('td:nth-child(3)').html(data['area_padre']);
                     }
                 },
-                error: function ()
-                {
+                error: function () {
                     base.Error();
                 }
             });
@@ -184,22 +171,23 @@ var area = function () {
     }
 
     var eliminar = function () {
-        $('table#area_table').on('click', 'a.eliminar_area', function (evento)
-        {
+        $('div#basicmodal').on('click', 'a.eliminar_area', function (evento) {
             evento.preventDefault();
-            var obj = $(this);
             var link = $(this).attr('data-href');
             var token = $(this).attr('data-csrf');
+            $('div#basicmodal').modal('hide');
             bootbox.confirm({
                 title: 'Eliminar área',
                 message: '¿Está seguro que desea eliminar esta área?',
                 buttons: {
                     confirm: {
                         label: 'Si, estoy seguro',
-                        className: 'btn-sm btn-primary'},
+                        className: 'btn-sm btn-primary'
+                    },
                     cancel: {
                         label: 'Cancelar',
-                        className: 'btn-sm btn-metal'}
+                        className: 'btn-sm btn-metal'
+                    }
                 },
                 callback: function (result) {
                     if (result == true)
@@ -211,7 +199,12 @@ var area = function () {
                             },
                             beforeSend: function () {
                                 mApp.block("body",
-                                    {overlayColor:"#000000",type:"loader",state:"success",message:"Eliminando..."});
+                                    {
+                                        overlayColor: "#000000",
+                                        type: "loader",
+                                        state: "success",
+                                        message: "Eliminando..."
+                                    });
                             },
                             complete: function () {
                                 mApp.unblock("body")
@@ -222,8 +215,7 @@ var area = function () {
                                     .draw('page');
                                 toastr.success(data['mensaje']);
                             },
-                            error: function ()
-                            {
+                            error: function () {
                                 base.Error();
                             }
                         });

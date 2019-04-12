@@ -43,7 +43,7 @@ class PlantrabajoController extends Controller
 
         $parameters = [
             'user_id' => $usuario->getId(),
-            'user_foto'=>null!=$usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_foto'=>null!=$usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
             'user_nombre'=>$usuario->getNombre(),
             'user_correo'=>$usuario->getCorreo(),
             'jefe' => $usuario->getJefe(),
@@ -127,7 +127,7 @@ class PlantrabajoController extends Controller
         return $this->render('plantrabajo/show.html.twig', ['plantrabajo' => $plantrabajo,
             'actividads' => $actividads,
             'user_id' => $plantrabajo->getUsuario()->getId(),
-            'user_foto'=>null!=$plantrabajo->getUsuario()->getFicheroFoto() ? $plantrabajo->getUsuario()->getFicheroFoto()->getRuta() : null,
+            'user_foto'=>null!=$plantrabajo->getUsuario()->getRutaFoto() ? $plantrabajo->getUsuario()->getRutaFoto() : null,
             'user_nombre'=>$plantrabajo->getUsuario()->getNombre(),
             'user_correo'=>$plantrabajo->getUsuario()->getCorreo(),
             'esmiembroCD'=>$esmiembroCD

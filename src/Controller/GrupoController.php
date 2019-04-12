@@ -46,7 +46,7 @@ class GrupoController extends Controller
             'user_id' => $id,
             'user_nombre'=>$usuario->getNombre(),
             'user_correo'=>$usuario->getCorreo(),
-            'user_foto'=>null!=$usuario->getFicheroFoto() ? $usuario->getFicheroFoto()->getRuta() : null,
+            'user_foto'=>null!=$usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
         ]);
     }
 
@@ -107,6 +107,18 @@ class GrupoController extends Controller
                 else
                     $parameters['confirmacion_aceptada'] = true;
         }
+
+        $result=[];
+        foreach ($grupo->getIdmiembro() as $value){
+            $solicitud = $em->getRepository('App:SolicitudGrupo')->findOneBy([
+                'usuario' => $value,
+                'grupo' => $grupo
+            ]);
+            if(null!=$solicitud)
+                $result[]=['usuario'=>$value->getNombre(),'estado'=>$solicitud->getEstado()];
+        }
+
+        $parameters['miembros']=$result;
 
         return $this->render('grupo/show.html.twig', $parameters);
     }

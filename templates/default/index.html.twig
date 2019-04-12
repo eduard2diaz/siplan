@@ -4,13 +4,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/page/index.css','siplan') }}"/>
 {% endblock %}
 {% block body %}
-    <div id="wall">
-        <div class="col-md-5" id="login-form">
-            <div class="m--padding-left-40 m--padding-right-40">
-                <img src="{{ asset('siplan/img/calendar.jpg') }}" class="pull-left"/>
-                <h4>Bienvenido a SIPLAN <br/><small>donde cada segundo cuenta</small></h4>
-            </div>
-            <div class="clearfix m--margin-bottom-10"></div>
+    <div id="login-form">
+        <div class="col-md-4">
             {% if error is defined and error is not empty %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
@@ -18,7 +13,7 @@
                 </div>
 
             {% endif %}
-            <form action="{{ path('check') }}"  method="POST" class="m-form m-form--state">
+            <form action="{{ path('check') }}" method="POST" class="m-form m-form--state">
                 <div class="m-portlet__body">
                     <div class="m-form__section">
                         <div class="form-group m-form__group">
@@ -26,7 +21,8 @@
                                 Usuario o correo electrónico:
                             </label>
                             <div class="m-input-icon m-input-icon--left">
-                                <input class="form-control m-input" placeholder="Escriba su usuario" id="_username" name="_username"
+                                <input class="form-control m-input" placeholder="Escriba su usuario" id="_username"
+                                       name="_username"
                                        required="required" type="text" value="{{ last_username }}">
                                 <span class="m-input-icon__icon m-input-icon__icon--left">
 													<span><i class="la la-user"></i></span>
@@ -38,7 +34,8 @@
                                 Contraseña:
                             </label>
                             <div class="m-input-icon m-input-icon--left">
-                                <input class="form-control m-input" placeholder="Escriba su contraseña" id="_password" name="_password"
+                                <input class="form-control m-input" placeholder="Escriba su contraseña" id="_password"
+                                       name="_password"
                                        required="required" type="password">
                                 <span class="m-input-icon__icon m-input-icon__icon--left">
 													<span><i class="la la-key"></i></span>
@@ -61,5 +58,54 @@
             </form>
         </div>
     </div>
-
+    <div id="promo1">
+        <div class="col-md-6">
+            <h2>Todo lo que necesitas para alcanzar el éxito</h2>
+            <p class="m--margin-top-20">
+                SIPLAN es mucho más que una herramienta, también es un
+                robusto sistema diseñado para ayudarte a alcanzar el éxito. Únete a nuestra comunidad, saca el máximo
+                provecho y tene acceso a todo lo que necesitas para alcanzar tus objetivos.
+            </p>
+        </div>
+    </div>
+<div id="promo2">
+    <div class="row">
+        <div class="offset-7">
+            <div class="m-widget14">
+                <div class="m-widget14__header m--margin-bottom-30">
+                    <h3 class="m-widget14__title">
+                        Almacenamiento en Códice
+                    </h3>
+                    <span class="m-widget14__desc">
+                                    Publica y descubre nuevos artículos en nuestro sitio
+								</span>
+                </div>
+                <p class="description">
+                    Dale un empujón a tu investigación y llega a la línea de meta más rápido con un catálogo
+                    en constante crecimiento de recursos y herramientas gratuitas.
+                </p>
+                <a href="" class="m-link m--font-boldest">Conocer más</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="promo3">
+    <div class="col-md-6">
+        <div class="m-widget14">
+            <div class="m-widget14__header m--margin-bottom-30">
+                <h3 class="m-widget14__title">
+                    Explota al máximo tu tiempo
+                </h3>
+                <span class="m-widget14__desc">
+                                    Planifica y optimiza tus atividades
+								</span>
+            </div>
+            <p class="description">
+                Mejora tus habilidades como trabajador, crea tus planes de trabajo,organiza tus actividades y mucho más.
+                Utiliza SIPLAN y comienza a sacar el mejor provecho a tu jornada laboral.
+            </p>
+            <a href="{{ path('estatica',{'page':'servicio'}) }}" class="m-link m--font-boldest">Conocer más</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -9,13 +9,16 @@ use App\Entity\PlanMensualGeneral;
 use App\Entity\Usuario;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use App\Validator\Period as PeriodConstraint;
+use App\Validator\PeriodActividadGeneral as PeriodConstraint;
+use App\Entity\Capitulo;
+use App\Entity\Subcapitulo;
 
 /**
  * ActividadGeneral
  *
  * @ORM\Table(name="actividadgeneral", indexes={@ORM\Index(name="IDX_8DF2BD06212B0BD47FB", columns={"planmensualgeneral"})})
  * @ORM\Entity
+ * @PeriodConstraint(from="fecha",to="fechaF",place="lugar")
  */
 class ActividadGeneral
 {
@@ -94,6 +97,26 @@ class ActividadGeneral
      * })
      */
     private $planmensualgeneral;
+
+    /**
+     * @var \Capitulo
+     *
+     * @ORM\ManyToOne(targetEntity="Capitulo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="capitulo", referencedColumnName="id",onDelete="Cascade")
+     * })
+     */
+    private $capitulo;
+
+    /**
+     * @var \Subcapitulo
+     *
+     * @ORM\ManyToOne(targetEntity="Subcapitulo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="subcapitulo", referencedColumnName="id",onDelete="Cascade")
+     * })
+     */
+    private $subcapitulo;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ARC")
@@ -263,6 +286,38 @@ class ActividadGeneral
         $this->areaconocimiento = $areaconocimiento;
 
         return $this;
+    }
+
+    /**
+     * @return \Capitulo
+     */
+    public function getCapitulo(): ?Capitulo
+    {
+        return $this->capitulo;
+    }
+
+    /**
+     * @param \Capitulo $capitulo
+     */
+    public function setCapitulo(Capitulo $capitulo): void
+    {
+        $this->capitulo = $capitulo;
+    }
+
+    /**
+     * @return \Subcapitulo
+     */
+    public function getSubcapitulo(): ?Subcapitulo
+    {
+        return $this->subcapitulo;
+    }
+
+    /**
+     * @param \Subcapitulo $subcapitulo
+     */
+    public function setSubcapitulo(Subcapitulo $subcapitulo): void
+    {
+        $this->subcapitulo = $subcapitulo;
     }
 
     /**
