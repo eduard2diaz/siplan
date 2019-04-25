@@ -58,12 +58,14 @@ class CapituloController extends Controller
                 $em->flush();
                 return new JsonResponse(array('mensaje' => 'El capítulo fue registrado satisfactoriamente',
                     'nombre' => $capitulo->getNombre(),
+                    'numero' => $capitulo->getNumero(),
                     'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $capitulo->getId())->getValue(),
                     'id' => $capitulo->getId(),
                 ));
             } else {
                 $page = $this->renderView('capitulo/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'capitulo' => $capitulo,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true,));
             }
@@ -91,11 +93,14 @@ class CapituloController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($capitulo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El capítulo fue actualizado satisfactoriamente', 'nombre' => $capitulo->getNombre(),
+                return new JsonResponse(array('mensaje' => 'El capítulo fue actualizado satisfactoriamente',
+                    'nombre' => $capitulo->getNombre(),
+                    'numero' => $capitulo->getNumero(),
                     ));
             } else {
                 $page = $this->renderView('capitulo/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'capitulo' => $capitulo,
                     'form_id' => 'capitulo_edit',
                     'action' => 'Actualizar',
                     'eliminable' => $eliminable,

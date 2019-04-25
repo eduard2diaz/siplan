@@ -606,11 +606,11 @@ class Usuario implements UserInterface
      *Funcionalidad que recibe un usuario como parametro y dice si ese usuario
      * es superior del actual usuario.
      */
-    public function esJefe(Usuario $usuario):bool {
+    public function esSubordinado(Usuario $usuario):bool {
         if($this->getJefe()==$usuario)
             return true;
         if(null!=$this->getJefe())
-            return $this->getJefe()->esJefe($usuario);
+            return $this->getJefe()->esSubordinado($usuario);
 
         return false;
     }

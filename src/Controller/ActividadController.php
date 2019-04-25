@@ -56,7 +56,7 @@ class ActividadController extends Controller
                     }
 
 //                    if (count($validator->validate($activity)) > 0)
-  //                      break;
+                    //                      break;
 
                     $em->persist($plantrabajo);
                     $em->persist($activity);
@@ -88,11 +88,11 @@ class ActividadController extends Controller
                 }
 
                 $em->flush();
-                $message="La actividad fue registrada satisfactoriamente";
-                if($iteracion==0)
-                    $message="La actividad no pudo ser asignada a los usuarios, comprueba los planes de trabajo";
-                    elseif($iteracion<count($request->request->get('actividad_grupo')['iddestinatario']))
-                        $message="Algunas actividades no pudieron ser asignadas a los usuarios, comprueba los planes de trabajo";
+                $message = "La actividad fue registrada satisfactoriamente";
+                if ($iteracion == 0)
+                    $message = "La actividad no pudo ser asignada a los usuarios, comprueba los planes de trabajo";
+                elseif ($iteracion < count($request->request->get('actividad_grupo')['iddestinatario']))
+                    $message = "Algunas actividades no pudieron ser asignadas a los usuarios, comprueba los planes de trabajo";
 
 
                 return new JsonResponse(array('mensaje' => $message));
@@ -113,11 +113,11 @@ class ActividadController extends Controller
 
     /**
      * @Route("/{id}/new", name="actividad_new", methods="GET|POST")
+     * Se encarga del registro de una actividad por un usuario en el plan de trabajo(SOLO PARA UN USUARIO)
      */
     public function new(Request $request, Plantrabajo $plantrabajo): Response
     {
         $actividad = new Actividad();
-
         $actividad->setPlantrabajo($plantrabajo);
         $actividad->setResponsable($plantrabajo->getUsuario());
         $actividad->setAsignadapor($this->getUser());
@@ -136,14 +136,8 @@ class ActividadController extends Controller
                 }
                 $em->persist($actividad);
                 $em->flush();
-
-                return new JsonResponse(array('mensaje' => "La actividad fue registrada satisfactoriamente",
-                    'nombre' => $actividad->getNombre(),
-                    'fecha' => $actividad->getFecha()->format('d-m-Y H:i'),
-                    'fechaF' => $actividad->getFechaF()->format('d-m-Y H:i'),
-                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $actividad->getId())->getValue(),
-                    'id' => $actividad->getId(),
-                ));
+                $this->addFlash('success', "La actividad fue registrada satisfactoriamente");
+                return new JsonResponse(['url' => $this->generateUrl('plantrabajo_show', ['id' => $plantrabajo->getId()])]);
             } else {
                 $page = $this->renderView('actividad/_form.html.twig', array(
                     'form' => $form->createView(),
@@ -155,6 +149,10 @@ class ActividadController extends Controller
         return $this->render('actividad/_new.html.twig', [
             'actividad' => $actividad,
             'form' => $form->createView(),
+            'user_id' => $plantrabajo->getUsuario()->getId(),
+            'user_foto' => null != $plantrabajo->getUsuario()->getRutaFoto() ? $plantrabajo->getUsuario()->getRutaFoto() : null,
+            'user_nombre' => $plantrabajo->getUsuario()->getNombre(),
+            'user_correo' => $plantrabajo->getUsuario()->getCorreo(),
         ]);
     }
 
@@ -192,12 +190,8 @@ class ActividadController extends Controller
 
                 $em->persist($actividad);
                 $em->flush();
-
-                return new JsonResponse(array('mensaje' => "La actividad fue actualizada satisfactoriamente",
-                    'nombre' => $actividad->getNombre(),
-                    'fecha' => $actividad->getFecha()->format('d-m-Y H:i'),
-                    'fechaF' => $actividad->getFechaF()->format('d-m-Y H:i')
-                ));
+                $this->addFlash('success', "La actividad fue actualizada satisfactoriamente");
+                return new JsonResponse(['url' => $this->generateUrl('plantrabajo_show', ['id' => $actividad->getPlantrabajo()->getId()])]);
             } else {
                 $page = $this->renderView('actividad/_form.html.twig', array(
                     'form' => $form->createView(),
@@ -214,6 +208,10 @@ class ActividadController extends Controller
             'action' => 'Actualizar',
             'form_id' => 'actividad_edit',
             'form' => $form->createView(),
+            'user_id' => $actividad->getPlantrabajo()->getUsuario()->getId(),
+            'user_foto' => null != $actividad->getPlantrabajo()->getUsuario()->getRutaFoto() ? $actividad->getPlantrabajo()->getUsuario()->getRutaFoto() : null,
+            'user_nombre' => $actividad->getPlantrabajo()->getUsuario()->getNombre(),
+            'user_correo' => $actividad->getPlantrabajo()->getUsuario()->getCorreo(),
         ]);
     }
 
@@ -257,6 +255,12 @@ class ActividadController extends Controller
             if (count($errors) == 0) {
                 $em->persist($activity);
                 $contador++;
+            } else {
+                $errores[] = [
+                    'nombre' => $activity->getNombre(),
+                    'fecha' => $activity->getFecha()->format('d-m-Y H:i'),
+                    'fechaf' => $activity->getFechaF()->format('d-m-Y H:i'),
+                ];
             }
 
         }
@@ -266,10 +270,15 @@ class ActividadController extends Controller
             $em->flush();
             if ($contador == count($actividades))
                 $array['mensaje'] = 'Las actividades fueron clonadas satisfactoriamente';
-            else
+            else {
                 $array['warning'] = 'Algunas actividades no pudieron ser clonadas';
-        } else
+                $array['errores'] = $this->renderView('actividad/ajax/_errorclonacion.html.twig',['actividades'=>$errores]);
+            }
+        } else {
             $array['error'] = 'Las actividades no pudieron ser clonadas';
+            $array['errores'] = $this->renderView('actividad/ajax/_errorclonacion.html.twig',['actividades'=>$errores]);
+        }
+
 
         return new JsonResponse($array);
     }
@@ -329,6 +338,7 @@ class ActividadController extends Controller
 
     /**
      * @Route("/pendientes", name="actividades_pendientes",options={"expose"=true})
+     * Funcionalidad ajax que retorna el listado de actividades pendientes(NO CUMPLIDAS) 3 dias antes de que ocurran
      */
     public function pendiente(Request $request): Response
     {
@@ -348,6 +358,7 @@ class ActividadController extends Controller
 
     /**
      * @Route("/{id}/ajax", name="plantrabajo_actividadesajax", methods="GET",options={"expose"=true})
+     * Funcionalidad que devuelve el listado de actividades que pertenecen a un determinado plan de trabajo
      */
     public function actividadesAjax(Request $request, Plantrabajo $plantrabajo): Response
     {

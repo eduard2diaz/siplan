@@ -10,7 +10,9 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre</th>
-                    <th>Fecha</th>
+                    <th>Fecha de inicio</th>
+                    <th>Fecha de fin</th>
+                    <th>ARC</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,6 +27,8 @@
                         </td>
                         <td>{{ actividad.nombre }}</td>
                         <td>{{ actividad.fecha|date('d-m-Y') }}</td>
+                        <td>{{ actividad.fechaf|date('d-m-Y') }}</td>
+                        <td>{{ actividad.areaconocimiento }}</td>
                     </tr>
                     {%set i=1+i%}
                 {% endfor %}
@@ -33,7 +37,9 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre</th>
-                    <th>Fecha</th>
+                    <th>Fecha de inicio</th>
+                    <th>Fecha de fin</th>
+                    <th>ARC</th>
                 </tr>
                 </tfoot>
             </table>

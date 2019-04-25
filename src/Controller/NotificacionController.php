@@ -54,7 +54,7 @@ class NotificacionController extends Controller
             'user_id' => $this->getUser()->getId(),
             'user_nombre'=>$this->getUser()->getNombre(),
             'user_correo'=>$this->getUser()->getCorreo(),
-            'user_foto'=>null!=$this->getUser()->getFicheroFoto() ? $this->getUser()->getFicheroFoto()->getRuta() : null,
+            'user_foto'=>null!=$this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'notificacions' => $notificacions]);
     }
 

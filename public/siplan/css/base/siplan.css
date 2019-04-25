@@ -16,8 +16,7 @@ button.bootbox-close-button{
 
 /*Mi personalizacion*/
 div.m-body{
-    /*background-color: #e9ebee;*/
-    background-color: white;
+    background-color: #e9ebee;
 }
 div.m-portlet{
     border-radius: 0.3%;
@@ -78,9 +77,6 @@ div#m_header_menu{
 }
 .modal-full{
     min-width: 80% !important;
-}
-label{
-    font-weight: bolder;
 }
 
 header{
@@ -198,4 +194,8 @@ header span.m-dropdown__arrow{
     z-index: 2;
     left: 2%;
     top: 76%;
+}
+
+a[data-href]{
+    cursor: pointer;
 }

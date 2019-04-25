@@ -1,26 +1,42 @@
 {{ form_start(form,{'attr':{
-    'id': form_id|default('message_new')
+    'id': form_id|default('message_new'),
+    'class': 'm-form m-form--state'
 }}) }}
 <div class="modal-body" id="modal-body">
-    <div>
-        {{form_row(form.iddestinatario,{'attr':{
-            'class':'form-control input-xlarge'
-        }})}}
+
+
+    <div class="form-group m-form__group">
+        <label>
+            {{ form_label(form.iddestinatario) }}
+        </label>
+        <div>
+            {{ form_widget(form.iddestinatario) }}
+            {{ form_errors(form.iddestinatario) }}
+        </div>
     </div>
-    <div class="margin-top-10">
-        {{form_row(form.asunto,{'attr':{
-            'class':'form-control input-xlarge'
-        }})}}
+    <div class="form-group m-form__group">
+        <label>
+            {{ form_label(form.asunto) }}
+        </label>
+        <div>
+            {{ form_widget(form.asunto) }}
+            {{ form_errors(form.asunto) }}
+        </div>
     </div>
-    <div class="margin-top-10">
-        {{ form_row(form.descripcion) }}
+    <div class="form-group m-form__group">
+        <label>
+            {{ form_label(form.descripcion) }}
+        </label>
+        <div>
+            {{ form_widget(form.descripcion) }}
+            {{ form_errors(form.descripcion) }}
+        </div>
     </div>
 </div>
+{{ form_errors(form) }}
+{{ form_rest(form) }}
 <div class="modal-footer">
-    <button class="btn btn-sm btn-primary  ladda-button" data-style="expand-right" type="submit">Enviar</button>
-    <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
+    <button class="btn btn-sm btn-primary  ladda-button" data-style="expand-right" type="submit"><i class="flaticon-paper-plane"></i> Enviar</button>
+    <a class="btn btn-sm btn-metal" data-dismiss="modal"><i class="flaticon-cancel"></i> Cancelar</a>
 </div>
 {{ form_end(form) }}
-
-
-

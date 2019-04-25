@@ -9,8 +9,9 @@ var subcapitulo = function () {
                 url: datatable_url
             },
             columns: [
-                {data: 'numero'},
+                {data: 'id'},
                 {data: 'nombre'},
+                {data: 'numero'},
                 {data: 'capitulo'},
                 {data: 'acciones'}
             ]});
@@ -23,7 +24,8 @@ var subcapitulo = function () {
         $("div#basicmodal form").validate({
             rules:{
                 'subcapitulo[nombre]': {required:true},
-                'subcapitulo[capitulo]': {required:true}
+                'subcapitulo[capitulo]': {required:true},
+                'subcapitulo[numero]': {required:true, min: 1}
             }
         })
     }
@@ -119,8 +121,9 @@ var subcapitulo = function () {
                         total += 1;
                         var pagina = table.page();
                         objeto = table.row.add({
-                            "numero": total,
+                            "id": total,
                             "nombre": data['nombre'],
+                            "numero": data['numero'],
                             "capitulo": data['capitulo'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                                 "<li class='m-nav__item'>" +
@@ -169,7 +172,8 @@ var subcapitulo = function () {
                         $('div#basicmodal').modal('hide');
                         var pagina = table.page();
                         obj.parents('tr').children('td:nth-child(2)').html(data['nombre']);
-                        obj.parents('tr').children('td:nth-child(2)').html(data['capitulo']);
+                        obj.parents('tr').children('td:nth-child(3)').html(data['numero']);
+                        obj.parents('tr').children('td:nth-child(4)').html(data['capitulo']);
                     }
                 },
                 error: function ()

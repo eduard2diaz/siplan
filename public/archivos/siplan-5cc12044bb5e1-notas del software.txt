@@ -1,0 +1,6 @@
+confirmacion de que se materializo la reservacion.
+entrega de laboratorios entre tecnicos para cambio de guardia. 
+informacion donde todos los les vean el estado en que se encuentra cada laboratorio.
+como saber que cant de horas de tiempo de maquina consumida posee un estudiante dado.
+TRATAR LA EMISION DE REPORTES DE TODA CLA INFORMACION POSIBLE PLASMADA EN LAS DIFERENTES SESIONES DEL SOFTWARE 
+DE TAL MANERA QUE CUALQUIER INFORMACION Q SE SOLIVCITE SE PUEDA ABRIR EN PDF E IMPRIMIR.

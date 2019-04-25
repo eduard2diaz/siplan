@@ -32,12 +32,12 @@ security:
     access_control:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/area, roles: ROLE_ADMIN }
-        - { path: ^/arc/\d+/findbysubcapitulo, roles: ROLE_COORDINADOR }
+        - { path: ^/arc/\d+/findbysubcapitulo, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/arc, roles: ROLE_ADMIN }
         - { path: ^/cargo/\d+/ajax, roles: [ROLE_ADMIN, ROLE_DIRECTIVO] }
         - { path: ^/cargo, roles: ROLE_ADMIN }
         - { path: ^/capitulo, roles: ROLE_ADMIN }
-        - { path: ^/subcapitulo/\d+/findbycapitulo, roles: ROLE_COORDINADOR }
+        - { path: ^/subcapitulo/\d+/findbycapitulo, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/subcapitulo, roles: ROLE_ADMIN }
         - { path: ^/grupo, roles: ROLE_USER }
         - { path: ^/notificacion, roles: IS_AUTHENTICATED_FULLY }
@@ -47,7 +47,9 @@ security:
         - { path: ^/usuario, roles: [ROLE_ADMIN, ROLE_DIRECTIVO] }
         - { path: ^/plantrabajo, roles: ROLE_USER }
         - { path: ^/actividad, roles: ROLE_USER }
-        - { path: ^/planmensualgeneral, roles: ROLE_COORDINADOR }
+        - { path: ^/planmensualgeneral/\d+/edit, roles: ROLE_COORDINADOR }
+        - { path: ^/planmensualgeneral/\d+/delete, roles: ROLE_COORDINADOR }
+        - { path: ^/planmensualgeneral, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/actividadgeneral, roles: ROLE_COORDINADOR }
         - { path: ^/miembroconsejodireccion, roles: ROLE_COORDINADOR }
         - { path: ^/prueba, roles: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -53,6 +53,7 @@ class SubcapituloController extends Controller
                 $em->flush();
                 return new JsonResponse(array('mensaje' => 'El subcapítulo fue registrado satisfactoriamente',
                     'nombre' => $subcapitulo->getNombre(),
+                    'numero' => $subcapitulo->getNumero(),
                     'capitulo' => $subcapitulo->getCapitulo()->getNombre(),
                     'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $subcapitulo->getId())->getValue(),
                     'id' => $subcapitulo->getId(),
@@ -60,6 +61,7 @@ class SubcapituloController extends Controller
             } else {
                 $page = $this->renderView('subcapitulo/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'subcapitulo' => $subcapitulo,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true,));
             }
@@ -87,11 +89,14 @@ class SubcapituloController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($subcapitulo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El subcapítulo fue actualizado satisfactoriamente', 'nombre' => $subcapitulo->getNombre(),
+                return new JsonResponse(array('mensaje' => 'El subcapítulo fue actualizado satisfactoriamente',
+                    'nombre' => $subcapitulo->getNombre(),
+                    'numero' => $subcapitulo->getNumero(),
                     'capitulo' => $subcapitulo->getCapitulo()->getNombre() ));
             } else {
                 $page = $this->renderView('subcapitulo/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'subcapitulo' => $subcapitulo,
                     'form_id' => 'subcapitulo_edit',
                     'action' => 'Actualizar',
                     'eliminable' => $eliminable,

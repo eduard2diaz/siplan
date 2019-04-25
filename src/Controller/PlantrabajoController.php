@@ -187,6 +187,7 @@ class PlantrabajoController extends Controller
 
     /**
      * @Route("/{id}/antiguos", name="plantrabajo_antiguos", methods="GET")
+     * Funcionalidad que devuelve el listado de planes de trabajo anteriores
      */
     public function antiguos(Request $request, Plantrabajo $plantrabajo): Response
     {

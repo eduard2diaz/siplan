@@ -182,6 +182,6 @@ class MensajeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($mensaje);
         $em->flush();
-        return new JsonResponse(array('mensaje' => 'El mensaje fue elminado satisfactoriamente'));
+        return new JsonResponse(array('mensaje' => 'El mensaje fue eliminado satisfactoriamente'));
     }
 }

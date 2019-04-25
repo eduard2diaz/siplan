@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\PlanMensualGeneral;
+use App\Form\Transformer\DatetoStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PlanMensualGeneralType extends AbstractType
 {
@@ -31,7 +33,20 @@ class PlanMensualGeneralType extends AbstractType
                 'choices'=>$choices
                 ,'attr'=>array('class'=>'form-control input-medium')
             ))
+            ->add('edicionfechainicio', TextType::class, array('label' => 'Fecha de inicio', 'attr' => array(
+                'autocomplete' => 'off',
+                'class' => 'form-control input-small'
+            )))
+            ->add('edicionfechafin', TextType::class, array('label' => 'Fecha de fin', 'attr' => array(
+                'autocomplete' => 'off',
+                'class' => 'form-control input-small'
+            )))
         ;
+
+        $builder->get('edicionfechainicio')
+            ->addModelTransformer(new DatetoStringTransformer());
+        $builder->get('edicionfechafin')
+            ->addModelTransformer(new DatetoStringTransformer());
     }
 
     public function configureOptions(OptionsResolver $resolver)

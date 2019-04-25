@@ -25,7 +25,9 @@ var arc = function () {
         $("div#basicmodal form").validate({
             rules:{
                 'arc[nombre]': {required:true},
-                'arc[objetivos]': {required:true}
+                'arc[objetivos]': {required:true},
+                'arc[capitulo]': {required:true},
+                'arc[subcapitulo]': {required:true},
             }
         })
     }

@@ -39,7 +39,7 @@ class RespuestaController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 foreach ($form->getData()->getFicheros() as $value) {
                     $value->setRespuesta($respuesta);
-                    $value->setRuta($value->subirArchivo($ruta));
+                    $value->subirArchivo($ruta);
                     $value->setNombre($value->getFile()->getClientOriginalName());
                     $em->persist($value);
                 }
@@ -85,7 +85,7 @@ class RespuestaController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 foreach ($form->getData()->getFicheros() as $value) {
                     $value->setRespuesta($respuesta);
-                    $value->setRuta($value->subirArchivo($ruta));
+                    $value->subirArchivo($ruta);
                     $value->setNombre($value->getFile()->getClientOriginalName());
                     $em->persist($value);
                 }

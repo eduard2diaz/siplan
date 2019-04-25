@@ -2,7 +2,7 @@
     <thead>
     <tr>
         <th>
-            #
+            Número
         </th>
         <th>
             Nombre
@@ -12,10 +12,9 @@
     </tr>
     </thead>
     <tbody>
-    {%set i=1%}
     {% for capitulo in capitulos %}
         <tr>
-            <td>{{ i }}</td>
+            <td>{{ capitulo.numero }}</td>
             <td>{{ capitulo.nombre }}</td>
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
@@ -27,13 +26,12 @@
                 </ul>
             </td>
         </tr>
-        {%set i=1+i%}
     {% endfor %}
     </tbody>
     <tfoot>
     <tr>
         <th>
-            #
+            Número
         </th>
         <th>
             Nombre

@@ -1,25 +1,24 @@
 {% extends 'layout/autenticado.html.twig' %}
-{% block page_title %}{{ app.user.id==user_id ? 'Mi perfil' : 'Perfil de '~user_nombre }}{% endblock page_title %}
 {% block stylesheets %}
     {{ parent() }}
-
-{% endblock stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/page/userprofile.css','siplan') }}"/>
+{% endblock %}
 {% block body %}
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="m-portlet m-portlet--full-height  ">
-                <div class="m-portlet__body">
+    <div class="sombreada">
+        <div class="m--margin-top-40 banner">
+            <div class="banner-info">
+                <div class="col-md-4">
                     <div class="m-card-profile">
                         <div class="m-card-profile__title m--hide">
-                            {{ app.user.id==user_id ? 'Mi perfil' : 'Perfil' }}
+                            Your Profile
                         </div>
-                        {% if user_foto!=null %}
-                            {% set rutaFoto=  asset('archivos/'~user_foto) %}
-                        {% else %}
-                            {% set rutaFoto= asset('app/media/img/users/user4.jpg','template') %}
-                        {% endif %}
                         <div class="m-card-profile__pic">
                             <div class="m-card-profile__pic-wrapper">
+                                {% if user_foto!=null %}
+                                    {% set rutaFoto=  asset('archivos/'~user_foto) %}
+                                {% else %}
+                                    {% set rutaFoto= asset('app/media/img/users/user4.jpg','template') %}
+                                {% endif %}
                                 <img src="{{ rutaFoto }}" alt="">
                             </div>
                         </div>
@@ -27,67 +26,47 @@
                             <span class="m-card-profile__name">{{ user_nombre }}</span>
                             <a href="" class="m-card-profile__email m-link">{{ user_correo }}</a>
                         </div>
-
                     </div>
-                    <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
-                        <li class="m-nav__separator m-nav__separator--fit"></li>
-                        <li class="m-nav__section m--hide">
-                            <span class="m-nav__section-text">Section</span>
-                        </li>
-                        <li class="m-nav__item">
-                            <a href="{{ path('usuario_show',{'id':user_id}) }}" class="m-nav__link">
-                                <i class="m-nav__link-icon flaticon-profile-1"></i>
-                                <span class="m-nav__link-title">
-														<span class="m-nav__link-wrap">
-															<span class="m-nav__link-text">{{ app.user.id==user_id ? 'Mi perfil' : 'Perfil' }}</span>
-														</span>
-													</span>
-                            </a>
-                        </li>
-                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTIVO') %}
-                            <li class="m-nav__item">
-                                <a href="{{ path('usuario_index',{'id':user_id}) }}" class="m-nav__link">
-                                    <i class="m-nav__link-icon flaticon-users"></i>
-                                    <span class="m-nav__link-text">Subordinados</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if not is_granted('ROLE_ADMIN') %}
-                            <li class="m-nav__item">
-                                <a href="{{ path('grupo_index',{'id':user_id}) }}" class="m-nav__link">
-                                    <i class="m-nav__link-icon flaticon-chat-1"></i>
-                                    <span class="m-nav__link-text">Grupos</span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="{{ path('plantrabajo_index',{'id':user_id}) }}" class="m-nav__link">
-                                    <i class="m-nav__link-icon flaticon-time-3"></i>
-                                    <span class="m-nav__link-text">Planes de trabajo</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if is_granted('ROLE_COORDINADOR') %}
-                            <li class="m-nav__item">
-                                <a href="{{ path('planmensualgeneral_index') }}" class="m-nav__link">
-                                    <i class="m-nav__link-icon flaticon-time-3"></i>
-                                    <span class="m-nav__link-text">Planes de trabajo general</span>
-                                </a>
-                            </li>
-                            <li class="m-nav__item">
-                                <a href="{{ path('miembro_consejo_direccion_index') }}" class="m-nav__link">
-                                    <i class="m-nav__link-icon flaticon-users"></i>
-                                    <span class="m-nav__link-text">Consejo de dirección</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-9">
-            {% block content %}
-            {% endblock content %}
-        </div>
-    </div>
 
+            <div class="profile_menu">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="{{ path('usuario_show',{'id':user_id}) }}"
+                                                    class="nav-link m-link"><i class="flaticon-profile-1"></i>Perfil</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTIVO') %}
+                        <li class="list-inline-item"><a href="{{ path('usuario_index',{'id':user_id}) }}"
+                                                        class="nav-link m-link"><i class="flaticon-users"></i>Subordinados</a>
+                        </li>
+                    {% endif %}
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <li class="list-inline-item"><a href="{{ path('grupo_index',{'id':user_id}) }}"
+                                                        class="nav-link m-link"><i
+                                        class="flaticon-network"></i>Grupos</a>
+                        </li>
+                        <li class="list-inline-item"><a href="{{ path('plantrabajo_index',{'id':user_id}) }}"
+                                                        class="nav-link m-link"><i class="flaticon-profile"></i>Planes
+                                de trabajo</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_COORDINADOR') or app.request.session.get('esmiembroconsejodireccion')%}
+                        <li class="list-inline-item">
+                            <a href="{{ path('planmensualgeneral_index') }}" class="nav-link m-link">
+                                <i class="flaticon-confetti"></i>Planes de trabajo general
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_COORDINADOR')%}
+                        <li class="list-inline-item">
+                            <a href="{{ path('miembro_consejo_direccion_index') }}" class="nav-link m-link">
+                                <i class="flaticon-map-location"></i>Consejo de dirección</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        {% block content %}
+        {% endblock content %}
+    </div>
 {% endblock %}

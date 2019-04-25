@@ -11,6 +11,12 @@
             Año
         </th>
         <th>
+            Fecha de inicio
+        </th>
+        <th>
+            Fecha de fin
+        </th>
+        <th>
         </th>
     </tr>
     </thead>
@@ -21,16 +27,24 @@
             <td>{{ i }}</td>
             <td>{{ plan.getMesToString() }}</td>
             <td>{{ plan.anno }}</td>
+            <td>{{ plan.edicionfechainicio | date('d-m-Y') }}</td>
+            <td>{{ plan.edicionfechafin | date('d-m-Y') }}</td>
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
                         <a class="btn  btn-sm" href="{{ path('planmensualgeneral_show', { 'id': plan.id }) }}" >
                             <i class="flaticon-eye"></i></a>
                     </li>
+                    {% if esCoordinador== true%}
+                    <li class="m-nav__item">
+                        <a class="btn  btn-sm edicion btn-info" data-href="{{ path('planmensualgeneral_edit', { 'id': plan.id }) }}" >
+                            <i class="flaticon-edit-1"></i></a>
+                    </li>
                     <li class="m-nav__item">
                         <a class="btn btn-danger btn-sm  eliminar_planmensualgeneral" data-href="{{ path('planmensualgeneral_delete', { 'id': plan.id }) }}">
                             <i class="flaticon-delete-1"></i></a>
                     </li>
+                    {% endif %}
                 </ul>
             </td>
         </tr>
@@ -47,6 +61,12 @@
         </th>
         <th>
             Año
+        </th>
+        <th>
+            Fecha de inicio
+        </th>
+        <th>
+            Fecha de fin
         </th>
         <th>
         </th>

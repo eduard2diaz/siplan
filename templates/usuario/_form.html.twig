@@ -1,5 +1,6 @@
 {{ form_start(form,{'attr':{
-    'id': form_id|default('usuario_new')
+    'id': form_id|default('usuario_new'),
+    'class': 'm-form m-form--state'
 }}) }}
 <div class="modal-body" id="modal-body">
 
@@ -11,20 +12,24 @@
                 </div>
                 <div class="m-card-profile__pic">
                     <div class="m-card-profile__pic-wrapper">
-                        {%if usuario.rutaFoto!=null %}
+                        {% if usuario.rutaFoto!=null %}
                             {% set rutaFoto=  asset('archivos/'~usuario.rutaFoto) %}
-                            {% else %}
-                                {% set rutaFoto= asset('app/media/img/users/user4.jpg','template') %}
+                        {% else %}
+                            {% set rutaFoto= asset('app/media/img/users/user4.jpg','template') %}
                         {% endif %}
 
-                        <img src="{{ rutaFoto }}" alt="No se pudo cargar la imagen" id="foto_perfil" data-image="{{ rutaFoto }}" data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Cabiar foto de perfil"/>
+                        <img src="{{ rutaFoto }}" alt="No se pudo cargar la imagen" id="foto_perfil"
+                             data-image="{{ rutaFoto }}" data-toggle="m-tooltip" data-placement="top" title=""
+                             data-original-title="Cabiar foto de perfil"/>
                         {{ form_label(form.file,' ') }}
                         {{ form_widget(form.file) }}
                         {{ form_errors(form.file) }}
                     </div>
                 </div>
                 <div class="m-card-profile__details">
-                    <a id="reload_picture" class="m-card-profile__email m-link text-uppercase text-info m--font-bold m--hidden-desktop"><i class="flaticon-refresh"></i>Reiniciar</a>
+                    <a id="reload_picture"
+                       class="m-card-profile__email m-link text-uppercase text-info m--font-bold m--hidden-desktop"><i
+                                class="flaticon-refresh"></i>Reiniciar</a>
                 </div>
             </div>
         </div>
@@ -32,7 +37,7 @@
             <div class="row pull-right">
     <span class="m-switch m-switch--icon m-switch--success pull-right">
 				<label>
-					{{form_widget(form.activo)}}
+					{{ form_widget(form.activo) }}
                     <span></span>
 			</label>
     </span>
@@ -41,32 +46,118 @@
 
 
             <div class="row">
-                <div class="col-md-6">{{ form_row(form.nombre) }}</div>
+                <div class="col-md-6">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.nombre) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.nombre) }}
+                            {{ form_errors(form.nombre) }}
+                        </div>
+                    </div>
+                </div>
                 {% if form.jefe is defined %}
                     <div class="col-md-6">
-                        {{ form_row(form.jefe) }}
+                        <div class="form-group m-form__group">
+                            <label>
+                                {{ form_label(form.jefe) }}
+                            </label>
+                            <div>
+                                {{ form_widget(form.jefe) }}
+                                {{ form_errors(form.jefe) }}
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
             </div>
 
-            <div class="row m--margin-top-20">
-                <div class="col-md-6 pull-left">{{ form_row(form.area) }}</div>
-                <div class="col-md-6">{{ form_row(form.cargo,{'attr':{
-                        'class':'form-control input-medium'
-                    }}) }}</div>
+            <div class="row m--margin-top-10">
+                <div class="col-md-6 pull-left">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.area) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.area) }}
+                            {{ form_errors(form.area) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.cargo) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.cargo) }}
+                            {{ form_errors(form.cargo) }}
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="row m--margin-top-20">
-                <div class="col-md-6">{{ form_row(form.usuario) }}</div>
+            <div class="row m--margin-top-10">
+                <div class="col-md-6">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.usuario) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.usuario) }}
+                            {{ form_errors(form.usuario) }}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row m--margin-top-20">
-                <div class="col-md-6">{{ form_row(form.correo) }}</div>
-                <div class="col-md-6">{{ form_row(form.idrol) }}</div>
+            <div class="row m--margin-top-10">
+                <div class="col-md-6">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.correo) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.correo) }}
+                            {{ form_errors(form.correo) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.idrol) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.idrol) }}
+                            {{ form_errors(form.idrol) }}
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="row m--margin-top-20">
-                <div class="col-md-6">{{ form_row(form.password.first) }}</div>
-                <div class="col-md-6">{{ form_row(form.password.second) }}</div>
+            <div class="row m--margin-top-10">
+                <div class="col-md-6">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.password.first) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.password.first) }}
+                            {{ form_errors(form.password.first) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.password.second) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.password.second) }}
+                            {{ form_errors(form.password.second) }}
+                        </div>
+                    </div>
+                </div>
             </div>
             {{ form_errors(form) }}
             {{ form_rest(form) }}

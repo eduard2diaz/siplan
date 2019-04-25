@@ -10,6 +10,7 @@ var actividad = function () {
     //Gestion de actividades
     listadoactividades= new Array();
 
+    //INICIO DE FUNCIONALIDADES DEL INDEX
     //Funcionalidad para las estadisticas de las actividades
     var estadistica = function () {
         $('body').on('click', 'a#plantrabajo_estadistica', function (evento)
@@ -77,8 +78,8 @@ var actividad = function () {
         );
     }
 
-    //Refrescamiento del listado de actividades del plan actual
     var refrescar = function () {
+        //Refresca el listado de actividades(NO FILTRA POR EL ESTADO)
         $('body').on('click', 'a#actividad_tablerefrescar', function (evento){
             evento.preventDefault();
             var link =  $(this).attr('data-href');
@@ -105,6 +106,7 @@ var actividad = function () {
             });
         });
 
+        //Refresca el listado de actividades a partir del estado de la misma
         $('body').on('click', 'a.refrescar', function (evento){
             evento.preventDefault();
             var link =  $(this).attr('data-href');
@@ -130,363 +132,6 @@ var actividad = function () {
                     mApp.unblock("body")
                 }
             });
-        });
-    }
-
-    var refrescarAction = function () {
-        var link = Routing.generate('plantrabajo_show',{'id':plantrabajo});
-        obj = $(this);
-        $.ajax({
-            type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-            //dataType: 'html',
-            url: link,
-            beforeSend: function (data) {
-              //  base.blockUI({message: 'Actualizando datos'});
-            },
-            success: function (data) {
-                $('table#actividad_table').html(data['table']);
-                table.destroy();
-                configurarDataTable();
-            },
-            error: function ()
-            {
-                base.Error();
-            },
-            complete: function () {
-              //  base.unblockUI();
-            }
-        });
-    }
-    
-    //Confeccion del formulario para una nueva actividad(OPTIMIZADO)
-    var configurarFormularioActividad= function () {
-        $('input#actividad_fecha').datetimepicker();
-        $('input#actividad_fechaf').datetimepicker();
-        $('select#actividad_estado').select2({
-            dropdownParent: $("#basicmodal"),
-        });
-        $('select#actividad_areaconocimiento').select2({
-            dropdownParent: $("#basicmodal"),
-        });
-        Ladda.bind( '.mt-ladda-btn', { timeout: 2000 } );
-
-        $('textarea#actividad_descripcion').summernote({
-            placeholder: 'Escriba una breve descripción sobre la actividad',
-            height: 100,
-            focus: true
-        });
-    }
-    
-    //Confeccion del formulario para una nueva respuesta(OPTIMIZADO)
-    var configurarFormularioRespuesta= function () {
-        Ladda.bind( '.mt-ladda-btn', { timeout: 2000 } );
-        $('textarea#respuesta_descripcion').summernote({
-            placeholder: 'Escriba una breve descripción sobre la actividad',
-            height: 100,
-            focus: true,
-        });
-    }
-
-    //Funcionalidad para la carga de formularios de registro y edicion
-    var edicionActividad = function () {
-        $('body').on('click', 'a.edicion_actividad', function (evento)
-        {
-            evento.preventDefault();
-            var link = $(this).attr('data-href');
-            obj = $(this);
-            $.ajax({
-                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-                dataType: 'html',
-                url: link,
-                beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
-                },
-                success: function (data) {
-                    if ($('div#basicmodal').html(data)) {
-                        configurarFormularioActividad();
-                        $('div#basicmodal').modal('show');
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                },
-                complete: function () {
-                    mApp.unblock("body");
-                }
-            });
-        });
-    }
-
-    //Funcionalidad para la carga de formularios de registro y edicion
-    var edicionRespuesta = function () {
-        $('div#basicmodal').on('click', 'a.edicion_respuesta', function (evento)
-        {
-            evento.preventDefault();
-            var link = $(this).attr('data-href');
-            obj = $(this);
-            $.ajax({
-                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-                dataType: 'html',
-                url: link,
-                beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
-                },
-                success: function (data) {
-                    if ($('div#basicmodal').html(data)) {
-                        configurarFormularioRespuesta();
-                        $('div#basicmodal').modal('show');
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                },
-                complete: function () {
-                    mApp.unblock("body");
-                }
-            });
-        });
-    }
-
-    var showActividad = function () {
-        $('table#actividad_table').on('click', 'a.actividad_show', function (evento)
-        {
-            evento.preventDefault();
-            var link = $(this).attr('data-href');
-            obj = $(this);
-            $.ajax({
-                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-                dataType: 'html',
-                url: link,
-                beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
-                },
-                success: function (data) {
-                    if ($('div#basicmodal').html(data)) {
-                        $('div#basicmodal').modal('show');
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                },
-                complete: function () {
-                    mApp.unblock("body");
-                }
-            });
-        });
-    }
-
-    var showRespuesta = function () {
-        $('div#basicmodal').on('click', 'a.respuesta_show', function (evento)
-        {
-            evento.preventDefault();
-            var link = $(this).attr('data-href');
-            obj = $(this);
-            $.ajax({
-                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-                dataType: 'html',
-                url: link,
-                beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
-                },
-                success: function (data) {
-                    if ($('div#basicmodal').html(data)) {
-                        $('div#basicmodal').modal('show');
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                },
-                complete: function () {
-                    mApp.unblock("body");
-                }
-            });
-        });
-    }
-
-    //Funcionalidad para el  registro de una nueva actividad
-    var newActionActividad = function () {
-        $('div#basicmodal').on('submit', 'form#actividad_new', function (evento)
-        {
-            evento.preventDefault();
-            var padre = $(this).parent();
-            $.ajax({
-                url: $(this).attr("action"),
-                type: "POST",
-               // data: $(this).serialize(), //para enviar el formulario hay que serializarlo
-                data: new FormData(this), //para enviar el formulario hay que serializarlo
-                //INicio de configuracion obigatoria para el envioa de archivos por form data
-                contentType: false,
-                cache: false,
-                processData:false,
-                //FIN de configuracion obigatoria para el envioa de archivos por form data
-                beforeSend: function () {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
-                },
-                complete: function () {
-                    mApp.unblock("body");
-                },
-                success: function (data) {
-                    if (data['error']) {
-                        padre.html(data['form']);
-                        configurarFormularioActividad();
-                    } else {
-                        if (data['mensaje'])
-                            toastr.success(data['mensaje']);
-
-                        $('div#basicmodal').modal('hide');
-                        total += 1;
-                        var pagina = table.page();
-                        objeto = table.row.add({
-                            "nombre": data['nombre'],
-                            "fecha": data['fecha'],
-                            "fechaF": data['fechaF'],
-                            "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
-                                "<li class='m-nav__item'>" +
-                                "<a class='btn btn-sm actividad_show' data-href=" + Routing.generate('actividad_show',{id:data['id']}) + "><i class='flaticon-eye'></i></a>" +
-                                "</li>" +
-                                "<li class='m-nav__item'>" +
-                                "<a class='btn btn-info btn-sm edicion_actividad' data-href=" + Routing.generate('actividad_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i></a>" +
-                                "</li>" +
-                                "<li class='m-nav__item'>" +
-                                "<a class='btn btn-danger btn-sm  eliminar_actividad'  data-csrf=" + data['csrf'] +" data-href=" + Routing.generate('actividad_delete',{id:data['id']}) + ">" +
-                                "<i class='flaticon-delete-1'></i></a></li></ul>",
-                        });
-                        objeto.draw();
-                        table.page(pagina).draw('page');
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                }
-            });
-        });
-    }
-
-    var newActionRespuesta = function () {
-        $('div#basicmodal').on('submit', 'form#respuesta_new', function (evento)
-        {
-            evento.preventDefault();
-            var padre = $(this).parent();
-            $.ajax({
-                url: $(this).attr("action"),
-                type: "POST",
-                data: new FormData(this), //para enviar el formulario hay que serializarlo
-                contentType: false,
-                cache: false,
-                processData:false,
-                beforeSend: function () {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
-                },
-                complete: function () {
-                    mApp.unblock("body");
-                },
-                success: function (data) {
-                    if (data['error']) {
-                        padre.html(data['form']);
-                        configurarFormularioRespuesta();
-                    } else {
-                        if (data['mensaje'])
-                            toastr.success(data['mensaje']);
-                        $('div#basicmodal').modal('hide');
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                }
-            });
-        });
-    }
-
-    //Funcionalidad para la edicion de una nueva actividad
-    var edicionActionActividad = function () {
-        $('div#basicmodal').on('submit', 'form#actividad_edit', function (evento)
-        {
-            evento.preventDefault();
-             var padre = $(this).parent();
-             $.ajax({
-                 url: $(this).attr("action"),
-                 type: "POST",
-              //   data: $(this).serialize(), //para enviar el formulario hay que serializarlo
-                 data: new FormData(this), //para enviar el formulario hay que serializarlo
-                 //INicio de configuracion obigatoria para el envioa de archivos por form data
-                 contentType: false,
-                 cache: false,
-                 processData:false,
-                 //FIN de configuracion obigatoria para el envioa de archivos por form data
-                 beforeSend: function () {
-                     //    base.blockUI({message: 'Cargando'});
-                 },
-                 complete: function () {
-                     //  base.unblockUI();
-                 },
-                 success: function (data) {
-                     if (data['error']) {
-                         padre.html(data['form']);
-                         configurarFormularioActividad();
-                     } else {
-                         if (data['mensaje'])
-                             toastr.success(data['mensaje']);
-
-                         $('div#basicmodal').modal('hide');
-                         var pagina = table.page();
-                         obj.parents('tr').children('td:nth-child(1)').html(data['nombre']);
-                         obj.parents('tr').children('td:nth-child(2)').html(data['fecha']);
-                         obj.parents('tr').children('td:nth-child(3)').html(data['fechaF']);
-                     }
-                 },
-                 error: function ()
-                 {
-                     base.Error();
-                 }
-             });
-        });
-    }
-
-    var edicionActionRespuesta = function () {
-        $('div#basicmodal').on('submit', 'form#respuesta_edit', function (evento)
-        {
-            evento.preventDefault();
-             var padre = $(this).parent();
-             $.ajax({
-                 url: $(this).attr("action"),
-                 type: "POST",
-                 data: new FormData(this), //para enviar el formulario hay que serializarlo
-                 contentType: false,
-                 cache: false,
-                 processData:false,
-                 beforeSend: function () {
-                     //    base.blockUI({message: 'Cargando'});
-                 },
-                 complete: function () {
-                     //  base.unblockUI();
-                 },
-                 success: function (data) {
-                     if (data['error']) {
-                         padre.html(data['form']);
-                         configurarFormularioRespuesta();
-                     } else {
-                         if (data['mensaje'])
-                             toastr.success(data['mensaje']);
-                         $('div#basicmodal').modal('hide');
-                     }
-                 },
-                 error: function ()
-                 {
-                     base.Error();
-                 }
-             });
         });
     }
 
@@ -542,6 +187,201 @@ var actividad = function () {
         });
     }
 
+    var showActividad = function () {
+        $('table#actividad_table').on('click', 'a.actividad_show', function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data)) {
+                        $('div#basicmodal').modal('show');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                }
+            });
+        });
+    }
+    //FIN DE FUNCIONALIDADES DEL INDEX
+
+    //INICIO DE LAS FUNCIONALIDADES DE RESPUESTA
+
+    //Gestion de respuestas
+    var showRespuesta = function () {
+        $('div#basicmodal').on('click', 'a.respuesta_show', function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data)) {
+                        $('div#basicmodal').modal('show');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                }
+            });
+        });
+    }
+
+    var agregarArchivoRespuesta = function () {
+        $('div#basicmodal').on('click', 'a#adicionar_archivo_respuesta', function (evento)
+        {
+            evento.preventDefault();
+            var datos='<tr>\n' +
+                '    <td>\n' +
+                '            <input id="respuesta_ficheros_'+cantidadarchivos+'_file" name="respuesta[ficheros]['+cantidadarchivos+'][file]" required="required" class="form-control" aria-describedby="respuesta_ficheros_'+cantidadarchivos+'_file-error" aria-invalid="false" type="file"><div id="respuesta_fichero_'+cantidadarchivos+'_button-error" class="form-control-feedback"></td>\n' +
+                '</td>\n' +
+                '    <td>\n' +
+                '        <a class="btn btn-danger btn-sm eliminar_archivo pull-right"><i class="flaticon flaticon-delete-1"></i></a>\n' +
+                '    </td>\n' +
+                '</tr>';
+            cantidadarchivos++;
+            $('div#archivos table').append(datos);
+        });
+    }
+
+    //Confeccion del formulario para una nueva respuesta(OPTIMIZADO)
+    var configurarFormularioRespuesta= function () {
+        $('textarea#respuesta_descripcion').summernote({
+            placeholder: 'Escriba una breve descripción sobre la actividad',
+            height: 100,
+            focus: true,
+        });
+    }
+
+    //Funcionalidad para la carga de formularios de registro y edicion(PARA CREAR UNA RESPUESTA)
+    var edicionRespuesta = function () {
+        $('div#basicmodal').on('click', 'a.edicion_respuesta', function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data)) {
+                        configurarFormularioRespuesta();
+                        $('div#basicmodal').modal('show');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                }
+            });
+        });
+    }
+
+    var newActionRespuesta = function () {
+        $('div#basicmodal').on('submit', 'form#respuesta_new', function (evento)
+        {
+            evento.preventDefault();
+            var padre = $(this).parent();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: new FormData(this), //para enviar el formulario hay que serializarlo
+                contentType: false,
+                cache: false,
+                processData:false,
+                beforeSend: function () {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                },
+                success: function (data) {
+                    if (data['error']) {
+                        padre.html(data['form']);
+                        configurarFormularioRespuesta();
+                    } else {
+                        if (data['mensaje'])
+                            toastr.success(data['mensaje']);
+                        $('div#basicmodal').modal('hide');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                }
+            });
+        });
+    }
+
+    var edicionActionRespuesta = function () {
+        $('div#basicmodal').on('submit', 'form#respuesta_edit', function (evento)
+        {
+            evento.preventDefault();
+            var padre = $(this).parent();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: new FormData(this), //para enviar el formulario hay que serializarlo
+                contentType: false,
+                cache: false,
+                processData:false,
+                beforeSend: function () {
+                    //    base.blockUI({message: 'Cargando'});
+                },
+                complete: function () {
+                    //  base.unblockUI();
+                },
+                success: function (data) {
+                    if (data['error']) {
+                        padre.html(data['form']);
+                        configurarFormularioRespuesta();
+                    } else {
+                        if (data['mensaje'])
+                            toastr.success(data['mensaje']);
+                        $('div#basicmodal').modal('hide');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                }
+            });
+        });
+    }
+
     var eliminarRespuesta = function () {
         $('div#basicmodal').on('click', 'a.eliminar_respuesta', function (evento)
         {
@@ -590,8 +430,196 @@ var actividad = function () {
             });
         });
     }
+    //FIN DE LAS FUNCIONALIDADES DE RESPUESTA
 
-    //CLONACION DE LAS ACTIVIDADES DE PLANES ANTERTIORES
+    //INICIO DE FUNCIONALIDADES DEL NUEVO
+    //Confeccion del formulario para una nueva actividad(OPTIMIZADO)
+    var configurarFormularioActividad= function () {
+        jQuery.validator.addMethod("greaterThan",
+            function (value, element, params) {
+                return moment(value) > moment($(params).val());
+            }, 'Tiene que ser mayor  que la fecha de inicio');
+
+        $('input#actividad_fecha').datetimepicker();
+        $('input#actividad_fechaf').datetimepicker();
+        $('select#actividad_estado').select2();
+        $('select#actividad_areaconocimiento').select2();
+        $("body form[name=actividad]").validate({
+            rules:{
+                'actividad[nombre]': {required:true},
+                'actividad[areaconocimiento]': {required:true},
+                'actividad[lugar]': {required:true},
+                'actividad[fecha]': {required:true},
+                'actividad[fechaf]': {required:true, greaterThan: "#actividad_fecha"},
+                'actividad[dirigen]': {required:true},
+                'actividad[participan]': {required:true},
+            }
+        })
+    }
+
+    //Funcionalidad para el  registro de una nueva actividad
+    var newActionActividad = function () {
+        $('body').on('submit', 'form#actividad_new', function (evento)
+        {
+            evento.preventDefault();
+            var padre = $(this).parent();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+               // data: $(this).serialize(), //para enviar el formulario hay que serializarlo
+                data: new FormData(this), //para enviar el formulario hay que serializarlo
+                //INicio de configuracion obigatoria para el envioa de archivos por form data
+                contentType: false,
+                cache: false,
+                processData:false,
+                //FIN de configuracion obigatoria para el envioa de archivos por form data
+                beforeSend: function () {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                },
+                success: function (data) {
+                    if (data['error']) {
+                        padre.html(data['form']);
+                        configurarFormularioActividad();
+                    } else {
+                        if (data['mensaje'])
+                            toastr.success(data['mensaje']);
+                        document.location.href=data['url'];
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                }
+            });
+        });
+    }
+
+    //Funcionlidad que agrega un input de tipo file al formulario
+    var agregarArchivoActividad = function () {
+        $('body').on('click', 'a#adicionar_archivo_actividad', function (evento)
+        {
+            evento.preventDefault();
+            var datos='<tr>\n' +
+                '    <td>\n' +
+                '            <input id="actividad_ficheros_'+cantidadarchivos+'_file" name="actividad[ficheros]['+cantidadarchivos+'][file]" required="required" class="form-control" aria-describedby="actividad_ficheros_'+cantidadarchivos+'_file-error" aria-invalid="false" type="file"><div id="actividad_fichero_'+cantidadarchivos+'_button-error" class="form-control-feedback"></td>\n' +
+                '</td>\n' +
+                '    <td>\n' +
+                '        <a class="btn btn-danger btn-sm eliminar_archivo pull-right"><i class="flaticon flaticon-delete-1"></i></a>\n' +
+                '    </td>\n' +
+                '</tr>';
+            cantidadarchivos++;
+            $('div#archivos table').append(datos);
+        });
+    }
+
+    /*Funcionlidad que elimina un input de tipo file al formulario, dicho input en realidad no es aun un archivo
+     existente entre los ficheros de la aplicacion*/
+    var eliminarArchivo = function () {
+        $('body').on('click', 'a.eliminar_archivo', function (evento)
+        {
+            evento.preventDefault();
+            var obj = $(this);
+            obj.parents('tr').remove();
+        });
+    }
+
+    //Funcionalidad que elimina uno de los ficheros existentes de la aplicacion
+    var eliminarFichero = function () {
+        $('body').on('click', 'table#ficheros_table a.eliminar_fichero', function (evento)
+        {
+            evento.preventDefault();
+            var obj = $(this);
+            var link = $(this).attr('data-href');
+            var token = $(this).attr('data-csrf');
+            bootbox.confirm({
+                title: "Eliminar fichero?",
+                message: "<p>¿Está seguro que desea eliminar este fichero, <b>esta acción no se podrá deshacer</b>?.</p>",
+                buttons: {
+                    confirm: {
+                        label: 'Sí, estoy seguro',
+                        className: 'btn-sm btn-primary'
+                    },
+                    cancel: {
+                        label: 'Cancelar',
+                        className: 'btn-sm btn-metal'
+                    }
+                },
+                callback: function (result) {
+                    if (result == true)
+                        $.ajax({
+                            type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                            // dataType: 'html', esta url se comentarea porque lo k estamos mandando es un json y no un html plano
+                            url: link,
+                            data: {
+                                _token: token
+                            },
+                            beforeSend: function () {
+                                mApp.block("body",
+                                    {overlayColor:"#000000",type:"loader",state:"success",message:"Eliminando..."});
+                            },
+                            complete: function () {
+                                mApp.unblock("body");
+                            },
+                            success: function (data) {
+                                obj.parents('tr').remove();
+                                toastr.success(data['mensaje']);
+                            },
+                            error: function ()
+                            {
+                                base.Error();
+                            }
+                        });
+                }
+            });
+        });
+    }
+
+    //Funcionalidad para la edicion de una nueva actividad
+    var edicionActionActividad = function () {
+        $('body').on('submit', 'form#actividad_edit', function (evento)
+        {
+            evento.preventDefault();
+            var padre = $(this).parent();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                //   data: $(this).serialize(), //para enviar el formulario hay que serializarlo
+                data: new FormData(this), //para enviar el formulario hay que serializarlo
+                //INicio de configuracion obigatoria para el envioa de archivos por form data
+                contentType: false,
+                cache: false,
+                processData:false,
+                //FIN de configuracion obigatoria para el envioa de archivos por form data
+                beforeSend: function () {
+                    //    base.blockUI({message: 'Cargando'});
+                },
+                complete: function () {
+                    //  base.unblockUI();
+                },
+                success: function (data) {
+                    if (data['error']) {
+                        padre.html(data['form']);
+                        configurarFormularioActividad();
+                    } else {
+                        if (data['mensaje'])
+                            toastr.success(data['mensaje']);
+                        document.location.href=data['url'];
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                }
+            });
+        });
+    }
+    //FIN DE LAS FUNCIONALIDADES DE NUEVO
+
+    //INICIO DE CLONACION DE LAS ACTIVIDADES
     //PASO 1.Gestion de planes antiguos
      var cargarPlanesAntiguos=function(){
          //Cargado de planes antiguos
@@ -664,6 +692,31 @@ var actividad = function () {
          });
      }
 
+    var refrescarAction = function () {
+        var link = Routing.generate('plantrabajo_show',{'id':plantrabajo});
+        obj = $(this);
+        $.ajax({
+            type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+            //dataType: 'html',
+            url: link,
+            beforeSend: function (data) {
+                //  base.blockUI({message: 'Actualizando datos'});
+            },
+            success: function (data) {
+                $('table#actividad_table').html(data['table']);
+                table.destroy();
+                configurarDataTable();
+            },
+            error: function ()
+            {
+                base.Error();
+            },
+            complete: function () {
+                //  base.unblockUI();
+            }
+        });
+    }
+
      //PASO 2. Gestion de actividades
      var cargarActividadesAntiguas=function(){
          $('div#basicmodal').on('click', 'a#cargar_actividades_link', function (evento)
@@ -716,7 +769,10 @@ var actividad = function () {
                      {data: 'fecha'}
                  ]}
              );
-             Ladda.bind( '.mt-ladda-btn');
+         }
+
+         var configurarDataTableErroresClonacion = function () {
+             tableantiguos = $('table#table_erroresclonacion').DataTable();
          }
 
          $('div#basicmodal').on('draw.dt','table#table_actividadesantiguas',function(){
@@ -761,15 +817,20 @@ var actividad = function () {
                  },
                  success: function (data) {
                          refrescarAction();
-                         if(data['mensaje'])
+                         if(data['mensaje']){
                              toastr.success(data['mensaje']);
-                         else
+                             $('div#basicmodal').modal('hide');
+                         }
+                         else{
                              if(data['error'])
                                 toastr.error(data['error']);
                              else
                                  if(data['warning'])
                                     toastr.warning(data['warning']);
-                         $('div#basicmodal').modal('hide');
+                             $('div#basicmodal').html(data['errores']);
+                             configurarDataTableErroresClonacion();
+                         }
+
                  },
                  error: function ()
                  {
@@ -779,6 +840,7 @@ var actividad = function () {
          });
 
      }
+
 
      var cargarActividadesGeneral=function(){
          $('body').on('click', 'a#cargar_actividadesgeneral_link', function (evento)
@@ -797,7 +859,7 @@ var actividad = function () {
                  },
                  success: function (data) {
                      if(padre.html(data)) {
-                         configurarDataTableAntiguasActividades();
+                         configurarDataTableAntiguasGeneral();
                          padre.modal('show')
                      }
                  },
@@ -809,7 +871,7 @@ var actividad = function () {
          });
 
          //Gestion de actividades antiguas
-         var configurarDataTableAntiguasActividades = function () {
+         var configurarDataTableAntiguasGeneral = function () {
              tableantiguos = $('table#table_actividadesantiguas').DataTable({
                  "pagingType": "simple_numbers",
                  "language": {
@@ -829,10 +891,15 @@ var actividad = function () {
                  columns: [
                      {data: 'numero'},
                      {data: 'nombre'},
-                     {data: 'fecha'}
+                     {data: 'fecha'},
+                     {data: 'fechaf'},
+                     {data: 'arc'}
                  ]}
              );
-             Ladda.bind( '.mt-ladda-btn');
+         }
+
+         var configurarDataTableErroresClonacionGeneral = function () {
+             tableantiguos = $('table#table_erroresclonacion').DataTable();
          }
 
          $('div#basicmodal').on('draw.dt','table#table_actividadesantiguas',function(){
@@ -877,15 +944,19 @@ var actividad = function () {
                  },
                  success: function (data) {
                          refrescarAction();
-                         if(data['mensaje'])
+                         if(data['mensaje']){
                              toastr.success(data['mensaje']);
-                         else
+                             $('div#basicmodal').modal('hide');
+                         }
+                         else{
                              if(data['error'])
                                 toastr.error(data['error']);
                              else
                                  if(data['warning'])
                                     toastr.warning(data['warning']);
-                         $('div#basicmodal').modal('hide');
+                             $('div#basicmodal').html(data['errores']);
+                             configurarDataTableErroresClonacionGeneral();
+                         }
                  },
                  error: function ()
                  {
@@ -896,135 +967,58 @@ var actividad = function () {
 
      }
 
-    //Funcionlidad que agrega un input de tipo file al formulario
-    var agregarArchivoActividad = function () {
-        $('div#basicmodal').on('click', 'a#adicionar_archivo_actividad', function (evento)
-        {
-            evento.preventDefault();
-            var datos='<tr>\n' +
-                '    <td>\n' +
-                '            <input id="actividad_ficheros_'+cantidadarchivos+'_file" name="actividad[ficheros]['+cantidadarchivos+'][file]" required="required" class="form-control" aria-describedby="actividad_ficheros_'+cantidadarchivos+'_file-error" aria-invalid="false" type="file"><div id="actividad_fichero_'+cantidadarchivos+'_button-error" class="form-control-feedback"></td>\n' +
-                '</td>\n' +
-                '    <td>\n' +
-                '        <a class="btn btn-danger btn-sm eliminar_archivo pull-right"><i class="flaticon flaticon-delete-1"></i></a>\n' +
-                '    </td>\n' +
-                '</tr>';
-            cantidadarchivos++;
-            $('div#archivos table').append(datos);
-        });
-    }
 
-    var agregarArchivoRespuesta = function () {
-        $('div#basicmodal').on('click', 'a#adicionar_archivo_respuesta', function (evento)
-        {
-            evento.preventDefault();
-            var datos='<tr>\n' +
-                '    <td>\n' +
-                '            <input id="respuesta_ficheros_'+cantidadarchivos+'_file" name="respuesta[ficheros]['+cantidadarchivos+'][file]" required="required" class="form-control" aria-describedby="respuesta_ficheros_'+cantidadarchivos+'_file-error" aria-invalid="false" type="file"><div id="respuesta_fichero_'+cantidadarchivos+'_button-error" class="form-control-feedback"></td>\n' +
-                '</td>\n' +
-                '    <td>\n' +
-                '        <a class="btn btn-danger btn-sm eliminar_archivo pull-right"><i class="flaticon flaticon-delete-1"></i></a>\n' +
-                '    </td>\n' +
-                '</tr>';
-            cantidadarchivos++;
-            $('div#archivos table').append(datos);
-        });
-    }
-
-    /*Funcionlidad que elimina un input de tipo file al formulario, dicho input en realidad no es aun un archivo
-     existente entre los ficheros de la aplicacion*/
-    var eliminarArchivo = function () {
-        $('div#basicmodal').on('click', 'a.eliminar_archivo', function (evento)
-        {
-            evento.preventDefault();
-            var obj = $(this);
-            obj.parents('tr').remove();
-        });
-    }
-
-    //Funcionalidad que elimina uno de los ficheros existentes de la aplicacion
-    var eliminarFichero = function () {
-        $('body').on('click', 'table#ficheros_table a.eliminar_fichero', function (evento)
-        {
-            evento.preventDefault();
-            var obj = $(this);
-            var link = $(this).attr('data-href');
-            var token = $(this).attr('data-csrf');
-            bootbox.confirm({
-                title: "Eliminar fichero?",
-                message: "<p>¿Está seguro que desea eliminar este fichero, <b>esta acción no se podrá deshacer</b>?.</p>",
-                buttons: {
-                    confirm: {
-                        label: 'Sí, estoy seguro',
-                        className: 'btn-sm btn-primary'
-                    },
-                    cancel: {
-                        label: 'Cancelar',
-                        className: 'btn-sm btn-metal'
-                    }
-                },
-                callback: function (result) {
-                    if (result == true)
-                        $.ajax({
-                            type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-                            // dataType: 'html', esta url se comentarea porque lo k estamos mandando es un json y no un html plano
-                            url: link,
-                            data: {
-                                _token: token
-                            },
-                            beforeSend: function () {
-                                mApp.block("body",
-                                    {overlayColor:"#000000",type:"loader",state:"success",message:"Eliminando..."});
-                            },
-                            complete: function () {
-                                mApp.unblock("body");
-                            },
-                            success: function (data) {
-                                obj.parents('tr').remove();
-                                toastr.success(data['mensaje']);
-                            },
-                            error: function ()
-                            {
-                                base.Error();
-                            }
-                        });
-                }
-            });
-        });
-    }
 
     return {
         init: function () {
             $().ready(function () {
                     configurarDataTable();
                     refrescar();
-                    edicionActividad();
-                    edicionRespuesta();
-                    showActividad();
-                    showRespuesta()
-                    newActionActividad();
-                    newActionRespuesta();
-                    edicionActionActividad();
-                    edicionActionRespuesta();
-                    eliminarActividad();
-                    eliminarRespuesta();
                     estadistica();
-                    cargarPlanesAntiguos();
-                    cargarActividadesAntiguas();
-                    agregarArchivoActividad();
-                    agregarArchivoRespuesta();
-                    eliminarArchivo();
-                    eliminarFichero();
-                    cargarActividadesGeneral();
-
-                    $('div#basicmodal').on('hide.bs.modal',function(){
-                        tableantiguos=null;
-                        objantiguo = null;
-                        listadoactividades=new Array();
-                    });
-
+                    eliminarActividad();
+                    showActividad();
                 }
             );
-        }
+        },
+        respuesta: function () {
+            $().ready(function () {
+                    showRespuesta();
+                    edicionRespuesta();
+                    newActionRespuesta();
+                    agregarArchivoRespuesta();
+                    edicionActionRespuesta();
+                    eliminarRespuesta();
+                    eliminarFichero()
+                }
+            );
+        },
+        nuevo: function () {
+            $().ready(function () {
+                configurarFormularioActividad();
+                newActionActividad();
+                edicionActionActividad();
+                agregarArchivoActividad();
+                eliminarArchivo();
+                eliminarFichero();
+                }
+            );
+        },
+        clonacion: function () {
+            $().ready(function () {
+                //INICIO DE CLONACION DE MIS ACTIVIDADES
+                cargarPlanesAntiguos();
+                cargarActividadesAntiguas();
+                //FIN DE CLONACION DE MIS ACTIVIDADES
+                $('div#basicmodal').on('hide.bs.modal',function(){
+                    tableantiguos=null;
+                    objantiguo = null;
+                    listadoactividades=new Array();
+                });
+                //INICIO DE LA CLONACION DE LAS ACTIVIDADES DEL PLAN GENERAL
+                    cargarActividadesGeneral();
+                //FIN DE LA CLONACION DE LAS ACTIVIDADES DEL PLAN GENERAL
+                }
+            );
+        },
     }
 }();

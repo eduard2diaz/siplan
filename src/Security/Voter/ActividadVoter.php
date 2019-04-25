@@ -36,7 +36,7 @@ class ActividadVoter extends Voter
                     break;
                 }
             case 'VIEW':
-                return ($subject->getResponsable()->esJefe($token->getUser())) || ($subject->getResponsable()->getId() == $token->getUser()->getId());
+                return ($subject->getResponsable()->esSubordinado($token->getUser())) || ($subject->getResponsable()->getId() == $token->getUser()->getId());
                 break;
         }
 

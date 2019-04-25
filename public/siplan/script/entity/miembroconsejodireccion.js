@@ -22,7 +22,7 @@ var miembroconsejodireccion = function () {
 
         $("div#basicmodal form").validate({
             rules:{
-                'miembro_consejo_direccion[nombre]': {required:true},
+                'miembro_consejo_direccion[usuario]': {required:true},
             }
         })
     }

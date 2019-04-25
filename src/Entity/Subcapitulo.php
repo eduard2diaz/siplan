@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="subcapitulo")
  * @ORM\Entity
  * @UniqueEntity(fields={"nombre","capitulo"})
+ * @UniqueEntity(fields={"numero","capitulo"})
  */
 class Subcapitulo
 {
@@ -42,6 +43,12 @@ class Subcapitulo
      * })
      */
     private $capitulo;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=1)
+     */
+    private $numero;
 
     /**
      * @return int
@@ -81,6 +88,22 @@ class Subcapitulo
     public function setCapitulo(Capitulo $capitulo): void
     {
         $this->capitulo = $capitulo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * @param mixed $numero
+     */
+    public function setNumero($numero): void
+    {
+        $this->numero = $numero;
     }
 
     public function __toString()

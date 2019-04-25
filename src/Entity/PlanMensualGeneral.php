@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * PlanMensualGeneral
@@ -42,6 +43,16 @@ class PlanMensualGeneral
      * @ORM\Column(name="anno", type="integer", nullable=false)
      */
     private $anno;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $edicionfechainicio;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $edicionfechafin;
 
     /**
      * @return int
@@ -97,5 +108,40 @@ class PlanMensualGeneral
     public function __toString(): string
     {
         return (String)$this->getId();
+    }
+
+    public function getEdicionfechainicio(): ?\DateTimeInterface
+    {
+        return $this->edicionfechainicio;
+    }
+
+    public function setEdicionfechainicio(\DateTimeInterface $edicionfechainicio): self
+    {
+        $this->edicionfechainicio = $edicionfechainicio;
+
+        return $this;
+    }
+
+    public function getEdicionfechafin(): ?\DateTimeInterface
+    {
+        return $this->edicionfechafin;
+    }
+
+    public function setEdicionfechafin(\DateTimeInterface $edicionfechafin): self
+    {
+        $this->edicionfechafin = $edicionfechafin;
+
+        return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validar(ExecutionContextInterface $context)
+    {
+        if ($this->getEdicionfechafin() < $this->getEdicionfechainicio()) {
+            $context->setNode($context, 'edicionfechafin', null, 'data.edicionfechafin');
+            $context->addViolation('Seleccione la fecha de fin mayor o igual que la fecha de inicio');
+        }
     }
 }

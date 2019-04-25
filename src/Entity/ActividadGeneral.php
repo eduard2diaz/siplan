@@ -124,6 +124,12 @@ class ActividadGeneral
     private $areaconocimiento;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Usuario")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $usuario;
+
+    /**
      * @return int
      */
     public function getId(): ?int
@@ -320,6 +326,18 @@ class ActividadGeneral
         $this->subcapitulo = $subcapitulo;
     }
 
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): self
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
     /**
      * @Assert\Callback
      */
@@ -341,6 +359,17 @@ class ActividadGeneral
             $context->setNode($context, 'fechaf', null, 'data.fechaf');
             $context->addViolation('La fecha debe pertenecer al mes del plan.');
         }
+
+        if(null==$this->getUsuario()){
+            $context->setNode($context, 'usuario', null, 'data.usuario');
+            $context->addViolation('Seleccione un usuario');
+        }
+        if(null==$this->getPlanMensualGeneral()){
+            $context->setNode($context, 'planmensualgeneral', null, 'data.planmensualgeneral');
+            $context->addViolation('Seleccione un plan mensual');
+        }
+
+
 
     }
 }

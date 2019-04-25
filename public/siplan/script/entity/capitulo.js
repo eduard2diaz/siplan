@@ -19,6 +19,7 @@ var capitulo = function () {
         $("div#basicmodal form").validate({
             rules:{
                 'capitulo[nombre]': {required:true},
+                'capitulo[numero]': {required:true, min: 1},
             }
         })
     }
@@ -111,10 +112,9 @@ var capitulo = function () {
                             toastr.success(data['mensaje']);
 
                         $('div#basicmodal').modal('hide');
-                        total += 1;
                         var pagina = table.page();
                         objeto = table.row.add({
-                            "numero": total,
+                            "numero": data['numero'],
                             "nombre": data['nombre'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                                 "<li class='m-nav__item'>" +
@@ -162,7 +162,9 @@ var capitulo = function () {
 
                         $('div#basicmodal').modal('hide');
                         var pagina = table.page();
+                        obj.parents('tr').children('td:nth-child(1)').html(data['numero']);
                         obj.parents('tr').children('td:nth-child(2)').html(data['nombre']);
+
                     }
                 },
                 error: function ()

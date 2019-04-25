@@ -98,8 +98,8 @@
                                                     </li>
                                                     {% if app.user.id==plantrabajo.usuario.id  or (plantrabajo.usuario.jefe!=null and plantrabajo.usuario.jefe.id==app.user.id) %}
                                                         <li class="m-nav__item">
-                                                            <a data-href="{{ path('actividad_new',{'id':plantrabajo.id}) }}"
-                                                               class="m-nav__link edicion_actividad">
+                                                            <a href="{{ path('actividad_new',{'id':plantrabajo.id}) }}"
+                                                               class="m-nav__link">
                                                                 <i class="m-nav__link-icon flaticon-plus"></i>
                                                                 <span class="m-nav__link-text">
 																	Nueva actividad
@@ -161,16 +161,12 @@
                         </div>
                     </li>
                 </ul>
-
-
-
             </div>
         </div>
         <div class="m-portlet__body">
             <!--begin: Datatable -->
             {% include 'actividad/_table.html.twig' %}
             <!--end: Datatable -->
-
         </div>
     </div>
 {% endblock %}
@@ -178,9 +174,9 @@
     {{ parent() }}
     <script src="{{ asset('script/entity/actividad.js','siplan') }}"></script>
     <script>
-        var total ={{ actividads |length }};
         var plantrabajo = '{{ plantrabajo.id }}';
         actividad.init();
+        actividad.respuesta();
+        actividad.clonacion();
     </script>
-
 {% endblock %}

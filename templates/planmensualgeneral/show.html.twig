@@ -13,13 +13,12 @@
                 <div class="m-portlet__head-title">
                     <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
                     <h3 class="m-portlet__head-text">
-                        Plan mensual {{ planmensualgeneral.mestoString()~', '~planmensualgeneral.anno }}
+                        Plan mensual general {{ planmensualgeneral.mestoString()~', '~planmensualgeneral.anno }}
                         <small id="filtro"></small>
                     </h3>
 
                 </div>
             </div>
-
             <div class="m-portlet__head-tools">
                 <ul class="m-footer__nav m-nav m-nav--inline m--margin-top-10">
                     <li class="m-nav__item">
@@ -40,15 +39,16 @@
                                                     <li class="m-nav__section m-nav__section--first">
                                                         <span class="m-nav__section-text">Acciones rápidas</span>
                                                     </li>
+                                                    {% if is_granted('ROLE_COORDINADOR')==true or enTiempo==true %}
                                                         <li class="m-nav__item">
-                                                            <a data-href="{{ path('actividadgeneral_new',{'id':planmensualgeneral.id}) }}"
-                                                               class="m-nav__link edicion_actividad">
+                                                            <a href="{{ path('actividadgeneral_new',{'id':planmensualgeneral.id}) }}"  class="m-nav__link">
                                                                 <i class="m-nav__link-icon flaticon-plus"></i>
                                                                 <span class="m-nav__link-text">
 																	Nueva actividad
 																</span>
                                                             </a>
                                                         </li>
+                                                    {% endif %}
                                                     <li class="m-nav__item">
                                                         <a data-href="{{ path('planmensualgeneral_show',{'id':planmensualgeneral.id}) }}"
                                                            class="m-nav__link" id="actividad_tablerefrescar">

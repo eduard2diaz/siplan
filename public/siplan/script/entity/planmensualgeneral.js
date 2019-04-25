@@ -3,16 +3,26 @@ var planmensualgeneral = function () {
     var obj = null;
 
     var configurarFormulario = function () {
+
+        jQuery.validator.addMethod("greaterThan",
+            function (value, element, params) {
+                return moment(value) > moment($(params).val());
+            }, 'Tiene que ser mayor o igual que la fecha de inicio');
+
         $('select#plan_mensual_general_anno').select2({
             dropdownParent: $("#basicmodal"),
         });
         $('select#plan_mensual_general_mes').select2({
             dropdownParent: $("#basicmodal"),
         });
+        $('input#plan_mensual_general_edicionfechainicio').datepicker();
+        $('input#plan_mensual_general_edicionfechafin').datepicker();
         $("div#basicmodal form").validate({
             rules:{
                 'plan_mensual_general[mes]': {required:true},
-                'plan_mensual_general[anno]': {required:true}
+                'plan_mensual_general[anno]': {required:true},
+                'plan_mensual_general[edicionfechainicio]': {required: true},
+                'plan_mensual_general[edicionfechafin]': {required: true, greaterThan: "#plan_mensual_general_edicionfechainicio"},
             }
         })
     }
@@ -87,6 +97,8 @@ var planmensualgeneral = function () {
                 {data: 'numero'},
                 {data: 'mes'},
                 {data: 'anno'},
+                {data: 'fechainicio'},
+                {data: 'fechafin'},
                 {data: 'acciones'}
             ]});
     }
@@ -125,9 +137,13 @@ var planmensualgeneral = function () {
                             "numero": total,
                             "mes": data['mes'],
                             "anno": data['anno'],
+                            "fechainicio": data['fechainicio'],
+                            "fechafin": data['fechafin'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                                 "<li class='m-nav__item'>" +
-                                "<a class='btn  btn-sm' href=" + Routing.generate('planmensualgeneral_show',{id:data['id']}) + "><i class='flaticon-eye'></i></a></li>" +
+                                "<a class='btn  btn-sm' href=" + Routing.generate('planmensualgeneral_show',{id:data['id']}) + "><i class='flaticon-eye'></i></a></li>"
+                                +"<li class='m-nav__item'>" +
+                                "<a class='btn btn-info edicion btn-sm' data-href=" + Routing.generate('planmensualgeneral_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i></a></li>" +
                                 "<li class='m-nav__item'>" +
                                 "<a class='btn btn-danger btn-sm  eliminar_planmensualgeneral' data-href=" + Routing.generate('planmensualgeneral_delete',{id:data['id']}) + ">" +
                                 "<i class='flaticon-delete-1'></i></a></li></ul>",
@@ -138,6 +154,45 @@ var planmensualgeneral = function () {
                 },
                 error: function ()
                 {
+                    base.Error();
+                }
+            });
+        });
+    }
+
+    var edicionAction = function () {
+        $('div#basicmodal').on('submit', 'form#planmensualgeneral_edit', function (evento) {
+            evento.preventDefault();
+            var padre = $(this).parent();
+            var l = Ladda.create(document.querySelector('.ladda-button'));
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "POST",
+                data: $(this).serialize(),
+                beforeSend: function () {
+                    l.start();
+                },
+                complete: function () {
+                    l.stop();
+                },
+                success: function (data) {
+                    if (data['error']) {
+                        padre.html(data['form']);
+                        configurarFormulario();
+                    }
+                    else {
+                        if (data['mensaje'])
+                            toastr.success(data['mensaje']);
+
+                        $('div#basicmodal').modal('hide');
+                        var pagina = table.page();
+                        obj.parents('tr').children('td:nth-child(2)').html(data['mes']);
+                        obj.parents('tr').children('td:nth-child(3)').html(data['anno']);
+                        obj.parents('tr').children('td:nth-child(3)').html(data['fechainicio']);
+                        obj.parents('tr').children('td:nth-child(3)').html(data['fechafin']);
+                    }
+                },
+                error: function () {
                     base.Error();
                 }
             });
@@ -195,6 +250,7 @@ var planmensualgeneral = function () {
                     configurarDataTable();
                     refrescar();
                     newAction();
+                    edicionAction();
                     edicion();
                     eliminar();
                 }

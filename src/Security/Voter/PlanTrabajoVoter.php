@@ -37,7 +37,7 @@ class PlanTrabajoVoter extends Voter
                     break;
                 }
             case 'VIEW':
-                return ($subject->getUsuario()->esJefe($token->getUser())) || ($subject->getUsuario()->getId() == $token->getUser()->getId());
+                return ($subject->getUsuario()->esSubordinado($token->getUser())) || ($subject->getUsuario()->getId() == $token->getUser()->getId());
             break;
         }
 

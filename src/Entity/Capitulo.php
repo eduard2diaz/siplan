@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="capitulo")
  * @ORM\Entity
  * @UniqueEntity("nombre")
+ * @UniqueEntity("numero")
  */
 class Capitulo
 {
@@ -32,6 +33,12 @@ class Capitulo
      * @ORM\Column(name="nombre", type="string")
      */
     private $nombre;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=1)
+     */
+    private $numero;
 
     /**
      * @return int
@@ -62,5 +69,15 @@ class Capitulo
        return $this->getNombre();
     }
 
+    public function getNumero(): ?int
+    {
+        return $this->numero;
+    }
 
+    public function setNumero(int $numero): self
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
 }
