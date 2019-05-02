@@ -4,19 +4,16 @@ namespace App\Controller;
 
 use App\Form\CapituloType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Capitulo;
-use App\Entity\Usuario;
 use App\Entity\Subcapitulo;
 
 /**
  * @Route("/capitulo")
  */
-class CapituloController extends Controller
+class CapituloController extends AbstractController
 {
 
     /**
@@ -46,6 +43,8 @@ class CapituloController extends Controller
      */
     public function new(Request $request): Response
     {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
 
         $capitulo = new Capitulo();
         $em = $this->getDoctrine()->getManager();
@@ -56,7 +55,7 @@ class CapituloController extends Controller
             if ($form->isValid()) {
                 $em->persist($capitulo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El capítulo fue registrado satisfactoriamente',
+                return $this->json(array('mensaje' => 'El capítulo fue registrado satisfactoriamente',
                     'nombre' => $capitulo->getNombre(),
                     'numero' => $capitulo->getNumero(),
                     'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $capitulo->getId())->getValue(),
@@ -67,7 +66,7 @@ class CapituloController extends Controller
                     'form' => $form->createView(),
                     'capitulo' => $capitulo,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true,));
+                return $this->json(array('form' => $page, 'error' => true,));
             }
 
 
@@ -83,6 +82,9 @@ class CapituloController extends Controller
      */
     public function edit(Request $request, Capitulo $capitulo): Response
     {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $form = $this->createForm(CapituloType::class, $capitulo,
             array('action' => $this->generateUrl('capitulo_edit', array('id' => $capitulo->getId()))));
         $form->handleRequest($request);
@@ -93,7 +95,7 @@ class CapituloController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($capitulo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El capítulo fue actualizado satisfactoriamente',
+                return $this->json(array('mensaje' => 'El capítulo fue actualizado satisfactoriamente',
                     'nombre' => $capitulo->getNombre(),
                     'numero' => $capitulo->getNumero(),
                     ));
@@ -105,7 +107,7 @@ class CapituloController extends Controller
                     'action' => 'Actualizar',
                     'eliminable' => $eliminable,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
+                return $this->json(array('form' => $page, 'error' => true));
             }
 
         return $this->render('capitulo/_new.html.twig', [
@@ -127,7 +129,7 @@ class CapituloController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($capitulo);
             $em->flush();
-            return new JsonResponse(array('mensaje' => 'El capítulo fue eliminado satisfactoriamente'));
+            return $this->json(array('mensaje' => 'El capítulo fue eliminado satisfactoriamente'));
         }
 
         throw $this->createAccessDeniedException();

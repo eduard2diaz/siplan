@@ -4,10 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Usuario;
 use App\Form\CargoType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use  App\Entity\Area;
 use App\Entity\Cargo;
@@ -15,7 +14,7 @@ use App\Entity\Cargo;
 /**
  * @Route("/cargo")
  */
-class CargoController extends Controller
+class CargoController extends AbstractController
 {
 
     /**
@@ -36,18 +35,18 @@ class CargoController extends Controller
 
     /**
      * @Route("/{area}/ajax", name="cargo_ajax", options={"expose"=true},methods="GET")
+     * Funcionalidad que devuelve el listado de cargos usando ajax, utilizado para la gestion de usuarios
      */
     public function ajax(Request $request, Area $area): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $cargos = $this->getDoctrine()->getRepository(Cargo::class)->findByArea($area);
-        $cargosHtml = "";
-        foreach ($cargos as $value)
-            $cargosHtml .= "<option value={$value->getId()}>{$value->getNombre()}</option>";
+        $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT c.id, c.nombre FROM App:Cargo c JOIN c.area a WHERE a.id= :id');
+        $consulta->setParameter('id', $area->getId());
+        $cargos = $consulta->getResult();
 
-        return new Response($cargosHtml);
+        return $this->json($cargos);
     }
 
 
@@ -56,6 +55,9 @@ class CargoController extends Controller
      */
     public function new(Request $request): Response
     {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $cargo = new Cargo();
         $em = $this->getDoctrine()->getManager();
 
@@ -66,17 +68,17 @@ class CargoController extends Controller
             if ($form->isValid()) {
                 $em->persist($cargo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El cargo fue registrado satisfactoriamente',
+                return $this->json(array('mensaje' => 'El cargo fue registrado satisfactoriamente',
                     'nombre' => $cargo->getNombre(),
                     'area' => $cargo->getArea()->getNombre(),
-                    'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$cargo->getId())->getValue(),
+                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $cargo->getId())->getValue(),
                     'id' => $cargo->getId(),
                 ));
             } else {
                 $page = $this->renderView('cargo/_form.html.twig', array(
                     'form' => $form->createView(),
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true,));
+                return $this->json(array('form' => $page, 'error' => true,));
             }
 
 
@@ -92,17 +94,20 @@ class CargoController extends Controller
      */
     public function edit(Request $request, Cargo $cargo): Response
     {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $form = $this->createForm(CargoType::class, $cargo,
             array('action' => $this->generateUrl('cargo_edit', array('id' => $cargo->getId()))));
 
-        $eliminable=$this->esEliminable($cargo);
+        $eliminable = $this->esEliminable($cargo);
         $form->handleRequest($request);
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($cargo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El cargo fue actualizado satisfactoriamente', 'nombre' => $cargo->getNombre(), 'area' => $cargo->getArea()->getNombre()));
+                return $this->json(array('mensaje' => 'El cargo fue actualizado satisfactoriamente', 'nombre' => $cargo->getNombre(), 'area' => $cargo->getArea()->getNombre()));
             } else {
                 $page = $this->renderView('cargo/_form.html.twig', array(
                     'form' => $form->createView(),
@@ -110,7 +115,7 @@ class CargoController extends Controller
                     'form_id' => 'cargo_edit',
                     'eliminable' => $eliminable,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
+                return $this->json(array('form' => $page, 'error' => true));
             }
 
         return $this->render('cargo/_new.html.twig', [
@@ -128,12 +133,12 @@ class CargoController extends Controller
      */
     public function delete(Request $request, Cargo $cargo): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$cargo->getId(), $request->query->get('_token'))) {
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $cargo->getId(), $request->query->get('_token'))) {
             $this->denyAccessUnlessGranted('DELETE', $cargo);
             $em = $this->getDoctrine()->getManager();
             $em->remove($cargo);
             $em->flush();
-            return new JsonResponse(array('mensaje' => 'El cargo fue eliminado satisfactoriamente'));
+            return $this->json(array('mensaje' => 'El cargo fue eliminado satisfactoriamente'));
         }
 
         throw $this->createAccessDeniedException();

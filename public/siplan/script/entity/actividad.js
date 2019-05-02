@@ -79,33 +79,6 @@ var actividad = function () {
     }
 
     var refrescar = function () {
-        //Refresca el listado de actividades(NO FILTRA POR EL ESTADO)
-        $('body').on('click', 'a#actividad_tablerefrescar', function (evento){
-            evento.preventDefault();
-            var link =  $(this).attr('data-href');
-            $.ajax({
-                type: 'get',
-                url: link,
-                beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando..."});
-                },
-                success: function (data) {
-                    $('table#actividad_table').html(data['table']);
-                    table.destroy();
-                    configurarDataTable();
-                    $('small#filtro').html('');
-                },
-                error: function ()
-                {
-                    base.Error();
-                },
-                complete: function () {
-                    mApp.unblock("body")
-                }
-            });
-        });
-
         //Refresca el listado de actividades a partir del estado de la misma
         $('body').on('click', 'a.refrescar', function (evento){
             evento.preventDefault();
@@ -187,35 +160,6 @@ var actividad = function () {
         });
     }
 
-    var showActividad = function () {
-        $('table#actividad_table').on('click', 'a.actividad_show', function (evento)
-        {
-            evento.preventDefault();
-            var link = $(this).attr('data-href');
-            obj = $(this);
-            $.ajax({
-                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
-                dataType: 'html',
-                url: link,
-                beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
-                },
-                success: function (data) {
-                    if ($('div#basicmodal').html(data)) {
-                        $('div#basicmodal').modal('show');
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                },
-                complete: function () {
-                    mApp.unblock("body");
-                }
-            });
-        });
-    }
     //FIN DE FUNCIONALIDADES DEL INDEX
 
     //INICIO DE LAS FUNCIONALIDADES DE RESPUESTA
@@ -268,18 +212,9 @@ var actividad = function () {
         });
     }
 
-    //Confeccion del formulario para una nueva respuesta(OPTIMIZADO)
-    var configurarFormularioRespuesta= function () {
-        $('textarea#respuesta_descripcion').summernote({
-            placeholder: 'Escriba una breve descripción sobre la actividad',
-            height: 100,
-            focus: true,
-        });
-    }
-
     //Funcionalidad para la carga de formularios de registro y edicion(PARA CREAR UNA RESPUESTA)
     var edicionRespuesta = function () {
-        $('div#basicmodal').on('click', 'a.edicion_respuesta', function (evento)
+        $('body').on('click', 'a.edicion_respuesta', function (evento)
         {
             evento.preventDefault();
             var link = $(this).attr('data-href');
@@ -289,12 +224,11 @@ var actividad = function () {
                 dataType: 'html',
                 url: link,
                 beforeSend: function (data) {
-                    mApp.block("body",
+                    mApp.block("div#basicmodal div.modal-content",
                         {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
                 },
                 success: function (data) {
                     if ($('div#basicmodal').html(data)) {
-                        configurarFormularioRespuesta();
                         $('div#basicmodal').modal('show');
                     }
                 },
@@ -303,7 +237,7 @@ var actividad = function () {
                     base.Error();
                 },
                 complete: function () {
-                    mApp.unblock("body");
+                    mApp.unblock("div#basicmodal div.modal-content");
                 }
             });
         });
@@ -322,19 +256,21 @@ var actividad = function () {
                 cache: false,
                 processData:false,
                 beforeSend: function () {
-                    mApp.block("body",
+                    mApp.block("div#basicmodal div.modal-content",
                         {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
                 },
                 complete: function () {
-                    mApp.unblock("body");
+                    mApp.unblock("div#basicmodal div.modal-content");
                 },
                 success: function (data) {
                     if (data['error']) {
                         padre.html(data['form']);
-                        configurarFormularioRespuesta();
                     } else {
-                        if (data['mensaje'])
+                        if (data['mensaje']){
                             toastr.success(data['mensaje']);
+                            $('a.edicion_respuesta').attr('data-href',data['href']);
+                            $('a.edicion_respuesta').html('<i class="flaticon-edit"></i>Editar respuesta');
+                        }
                         $('div#basicmodal').modal('hide');
                     }
                 },
@@ -359,15 +295,15 @@ var actividad = function () {
                 cache: false,
                 processData:false,
                 beforeSend: function () {
-                    //    base.blockUI({message: 'Cargando'});
+                    mApp.block("div#basicmodal div.modal-content",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
                 },
                 complete: function () {
-                    //  base.unblockUI();
+                    mApp.unblock("div#basicmodal div.modal-content");
                 },
                 success: function (data) {
                     if (data['error']) {
                         padre.html(data['form']);
-                        configurarFormularioRespuesta();
                     } else {
                         if (data['mensaje'])
                             toastr.success(data['mensaje']);
@@ -419,6 +355,8 @@ var actividad = function () {
                             },
                             success: function (data) {
                                 toastr.success(data['mensaje']);
+                                $('a.edicion_respuesta').attr('data-href',data['href']);
+                                $('a.edicion_respuesta').html('<i class="flaticon-edit"></i>Responder');
                                 $('div#basicmodal').modal('hide');
                             },
                             error: function ()
@@ -447,7 +385,6 @@ var actividad = function () {
         $("body form[name=actividad]").validate({
             rules:{
                 'actividad[nombre]': {required:true},
-                'actividad[areaconocimiento]': {required:true},
                 'actividad[lugar]': {required:true},
                 'actividad[fecha]': {required:true},
                 'actividad[fechaf]': {required:true, greaterThan: "#actividad_fecha"},
@@ -463,6 +400,7 @@ var actividad = function () {
         {
             evento.preventDefault();
             var padre = $(this).parent();
+            var l = Ladda.create(document.querySelector( '.ladda-button' ) );
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
@@ -474,11 +412,10 @@ var actividad = function () {
                 processData:false,
                 //FIN de configuracion obigatoria para el envioa de archivos por form data
                 beforeSend: function () {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
+                    l.start();
                 },
                 complete: function () {
-                    mApp.unblock("body");
+                    l.stop();
                 },
                 success: function (data) {
                     if (data['error']) {
@@ -584,6 +521,7 @@ var actividad = function () {
         {
             evento.preventDefault();
             var padre = $(this).parent();
+            var l = Ladda.create(document.querySelector( '.ladda-button' ) );
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
@@ -595,10 +533,10 @@ var actividad = function () {
                 processData:false,
                 //FIN de configuracion obigatoria para el envioa de archivos por form data
                 beforeSend: function () {
-                    //    base.blockUI({message: 'Cargando'});
+                    l.start();
                 },
                 complete: function () {
-                    //  base.unblockUI();
+                    l.stop();
                 },
                 success: function (data) {
                     if (data['error']) {
@@ -693,7 +631,7 @@ var actividad = function () {
      }
 
     var refrescarAction = function () {
-        var link = Routing.generate('plantrabajo_show',{'id':plantrabajo});
+        var link = Routing.generate('plantrabajo_filtraractividad',{'id':plantrabajo});
         obj = $(this);
         $.ajax({
             type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
@@ -805,28 +743,31 @@ var actividad = function () {
          {
              evento.preventDefault();
              var link = Routing.generate('actividad_clonar',{'id':plantrabajo});
+             var l = Ladda.create(document.querySelector( '.ladda-button' ) );
              $.ajax({
                  url: link,
                  type: "POST",
                  data: {'array':JSON.stringify(listadoactividades)},
                  beforeSend: function () {
-                    // base.blockUI({message: 'Cargando'});
+                    l.start();
                  },
                  complete: function () {
-                     //base.unblockUI();
+                     l.stop();
                  },
                  success: function (data) {
-                         refrescarAction();
                          if(data['mensaje']){
                              toastr.success(data['mensaje']);
                              $('div#basicmodal').modal('hide');
+                             refrescarAction();
                          }
                          else{
                              if(data['error'])
                                 toastr.error(data['error']);
                              else
-                                 if(data['warning'])
-                                    toastr.warning(data['warning']);
+                                 if(data['warning']){
+                                     toastr.warning(data['warning']);
+                                     refrescarAction();
+                                 }
                              $('div#basicmodal').html(data['errores']);
                              configurarDataTableErroresClonacion();
                          }
@@ -840,7 +781,6 @@ var actividad = function () {
          });
 
      }
-
 
      var cargarActividadesGeneral=function(){
          $('body').on('click', 'a#cargar_actividadesgeneral_link', function (evento)
@@ -931,29 +871,32 @@ var actividad = function () {
          $('div#basicmodal').on('click', 'a#enviar_actividadesgeneral', function (evento)
          {
              evento.preventDefault();
-             var link = Routing.generate('actividadgeneral_clonar');
+             var link = $(this).attr('data-href');
+             var l = Ladda.create(document.querySelector( '.ladda-button' ) );
              $.ajax({
                  url: link,
                  type: "POST",
                  data: {'array':JSON.stringify(listadoactividades)},
                  beforeSend: function () {
-                    // base.blockUI({message: 'Cargando'});
+                    l.start();
                  },
                  complete: function () {
-                     //base.unblockUI();
+                     l.stop();
                  },
                  success: function (data) {
-                         refrescarAction();
                          if(data['mensaje']){
                              toastr.success(data['mensaje']);
                              $('div#basicmodal').modal('hide');
+                             refrescarAction();
                          }
                          else{
                              if(data['error'])
                                 toastr.error(data['error']);
                              else
-                                 if(data['warning'])
-                                    toastr.warning(data['warning']);
+                                 if(data['warning']){
+                                     refrescarAction();
+                                     toastr.warning(data['warning']);
+                                 }
                              $('div#basicmodal').html(data['errores']);
                              configurarDataTableErroresClonacionGeneral();
                          }
@@ -967,8 +910,6 @@ var actividad = function () {
 
      }
 
-
-
     return {
         init: function () {
             $().ready(function () {
@@ -976,19 +917,8 @@ var actividad = function () {
                     refrescar();
                     estadistica();
                     eliminarActividad();
-                    showActividad();
-                }
-            );
-        },
-        respuesta: function () {
-            $().ready(function () {
+                    //Visualizacion de las respuestas
                     showRespuesta();
-                    edicionRespuesta();
-                    newActionRespuesta();
-                    agregarArchivoRespuesta();
-                    edicionActionRespuesta();
-                    eliminarRespuesta();
-                    eliminarFichero()
                 }
             );
         },
@@ -1000,6 +930,13 @@ var actividad = function () {
                 agregarArchivoActividad();
                 eliminarArchivo();
                 eliminarFichero();
+
+                //Gestion de las respuestas
+                edicionRespuesta();
+                newActionRespuesta();
+                agregarArchivoRespuesta();
+                edicionActionRespuesta();
+                eliminarRespuesta();
                 }
             );
         },

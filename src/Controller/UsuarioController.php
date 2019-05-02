@@ -2,36 +2,34 @@
 
 namespace App\Controller;
 
-use App\Entity\MiembroConsejoDireccion;
-use App\Entity\Rol;
+
 use App\Entity\Usuario;
 use App\Form\UsuarioType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Services\AreaService;
+use App\Services\LdapService;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Plantrabajo;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/usuario")
  */
-class UsuarioController extends Controller
+class UsuarioController extends AbstractController
 {
     /**
      * @Route("/{id}/index", name="usuario_index", methods="GET", options={"expose"=true})
      */
-    public function index(Request $request, Usuario $usuario): Response
+    public function index(Request $request, Usuario $usuario,AreaService $areaService): Response
     {
         if ($this->isGranted('ROLE_ADMIN'))
             $usuarios = $this->getDoctrine()->getManager()->createQuery('SELECT u FROM App:Usuario u WHERE u.id!=:id')->setParameter('id', $this->getUser()->getId())->getResult();
         else
-            $usuarios = $this->get('area_service')->subordinados($usuario);
+            $usuarios = $areaService->subordinados($usuario);
 
         if ($request->isXmlHttpRequest())
             return $this->render('usuario/_table.html.twig', ['usuarios' => $usuarios]);
@@ -103,7 +101,7 @@ class UsuarioController extends Controller
     /**
      * @Route("/{id}/edit", name="usuario_edit",options={"expose"=true}, methods="GET|POST")
      */
-    public function edit(Request $request, Usuario $usuario): Response
+    public function edit(Request $request, Usuario $usuario, UserPasswordEncoderInterface $encoder): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
@@ -115,14 +113,27 @@ class UsuarioController extends Controller
         $tieneFoto = $usuario->getRutaFoto() != null && $usuario->getRutaFoto() != null;
 
         $esAdmin = in_array('ROLE_ADMIN', $usuario->getRoles());
-        $form->handleRequest($request);
+        $esDirectivo = in_array('ROLE_DIRECTIVO', $usuario->getRoles());
+        /*
+         *Sucedia que cunado modificaba las credenciales(usuario,correo) del usuario actualmente autenticado, si
+         * ocurria un error de validacion con las mismas, el usuario quedaba deslogueado, pues Sf no podia refrecar
+         * el token de autenticacion, por eso guardo un clon del usuario actual
+         */
+        if ($this->getUser()->getId() == $usuario->getId())
+            $clon = clone $usuario;
 
-        if ($form->isSubmitted())
+        $form->handleRequest($request);
+        $esDirectivoUpdate = in_array('ROLE_DIRECTIVO', $usuario->getRoles());
+        if ($form->isSubmitted()) {
+            if ($esDirectivo == true && $esDirectivoUpdate == false) {
+                if ($em->getRepository(Usuario::class)->findOneByJefe($usuario) != null)
+                    $form->addError(new FormError('Antes de quitar el rol de directivo elimine sus subordinados'));
+            }
             if ($form->isValid()) {
                 if (null == $usuario->getPassword())
                     $usuario->setPassword($passwordOriginal);
                 else
-                    $usuario->setPassword($this->get('security.password_encoder')->encodePassword($usuario, $usuario->getPassword()));
+                    $usuario->setPassword($encoder->encodePassword($usuario, $usuario->getPassword()));
 
                 if (null != $usuario->getFile()) {
                     if (true == $tieneFoto)
@@ -134,17 +145,20 @@ class UsuarioController extends Controller
                 }
 
                 $em->persist($usuario);
-
-                if (in_array('ROLE_ADMIN', $usuario->getRoles()) == true && $esAdmin == false)
-                    $this->eliminarAtadurasUsuario($usuario);
-
-
                 $em->flush();
                 return new JsonResponse(array('mensaje' => 'El usuario fue actualizado satisfactoriamente',
                     'nombre' => $usuario->getNombre(),
                     'area' => $usuario->getArea()->getNombre(),
                     'cargo' => $usuario->getCargo()->getNombre()));
             } else {
+                /*
+                 * Y si ocurre un error simplemente refresco el token de autenticacion usando las credenciales antiguas
+                 */
+                if ($this->getUser()->getId() == $usuario->getId()) {
+                    $usuario = $clon;
+                    $this->container->get('security.token_storage')->setToken(new UsernamePasswordToken($usuario, $usuario->getPassword(), 'usuarios', $usuario->getRoles()));
+                }
+
                 $page = $this->renderView('usuario/_form.html.twig', array(
                     'form' => $form->createView(),
                     'action' => 'Actualizar',
@@ -153,6 +167,7 @@ class UsuarioController extends Controller
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
+        }
 
         return $this->render('usuario/_new.html.twig', [
             'usuario' => $usuario,
@@ -241,7 +256,7 @@ class UsuarioController extends Controller
             $em = $this->getDoctrine()->getManager();
             $parameter = $request->get('q');
             $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u JOIN u.idrol r WHERE u.id!= :id AND u.nombre LIKE :nombre AND r.nombre IN (:roles) ORDER BY u.nombre ASC')
-                ->setParameters(['nombre' => '%' . $parameter . '%', 'id' => $this->getUser()->getId(), 'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER', 'ROLE_COORDINADOR']]);
+                ->setParameters(['nombre' => '%' . $parameter . '%', 'id' => $this->getUser()->getId(), 'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER', 'ROLE_COORDINADOR', 'ROLE_ADMIN']]);
             $result = $query->getResult();
             return new Response(json_encode($result));
         }
@@ -292,7 +307,7 @@ class UsuarioController extends Controller
      * Retorna todos los subordinados del usuario actual, esto es utilizado para la asignacion de tareas a un grupo de
      * subordinados
      */
-    public function subordinado(Request $request): Response
+    public function subordinado(Request $request, AreaService $areaService): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
@@ -300,7 +315,7 @@ class UsuarioController extends Controller
         $result = [];
         if ($request->get('q') != null) {
             $parameter = $request->get('q');
-            $usuarios = $this->get('area_service')->subordinados($this->getUser());
+            $usuarios = $areaService->subordinados($this->getUser());
             foreach ($usuarios as $usuario)
                 if (false != strstr($usuario->getNombre(), $parameter))
                     $result[] = ['id' => $usuario->getId(), 'text' => $usuario->getNombre()];
@@ -308,23 +323,10 @@ class UsuarioController extends Controller
         return new Response(json_encode($result));
     }
 
-    private function eliminarAtadurasUsuario(Usuario $usuario)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $gruposPertenece = $usuario->getGrupospertenece();
-        $gruposPropietario = $usuario->getGrupos();
-        foreach ($gruposPertenece as $grupo) {
-            $grupo->removeIdmiembro($usuario);
-            $em->persist($grupo);
-        }
-        foreach ($gruposPropietario as $grupo) {
-            $grupo->removeIdmiembro($usuario);
-            $em->persist($grupo);
-        }
-        $miembro = $em->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($usuario);
-        if (null != $miembro)
-            $em->remove($miembro);
-
-        $em->flush();
+    /**
+     * @Route("/buscarldap/{users}", name="usuario_buscar_ldap",options={"expose"=true})
+     */
+    public function search($users, LdapService $ldap){
+        return $ldap->search($users);
     }
 }

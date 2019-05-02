@@ -166,6 +166,11 @@ class Usuario implements UserInterface
      */
     private $rutaFoto;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PuntualizacionPlanMensualGeneral", mappedBy="usuario")
+     */
+    private $puntualizacionPlanMensualGenerals;
+
      /**
      * Constructor
      */
@@ -178,6 +183,7 @@ class Usuario implements UserInterface
         $this->grupospertenece = new ArrayCollection();
         $this->solicitudGrupos = new ArrayCollection();
         $this->idmensaje = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->puntualizacionPlanMensualGenerals = new ArrayCollection();
     }
 
     /**
@@ -616,9 +622,40 @@ class Usuario implements UserInterface
     }
 
     /**
+     * @return Collection|PuntualizacionPlanMensualGeneral[]
+     */
+    public function getPuntualizacionPlanMensualGenerals(): Collection
+    {
+        return $this->puntualizacionPlanMensualGenerals;
+    }
+
+    public function addPuntualizacionPlanMensualGeneral(PuntualizacionPlanMensualGeneral $puntualizacionPlanMensualGeneral): self
+    {
+        if (!$this->puntualizacionPlanMensualGenerals->contains($puntualizacionPlanMensualGeneral)) {
+            $this->puntualizacionPlanMensualGenerals[] = $puntualizacionPlanMensualGeneral;
+            $puntualizacionPlanMensualGeneral->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePuntualizacionPlanMensualGeneral(PuntualizacionPlanMensualGeneral $puntualizacionPlanMensualGeneral): self
+    {
+        if ($this->puntualizacionPlanMensualGenerals->contains($puntualizacionPlanMensualGeneral)) {
+            $this->puntualizacionPlanMensualGenerals->removeElement($puntualizacionPlanMensualGeneral);
+            // set the owning side to null (unless already changed)
+            if ($puntualizacionPlanMensualGeneral->getUsuario() === $this) {
+                $puntualizacionPlanMensualGeneral->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @Assert\Callback
      */
-    public function comprobarCargo(ExecutionContextInterface $context)
+    public function validar(ExecutionContextInterface $context)
     {
         $roles=$this->getRoles();
         if (null==$this->getArea()) {
@@ -638,7 +675,7 @@ class Usuario implements UserInterface
             $context->addViolation('Compruebe el jefe seleccionado.');
         }
 
-         if(in_array('ROLE_ADMIN',$roles)) {
+        if(in_array('ROLE_ADMIN',$roles)) {
             if ($this->getJefe() != null)
                 $context->buildViolation('Un administrador no puede tener jefe')
                     ->atPath('idrol')
@@ -650,4 +687,5 @@ class Usuario implements UserInterface
                     ->addViolation();
         }
     }
+
 }

@@ -4,12 +4,10 @@ namespace App\Controller;
 
 use App\Entity\MiembroConsejoDireccion;
 use App\Form\MiembroConsejoDireccionType;
-use App\Repository\MiembroConsejoDireccionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/miembroconsejodireccion")
@@ -42,6 +40,9 @@ class MiembroConsejoDireccionController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $miembroConsejoDireccion = new MiembroConsejoDireccion();
         $em = $this->getDoctrine()->getManager();
 
@@ -52,7 +53,7 @@ class MiembroConsejoDireccionController extends AbstractController
             if ($form->isValid()) {
                 $em->persist($miembroConsejoDireccion);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El miembro fue registrado satisfactoriamente',
+                return $this->json(array('mensaje' =>'El miembro fue registrado satisfactoriamente',
                     'nombre' => $miembroConsejoDireccion->getUsuario()->getNombre(),
                     'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$miembroConsejoDireccion->getId())->getValue(),
                     'id' => $miembroConsejoDireccion->getId(),
@@ -61,7 +62,7 @@ class MiembroConsejoDireccionController extends AbstractController
                 $page = $this->renderView('miembro_consejo_direccion/_form.html.twig', array(
                     'form' => $form->createView(),
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true,));
+                return $this->json(array('form' => $page, 'error' => true,));
             }
 
 
@@ -76,6 +77,9 @@ class MiembroConsejoDireccionController extends AbstractController
      */
     public function edit(Request $request, MiembroConsejoDireccion $miembroConsejoDireccion): Response
     {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $form = $this->createForm(MiembroConsejoDireccionType::class, $miembroConsejoDireccion,
             array('action' => $this->generateUrl('miembro_consejo_direccion_edit', array('id' => $miembroConsejoDireccion->getId()))));
         $form->handleRequest($request);
@@ -85,7 +89,7 @@ class MiembroConsejoDireccionController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($miembroConsejoDireccion);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El miembro fue actualizado satisfactoriamente',
+                return $this->json(array('mensaje' =>'El miembro fue actualizado satisfactoriamente',
                     'nombre' => $miembroConsejoDireccion->getUsuario()->getNombre(),
                 ));
             } else {
@@ -94,7 +98,7 @@ class MiembroConsejoDireccionController extends AbstractController
                     'form_id' => 'miembroconsejo_edit',
                     'action' => 'Actualizar',
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
+                return $this->json(array('form' => $page, 'error' => true));
             }
 
         return $this->render('miembro_consejo_direccion/_new.html.twig', [
@@ -115,7 +119,7 @@ class MiembroConsejoDireccionController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->remove($miembroConsejoDireccion);
             $em->flush();
-            return new JsonResponse(array('mensaje' =>'El miembro fue eliminado satisfactoriamente'));
+            return $this->json(array('mensaje' =>'El miembro fue eliminado satisfactoriamente'));
         }
 
         throw $this->createAccessDeniedException();

@@ -4,7 +4,7 @@
             {% for mensaje in mensajes %}
         <div class="m-list-timeline__item">
                 <span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
-                <span class="m-list-timeline__text"><a class="mensaje_show" data-href="{{ path('mensaje_show', { 'id': mensaje.id }) }}">{{ mensaje.descripcion }}</a></span>
+                <span class="m-list-timeline__text"><a class="mensaje_show" data-href="{{ path('mensaje_show', { 'id': mensaje.id }) }}">{{ mensaje.asunto }}</a></span>
                 <span class="m-list-timeline__time">{{ mensaje.fecha | ago }}</span>
         </div>
             {% else %}

@@ -56,7 +56,7 @@ class AddArcFieldSubscriber  implements EventSubscriberInterface{
             'auto_initialize'=>false,
             'class'         =>'App:Arc',
             'label'=>'Área de resultados claves',
-            'required'=>true,
+            'required'=>false,
             'query_builder'=>function(EntityRepository $repository)use($subcapitulo){
                 $qb=$repository->createQueryBuilder('arc')
                     ->innerJoin('arc.subcapitulo','p');
@@ -80,7 +80,7 @@ class AddArcFieldSubscriber  implements EventSubscriberInterface{
         $form = $event->getForm();
 
        if(null==$data->getId()){
-           $form->add('areaconocimiento',null,array('required'=>true,'label'=>'Área de resultados claves','choices'=>array()));
+           $form->add('areaconocimiento',null,array('required'=>false,'label'=>'Área de resultados claves','choices'=>array()));
         }else
        {
 

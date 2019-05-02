@@ -18,15 +18,15 @@
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
                         <a class="btn btn-sm  actividad_show" data-href="{{ path('actividad_show',{'id':actividad.id}) }}">
-                            <i class="flaticon-eye"></i>
+                            <i class="flaticon-eye"></i>Visualizar
                         </a>
                     </li>
-                    {% if app.user.id==plantrabajo.usuario.id  or (plantrabajo.usuario.jefe!=null and plantrabajo.usuario.jefe.id==app.user.id and actividad.asignadapor.id==app.user.id) %}
                     <li class="m-nav__item">
-                        <a class="btn btn-info btn-sm" href="{{ path('actividad_edit', { 'id': actividad.id }) }}"><i class="flaticon-edit-1"></i></a>
+                        <a class="btn btn-info btn-sm" href="{{ path('actividad_edit', { 'id': actividad.id }) }}"><i class="flaticon-edit-1"></i>Editar</a>
                     </li>
+                    {% if actividad.responsable.id==app.user.id or  actividad.asignadapor.id==app.user.id %}
                     <li class="m-nav__item">
-                        <a class="btn btn-danger btn-sm  eliminar_actividad" data-csrf="{{ csrf_token('delete' ~ actividad.id) }}" data-href="{{ path('actividad_delete', { 'id': actividad.id }) }}"><i class="flaticon-delete-1"></i></a>
+                        <a class="btn btn-danger btn-sm  eliminar_actividad" data-csrf="{{ csrf_token('delete' ~ actividad.id) }}" data-href="{{ path('actividad_delete', { 'id': actividad.id }) }}"><i class="flaticon-delete-1"></i>Eliminar</a>
                     </li>
                     {% endif %}
                 </ul>

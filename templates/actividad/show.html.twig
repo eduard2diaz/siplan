@@ -66,11 +66,12 @@
         </div>
         <div class="modal-footer">
             {% if existeRespuesta== true %}
-                <a class="btn btn-primary btn-sm respuesta_show" data-href="{{ path('respuesta_show',{'id':actividad.id}) }}">Ver respuesta</a>
-            {% else %}
-                <a class="btn btn-primary btn-sm edicion_respuesta" data-href="{{ path('respuesta_new',{'id':actividad.id}) }}">Responder</a>
+                <a class="btn btn-primary btn-sm respuesta_show" data-href="{{ path('respuesta_show',{'id':actividad.id}) }}">
+                    <i class="flaticon-eye ladda-label"></i>
+                    Ver respuesta
+                </a>
             {% endif %}
-            <a class="btn btn-sm btn-metal active" data-dismiss="modal">Cerrar</a>
+            <a class="btn btn-sm btn-metal active" data-dismiss="modal"><i class="flaticon-cancel"></i>Cancelar</a>
         </div>
     </div>
 </div>

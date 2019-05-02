@@ -56,7 +56,7 @@ class AddMiembroFieldSubscriber  implements EventSubscriberInterface{
     protected function addElements($form, $miembro) {
         $em=$this->em;
         $usuarios=$this->em->createQuery('SELECT u FROM App:Usuario u JOIN u.idrol r WHERE u.id IN (:id) AND r.nombre IN (:roles)')
-                       ->setParameters(['id'=>$miembro,'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER','ROLE_COORDINADOR']])
+                       ->setParameters(['id'=>$miembro,'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER','ROLE_COORDINADOR','ROLE_ADMIN']])
                         ->getResult();
        $form->add('idmiembro',null,array('choices'=>$usuarios,'required'=>true,'label'=>'miembros','attr'=>array('placeholder'=>'Escriba los miembros',)));
 

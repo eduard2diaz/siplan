@@ -35,6 +35,7 @@ class ActividadGrupoType extends AbstractType
         $actividad=$options['data'];
         $builder
             ->add('iddestinatario',EntityType::class,[
+                'required'=>true,
                 'class'=>Usuario::class,
                 'choices'=>[],
                 'multiple'=>true,
@@ -51,12 +52,12 @@ class ActividadGrupoType extends AbstractType
                 'class' => 'form-control input-small'
             )))
             ->add('nombre', TextType::class, array('attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge')))
-            ->add('lugar', TextType::class, array('required' => false, 'attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge')))
+            ->add('lugar', TextType::class, array('required' => true, 'attr' => array('autocomplete' => 'off', 'class' => 'form-control input-xlarge')))
             ->add('descripcion', TextareaType::class, array('required' => false, 'label' => 'Descripción', 'attr' => array('class' => 'form-control')))
-            ->add('dirigen', TextareaType::class, array('required' => false, 'attr' => array('class' => 'form-control')))
-            ->add('participan', TextareaType::class, array('required' => false, 'attr' => array('class' => 'form-control')))
+            ->add('dirigen', TextareaType::class, array('required' => true, 'attr' => array('class' => 'form-control')))
+            ->add('participan', TextareaType::class, array('required' => true, 'attr' => array('class' => 'form-control')))
             ->add('aseguramiento', TextareaType::class, array('required' => false, 'attr' => array('class' => 'form-control')))
-            ->add('areaconocimiento', null, array('label' => 'Área del conocimiento', 'required' => true,
+            ->add('areaconocimiento', null, array('label' => 'Área del conocimiento', 'required' => false,
                 'attr' => array('class' => 'form-control input-large')
             ))
             ->add('ficheros', CollectionType::class, array(

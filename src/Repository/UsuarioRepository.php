@@ -2,14 +2,23 @@
 
 namespace App\Repository;
 
+use App\Entity\Usuario;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class UsuarioRepository extends EntityRepository implements UserLoaderInterface {
+class UsuarioRepository extends ServiceEntityRepository implements UserLoaderInterface {
+
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Usuario::class);
+    }
+
     /*
      * Funcionalidad que permite autenticar un usuario a partir del username o por el correo
      */
@@ -40,7 +49,7 @@ class UsuarioRepository extends EntityRepository implements UserLoaderInterface 
     public function supportsClass($class) {//Dependencia de la funcionalidad anterior
         return $this->getEntityName() === $class || is_subclass_of($class, $this->getEntityName());
     }
-    
+
    
 
 }

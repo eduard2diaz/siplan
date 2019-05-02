@@ -128,12 +128,12 @@ var arc = function () {
             evento.preventDefault();
             var padre = $(this).parent();
             var l = Ladda.create(document.querySelector( '.ladda-button' ) );
-            l.start();
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
                 data: $(this).serialize(), //para enviar el formulario hay que serializarlo
                 beforeSend: function () {
+                    l.start();
                 },
                 complete: function () {
                     l.stop();
@@ -180,7 +180,6 @@ var arc = function () {
             evento.preventDefault();
             var padre = $(this).parent();
             var l = Ladda.create(document.querySelector( '.ladda-button' ) );
-
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
@@ -276,7 +275,11 @@ var arc = function () {
                             {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando datos..."});
                     },
                     success: function (data) {
-                        $('select#arc_subcapitulo').html(data);
+                        var cadenasubcapitulo = "";
+                        var array = JSON.parse(data);
+                        for (var i = 0; i < array.length; i++)
+                            cadenasubcapitulo += "<option value=" + array[i]['id'] + ">" + array[i]['nombre'] + "</option>";
+                        $('select#arc_subcapitulo').html(cadenasubcapitulo);
                     },
                     error: function () {
                         base.Error();

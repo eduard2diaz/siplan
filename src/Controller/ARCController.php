@@ -7,19 +7,16 @@ use App\Entity\ActividadGeneral;
 use App\Entity\Subcapitulo;
 use App\Form\ARCType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Entity\ARC;
-use App\Entity\Usuario;
 
 /**
  * @Route("/arc")
  */
-class ARCController extends Controller
+class ARCController extends AbstractController
 {
 
     /**
@@ -43,10 +40,13 @@ class ARCController extends Controller
      */
     public function new(Request $request): Response
     {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $arc = new ARC();
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(arcType::class, $arc, array('action' => $this->generateUrl('arc_new')));
+        $form = $this->createForm(ARCType::class, $arc, array('action' => $this->generateUrl('arc_new')));
         $form->handleRequest($request);
 
         if ($form->isSubmitted())
@@ -90,7 +90,10 @@ class ARCController extends Controller
      */
     public function edit(Request $request, ARC $arc): Response
     {
-        $form = $this->createForm(arcType::class, $arc,
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
+        $form = $this->createForm(ARCType::class, $arc,
             array('action' => $this->generateUrl('arc_edit', array('id' => $arc->getId()))));
         $form->handleRequest($request);
         $eliminable=$this->esEliminable($arc);
@@ -152,17 +155,16 @@ class ARCController extends Controller
     //Funciones ajax
     /**
      * @Route("/{subcapitulo}/findbysubcapitulo", name="arc_findbysubcapitulo", options={"expose"=true},methods="GET")
+     * Se utiliza para la gestion de actividades del plan general
      */
     public function findbysubcapitulo(Request $request, Subcapitulo $subcapitulo): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $arcs = $this->getDoctrine()->getRepository(ARC::class)->findBySubcapitulo($subcapitulo);
-        $arcsHtml = "";
-        foreach ($arcs as $value)
-            $arcsHtml .= "<option value={$value->getId()}>{$value->getNombre()}</option>";
-
-        return new Response($arcsHtml);
+        $consulta=$this->getDoctrine()->getManager()->createQuery('SELECT a.id, a.nombre FROM App:ARC a JOIN a.subcapitulo s WHERE s.id= :id');
+        $consulta->setParameter('id',$subcapitulo->getId());
+        $subcapitulos=$consulta->getResult();
+        return $this->json($subcapitulos);
     }
 }

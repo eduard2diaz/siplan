@@ -6,41 +6,50 @@ use App\Entity\Actividad;
 use App\Entity\Plantrabajo;
 use App\Form\ActividadGrupoType;
 use App\Form\ActividadType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Fichero;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/actividad")
  */
-class ActividadController extends Controller
+class ActividadController extends AbstractController
 {
-
     /**
-     * @Route("/nueva", name="actividad_nueva", methods="GET|POST")
+     * @Route("/nueva", name="actividad_new_grupo", methods="GET|POST")
+     * Funcionalidad que permite asignar una actividad a un conjunto de subordinados
      */
-    public function nueva(Request $request): Response
+    public function newGrupo(Request $request, ValidatorInterface $validator): Response
     {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $actividad = new Actividad();
         $actividad->setAsignadapor($this->getUser());
         $ruta = $this->getParameter('storage_directory');
         $em = $this->getDoctrine()->getManager();
-        $validator = $this->get('validator');
 
         $fs = new Filesystem();
-        $form = $this->createForm(ActividadGrupoType::class, $actividad, array('action' => $this->generateUrl('actividad_nueva')));
+        $form = $this->createForm(ActividadGrupoType::class, $actividad, array('action' => $this->generateUrl('actividad_new_grupo')));
         $form->handleRequest($request);
-        $registrado = 0;
-        if ($form->isSubmitted())
+        if ($form->isSubmitted()){
+            $mes = $actividad->getFecha()->format('m');
+            $anno = $actividad->getFecha()->format('Y');
+            /* $plantrabajo = $em->getRepository(Plantrabajo::class)->findOneBy(['mes' => $mes, 'anno' => $anno, 'usuario' => $this->getUser()]);
+             if(!$plantrabajo){
+                 $plantrabajo = new Plantrabajo();
+                 $plantrabajo->setMes($mes);
+                 $plantrabajo->setAnno($anno);
+                 $plantrabajo->setUsuario($this->getUser());
+             }
+             $actividad->setPlantrabajo($plantrabajo);*/
             if ($form->isValid()) {
-                $mes = $actividad->getFecha()->format('m');
-                $anno = $actividad->getFecha()->format('Y');
+                $usuariosFallidos = [];
                 $iteracion = 1;
                 $nombreficheros = [];
                 foreach ($request->request->get('actividad_grupo')['iddestinatario'] as $destinatario) {
@@ -53,59 +62,59 @@ class ActividadController extends Controller
                         $plantrabajo->setMes($mes);
                         $plantrabajo->setAnno($anno);
                         $plantrabajo->setUsuario($destinatario);
+                        $em->persist($plantrabajo);
                     }
-
-//                    if (count($validator->validate($activity)) > 0)
-                    //                      break;
-
-                    $em->persist($plantrabajo);
-                    $em->persist($activity);
                     $activity->setPlantrabajo($plantrabajo);
-                    $em->flush();
+                    $errores = $validator->validate($activity);
 
-                    if ($iteracion == 1)
-                        foreach ($form->getData()->getFicheros() as $value) {
-                            $value->subirArchivo($ruta);
-                            $nombreficheros[] = ['nombre' => $value->getNombre(), 'ruta' => $value->getRuta()];
-                            $value->setActividad($activity);
-                            $em->persist($value);
+                    if (count($errores) == 0) {
+                        if ($iteracion == 1)
+                            foreach ($form->getData()->getFicheros() as $value) {
+                                $value->subirArchivo($ruta);
+                                $nombreficheros[] = ['nombre' => $value->getNombre(), 'ruta' => $value->getRuta()];
+                                $value->setActividad($activity);
+                                $em->persist($value);
+                            }
+                        else {
+                            foreach ($nombreficheros as $value) {
+                                $fichero = new Fichero();
+                                $fichero->setActividad($activity);
+                                $fichero->setNombre($value['nombre']);
+                                $rutaArchivo = uniqid('siplan') . $value['nombre'];
+                                $fichero->setRuta($rutaArchivo);
+                                $fs->copy($ruta . DIRECTORY_SEPARATOR . $value['ruta'], $ruta . DIRECTORY_SEPARATOR . $rutaArchivo);
+                                $em->persist($fichero);
+                            }
                         }
-                    else {
-                        foreach ($nombreficheros as $value) {
-                            $fichero = new Fichero();
-                            $fichero->setActividad($activity);
-                            $fichero->setNombre($value['nombre']);
-                            $rutaArchivo = uniqid('siplan') . $value['nombre'];
-                            $fichero->setRuta($rutaArchivo);
-                            $fs->copy($ruta . DIRECTORY_SEPARATOR . $value['ruta'], $ruta . DIRECTORY_SEPARATOR . $rutaArchivo);
-                            $em->persist($fichero);
-                        }
+                        $em->persist($activity);
 
-
-                    }
-
-                    $iteracion++;
+                        $iteracion++;
+                        $em->flush();
+                    } else
+                        $usuariosFallidos[] = $destinatario->getNombre();
                 }
 
-                $em->flush();
+
+                $parametros = [];
                 $message = "La actividad fue registrada satisfactoriamente";
-                if ($iteracion == 0)
-                    $message = "La actividad no pudo ser asignada a los usuarios, comprueba los planes de trabajo";
-                elseif ($iteracion < count($request->request->get('actividad_grupo')['iddestinatario']))
+                if ($iteracion - 1 < count($request->request->get('actividad_grupo')['iddestinatario'])) {
                     $message = "Algunas actividades no pudieron ser asignadas a los usuarios, comprueba los planes de trabajo";
+                    $parametros['errores'] = $this->renderView('actividad/ajax/_errorclonaciongrupo.html.twig', ['usuarios' => $usuariosFallidos]);
+                }
+                $parametros['mensaje'] = $message;
 
-
-                return new JsonResponse(array('mensaje' => $message));
-            } else {
-                $page = $this->renderView('actividad/_form2.html.twig', array(
+                return new JsonResponse($parametros);
+            }else {
+                $page = $this->renderView('actividad/_form_grupo.html.twig', array(
                     'form' => $form->createView(),
                     'actividad' => $actividad,
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
+    }
 
 
-        return $this->render('actividad/_new2.html.twig', [
+        return $this->render('actividad/_new_grupo.html.twig', [
             'actividad' => $actividad,
             'form' => $form->createView(),
         ]);
@@ -164,8 +173,8 @@ class ActividadController extends Controller
         $this->denyAccessUnlessGranted('VIEW', $actividad);
 
         $em = $this->getDoctrine()->getManager();
-        $respuesta = $em->getRepository('App:Respuesta')->find($actividad);
-        return $this->render('actividad/show.html.twig', ['actividad' => $actividad, 'existeRespuesta' => null != $respuesta]);
+        $existeRespuesta = $em->getRepository('App:Respuesta')->find($actividad)!= null;
+        return $this->render('actividad/show.html.twig', ['actividad' => $actividad, 'existeRespuesta' => $existeRespuesta]);
     }
 
     /**
@@ -175,12 +184,12 @@ class ActividadController extends Controller
     {
         $this->denyAccessUnlessGranted('EDIT', $actividad);
         $form = $this->createForm(ActividadType::class, $actividad, array('action' => $this->generateUrl('actividad_edit', array('id' => $actividad->getId()))));
-        $ficherosIniciales = $actividad->getFicheros()->toArray();
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $existeRespuesta = $em->getRepository('App:Respuesta')->find($actividad)!=null;
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $ruta = $this->getParameter('storage_directory');
-                $em = $this->getDoctrine()->getManager();
 
                 foreach ($form->getData()->getFicheros() as $value) {
                     $value->setActividad($actividad);
@@ -198,6 +207,7 @@ class ActividadController extends Controller
                     'actividad' => $actividad,
                     'action' => 'Actualizar',
                     'form_id' => 'actividad_edit',
+                    'existeRespuesta' => $existeRespuesta
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -212,17 +222,19 @@ class ActividadController extends Controller
             'user_foto' => null != $actividad->getPlantrabajo()->getUsuario()->getRutaFoto() ? $actividad->getPlantrabajo()->getUsuario()->getRutaFoto() : null,
             'user_nombre' => $actividad->getPlantrabajo()->getUsuario()->getNombre(),
             'user_correo' => $actividad->getPlantrabajo()->getUsuario()->getCorreo(),
+            'existeRespuesta' =>$existeRespuesta
         ]);
     }
 
     /**
      * @Route("/{id}/clonar", name="actividad_clonar",options={"expose"=true}, methods="POST")
      */
-    public function clonar(Request $request, Plantrabajo $plantrabajo): Response
+    public function clonar(Request $request, Plantrabajo $plantrabajo, ValidatorInterface $validator): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
+        $this->denyAccessUnlessGranted('VIEW',$plantrabajo);
 
         if (!$request->request->has('array'))
             return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
@@ -235,7 +247,6 @@ class ActividadController extends Controller
 
         $actividades = $em->createQuery('SELECT a FROM App:Actividad a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
         $errores = [];
-        $validator = $this->get('validator');
         $contador = 0;
         foreach ($actividades as $actividad) {
             $activity = new Actividad();
@@ -325,13 +336,16 @@ class ActividadController extends Controller
         if (!file_exists($ruta))
             throw $this->createNotFoundException();
 
-        $archivo = file_get_contents($ruta);
-        return new Response($archivo, 200, array(
-            'Content-Type' => 'application/force-download',
-            'Content-Transfer-Encoding' => 'binary',
-            'Content-length' => strlen($archivo),
-            'Pragma' => 'no-cache',
-            'Expires' => '0'));
+        $response = new Response();
+        // Set headers
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type', mime_content_type($ruta));
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($ruta) . '";');
+        $response->headers->set('Content-length', filesize($ruta));
+        // Send headers before outputting anything
+        $response->sendHeaders();
+        $response->setContent(file_get_contents($ruta));
+        return $response;
     }
 
 //FUNCIONES AJAX
@@ -355,17 +369,17 @@ class ActividadController extends Controller
         return new JsonResponse(array('total' => $total, 'html' => $this->renderView('actividad/ajax/_notificaciones.html.twig', ['actividades' => $actividades])));
     }
 
-
     /**
      * @Route("/{id}/ajax", name="plantrabajo_actividadesajax", methods="GET",options={"expose"=true})
-     * Funcionalidad que devuelve el listado de actividades que pertenecen a un determinado plan de trabajo
+     * Funcionalidad que devuelve el listado de actividades que pertenecen a un determinado plan de trabajo,
+     * se utiliza en la clonacion de las actividades
      */
     public function actividadesAjax(Request $request, Plantrabajo $plantrabajo): Response
     {
-
         if (!$request->isXmlHttpRequest())
             $this->createAccessDeniedException();
 
+        $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
         $actividades = $this->getDoctrine()
             ->getRepository(Actividad::class)
             ->findBy(array('plantrabajo' => $plantrabajo, 'asignadapor' => $this->getUser(), 'actividadGeneral' => null), array('fecha' => 'DESC'));

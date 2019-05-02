@@ -23,14 +23,16 @@
             <td>{{ plan.anno }}</td>
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
+                    {% if app.user.id==user_id or esSubordinado==true %}
                     <li class="m-nav__item">
-                        <a class="btn  btn-sm" href="{{ path('plantrabajo_show', { 'id': plan.id }) }}" >
-                            <i class="flaticon-eye"></i></a>
+                        <a class="btn  btn-default btn-sm" href="{{ path('plantrabajo_show', { 'id': plan.id }) }}" >
+                            <i class="flaticon-eye"></i>Visualizar</a>
                     </li>
-                    {% if app.user.id==user_id or (null!=jefe and app.user.id==jefe.id)%}
+
                     <li class="m-nav__item">
-                        <a class="btn btn-danger btn-sm  eliminar_plantrabajo" data-href="{{ path('plantrabajo_delete', { 'id': plan.id }) }}">
-                            <i class="flaticon-delete-1"></i></a>
+                        <a class="btn btn-danger btn-sm  eliminar_plantrabajo" data-csrf="{{ csrf_token('delete' ~ plan.id) }}" data-href="{{ path('plantrabajo_delete', { 'id': plan.id }) }}">
+                            <i class="flaticon-delete-1"></i>Eliminar
+                        </a>
                     </li>
                     {% endif %}
                 </ul>

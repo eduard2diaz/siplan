@@ -5,17 +5,16 @@ namespace App\Controller;
 use App\Entity\Grupo;
 use App\Entity\Mensaje;
 use App\Form\MensajeType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Services\EmailService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @Route("/mensaje")
  */
-class MensajeController extends Controller
+class MensajeController extends AbstractController
 {
     /**
      * @Route("/", name="mensaje_index", methods="GET")
@@ -28,7 +27,7 @@ class MensajeController extends Controller
             ->findBy(array('bandeja' => 0, 'propietario' => $this->getUser()), array('fecha' => 'DESC'));
 
         if ($request->isXmlHttpRequest())
-            return new JsonResponse(array(
+            return $this->json(array(
                 'messages' => $this->renderView('mensaje/_table.html.twig', [
                     'mensajes' => $mensajes
                 ]),
@@ -57,7 +56,7 @@ class MensajeController extends Controller
             ->getRepository(Mensaje::class)
             ->findBy(array('bandeja' => 1, 'remitente' => $this->getUser()), array('fecha' => 'DESC'));
 
-        return new JsonResponse(array(
+        return $this->json(array(
             'messages' => $this->renderView('mensaje/_table.html.twig', [
                 'mensajes' => $mensajes
             ]),
@@ -65,7 +64,6 @@ class MensajeController extends Controller
         ));
 
     }
-
 
     /**
      * @Route("/recent",options={"expose"=true}, name="mensaje_recent",  methods="GET")
@@ -75,17 +73,25 @@ class MensajeController extends Controller
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $mensajes = $this->getDoctrine()->getManager()
-            ->createQuery('SELECT m FROM App:Mensaje m JOIN m.propietario p WHERE m.fecha > :fecha AND p.id= :id AND m.bandeja = 0 ORDER By m.fecha DESC')
-            ->setParameters(array('id' => $this->getUser()->getId(), 'fecha' => $this->getUser()->getUltimologout()))
-            ->setMaxResults(5)
-            ->getResult();
+        if ($this->getUser()->getUltimologout() != null)
+            $mensajes = $this->getDoctrine()->getManager()
+                ->createQuery('SELECT m FROM App:Mensaje m JOIN m.propietario p WHERE m.fecha > :fecha AND p.id= :id AND m.bandeja = 0 AND m.leida= FALSE ORDER By m.fecha DESC')
+                ->setParameters(array('id' => $this->getUser()->getId(), 'fecha' => $this->getUser()->getUltimologout()))
+                ->setMaxResults(5)
+                ->getResult();
+        else
+            $mensajes = $this->getDoctrine()->getManager()
+                ->createQuery('SELECT m FROM App:Mensaje m JOIN m.propietario p WHERE p.id= :id AND m.bandeja = 0 AND m.leida= FALSE ORDER By m.fecha DESC')
+                ->setParameters(array('id' => $this->getUser()->getId()))
+                ->setMaxResults(5)
+                ->getResult();
+
 
         $count = count($mensajes);
         if ($count > 50)
             $count = '+50';
 
-        return new JsonResponse(array(
+        return $this->json(array(
             'html' => $this->renderView('mensaje/_notify.html.twig', [
                 'mensajes' => $mensajes
             ]),
@@ -97,7 +103,7 @@ class MensajeController extends Controller
     /**
      * @Route("/new", name="mensaje_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EmailService $emailService): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
@@ -121,6 +127,7 @@ class MensajeController extends Controller
             $parameters["mensaje"]['iddestinatario'] = $listado;
             $request->request->replace($parameters);
         }
+
         $mensaje = new Mensaje();
         $form = $this->createForm(MensajeType::class, $mensaje, array('action' => $this->generateUrl('mensaje_new')));
         $form->handleRequest($request);
@@ -135,10 +142,10 @@ class MensajeController extends Controller
                     $clone->setPropietario($value);
                     $clone->setBandeja(0);
                     $em->persist($clone);
-                    $this->get('app.email_service')->sendEmail($this->getUser()->getCorreo(), $value->getCorreo(), $clone->getAsunto(), $clone->getDescripcion());
+                    $emailService->sendEmail($this->getUser()->getCorreo(), $value->getCorreo(), $clone->getAsunto(), $clone->getDescripcion());
                 }
                 $em->flush();
-                return new JsonResponse(['mensaje' => 'El mensaje fue registrado satisfactoriamente',
+                return $this->json(['mensaje' => 'El mensaje fue registrado satisfactoriamente',
                     'descripcion' => $mensaje->getDescripcion(),
                     'fecha' => $mensaje->getFecha()->format('d-m-Y H:i'),
                     'id' => $mensaje->getId()
@@ -148,7 +155,7 @@ class MensajeController extends Controller
                     'form' => $form->createView(),
                 ));
                 //   dump($form->getErrors());
-                return new JsonResponse(array('form' => $page, 'error' => true,));
+                return $this->json(array('form' => $page, 'error' => true,));
             }
 
         return $this->render('mensaje/_new.html.twig', [
@@ -182,6 +189,6 @@ class MensajeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($mensaje);
         $em->flush();
-        return new JsonResponse(array('mensaje' => 'El mensaje fue eliminado satisfactoriamente'));
+        return $this->json(array('mensaje' => 'El mensaje fue eliminado satisfactoriamente'));
     }
 }

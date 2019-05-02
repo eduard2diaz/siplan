@@ -10,8 +10,8 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre</th>
-                    <th>Fecha de inicio</th>
-                    <th>Fecha de fin</th>
+                    <th>Dirigen</th>
+                    <th>Participan</th>
                     <th>ARC</th>
                 </tr>
                 </thead>
@@ -26,8 +26,8 @@
                             </label>
                         </td>
                         <td>{{ actividad.nombre }}</td>
-                        <td>{{ actividad.fecha|date('d-m-Y') }}</td>
-                        <td>{{ actividad.fechaf|date('d-m-Y') }}</td>
+                        <td>{{ actividad.dirigen }}</td>
+                        <td>{{ actividad.participan }}</td>
                         <td>{{ actividad.areaconocimiento }}</td>
                     </tr>
                     {%set i=1+i%}
@@ -37,16 +37,16 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre</th>
-                    <th>Fecha de inicio</th>
-                    <th>Fecha de fin</th>
+                    <th>Dirigen</th>
+                    <th>Participan</th>
                     <th>ARC</th>
                 </tr>
                 </tfoot>
             </table>
         </div>
         <div class="modal-footer">
-            <a class="btn btn-sm btn-primary m--hidden-desktop mt-ladda-btn ladda-button" data-style="expand-right" data-spinner-color="#333" id="enviar_actividadesgeneral"><i class="fa fa-send"></i>Clonar actividades</a>
-            <a class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</a>
+            <a class="btn btn-sm btn-primary m--hidden-desktop mt-ladda-btn ladda-button" data-href="{{ path('actividadgeneral_clonar',{'mes':mes,'anno':anno}) }}"data-style="expand-right" data-spinner-color="#333" id="enviar_actividadesgeneral"><i class="fa fa-send"></i>Clonar actividades</a>
+            <a class="btn btn-sm" data-dismiss="modal"><i class="flaticon-cancel"></i>Cancelar</a>
         </div>
     </div>
 </div>

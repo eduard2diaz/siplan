@@ -3,207 +3,203 @@
     'class': 'm-form m-form--state'
 }}) }}
 {% set i=0 %}
-<div class="m-portlet m-portlet--tabs">
-    <div class="m-portlet__head">
-        <div class="m-portlet__head-tools">
-            <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
-                <li class="nav-item m-tabs__item">
-                    <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_portlet_base_demo_1_1_tab_content" role="tab" aria-selected="true">
-                        <i class="la la-calendar-plus-o"></i> General
-                    </a>
-                </li>
-                <li class="nav-item m-tabs__item">
-                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_1_2_tab_content" role="tab" aria-selected="false">
-                        <i class="la la-info-circle"></i> Detalles
-                    </a>
-                </li>
-                <li class="nav-item m-tabs__item">
-                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_1_3_tab_content" role="tab" aria-selected="false">
-                        <i class="la la-file-pdf-o"></i>
-                        Archivos
-                    </a>
-                </li>
-                <li class="nav-item m-tabs__item">
-                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_1_4_tab_content" role="tab" aria-selected="false">
-                        <i class="la la-glass"></i>Aseguramiento
-                    </a>
-                </li>
-            </ul>
+<ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x" role="tablist">
+    <li class="nav-item m-tabs__item">
+        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_portlet_base_demo_1_1_tab_content"
+           role="tab" aria-selected="true">
+            <i class="la la-calendar-plus-o"></i> General
+        </a>
+    </li>
+    <li class="nav-item m-tabs__item">
+        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_1_2_tab_content" role="tab"
+           aria-selected="false">
+            <i class="la la-info-circle"></i> Detalles
+        </a>
+    </li>
+    <li class="nav-item m-tabs__item">
+        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_1_3_tab_content" role="tab"
+           aria-selected="false">
+            <i class="la la-file-pdf-o"></i>
+            Archivos
+        </a>
+    </li>
+    <li class="nav-item m-tabs__item">
+        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_portlet_base_demo_1_4_tab_content" role="tab"
+           aria-selected="false">
+            <i class="la la-glass"></i>Aseguramiento
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active show" id="m_portlet_base_demo_1_1_tab_content" role="tabpanel">
+        <div class="row m--margin-bottom-20">
+            <div class="col-md-6">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.nombre) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.nombre) }}
+                        {{ form_errors(form.nombre) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.areaconocimiento) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.areaconocimiento) }}
+                        {{ form_errors(form.areaconocimiento) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m--margin-bottom-20">
+            <div class="col-md-6">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.lugar) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.lugar) }}
+                        {{ form_errors(form.lugar) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m--margin-bottom-20">
+            <div class="col-md-3">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.fecha) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.fecha) }}
+                        {{ form_errors(form.fecha) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.fechaf) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.fechaf) }}
+                        {{ form_errors(form.fechaf) }}
+                    </div>
+                </div>
+            </div>
+            {% if form.estado is defined %}
+                <div class="col-md-3">
+                    <div class="form-group m-form__group">
+                        <label>
+                            {{ form_label(form.estado) }}
+                        </label>
+                        <div>
+                            {{ form_widget(form.estado) }}
+                            {{ form_errors(form.estado) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.dirigen) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.dirigen) }}
+                        {{ form_errors(form.dirigen) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.participan) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.participan) }}
+                        {{ form_errors(form.participan) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_errors(form) }}
+    </div>
+    <div class="tab-pane" id="m_portlet_base_demo_1_2_tab_content" role="tabpanel">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.descripcion) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.descripcion) }}
+                        {{ form_errors(form.descripcion) }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="m-portlet__body">
-        <div class="tab-content">
-            <div class="tab-pane active show" id="m_portlet_base_demo_1_1_tab_content" role="tabpanel">
-                <div class="row m--margin-bottom-20">
-                    <div class="col-md-6">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.nombre) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.nombre) }}
-                                {{ form_errors(form.nombre) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.areaconocimiento) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.areaconocimiento) }}
-                                {{ form_errors(form.areaconocimiento) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m--margin-bottom-20">
-                    <div class="col-md-6">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.lugar) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.lugar) }}
-                                {{ form_errors(form.lugar) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row m--margin-bottom-20">
-                    <div class="col-md-3">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.fecha) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.fecha) }}
-                                {{ form_errors(form.fecha) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.fechaf) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.fechaf) }}
-                                {{ form_errors(form.fechaf) }}
-                            </div>
-                        </div>
-                    </div>
-                    {% if form.estado is defined %}
-                        <div class="col-md-3">
-                            <div class="form-group m-form__group">
-                                <label>
-                                    {{ form_label(form.estado) }}
-                                </label>
-                                <div>
-                                    {{ form_widget(form.estado) }}
-                                    {{ form_errors(form.estado) }}
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.dirigen) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.dirigen) }}
-                                {{ form_errors(form.dirigen) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.participan) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.participan) }}
-                                {{ form_errors(form.participan) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {{ form_errors(form) }}
-            </div>
-            <div class="tab-pane" id="m_portlet_base_demo_1_2_tab_content" role="tabpanel">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.descripcion) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.descripcion) }}
-                                {{ form_errors(form.descripcion) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" id="m_portlet_base_demo_1_3_tab_content" role="tabpanel">
-                <a class="btn btn-sm" id="adicionar_archivo_actividad">Añadir archivo</a>
-                <div id="archivos">
-                    <table class="table" id="ficheros_table">
-                        <thead>
-                        <tr>
-                            <th>Archivo</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        {% for obj in actividad.ficheros %}
-                            <tr>
-                                <td>
-                                    {{ obj.nombre }}
-                                </td>
-                                <td>
-                                    {% if obj.id==null %}
-                                        <a class="btn btn-sm btn-danger eliminar_archivo"><i class="flaticon-delete-1"></i></a>
-                                    {% else %}
-                                        <a class="btn btn-sm btn-danger eliminar_fichero"
-                                           data-csrf="{{ csrf_token('delete' ~ obj.id) }}"
-                                           data-href="{{ path('fichero_delete',{'id':obj.id}) }}"><i
-                                                    class="flaticon-delete-1"></i></a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% set i=i+1 %}
-                        {% else %}
-                            {# form_widget(form.ficheros) #}
-                        {% endfor %}
+    <div class="tab-pane" id="m_portlet_base_demo_1_3_tab_content" role="tabpanel">
+        <a class="btn btn-sm" id="adicionar_archivo_actividad">Añadir archivo</a>
+        <div id="archivos">
+            <table class="table" id="ficheros_table">
+                <thead>
+                <tr>
+                    <th>Archivo</th>
+                    <th></th>
+                </tr>
+                </thead>
+                {% for obj in actividad.ficheros %}
+                    <tr>
+                        <td>
+                            {{ obj.nombre }}
+                        </td>
+                        <td>
+                            {% if obj.id==null %}
+                                <a class="btn btn-sm btn-danger eliminar_archivo"><i class="flaticon-delete-1"></i></a>
+                            {% else %}
+                                <a class="btn btn-sm btn-danger eliminar_fichero"
+                                   data-csrf="{{ csrf_token('delete' ~ obj.id) }}"
+                                   data-href="{{ path('fichero_delete',{'id':obj.id}) }}"><i
+                                            class="flaticon-delete-1"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% set i=i+1 %}
+                {% else %}
+                    {# form_widget(form.ficheros) #}
+                {% endfor %}
 
-                        {{ form_label(form.ficheros) }}
-                        {{ form_errors(form.ficheros) }}
+                {{ form_label(form.ficheros) }}
+                {{ form_errors(form.ficheros) }}
 
-                        {% for obj in form.ficheros %}
-                            {{ form_widget(obj) }}
-                            {{ form_errors(obj) }}
-                        {% else %}
-                            {{ form_widget(form.ficheros) }}
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-            <div class="tab-pane" id="m_portlet_base_demo_1_4_tab_content" role="tabpanel">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group m-form__group">
-                            <label>
-                                {{ form_label(form.aseguramiento) }}
-                            </label>
-                            <div>
-                                {{ form_widget(form.aseguramiento) }}
-                                {{ form_errors(form.aseguramiento) }}
-                            </div>
-                        </div>
+                {% for obj in form.ficheros %}
+                    {{ form_widget(obj) }}
+                    {{ form_errors(obj) }}
+                {% else %}
+                    {{ form_widget(form.ficheros) }}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="tab-pane" id="m_portlet_base_demo_1_4_tab_content" role="tabpanel">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group m-form__group">
+                    <label>
+                        {{ form_label(form.aseguramiento) }}
+                    </label>
+                    <div>
+                        {{ form_widget(form.aseguramiento) }}
+                        {{ form_errors(form.aseguramiento) }}
                     </div>
                 </div>
             </div>
@@ -211,8 +207,24 @@
     </div>
 </div>
 
-<a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
+<div class="clearfix m--margin-top-20"></div>
+<a class="btn btn-sm btn-metal" href="{{ path('plantrabajo_show',{'id':actividad.plantrabajo.id}) }}"><i
+            class="flaticon-cancel"></i>Cancelar</a>
+{% if existeRespuesta is defined and app.user.id==actividad.plantrabajo.usuario.id %}
+    {% if existeRespuesta== false %}
+        <a class="btn btn-info btn-sm edicion_respuesta" data-href="{{ path('respuesta_new',{'id':actividad.id}) }}">
+            <i class="flaticon-edit ladda-label"></i>
+            Responder
+        </a>
+    {% else %}
+        <a class="btn btn-info btn-sm edicion_respuesta" data-href="{{ path('respuesta_edit',{'id':actividad.id}) }}">
+            <i class="flaticon-edit ladda-label"></i>
+            Editar respuesta
+        </a>
+    {% endif %}
+{% endif %}
 <button class="btn  btn-sm btn-primary mt-ladda-btn ladda-button" data-style="expand-right" type="submit">
+    <i class="flaticon-edit-1 ladda-label"></i>
     <span class="ladda-label">{{ action |default('Guardar') }}</span>
     <span class="ladda-spinner"></span>
 </button>

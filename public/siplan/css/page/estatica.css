@@ -1,0 +1,12 @@
+div.m-subheader{
+    display: none;
+}
+div.m-content{
+    margin-top: 3%;
+    padding-left: 4% !important;
+    padding-right: 4% !important;
+}
+
+div.m-portlet p{
+    margin-bottom: 4% !important;
+}

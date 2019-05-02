@@ -1,0 +1,26 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/page/estatica.css','siplan') }}"/>
+{% endblock stylesheets %}
+{% block body %}
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-list-2"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Política de copyright
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <h4>Licencia</h4>
+            <p>
+                SIPLAN utiliza la licencia MIT por tal motivo el mismo puede ser utilizado por cualquier empresa o institución sin costo alguno
+                siempre y cuando se cumplan los términos y condiciones plasmados en los <a href="{{ path('estatica',{'page':'terminoservicio'}) }}">términos del servicio</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}

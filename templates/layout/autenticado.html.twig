@@ -10,7 +10,7 @@
         <div>
             {% block rightoptions_block %}
                 {% if is_granted('ROLE_DIRECTIVO')%}
-                    <a id="nueva_actividad" class="btn btn-lg m-btn--pill m-btn--outline-2x btn-outline-info btn-sm active m--margin-top-20 m--margin-left-60 text-uppercase" data-href="{{ path('actividad_nueva') }}"><i class="flaticon-calendar-1"></i> Crear</a>
+                    <a id="nueva_actividad" class="btn btn-lg m-btn--pill m-btn--outline-2x btn-outline-info btn-sm active m--margin-top-20 m--margin-left-60 text-uppercase" data-href="{{ path('actividad_new_grupo') }}"><i class="flaticon-calendar-1"></i> Crear</a>
                 {% endif %}
             {% endblock rightoptions_block %}
         </div>
@@ -31,18 +31,11 @@
     {% endif %}
 {% endblock top_menu %}
     {% block user_shortcut_menu %}
-
-    {% if is_granted('ROLE_JEFETRANSPORTE') or is_granted('ROLE_CAJERO') %}
-            {{ include('layout/recortes/topmenu/shortcuts.html.twig') }}
-    {% endif %}
-
+        {{ include('layout/recortes/topmenu/alert_topmenu.html.twig') }}
         {{ include('layout/recortes/topmenu/notification_topmenu.html.twig') }}
         {{ include('layout/recortes/topmenu/message_topmenu.html.twig') }}
         {{ include('layout/recortes/topmenu/user_topmenu.html.twig') }}
-
-
     {% endblock %}
-
 {% endembed %}
 {% endblock header %}
 

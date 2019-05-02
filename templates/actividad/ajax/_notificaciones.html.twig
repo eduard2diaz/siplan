@@ -1,40 +1,16 @@
-<li class="external">
-    <h3>
-        <span class="bold">Actividades pendientes</h3>
-</li>
-<li>
-    <div style="position: relative; overflow: hidden; width: auto;" class="slimScrollDiv">
-        <ul data-initialized="1" class="dropdown-menu-list scroller" style="overflow: hidden; width: auto;" data-handle-color="#637283">
-
-            {% for actividad in actividades %}
-
-                {% set icon='bullhorn' %}
-                {% set label='warning' %}
-                {% if actividad.fecha |date('Y-m-d') ==  "now"|date('Y-m-d') %}
-                    {% if actividad.esobjetivo %}
-                        {% set icon='bolt' %}
-                        {% set label='danger' %}
-                    {% endif %}
-                {% else %}
-                    {% set icon='plus' %}
-                    {% set label='success' %}
-                {% endif %}
-                <li>
-                    <a class="ajax_show" data-href="{{ path('actividad_show',{'id':actividad.id}) }}">
-                        <span class="details">
-                             <span class="label label-sm label-icon label-{{ label }}">
-                                  <i class="fa fa-{{ icon }}"></i>
-                             </span> {{ actividad.nombre }}
-                        </span>
-                    </a>
-                </li>
-                {% else %}
-                    <li><span class="details text-muted text-justify">Sin actividades pendientes por el momento.</span></li>
-            {% endfor %}
-        </ul>
-        <div style="background: rgb(99, 114, 131) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"
-             class="slimScrollBar"></div>
-        <div style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(234, 234, 234) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"
-             class="slimScrollRail"></div>
+<div class="m-list-timeline m-list-timeline--skin-light">
+    <div class="m-list-timeline__items">
+        {% for actividad in actividades %}
+            <div class="m-list-timeline__item">
+                <span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
+                <span class="m-list-timeline__text"><a data-href="{{ path('actividad_show', { 'id': actividad.id }) }}" class="actividad_show">{{ actividad.nombre  |truncate(70) }}</a></span>
+                <span class="m-list-timeline__time">{{ actividad.fecha | ago }}</span>
+            </div>
+        {% else %}
+            <div class="m-list-timeline__item">
+                <span class="m-list-timeline__badge -m-list-timeline__badge--state-danger"></span>
+                <span class="m-list-timeline__text">No hay nuevas actividades</span>
+            </div>
+        {% endfor %}
     </div>
-</li>
+</div>

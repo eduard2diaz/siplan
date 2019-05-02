@@ -18,16 +18,16 @@
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
                         <a class="btn btn-sm edicion" data-href="{{ path('grupo_show', { 'id': grupo.id }) }}">
-                            <i class="flaticon-eye"></i></a>
+                            <i class="flaticon-eye"></i>Visualizar</a>
                     </li>
                     {% if app.user.id==grupo.creador.id %}
                     <li class="m-nav__item">
                         <a class="btn btn-sm btn-info edicion" data-href="{{ path('grupo_edit', { 'id': grupo.id }) }}">
-                            <i class="flaticon-edit-1"></i></a>
+                            <i class="flaticon-edit-1"></i>Editar</a>
                     </li>
                     <li class="m-nav__item">
                         <a class="btn btn-danger btn-sm  eliminar_grupo" data-href="{{ path('grupo_delete', { 'id': grupo.id }) }}" data-csrf="{{ csrf_token('delete' ~ grupo.id) }}">
-                            <i class="flaticon-delete-1"></i></a>
+                            <i class="flaticon-delete-1"></i>Eliminar</a>
                     </li>
                     {% endif %}
                 </ul>

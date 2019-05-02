@@ -36,7 +36,7 @@ class UsuarioVoter extends Voter
         switch ($attribute) {
             case 'EDIT':
             case 'DELETE':
-                if($this->decisionManager->decide($token, array('ROLE_ADMIN')) || $subject->esJefe($token->getUser()) || $subject->getId()==$token->getUser()->getId())
+                if($this->decisionManager->decide($token, array('ROLE_ADMIN')) || $subject->esSubordinado($token->getUser()) || $subject->getId()==$token->getUser()->getId())
                     return true;
                 break;
         }

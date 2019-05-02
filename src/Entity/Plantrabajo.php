@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -54,6 +56,16 @@ class Plantrabajo
      * })
      */
     private $usuario;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PuntualizacionPlanTrabajo", mappedBy="plantrabajo")
+     */
+    private $puntualizacionPlanTrabajos;
+
+    public function __construct()
+    {
+        $this->puntualizacionPlanTrabajos = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -128,6 +140,37 @@ class Plantrabajo
     }
 
     /**
+     * @return Collection|PuntualizacionPlanTrabajo[]
+     */
+    public function getPuntualizacionPlanTrabajos(): Collection
+    {
+        return $this->puntualizacionPlanTrabajos;
+    }
+
+    public function addPuntualizacionPlanTrabajo(PuntualizacionPlanTrabajo $puntualizacionPlanTrabajo): self
+    {
+        if (!$this->puntualizacionPlanTrabajos->contains($puntualizacionPlanTrabajo)) {
+            $this->puntualizacionPlanTrabajos[] = $puntualizacionPlanTrabajo;
+            $puntualizacionPlanTrabajo->setPlantrabajo($this);
+        }
+
+        return $this;
+    }
+
+    public function removePuntualizacionPlanTrabajo(PuntualizacionPlanTrabajo $puntualizacionPlanTrabajo): self
+    {
+        if ($this->puntualizacionPlanTrabajos->contains($puntualizacionPlanTrabajo)) {
+            $this->puntualizacionPlanTrabajos->removeElement($puntualizacionPlanTrabajo);
+            // set the owning side to null (unless already changed)
+            if ($puntualizacionPlanTrabajo->getPlantrabajo() === $this) {
+                $puntualizacionPlanTrabajo->setPlantrabajo(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context, $payload)
@@ -137,5 +180,4 @@ class Plantrabajo
                 ->atPath('padre')
                 ->addViolation();
     }
-
 }

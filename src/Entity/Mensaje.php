@@ -48,7 +48,7 @@ class Mensaje
      *
      * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="remitente", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="remitente", referencedColumnName="id",onDelete="Cascade")
      * })
      */
     private $remitente;
@@ -58,7 +58,7 @@ class Mensaje
      *
      * @ORM\ManyToOne(targetEntity="Usuario")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="propietario", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="propietario", referencedColumnName="id",onDelete="Cascade")
      * })
      */
     private $propietario;
@@ -85,12 +85,18 @@ class Mensaje
      */
     private $bandeja;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $leida;
+
     public function __construct()
     {
         $this->fecha = new \DateTime();
         $this->asunto='';
         $this->iddestinatario = new \Doctrine\Common\Collections\ArrayCollection();
         $this->bandeja = 1;
+        $this->leida=false;
     }
 
 
@@ -264,5 +270,17 @@ class Mensaje
     public function setBandeja(int $bandeja): void
     {
         $this->bandeja = $bandeja;
+    }
+
+    public function getLeida(): ?bool
+    {
+        return $this->leida;
+    }
+
+    public function setLeida(bool $leida): self
+    {
+        $this->leida = $leida;
+
+        return $this;
     }
 }

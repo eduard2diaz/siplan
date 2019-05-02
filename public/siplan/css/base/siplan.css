@@ -1,3 +1,6 @@
+body {
+    padding-right: 0px !important;
+}
 a.btn {
     font-weight: bold !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18) !important; }
@@ -151,10 +154,10 @@ div.prefooter a:hover{
     color: #5867dd !important;
 }
 footer.m-footer{
-    background-color: #5867dd !important;
+    background-color: #343a40 !important;
 }
 span.m-footer__copyright, footer span.m-nav__link-text{
-    color: white !important;
+    color: #7c817d !important;
 }
 
 div.prefooter i[class^="socicon-"], [class*=" socicon-"] {

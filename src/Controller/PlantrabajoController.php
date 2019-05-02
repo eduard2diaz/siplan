@@ -3,28 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\ARC;
+use App\Entity\Capitulo;
 use App\Entity\MiembroConsejoDireccion;
 use App\Entity\Plantrabajo;
+use App\Entity\PuntualizacionPlanTrabajo;
+use App\Entity\Subcapitulo;
 use App\Form\PlantrabajoType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Knp\Snappy\Pdf;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Usuario;
 use App\Entity\Actividad;
-
-/*use Docxpresso\CreateDocument as Document;
-require_once '../../docxpresso/CreateDocument.inc';
-use Docxpresso\HTML2TEXT as Parser;*/
-
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 /**
  * @Route("/plantrabajo")
  */
-class PlantrabajoController extends Controller
+class PlantrabajoController extends AbstractController
 {
 
     /**
@@ -32,22 +29,27 @@ class PlantrabajoController extends Controller
      */
     public function index(Request $request, Usuario $usuario): Response
     {
+        $esSubordinado = $usuario->esSubordinado($this->getUser());
+        if ($usuario->getId() != $this->getUser()->getId() && ($esSubordinado == false))
+            throw $this->createAccessDeniedException();
+
         $plantrabajos = $this->getDoctrine()
             ->getRepository(Plantrabajo::class)
             ->findBy(array('usuario' => $usuario), array('anno' => 'DESC', 'mes' => 'DESC'));
 
-        if ($request->isXmlHttpRequest())
-            return $this->render('plantrabajo/_table.html.twig', [
-                'plantrabajos' => $plantrabajos,
-            ]);
-
         $parameters = [
             'user_id' => $usuario->getId(),
-            'user_foto'=>null!=$usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
-            'user_nombre'=>$usuario->getNombre(),
-            'user_correo'=>$usuario->getCorreo(),
-            'jefe' => $usuario->getJefe(),
-            'plantrabajos' => $plantrabajos];
+            'user_foto' => null != $usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
+            'user_nombre' => $usuario->getNombre(),
+            'user_correo' => $usuario->getCorreo(),
+            'esSubordinado' => $esSubordinado,
+            'plantrabajos' => $plantrabajos
+        ];
+
+        if ($request->isXmlHttpRequest())
+            return $this->render('plantrabajo/_table.html.twig',
+                $parameters
+            );
 
         return $this->render('plantrabajo/index.html.twig', $parameters);
     }
@@ -57,6 +59,9 @@ class PlantrabajoController extends Controller
      */
     public function new(Request $request, Usuario $usuario): Response
     {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $plantrabajo = new Plantrabajo();
         $plantrabajo->setUsuario($usuario);
         $em = $this->getDoctrine()->getManager();
@@ -69,9 +74,10 @@ class PlantrabajoController extends Controller
             if ($form->isValid()) {
                 $em->persist($plantrabajo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El plan de trabajo fue registrado satisfactoriamente',
+                return $this->json(array('mensaje' => 'El plan de trabajo fue registrado satisfactoriamente',
                     'mes' => $plantrabajo->getMestoString(),
                     'anno' => $plantrabajo->getAnno(),
+                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $plantrabajo->getId())->getValue(),
                     'id' => $plantrabajo->getId(),
                 ));
             } else {
@@ -79,9 +85,8 @@ class PlantrabajoController extends Controller
                     'id' => $usuario->getId(),
                     'form' => $form->createView(),
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true,));
+                return $this->json(array('form' => $page, 'error' => true,));
             }
-
 
         return $this->render('plantrabajo/_new.html.twig', [
             'plantrabajo' => $plantrabajo,
@@ -97,40 +102,56 @@ class PlantrabajoController extends Controller
     {
         $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
 
-        $esmiembroCD=false;
-        if($plantrabajo->getUsuario()->getId()==$this->getUser()->getId() && $this->getDoctrine()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser())!=null)
-            $esmiembroCD=true;
+        //La variable $esmiembroCD permite definir si un usuario puede o no clonar sus actividades del plan general
+        $esmiembroCD = false;
+        if ($plantrabajo->getUsuario()->getId() == $this->getUser()->getId())
+            $esmiembroCD = $this->getDoctrine()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser()) != null;
 
+        $em = $this->getDoctrine()->getManager();
+        $actividads = $em->getRepository(Actividad::class)->findBy(array('plantrabajo' => $plantrabajo));
+        $puntualizaciones = $em->getRepository(PuntualizacionPlanTrabajo::class)->findBy(array('plantrabajo' => $plantrabajo));
 
-        $actividads = $this->getDoctrine()
-            ->getRepository(Actividad::class)
-            ->findBy(array('plantrabajo' => $plantrabajo));
+        return $this->render('plantrabajo/show.html.twig', [
+            'plantrabajo' => $plantrabajo,
+            'actividads' => $actividads,
+            'puntualizaciones' => $puntualizaciones,
+            'user_id' => $plantrabajo->getUsuario()->getId(),
+            'user_foto' => null != $plantrabajo->getUsuario()->getRutaFoto() ? $plantrabajo->getUsuario()->getRutaFoto() : null,
+            'user_nombre' => $plantrabajo->getUsuario()->getNombre(),
+            'user_correo' => $plantrabajo->getUsuario()->getCorreo(),
+            'esmiembroCD' => $esmiembroCD
+        ]);
+    }
 
-        if ($request->isXmlHttpRequest()) {
-            $array = [];
-            if ($request->query->has('filtro')) {
-                $filtro = $request->get('filtro');
-                if ($filtro >= 1 && $filtro <= 5) {
-                    $result = array();
-                    $status = ['registradas', 'en proceso', 'culminadas', 'cumplidas', 'incumplidas'];
-                    $array['filtro'] = 'Actividades ' . $status[$filtro - 1];
-                    foreach ($actividads as $activity)
-                        if ($activity->getEstado() == $filtro)
-                            $result[] = $activity;
-                    $actividads = $result;
-                }
-            }
-            $array['table'] = $this->renderView('actividad/_table.html.twig', ['actividads' => $actividads, 'plantrabajo' => $plantrabajo]);
-            return new JsonResponse($array);
+    /**
+     * @Route("/{id}/filtraractividad", name="plantrabajo_filtraractividad", options={"expose"=true},methods="GET")
+     * Permite filtrar las actividades por su estado
+     */
+    public function filtrarActividad(Request $request, Plantrabajo $plantrabajo): Response
+    {
+        $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
+
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
+        $parameters = ['plantrabajo' => $plantrabajo];
+        $status = ['registradas', 'en proceso', 'culminadas', 'cumplidas', 'incumplidas'];
+        if ($request->query->has('filtro') && ($request->query->get('filtro') >= 1 && $request->query->get('filtro') <= 5)){
+            $filtro = $request->get('filtro');
+            $parameters['estado'] = $filtro;
+            $status=$status[$filtro - 1];
+        }else{
+            $status='todas';
         }
 
-        return $this->render('plantrabajo/show.html.twig', ['plantrabajo' => $plantrabajo,
-            'actividads' => $actividads,
-            'user_id' => $plantrabajo->getUsuario()->getId(),
-            'user_foto'=>null!=$plantrabajo->getUsuario()->getRutaFoto() ? $plantrabajo->getUsuario()->getRutaFoto() : null,
-            'user_nombre'=>$plantrabajo->getUsuario()->getNombre(),
-            'user_correo'=>$plantrabajo->getUsuario()->getCorreo(),
-            'esmiembroCD'=>$esmiembroCD
+        $em = $this->getDoctrine()->getManager();
+        $actividads = $em->getRepository(Actividad::class)->findBy($parameters);
+
+        return $this->json([
+            'filtro' => $status,
+            'table' => $this->renderView('actividad/_table.html.twig', [
+                'actividads' => $actividads,
+            ])
         ]);
     }
 
@@ -140,14 +161,15 @@ class PlantrabajoController extends Controller
      */
     public function delete(Request $request, Plantrabajo $plantrabajo): Response
     {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
+        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $plantrabajo->getId(), $request->query->get('_token'))) {
 
-        $this->denyAccessUnlessGranted('DELETE', $plantrabajo);
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($plantrabajo);
-        $em->flush();
-        return new JsonResponse(array('mensaje' => 'El plan de trabajo fue eliminado satisfactoriamente'));
+            $this->denyAccessUnlessGranted('DELETE', $plantrabajo);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($plantrabajo);
+            $em->flush();
+            return $this->json(array('mensaje' => 'El plan de trabajo fue eliminado satisfactoriamente'));
+        }
+        throw $this->createAccessDeniedException();
     }
 
     /**
@@ -155,43 +177,46 @@ class PlantrabajoController extends Controller
      */
     public function estadistica(Request $request, Plantrabajo $plantrabajo): Response
     {
-        $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
 
+        $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
         $actividads = $this->getDoctrine()
             ->getRepository(Actividad::class)
             ->findBy(array('plantrabajo' => $plantrabajo));
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $estados = ['Registrada'=>0, 'En proceso'=>0, 'Culminada'=>0,'Cumplida'=>0,'Incumplida'=>0];
+        $estados = ['Registrada' => 0, 'En proceso' => 0, 'Culminada' => 0, 'Cumplida' => 0, 'Incumplida' => 0];
         $total = 0;
         foreach ($actividads as $activity) {
             $estados[$activity->getEstadoString()]++;
             $total++;
         }
 
-        $result=[];
-        foreach ($estados as $key=>$value){
-            $result[]=[
+        $result = [];
+        foreach ($estados as $key => $value) {
+            $result[] = [
                 'estado' => $key,
                 'cantidad' => (Integer)$value,
             ];
         }
 
-        return new JsonResponse(
+        return $this->json(
             [
-                'view'=>$this->renderView('plantrabajo/ajax/_estadisticas.html.twig', ['plantrabajo' => $plantrabajo, 'estadisticas' => $estados, 'total' => $total]),
-                'data'=>json_encode($result)
+                'view' => $this->renderView('plantrabajo/ajax/_estadisticas.html.twig', ['plantrabajo' => $plantrabajo, 'estadisticas' => $estados, 'total' => $total]),
+                'data' => json_encode($result)
             ]);
     }
 
     /**
      * @Route("/{id}/antiguos", name="plantrabajo_antiguos", methods="GET")
-     * Funcionalidad que devuelve el listado de planes de trabajo anteriores
+     * Funcionalidad que devuelve el listado de planes de trabajo anteriores, solo puede usarlo el usaurio actual sobre su plan de trabajo o
+     * el de los subordinados
      */
     public function antiguos(Request $request, Plantrabajo $plantrabajo): Response
     {
-        if (!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest() || ($plantrabajo->getUsuario()->getJefe()!=null && !$plantrabajo->getUsuario()->esSubordinado($this->getUser()) && $plantrabajo->getUsuario()->getId()!=$this->getUser()->getId()))
             throw  $this->createAccessDeniedException();
 
         $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM App:PlanTrabajo p join p.usuario u WHERE p!= :id AND u.id=:usuario ORDER BY p.anno, p.mes DESC');
@@ -207,96 +232,41 @@ class PlantrabajoController extends Controller
     /**
      * @Route("/{id}/exportar", name="plantrabajo_exportar", options={"expose"=true},methods="GET")
      */
-    public function exportar(Request $request, Plantrabajo $plantrabajo): Response
+    public function exportar(Request $request, Plantrabajo $plantrabajo,Pdf $pdf): Response
     {
-        $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
+
         $em = $this->getDoctrine()->getManager();
-
-        $parameters = ['plantrabajo' => $plantrabajo];
-        //Listado de actividades objetivos del jefe en el mes Actual
-        if ($plantrabajo->getUsuario()->getJefe() != null){
-            $consulta = $em->createQuery('SELECT a.nombre FROM App:Actividad a join a.plantrabajo p JOIN p.usuario u WHERE u.id=:usuario AND p.mes=:mes AND p.anno=:anno AND a.esobjetivo=true ORDER BY a.fecha');
-            $consulta->setParameters(array('usuario' => $plantrabajo->getUsuario()->getJefe()->getId(), 'mes' => $plantrabajo->getMes(), 'anno' => $plantrabajo->getAnno()));
-            $actividadesObjetivoJefe = $consulta->getResult();
-            $parameters['actividadesObjetivo']=$actividadesObjetivoJefe;
-        }
-
-        $em=$this->getDoctrine()->getManager();
-        $arcs=$em->getRepository(ARC::class)->findAll();
-        $result=[];
-        foreach ($arcs as $arc){
-            //Listado de actividades del usuario en el mes actual
-            $consulta = $em->createQuery('SELECT a.fecha,a.fechaF, a.nombre, a.esobjetivo, a.lugar, a.dirigen, a.participan  FROM App:Actividad a join a.plantrabajo p JOIN p.usuario u JOIN a.areaconocimiento arc WHERE u.id=:usuario AND p.mes=:mes AND p.anno=:anno AND arc.id= :arc GROUP BY a.fecha, a.id ORDER BY a.fecha ');
-            $consulta->setParameters(array('usuario' => $plantrabajo->getUsuario()->getId(), 'mes' => $plantrabajo->getMes(), 'anno' => $plantrabajo->getAnno(),'arc'=>$arc->getId()));
-            $actividades = $consulta->getResult();
-            $result[]=[
-                'arc'=>$arc->getNombre(),
-                'actividades'=>$actividades,
-            ];
-        }
-
-        $parameters['actividades']=$result;
-
-        //Gestion de meses anteriores
-        $mesAnterior = $plantrabajo->getMes() - 1;
-        $annoAnterior = $plantrabajo->getAnno();
-        if ($mesAnterior == 0) {
-            $mesAnterior = 12;
-            $annoAnterior--;
-        }
-
-        $planAnterior = $em->getRepository('App:PlanTrabajo')->findOneBy(array('mes' => $mesAnterior, 'anno' => $annoAnterior, 'usuario' => $plantrabajo->getUsuario()));
-
-        if ($planAnterior != null) {
-            $actividadesAnterior = $em->getRepository('App:Actividad')->findBy(array('plantrabajo' => $planAnterior));
-            $contadorCumplidas = 0;
-            $contadorExternas = 0;
-            $contadorTotal = 0;
-            $actividadesanterioresObjetivo = array();
-            foreach ($actividadesAnterior as $actividad) {
-                if ($actividad->getEstado() == 4) {
-                    if ($actividad->getEsexterna())
-                        $contadorExternas++;
-                    $contadorCumplidas++;
+        $capitulos_array=[];
+        $capitulos=$em->getRepository(Capitulo::class)->findBy([],['numero'=>'ASC']);
+        foreach ($capitulos as $capitulo){
+            $subcapitulos_array=[];
+            $subcapitulos=$em->getRepository(Subcapitulo::class)->findBy(['capitulo'=>$capitulo],['numero'=>'ASC']);
+            foreach ($subcapitulos as $subcapitulo){
+                $arcs=$em->getRepository(ARC::class)->findBy(['subcapitulo'=>$subcapitulo]);
+                $arcs_array=[];
+                foreach ($arcs as $arc){
+                    $actividades_array=[];
+                    $actividades=$em->getRepository(Actividad::class)->findBy(['areaconocimiento'=>$arc,'plantrabajo'=>$plantrabajo]);
+                    foreach ($actividades as $value)
+                        $actividades_array[]=['nombre'=>$value->getNombre(), 'fecha'=>$value->getFecha(),'fechaF'=>$value->getFechaF()];
+                    $arcs_array[]=['nombre'=>$arc->getNombre(),'actividades'=>$actividades_array];
                 }
-                if ($actividad->getEsobjetivo())
-                    $actividadesanterioresObjetivo[] = $actividad->getNombre();
-                $contadorTotal++;
+                $subcapitulos_array[]=['nombre'=>$subcapitulo->getNombre(),'arcs'=>$arcs_array];
             }
-            $parameters['mesAnterior'] = $planAnterior->getMesToString();
-            $parameters['annoAnterior'] = $annoAnterior;
-            $parameters['contadorCumplidas'] = $contadorCumplidas;
-            $parameters['contadorExternas'] = $contadorExternas;
-            $parameters['contadorTotal'] = $contadorTotal;
-            $parameters['actividadesanterioresObjetivo'] = $actividadesanterioresObjetivo;
-
+            $capitulos_array[]=['nombre'=>$capitulo->getNombre(),'subcapitulos'=>$subcapitulos_array];
         }
 
+        $actividades_array=[];
+        $actividades=$em->getRepository(Actividad::class)->findBy(['areaconocimiento'=>null,'plantrabajo'=>$plantrabajo]);
+        foreach ($actividades as $value)
+            $actividades_array[]=['nombre'=>$value->getNombre(), 'fecha'=>$value->getFecha(),'fechaF'=>$value->getFechaF()];
+        $capitulos_array[]=['actividades'=>$actividades_array];
 
+        $html=$this->renderView('plantrabajo/_pdf.html.twig',['plan'=>$plantrabajo,'capitulos'=>$capitulos_array]);
 
-        $html=$this->renderView('plantrabajo/exportar.html.twig',$parameters);
-        return new Response($html);
         return new PdfResponse(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            $pdf->getOutputFromHtml($html),
             'file.pdf'
         );
     }
-
-    private function lastDay($year,$month){
-        $day=31;
-        switch ($month){
-            case 2:
-              $day=($year%4==0) ? 29 : 28;
-            break;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                $day=30;
-            break;
-        }
-        return $day;
-    }
-
-
 }

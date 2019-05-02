@@ -75,12 +75,14 @@ var actividadgeneral = function () {
                 'actividad_general[fechaf]': {required:true, greaterThan: "#actividad_general_fecha"},
                 'actividad_general[dirigen]': {required:true},
                 'actividad_general[participan]': {required:true},
+                'actividad_general[capitulo]': {required:true},
+                'actividad_general[subcapitulo]': {required:true},
             }
         })
     }
 
-    var showActividad = function () {
-        $('table#actividad_table').on('click', 'a.actividad_show', function (evento) {
+    var showActividadGeneral = function () {
+        $('table#actividad_table').on('click', 'a.actividadgeneral_show', function (evento) {
             evento.preventDefault();
             var link = $(this).attr('data-href');
             obj = $(this);
@@ -112,17 +114,17 @@ var actividadgeneral = function () {
         $('body').on('submit', 'form[name=actividad_general]', function (evento) {
             evento.preventDefault();
             var padre = $(this).parent();
+            var l = Ladda.create(document.querySelector( '.ladda-button' ) );
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
                 data: $(this).serialize(), //para enviar el formulario hay que serializarlo
                 //FIN de configuracion obigatoria para el envioa de archivos por form data
                 beforeSend: function () {
-                    mApp.block("body",
-                        {overlayColor: "#000000", type: "loader", state: "success", message: "Guardando..."});
+                  l.start();
                 },
                 complete: function () {
-                    mApp.unblock("body");
+                    l.stop();
                 },
                 success: function (data) {
                     if (data['error']) {
@@ -152,7 +154,7 @@ var actividadgeneral = function () {
             var token = $(this).attr('data-csrf');
             bootbox.confirm({
                 title: "Eliminar actividad",
-                message: "<p>¿Está seguro que desea eliminar esta actividad.</p>",
+                message: "<p>¿Está seguro que desea eliminar esta actividad?</p>",
                 buttons: {
                     confirm: {
                         label: 'Sí, estoy seguro',
@@ -206,23 +208,26 @@ var actividadgeneral = function () {
                     dataType: 'html',
                     url: Routing.generate('subcapitulo_findbycapitulo', {'capitulo': $(this).val()}),
                     beforeSend: function (data) {
-                        mApp.block("div#basicmodal div#modal-body",
+                        mApp.block("body",
                             {
                                 overlayColor: "#000000",
                                 type: "loader",
                                 state: "success",
-                                message: "Actualizando datos..."
+                                message: "Cargando subcapítulos..."
                             });
                     },
                     success: function (data) {
-                        data = "<option><option>" + data;
-                        $('select#actividad_general_subcapitulo').html(data);
+                        var cadenasubcapitulo = "<option></option>";
+                        var array = JSON.parse(data);
+                        for (var i = 0; i < array.length; i++)
+                            cadenasubcapitulo += "<option value=" + array[i]['id'] + ">" + array[i]['nombre'] + "</option>";
+                        $('select#actividad_general_subcapitulo').html(cadenasubcapitulo);
                     },
                     error: function () {
                         base.Error();
                     },
                     complete: function () {
-                        mApp.unblock("div#basicmodal div#modal-body");
+                        mApp.unblock("body");
                     }
                 });
         });
@@ -233,22 +238,26 @@ var actividadgeneral = function () {
                     dataType: 'html',
                     url: Routing.generate('arc_findbysubcapitulo', {'subcapitulo': $(this).val()}),
                     beforeSend: function (data) {
-                        mApp.block("div#basicmodal div#modal-body",
+                        mApp.block("body",
                             {
                                 overlayColor: "#000000",
                                 type: "loader",
                                 state: "success",
-                                message: "Actualizando datos..."
+                                message: "Cargando Área de resultados claves..."
                             });
                     },
                     success: function (data) {
-                        $('select#actividad_general_areaconocimiento').html(data);
+                        var cadenasubcapitulo = "<option></option>";
+                        var array = JSON.parse(data);
+                        for (var i = 0; i < array.length; i++)
+                            cadenasubcapitulo += "<option value=" + array[i]['id'] + ">" + array[i]['nombre'] + "</option>";
+                        $('select#actividad_general_areaconocimiento').html(cadenasubcapitulo);
                     },
                     error: function () {
                         base.Error();
                     },
                     complete: function () {
-                        mApp.unblock("div#basicmodal div#modal-body");
+                        mApp.unblock("body");
                     }
                 });
         });
@@ -259,7 +268,7 @@ var actividadgeneral = function () {
             $().ready(function () {
                     configurarDataTable();
                     refrescar();
-                    showActividad();
+                    showActividadGeneral();
                     eliminarActividad();
                 }
             );

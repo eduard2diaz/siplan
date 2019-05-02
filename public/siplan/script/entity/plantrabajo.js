@@ -127,10 +127,10 @@ var plantrabajo = function () {
                             "anno": data['anno'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                                 "<li class='m-nav__item'>" +
-                                "<a class='btn  btn-sm' href=" + Routing.generate('plantrabajo_show',{id:data['id']}) + "><i class='flaticon-eye'></i></a></li>" +
+                                "<a class='btn btn-default  btn-sm' href=" + Routing.generate('plantrabajo_show',{id:data['id']}) + "><i class='flaticon-eye'></i>Visualizar</a></li>" +
                                 "<li class='m-nav__item'>" +
-                                "<a class='btn btn-danger btn-sm  eliminar_plantrabajo' data-href=" + Routing.generate('plantrabajo_delete',{id:data['id']}) + ">" +
-                                "<i class='flaticon-delete-1'></i></a></li></ul>",
+                                "<a class='btn btn-danger btn-sm  eliminar_plantrabajo' data-csrf=" + data['csrf'] +" data-href=" + Routing.generate('plantrabajo_delete',{id:data['id']}) + ">" +
+                                "<i class='flaticon-delete-1'></i>Eliminar</a></li></ul>",
                         });
                         objeto.draw();
                         table.page(pagina).draw('page');
@@ -150,6 +150,7 @@ var plantrabajo = function () {
             evento.preventDefault();
             var obj = $(this);
             var link = $(this).attr('data-href');
+            var token = $(this).attr('data-csrf');
             bootbox.confirm({
                 title: "Eliminar plan de trabajo",
                 message: "<p>¿Está seguro que desea eliminar este plan de trabajo?</p>",
@@ -166,6 +167,9 @@ var plantrabajo = function () {
                         $.ajax({
                             type: 'get',
                             url: link,
+                            data: {
+                                _token: token
+                            },
                             beforeSend: function () {
                                 mApp.block("body",
                                     {overlayColor:"#000000",type:"loader",state:"success",message:"Eliminando..."});

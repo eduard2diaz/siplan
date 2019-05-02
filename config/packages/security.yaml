@@ -3,6 +3,7 @@ security:
         App\Entity\Usuario: { algorithm: bcrypt , cost: 13 }
 
     role_hierarchy:
+        ROLE_ADMIN:  ROLE_USER
         ROLE_DIRECTIVO:  ROLE_USER
         ROLE_COORDINADOR:  ROLE_USER
 
@@ -11,6 +12,13 @@ security:
             entity: { class: App:Usuario}
 
     firewalls:
+        api_area:
+            pattern:    ^/api/*
+            anonymous: ~
+            provider: usuarios
+            guard:
+                authenticators:
+                    - App\Security\ApiTokenAuthenticator
         secured_area:
             pattern:    ^/*
             user_checker: App\Security\UserChecker
@@ -28,9 +36,13 @@ security:
                 secret:  '%env(APP_SECRET)%'
                 lifetime: 604800 # 1 week in seconds
                 path: index
+            guard:
+                authenticators:
+                    - App\Security\LdapAuthenticator
 
     access_control:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/estatica, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
         - { path: ^/area, roles: ROLE_ADMIN }
         - { path: ^/arc/\d+/findbysubcapitulo, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/arc, roles: ROLE_ADMIN }
@@ -42,15 +54,22 @@ security:
         - { path: ^/grupo, roles: ROLE_USER }
         - { path: ^/notificacion, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/mensaje, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/usuario/grupomiembro, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/usuario/mensajedestinatario, roles: ROLE_USER }
         - { path: ^/usuario/\d+/edit, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/usuario/\d+/show, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/usuario, roles: [ROLE_ADMIN, ROLE_DIRECTIVO] }
-        - { path: ^/plantrabajo, roles: ROLE_USER }
+        - { path: ^/plantrabajo, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/puntualizacionplantrabajo, roles: ROLE_USER }
         - { path: ^/actividad, roles: ROLE_USER }
+        - { path: ^/planmensualgeneral/new, roles: ROLE_COORDINADOR }
         - { path: ^/planmensualgeneral/\d+/edit, roles: ROLE_COORDINADOR }
         - { path: ^/planmensualgeneral/\d+/delete, roles: ROLE_COORDINADOR }
         - { path: ^/planmensualgeneral, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/actividadgeneral, roles: ROLE_COORDINADOR }
+        - { path: ^/puntualizacionplantrabajogeneral/\d+/new, roles: ROLE_COORDINADOR }
+        - { path: ^/puntualizacionplantrabajogeneral/\d+/delete, roles: ROLE_COORDINADOR }
+        - { path: ^/actividadgeneral, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/miembroconsejodireccion, roles: ROLE_COORDINADOR }
-        - { path: ^/prueba, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/respuesta, roles: ROLE_USER}
+        - { path: ^/api/requesttoken, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/*, roles: IS_AUTHENTICATED_FULLY }

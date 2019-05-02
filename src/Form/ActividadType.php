@@ -46,7 +46,7 @@ class ActividadType extends AbstractType
             ->add('dirigen', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'attr' => array('class' => 'form-control')))
             ->add('participan', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'attr' => array('class' => 'form-control')))
             ->add('aseguramiento', TextareaType::class, array('disabled' => $disabled, 'required' => false, 'attr' => array('class' => 'form-control')))
-            ->add('areaconocimiento', null, array('disabled' => $disabled, 'label' => 'Área del conocimiento', 'required' => true,
+            ->add('areaconocimiento', null, array('disabled' => $disabled, 'label' => 'Área de resultados claves', 'required' => false,
                 'attr' => array('class' => 'form-control input-large')
             ))
             ->add('ficheros', CollectionType::class, array(

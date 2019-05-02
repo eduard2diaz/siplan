@@ -29,15 +29,8 @@ class PlanTrabajoVoter extends Voter
             //Solo pueden modificar o agregar plan de trabajo,el usuario o su jefe
             case 'NEW':
             case 'DELETE':
-                {
-                    if (($subject->getUsuario()->getJefe() != null && $subject->getUsuario()->getJefe()->getId() == $token->getUser()->getId()) || ($subject->getUsuario()->getId() == $token->getUser()->getId()))
-                        return true;
-
-                    return false;
-                    break;
-                }
             case 'VIEW':
-                return ($subject->getUsuario()->esSubordinado($token->getUser())) || ($subject->getUsuario()->getId() == $token->getUser()->getId());
+                return $subject->getUsuario()->esSubordinado($token->getUser()) || $subject->getUsuario()->getId() == $token->getUser()->getId();
             break;
         }
 

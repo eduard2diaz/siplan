@@ -141,12 +141,12 @@ var planmensualgeneral = function () {
                             "fechafin": data['fechafin'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                                 "<li class='m-nav__item'>" +
-                                "<a class='btn  btn-sm' href=" + Routing.generate('planmensualgeneral_show',{id:data['id']}) + "><i class='flaticon-eye'></i></a></li>"
+                                "<a class='btn btn-default btn-sm' href=" + Routing.generate('planmensualgeneral_show',{id:data['id']}) + "><i class='flaticon-eye'></i>Visualizar</a></li>"
                                 +"<li class='m-nav__item'>" +
-                                "<a class='btn btn-info edicion btn-sm' data-href=" + Routing.generate('planmensualgeneral_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i></a></li>" +
+                                "<a class='btn btn-info edicion btn-sm' data-href=" + Routing.generate('planmensualgeneral_edit',{id:data['id']}) + "><i class='flaticon-edit-1'></i>Editar</a></li>" +
                                 "<li class='m-nav__item'>" +
-                                "<a class='btn btn-danger btn-sm  eliminar_planmensualgeneral' data-href=" + Routing.generate('planmensualgeneral_delete',{id:data['id']}) + ">" +
-                                "<i class='flaticon-delete-1'></i></a></li></ul>",
+                                "<a class='btn btn-danger btn-sm  eliminar_planmensualgeneral' data-csrf=" + data['csrf'] + " data-href=" + Routing.generate('planmensualgeneral_delete',{id:data['id']}) + ">" +
+                                "<i class='flaticon-delete-1'></i>Eliminar</a></li></ul>",
                         });
                         objeto.draw();
                         table.page(pagina).draw('page');
@@ -188,8 +188,8 @@ var planmensualgeneral = function () {
                         var pagina = table.page();
                         obj.parents('tr').children('td:nth-child(2)').html(data['mes']);
                         obj.parents('tr').children('td:nth-child(3)').html(data['anno']);
-                        obj.parents('tr').children('td:nth-child(3)').html(data['fechainicio']);
-                        obj.parents('tr').children('td:nth-child(3)').html(data['fechafin']);
+                        obj.parents('tr').children('td:nth-child(4)').html(data['fechainicio']);
+                        obj.parents('tr').children('td:nth-child(5)').html(data['fechafin']);
                     }
                 },
                 error: function () {
@@ -205,6 +205,7 @@ var planmensualgeneral = function () {
             evento.preventDefault();
             var obj = $(this);
             var link = $(this).attr('data-href');
+            var token = $(this).attr('data-csrf');
             bootbox.confirm({
                 title: "Eliminar plan mensual",
                 message: "<p>¿Está seguro que desea eliminar este plan mensual?</p>",
@@ -221,6 +222,9 @@ var planmensualgeneral = function () {
                         $.ajax({
                             type: 'get',
                             url: link,
+                            data: {
+                                _token: token
+                            },
                             beforeSend: function () {
                                 mApp.block("body",
                                     {overlayColor:"#000000",type:"loader",state:"success",message:"Eliminando..."});

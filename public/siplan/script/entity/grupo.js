@@ -164,14 +164,14 @@ var grupo = function () {
                             "creador": data['creador'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                             "<li class='m-nav__item'>" +
-                            "<a class='btn btn-sm grupo_show' data-href=" + Routing.generate('grupo_show', {id: data['id']}) + "><i class='flaticon-eye'></i></a>" +
+                            "<a class='btn btn-sm grupo_show' data-href=" + Routing.generate('grupo_show', {id: data['id']}) + "><i class='flaticon-eye'></i>Visualizar</a>" +
                             "</li>" +
                             "<li class='m-nav__item'>" +
-                            "<a class='btn btn-info btn-sm edicion' data-href=" + Routing.generate('grupo_edit', {id: data['id']}) + "><i class='flaticon-edit-1'></i></a>" +
+                            "<a class='btn btn-info btn-sm edicion' data-href=" + Routing.generate('grupo_edit', {id: data['id']}) + "><i class='flaticon-edit-1'></i>Editar</a>" +
                             "</li>" +
                             "<li class='m-nav__item'>" +
                             "<a class='btn btn-danger btn-sm  eliminar_grupo'  data-csrf=" + data['csrf'] + " data-href=" + Routing.generate('grupo_delete', {id: data['id']}) + ">" +
-                            "<i class='flaticon-delete-1'></i></a></li></ul>",
+                            "<i class='flaticon-delete-1'></i>Eliminar</a></li></ul>",
                         });
                         objeto.draw();
                         table.page(pagina).draw('page');

@@ -151,14 +151,14 @@ var usuario = function () {
                             "cargo": data['cargo'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                             "<li class='m-nav__item'>" +
-                            "<a class='btn btn-sm' href=" + Routing.generate('usuario_show', {id: data['id']}) + "><i class='flaticon-eye'></i></a>" +
+                            "<a class='btn btn-sm' href=" + Routing.generate('usuario_show', {id: data['id']}) + "><i class='flaticon-eye'></i>Visualizar</a>" +
                             "</li>" +
                             "<li class='m-nav__item'>" +
-                            "<a class='btn btn-info btn-sm editar_usuario' data-href=" + Routing.generate('usuario_edit', {id: data['id']}) + "><i class='flaticon-edit-1'></i></a>" +
+                            "<a class='btn btn-info btn-sm editar_usuario' data-href=" + Routing.generate('usuario_edit', {id: data['id']}) + "><i class='flaticon-edit-1'></i>Editar</a>" +
                             "</li>" +
                             "<li class='m-nav__item'>" +
                             "<a class='btn btn-danger btn-sm  eliminar_usuario'  data-csrf=" + data['csrf'] + " data-href=" + Routing.generate('usuario_delete', {id: data['id']}) + ">" +
-                            "<i class='flaticon-delete-1'></i></a></li></ul>",
+                            "<i class='flaticon-delete-1'></i>Eliminar</a></li></ul>",
                         });
                         objeto.draw();
                         table.page(pagina).draw('page');
@@ -169,6 +169,49 @@ var usuario = function () {
                 }
             });
         });
+    }
+
+    var escucharUsername = function () {
+        $('div#basicmodal').on('keyup', 'input#usuario_usuario', function (evento) {
+            evento.preventDefault();
+            var val=$(this).val();
+            if(val!="" && val.length>3){
+                $('a#cargar_ldap_link').removeClass('m--hide');
+            }else
+                $('a#cargar_ldap_link').addClass('m--hide');
+        });
+
+        $('div#basicmodal').on('click', 'a#cargar_ldap_link', function (evento) {
+            evento.preventDefault();
+            var val=$('div#basicmodal input#usuario_usuario').val();
+            if(val!="" && val.length>3){
+                $.ajax({
+                    url: Routing.generate('usuario_buscar_ldap',{'users': val}),
+                    type: 'get',
+                    beforeSend: function () {
+                        mApp.block("div#basicmodal div.modal-body",
+                            {overlayColor: "#000000", type: "loader", state: "success", message: "Cargando..."});
+                    },
+                    complete: function () {
+                        mApp.unblock("div#basicmodal div.modal-body");
+                    },
+                    success: function (data) {
+                        if (data['error']) {
+                            if (data['error']==0)
+                                toastr.danger('No existen usuarios con ese nombre de usuario');
+                            else
+                                toastr.warning('Hay varios usarios con este nombre de usuario');
+                        }else{
+                            $('input#usuario_nombre').val(data['nombre']);
+                            $('input#usuario_correo').val(data['correo']);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        });
+
     }
 
     var eliminar = function () {
@@ -234,6 +277,7 @@ var usuario = function () {
                     nuevo();
                     eliminar();
                     organigrama();
+                    escucharUsername();
                 }
             );
         }

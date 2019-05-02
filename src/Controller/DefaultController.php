@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,6 +10,18 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 class DefaultController extends Controller
 {
+    public function autenticarUsuario( $domain,$user,$password )
+    {
+        $dn = "ou=ICA,dc=ica,dc=int,dc=cu";
+
+        $ds = ldap_connect( $domain , 389 ) or die( "No se pudo conectar...." );
+        $r = @ldap_bind( $ds,$user."@$domain",$password );
+
+        return $r==1;
+
+
+    }
+
     /**
      * @Route("/", name="index")
      */

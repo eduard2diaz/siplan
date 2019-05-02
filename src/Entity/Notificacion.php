@@ -42,6 +42,20 @@ class Notificacion
      */
     private $descripcion;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $leida;
+
+    /**
+     * Notificacion constructor.
+     */
+    public function __construct()
+    {
+        $this->leida=false;
+    }
+
+
     public function getId()
     {
         return $this->id;
@@ -93,5 +107,17 @@ class Notificacion
     public function setDescripcion(?string $descripcion): void
     {
         $this->descripcion = $descripcion;
+    }
+
+    public function getLeida(): ?bool
+    {
+        return $this->leida;
+    }
+
+    public function setLeida(bool $leida): self
+    {
+        $this->leida = $leida;
+
+        return $this;
     }
 }

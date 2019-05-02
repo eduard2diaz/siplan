@@ -23,7 +23,7 @@ class PlanMensualGeneralVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['EDIT', 'VIEW', 'DELETE', 'NEW','INDEX']) && $subject instanceof PlanMensualGeneral;
+        return in_array($attribute, ['VIEW']) && $subject instanceof PlanMensualGeneral;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -36,15 +36,9 @@ class PlanMensualGeneralVoter extends Voter
 
         $esmiembro = null!=$this->em->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($token->getUser());
         switch ($attribute) {
-            case 'NEW':
-            case 'EDIT':
-            case 'DELETE':
-                return $this->decisionManager->decide($token, array('ROLE_COORDINADOR'));
-                break;
-            case 'INDEX':
             case 'VIEW':
                 return $this->decisionManager->decide($token, array('ROLE_COORDINADOR')) || $esmiembro == true;
-                break;
+            break;
         }
 
         return false;

@@ -124,19 +124,14 @@ class Actividad
     private $plantrabajo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ARC")
+     * @var \ARC
+     *
+     * @ORM\ManyToOne(targetEntity="ARC")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="areaconocimiento", referencedColumnName="id",onDelete="Cascade")
+     * })
      */
     private $areaconocimiento;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Capitulo")
-     */
-    private $capitulo;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Subcapitulo")
-     */
-    private $subcapitulo;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Fichero", mappedBy="actividad", cascade={"persist", "remove"})
@@ -145,7 +140,12 @@ class Actividad
     private $ficheros;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ActividadGeneral")
+     * @var \ActividadGeneral
+     *
+     * @ORM\ManyToOne(targetEntity="ActividadGeneral")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actividadGeneral", referencedColumnName="id",onDelete="Cascade")
+     * })
      */
     private $actividadGeneral;
 
@@ -446,42 +446,11 @@ class Actividad
     }
 
     /**
-     * @return mixed
-     */
-    public function getCapitulo()
-    {
-        return $this->capitulo;
-    }
-
-    /**
-     * @param mixed $capitulo
-     */
-    public function setCapitulo($capitulo): void
-    {
-        $this->capitulo = $capitulo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubcapitulo()
-    {
-        return $this->subcapitulo;
-    }
-
-    /**
-     * @param mixed $subcapitulo
-     */
-    public function setSubcapitulo($subcapitulo): void
-    {
-        $this->subcapitulo = $subcapitulo;
-    }
-
-    /**
      * @Assert\Callback
      */
-    public function comprobarFechas(ExecutionContextInterface $context)
+    public function validar(ExecutionContextInterface $context)
     {
+
         if ($this->getFechaF() < $this->getFecha()) {
             $context->setNode($context, 'fechaf', null, 'data.fechaf');
             $context->addViolation('La fecha de fin debe ser mayor o igual que la fecha de inicio.');
@@ -491,13 +460,12 @@ class Actividad
             if ($this->getFecha()->format('Y') != $this->getPlantrabajo()->getAnno() || $this->getFecha()->format('m') != $this->getPlantrabajo()->getMes()) {
                 $context->setNode($context, 'fecha', null, 'data.fecha');
                 $context->addViolation('La fecha debe pertenecer al mes del plan.');
-            }
-
-            if ($this->getFechaF()->format('Y') != $this->getPlantrabajo()->getAnno() || $this->getFechaF()->format('m') != $this->getPlantrabajo()->getMes()) {
+            } elseif ($this->getFechaF()->format('Y') != $this->getPlantrabajo()->getAnno() || $this->getFechaF()->format('m') != $this->getPlantrabajo()->getMes()) {
                 $context->setNode($context, 'fechaf', null, 'data.fechaf');
                 $context->addViolation('La fecha debe pertenecer al mes del plan.');
             }
         }
+
 
     }
 

@@ -1,0 +1,28 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/page/estatica.css','siplan') }}"/>
+{% endblock stylesheets %}
+{% block body %}
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-users"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Accesibilidad
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <h4>Condiciones de uso</h4>
+            <p>SIPLAN es una aplicación libre, gratuita y al alcance de todos; cuyo único objetivo es servir como herramienta
+                para la optimización de la jrnada laboral. SIPLAN fue desarrollada sobre la licencia MIT, por lo que puede y debe de ser posible compartida con otras empresas e instituciones
+                sin ánimos de lucro siempre y cuando se destaque quienes son los principales desarrolladores.
+            </p>
+        </div>
+    </div>
+
+
+{% endblock %}

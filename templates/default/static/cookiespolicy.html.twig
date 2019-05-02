@@ -1,0 +1,57 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/page/estatica.css','siplan') }}"/>
+{% endblock stylesheets %}
+{% block body %}
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-list-1"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Políticas de cookies
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <p>En SIPLAN, creemos que hay que ser claros y abiertos sobre el modo en que recabamos y utilizamos tus datos. Para ofrecer un mayor
+                nivel de transparencia, esta política proporciona información detallada sobre cómo y cuándo utilizamos cookies. Esta Política
+                de cookies se aplica a cualquier producto o servicio de SIPLAN asociado a esta política o que la incorpore por referencia.
+            </p>
+            <h4>
+                ¿Utiliza SIPLAN cookies?
+            </h4>
+            <p>
+                Sí. Como se describe en nuestra Política de privacidad, utilizamos cookies y otras tecnologías para garantizar que todos los usuarios que
+                usan SIPLAN tengan la mejor experiencia posible. Las cookies también nos ayudan a mantener la seguridad de las cuentas. Cuando continúas
+                visitando o utilizando nuestros servicios, estás aceptando el uso de cookies y de tecnologías similares para los fines descritos en esta
+                política.
+            </p>
+            <h4>¿Qué es una cookie?</h4>
+            <p>
+                Una cookie es un pequeño archivo colocado en tu dispositivo electrónico que habilita las funcionalidades de SIPLAN. Por ejemplo, las cookies
+                nos permiten identificar tu dispositivo, asegurar tu acceso a SIPLAN y a nuestros sitios en general.
+            </p>
+            <h4>
+                ¿Qué tipo de cookies utiliza SIPLAN?
+            </h4>
+            <p>
+                Utilizamos dos tipos: las cookies permanentes y las cookies de sesión. Una cookie permanente nos ayuda a reconocerte como
+                usuario, de modo que te resultará más sencillo regresar o interactuar con nuestros servicios sin necesidad de volver a iniciar
+                sesión. Una vez que hayas iniciado sesión, una cookie permanente permanecerá en tu navegador y SIPLAN la leerá cuando regreses
+                a alguno de nuestros sitios web. Las cookies de sesión solo duran una sesión (normalmente la visita a un sitio web o una
+                sesión del navegador).
+            </p>
+            <h4>¿Para qué se utilizan las cookies?</h4>
+            <p>
+                Las cookies pueden utilizarse para reconocerte cuando visitas SIPLAN, recordar tus preferencias y ofrecerte una experiencia
+                personalizada basada en tu configuración. Las cookies también permiten que tus interacciones en SIPLAN sean más rápidas
+                y seguras.
+            </p>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -110,26 +110,83 @@ function colorear(enfuncionamiento) {
 var authenticated = function () {
     var obj = null;
 
+    var notificacionShow = function () {
+        $('body').on('click', 'a.notificacion_show', function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get',
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data)) {
+                        $('div#basicmodal').modal('show');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body")
+                }
+            });
+        });
+    }
+
     var actividadesPendientes = function () {
         $.ajax({
-            url: Routing.generate('actividades_pendientes.'+_locale),
+            url: Routing.generate('actividades_pendientes'),
             type: "GET",
             beforeSend: function () {
-                // base.blockUI({message: 'Cargando'});
             },
             complete: function () {
-                //   base.unblockUI();
             },
             success: function (data) {
-                $('ul#pending_task').html(data['html']);
-                if (data['total'] > 0) {
-                    $('span.pending_task_counter').html(data['total']);
+                $('div#pending_task_content').html(data['html']);
+                if (data['total'] > 0)
+                    $('span#pending_task_counter').append("<span class='m-nav__link-badge m-badge m-badge--danger'>"+data['total']+"</span>");
 
-                }
             },
             error: function () {
                 //  base.Error();
             }
+        });
+    }
+
+    var showActividad = function () {
+        $('body').on('click', 'a.actividad_show', function (evento)
+        {
+            evento.preventDefault();
+            var link = $(this).attr('data-href');
+            obj = $(this);
+            $.ajax({
+                type: 'get', //Se uso get pues segun los desarrolladores de yahoo es una mejoria en el rendimineto de las peticiones ajax
+                dataType: 'html',
+                url: link,
+                beforeSend: function (data) {
+                    mApp.block("body",
+                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
+                },
+                success: function (data) {
+                    if ($('div#basicmodal').html(data)) {
+                        $('div#basicmodal').modal('show');
+                    }
+                },
+                error: function ()
+                {
+                    base.Error();
+                },
+                complete: function () {
+                    mApp.unblock("body");
+                }
+            });
         });
     }
 
@@ -145,7 +202,11 @@ var authenticated = function () {
                             {overlayColor:"#000000",type:"loader",state:"success",message:"Actualizando datos..."});
                     },
                     success: function (data) {
-                        $('select#usuario_cargo').html(data);
+                        var cadenacargo = "";
+                        var array = JSON.parse(data);
+                        for (var i = 0; i < array.length; i++)
+                            cadenacargo += "<option value=" + array[i]['id'] + ">" + array[i]['nombre'] + "</option>";
+                        $('select#usuario_cargo').html(cadenacargo);
                     },
                     error: function () {
                         base.Error();
@@ -314,7 +375,7 @@ var authenticated = function () {
                 $('div#notificacion_content').html(data['html']);
             },
             error: function () {
-                base.Error();
+                //base.Error();
             }
         });
     }
@@ -485,7 +546,6 @@ var authenticated = function () {
                     if ($('div#basicmodal').html(data)) {
                         configurarFormularioActividadNueva();
                         $('div#basicmodal').modal('show');
-                        //validarEditUser();
                     }
                 },
                 error: function () {
@@ -511,7 +571,6 @@ var authenticated = function () {
                 dataType: 'json',
                 delay: 250,
                 processResults: function (data) {
-                    console.log(data);
                     return {
                         //results: [{'id': 00, 'text' : 'tag-name' }]
                         results: data
@@ -520,18 +579,25 @@ var authenticated = function () {
                 cache: true
             }
         });
-        $('textarea#actividad_grupo_descripcion').summernote({
-            placeholder: 'Escriba una breve descripción sobre la actividad',
-            height: 100,
-            focus: true
-        });
+        /*$("div#basicmodal form[name=actividad_grupo]").validate({
+            rules:{
+                'actividad_grupo[iddestinatario][]': {required:true},
+                'actividad_grupo[nombre]': {required:true},
+                'actividad_grupo[lugar]': {required:true},
+                'actividad_grupo[fecha]': {required:true},
+                'actividad_grupo[fechaf]': {required:true, greaterThan: "#actividad_fecha"},
+                'actividad_grupo[dirigen]': {required:true},
+                'actividad_grupo[participan]': {required:true},
+            }
+        })*/
     }
 
     var nuevaActionActividad = function () {
-        $('div#basicmodal').on('submit', 'form#actividadgeneral_new', function (evento)
+        $('div#basicmodal').on('submit', 'form#actividadgrupo_new', function (evento)
         {
             evento.preventDefault();
             var padre = $(this).parent();
+            var l = Ladda.create(document.querySelector( '.ladda-button' ) );
             $.ajax({
                 url: $(this).attr("action"),
                 type: "POST",
@@ -543,11 +609,10 @@ var authenticated = function () {
                 processData:false,
                 //FIN de configuracion obigatoria para el envioa de archivos por form data
                 beforeSend: function () {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Guardando..."});
+                    l.start();
                 },
                 complete: function () {
-                    mApp.unblock("body");
+                    l.stop();
                 },
                 success: function (data) {
                     if (data['error']) {
@@ -556,8 +621,11 @@ var authenticated = function () {
                     } else {
                         if (data['mensaje'])
                             toastr.success(data['mensaje']);
-
-                        $('div#basicmodal').modal('hide');
+                        if(data['errores']){
+                            $('div#basicmodal').html(data['errores']);
+                            $('table#table_erroresclonaciongrupo').DataTable();
+                        }else
+                            $('div#basicmodal').modal('hide');
                     }
                 },
                 error: function ()
@@ -631,6 +699,9 @@ var authenticated = function () {
                 nuevaActionActividad();
                 nuevaActividadAgregarArchivo();
                 nuevaActividadEliminarArchivo();
+                notificacionShow();
+                actividadesPendientes();
+                showActividad();
             });
         },
     };

@@ -3,9 +3,9 @@ div.banner{
 
 }
 div.banner-info{
-    background-image: url('../../img/40482376-0-hack1.jpg');
+    background-image: url('../../img/1500x500.jfif');
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
     width: 100%;
 }
 div.profile_menu{
@@ -27,7 +27,7 @@ div.profile_menu i{
 }
 
 div.m-subheader{
-    display: none;
+    margin: 0px !important;
 }
 
 div.profile_menu ul.list-inline{

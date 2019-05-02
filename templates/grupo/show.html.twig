@@ -44,7 +44,7 @@
                     <a class="btn btn-sm btn-danger mt-ladda-btn ladda-button ladda-buttonrechazar" data-style="expand-right" id="rechazar_grupo" data-csrf="{{ csrf_token('rechazar' ~ grupo.id) }}" data-href="{{ path('grupo_rechazarsolicitud',{'grupo':grupo.id}) }}"><span class="ladda-label">Cancelar subscripción</span>
                         <span class="ladda-spinner"></span></a>
                 {% endif %}
-                <a class="btn btn-sm btn-metal" data-dismiss="modal">Cancelar</a>
+                <a class="btn btn-sm btn-metal" data-dismiss="modal"><i class="flaticon-cancel"></i>Cancelar</a>
             </div>
         </div>
     </div>

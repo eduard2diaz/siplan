@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,6 +55,16 @@ class PlanMensualGeneral
      * @ORM\Column(type="date")
      */
     private $edicionfechafin;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PuntualizacionPlanMensualGeneral", mappedBy="plantrabajo")
+     */
+    private $puntualizacionPlanMensualGenerals;
+
+    public function __construct()
+    {
+        $this->puntualizacionPlanMensualGenerals = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -135,11 +147,57 @@ class PlanMensualGeneral
     }
 
     /**
+     * @return Collection|PuntualizacionPlanMensualGeneral[]
+     */
+    public function getPuntualizacionPlanMensualGenerals(): Collection
+    {
+        return $this->puntualizacionPlanMensualGenerals;
+    }
+
+    public function addPuntualizacionPlanMensualGeneral(PuntualizacionPlanMensualGeneral $puntualizacionPlanMensualGeneral): self
+    {
+        if (!$this->puntualizacionPlanMensualGenerals->contains($puntualizacionPlanMensualGeneral)) {
+            $this->puntualizacionPlanMensualGenerals[] = $puntualizacionPlanMensualGeneral;
+            $puntualizacionPlanMensualGeneral->setPlantrabajo($this);
+        }
+
+        return $this;
+    }
+
+    public function removePuntualizacionPlanMensualGeneral(PuntualizacionPlanMensualGeneral $puntualizacionPlanMensualGeneral): self
+    {
+        if ($this->puntualizacionPlanMensualGenerals->contains($puntualizacionPlanMensualGeneral)) {
+            $this->puntualizacionPlanMensualGenerals->removeElement($puntualizacionPlanMensualGeneral);
+            // set the owning side to null (unless already changed)
+            if ($puntualizacionPlanMensualGeneral->getPlantrabajo() === $this) {
+                $puntualizacionPlanMensualGeneral->setPlantrabajo(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @Assert\Callback
      */
     public function validar(ExecutionContextInterface $context)
     {
-        if ($this->getEdicionfechafin() < $this->getEdicionfechainicio()) {
+        $mes=$this->getMes()-1;
+        $anno=$this->getAnno();
+        if($mes==0){
+            $mes=12;
+            $anno--;
+        }
+
+        if ($this->getEdicionfechainicio()->format('Y') != $anno || $this->getEdicionfechainicio()->format('m') != $mes) {
+            $context->setNode($context, 'edicionfechainicio', null, 'data.edicionfechainicio');
+            $context->addViolation('La fecha de inicio debe pertenecer al mes anterior.');
+        }
+        elseif ($this->getEdicionfechafin()->format('Y') != $anno || $this->getEdicionfechafin()->format('m') != $mes) {
+            $context->setNode($context, 'edicionfechafin', null, 'data.edicionfechafin');
+            $context->addViolation('La fecha de fin debe pertenecer al mes anterior.');
+        }
+        elseif ($this->getEdicionfechafin() < $this->getEdicionfechainicio()) {
             $context->setNode($context, 'edicionfechafin', null, 'data.edicionfechafin');
             $context->addViolation('Seleccione la fecha de fin mayor o igual que la fecha de inicio');
         }

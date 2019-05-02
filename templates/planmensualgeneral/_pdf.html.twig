@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Plan Mensual General</title>
+    </head>
+    <body>
+    <b>Plan Mensual General {{ plan.getMesToString() }}, {{ plan.anno }}</b>
+    <table>
+        {% set capitulo_index=1 %}
+        {% for capitulo in capitulos %}
+            <tr>
+                <td colspan="6">Capítulo {{ capitulo_index }}: {{ capitulo['nombre'] }}</td>
+            </tr>
+            {% set subcapitulo_index=1 %}
+            {% for subcapitulo in capitulo['subcapitulos'] %}
+                <tr>
+                    <td></td>
+                    <td colspan="5">Subcapítulo {{ subcapitulo_index }}: {{ subcapitulo['nombre'] }}</td>
+                </tr>
+                {% set arc_index=1 %}
+                {% for arc in subcapitulo['arcs'] %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td colspan="4">ARC {{ arc_index }}: {{ arc['nombre'] }}</td>
+                    </tr>
+
+                    {% set actividad_index=1 %}
+                    {% for actividad in arc['actividades'] %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Actividad {{actividad_index }} {{  actividad['nombre'] }}</td>
+                            <td>{{ actividad['fecha'] |date('d-m-Y') }}</td>
+                            <td>{{ actividad['fechaF'] |date('d-m-Y') }}</td>
+                        </tr>
+                        {% set actividad_index=1+actividad_index %}
+                    {% endfor %}
+                    {% set arc_index=1+ arc_index %}
+                {% endfor %}
+                {% set actividad_index=1 %}
+                {% for actividad in subcapitulo['actividades'] %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Actividad {{actividad_index }} {{  actividad['nombre'] }}</td>
+                        <td>{{ actividad['fecha'] |date('d-m-Y') }}</td>
+                        <td>{{ actividad['fechaF'] |date('d-m-Y') }}</td>
+                    </tr>
+                    {% set actividad_index=1+actividad_index %}
+                {% endfor %}
+                {% set subcapitulo_index=1+subcapitulo_index %}
+            {% endfor %}
+            {% set capitulo_index=1+capitulo_index %}
+        {% endfor %}
+    </table>
+    </body>
+</html>

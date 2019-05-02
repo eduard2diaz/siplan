@@ -1,0 +1,27 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/page/estatica.css','siplan') }}"/>
+{% endblock stylesheets %}
+{% block body %}
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-user-settings"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Personalizable
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <p>SIPLAN es personalizable a la medida, teniendo en cuenta las más novedosas características en el diseño de aplicaciones web. Por tal motivo
+                el equipo de desarrollo tiene el derecho de actualizar con periodicidad la interfaz del sistema en haras de facilitar su empleo por parte de
+                los usuarios. Además es bien recibida cualquier recomendación referente a como mejorar la usabilidad del mismo.
+            </p>
+        </div>
+    </div>
+
+
+{% endblock %}

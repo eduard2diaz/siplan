@@ -46,6 +46,8 @@ class AreaController extends Controller
      */
     public function new(Request $request): Response
     {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
 
         $area = new Area();
         $em = $this->getDoctrine()->getManager();
@@ -69,7 +71,6 @@ class AreaController extends Controller
                 return new JsonResponse(array('form' => $page, 'error' => true,));
             }
 
-
         return $this->render('area/_new.html.twig', [
             'area' => $area,
             'form' => $form->createView(),
@@ -82,6 +83,9 @@ class AreaController extends Controller
      */
     public function edit(Request $request, Area $area): Response
     {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $form = $this->createForm(AreaType::class, $area,
             array('action' => $this->generateUrl('area_edit', array('id' => $area->getId()))));
         $form->handleRequest($request);

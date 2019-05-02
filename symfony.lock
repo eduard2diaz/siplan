@@ -266,6 +266,9 @@
     "symfony/intl": {
         "version": "v4.1.0"
     },
+    "symfony/ldap": {
+        "version": "v4.2.7"
+    },
     "symfony/lts": {
         "version": "4-dev"
     },
@@ -313,6 +316,9 @@
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.8.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.11.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.8.0"

@@ -31,9 +31,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <a class="btn btn-sm btn-primary edicion_respuesta active"  data-href="{{ path('respuesta_edit',{'id':respuesta.id.id}) }}"><i class="flaticon-edit-1"></i>Editar</a>
-            <a class="btn btn-sm btn-danger eliminar_respuesta" data-csrf="{{ csrf_token('delete' ~ respuesta.id.id) }}" data-href="{{ path('respuesta_delete',{'id':respuesta.id.id}) }}"><i class="flaticon-delete-1"></i>Eliminar</a>
-            <a class="btn btn-sm btn-metal active" data-dismiss="modal">Cerrar</a>
+            <a class="btn btn-sm btn-metal active" data-dismiss="modal"><i class="flaticon-cancel"></i>Cancelar</a>
         </div>
     </div>
 </div>

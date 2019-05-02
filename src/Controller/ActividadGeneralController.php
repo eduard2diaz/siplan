@@ -4,19 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Actividad;
 use App\Entity\ActividadGeneral;
+use App\Entity\MiembroConsejoDireccion;
 use App\Entity\PlanMensualGeneral;
 use App\Entity\Plantrabajo;
 use App\Form\ActividadGeneralType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/actividadgeneral")
  */
-class ActividadGeneralController extends Controller
+class ActividadGeneralController extends AbstractController
 {
 
     /**
@@ -40,14 +41,15 @@ class ActividadGeneralController extends Controller
                 $em->persist($actividadgeneral);
                 $em->flush();
                 $this->addFlash('success', "La actividad general fue registrada satisfactoriamente");
-                return new JsonResponse(['url' => $this->generateUrl('planmensualgeneral_show',['id'=>$plantrabajo->getId()]),
+                return $this->json(['url' => $this->generateUrl('planmensualgeneral_show',['id'=>$plantrabajo->getId()]),
                 ]);
             } else {
                 $page = $this->renderView('actividadgeneral/_form.html.twig', array(
                     'form' => $form->createView(),
                     'actividadgeneral' => $actividadgeneral,
+                    'plantrabajo'=>$plantrabajo->getId()
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
+                return $this->json(array('form' => $page, 'error' => true));
             }
 
         return $this->render('actividadgeneral/_new.html.twig', [
@@ -57,6 +59,7 @@ class ActividadGeneralController extends Controller
             'user_foto' => null != $this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'user_nombre' => $this->getUser()->getNombre(),
             'user_correo' => $this->getUser()->getCorreo(),
+            'plantrabajo'=>$plantrabajo->getId()
         ]);
     }
 
@@ -88,15 +91,16 @@ class ActividadGeneralController extends Controller
                 $em->persist($actividadgeneral);
                 $em->flush();
                 $this->addFlash('success', "La actividad general fue actualizada satisfactoriamente");
-                return new JsonResponse(['url' => $this->generateUrl('planmensualgeneral_show',['id'=>$actividadgeneral->getPlanMensualGeneral()->getId()])]);
+                return $this->json(['url' => $this->generateUrl('planmensualgeneral_show',['id'=>$actividadgeneral->getPlanMensualGeneral()->getId()])]);
             } else {
                 $page = $this->renderView('actividadgeneral/_form.html.twig', array(
                     'form' => $form->createView(),
                     'actividadgeneral' => $actividadgeneral,
                     'action' => 'Actualizar',
                     'form_id' => 'actividadgeneral_edit',
+                    'plantrabajo'=>$actividadgeneral->getPlanMensualGeneral()->getId()
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
+                return $this->json(array('form' => $page, 'error' => true));
             }
 
         return $this->render('actividadgeneral/_new.html.twig', [
@@ -109,6 +113,7 @@ class ActividadGeneralController extends Controller
             'user_foto' => null != $this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'user_nombre' => $this->getUser()->getNombre(),
             'user_correo' => $this->getUser()->getCorreo(),
+            'plantrabajo'=>$actividadgeneral->getPlanMensualGeneral()->getId()
         ]);
     }
 
@@ -124,7 +129,7 @@ class ActividadGeneralController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($actividadgeneral);
             $em->flush();
-            return new JsonResponse(array('mensaje' => "La actividad general fue eliminada satisfactoriamente"));
+            return $this->json(array('mensaje' => "La actividad general fue eliminada satisfactoriamente"));
         }
 
         throw $this->createAccessDeniedException();
@@ -133,17 +138,17 @@ class ActividadGeneralController extends Controller
     //ajax
 
     /**
-     * @Route("/ajax", name="actividadgeneral_plangeneral", methods="GET",options={"expose"=true})
-     * Funcionalidad que devuelve el listado de actividades del actual plan general
+     * @Route("/{id}/ajax", name="actividadgeneral_plangeneral", methods="GET",options={"expose"=true})
+     * Funcionalidad que devuelve el listado de actividades del actual plan general, se utiliza en la clonacion de las mismas
      */
-    public function actividadesAjax(Request $request): Response
+    public function actividadesAjax(Request $request,Plantrabajo $plantrabajo): Response
     {
-        if (!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest() || $this->getDoctrine()->getManager()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser())==null)
             $this->createAccessDeniedException();
 
-        $anno = date('Y');
-        $mes = (integer)date('m');
-        $parameters = ['actividades' => []];
+        $anno = $plantrabajo->getAnno();
+        $mes = $plantrabajo->getMes();
+        $parameters = ['mes'=>$mes,'anno'=>$anno,'actividades' => []];
 
         $planmensualgeneral = $this->getDoctrine()->getRepository(PlanMensualGeneral::class)->findOneBy([
             'mes' => $mes, 'anno' => $anno
@@ -162,29 +167,30 @@ class ActividadGeneralController extends Controller
 
     /**
      * @Route("/clonar", name="actividadgeneral_clonar",options={"expose"=true}, methods="POST")
+     * Funcionalidad que realiza la clonacion de las actividades del plan general seleccionadas
      */
-    public function clonar(Request $request): Response
+    public function clonar(Request $request, ValidatorInterface $validator): Response
     {
-        if (!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest()  || $this->getDoctrine()->getManager()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser())==null)
             throw $this->createAccessDeniedException();
 
 
         if (!$request->request->has('array'))
-            return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
+            return $this->json(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
 
         $array = json_decode($request->request->get('array'));
         if (empty($array))
-            return new JsonResponse(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
+            return $this->json(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
 
         $em = $this->getDoctrine()->getManager();
 
         $actividades = $em->createQuery('SELECT a FROM App:ActividadGeneral a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
         $errores = [];
-        $validator = $this->get('validator');
         $contador = 0;
 
-        $anno = date('Y');
-        $mes = (integer)date('m');
+        $anno = $request->get('anno');
+        $mes = $request->get('mes');
+        dump($mes);
 
         $plantrabajo = $em->getRepository(Plantrabajo::class)
             ->findOneBy(array('usuario' => $this->getUser(), 'mes' => $mes, 'anno' => $anno));
@@ -243,6 +249,6 @@ class ActividadGeneralController extends Controller
         }
 
 
-        return new JsonResponse($array);
+        return $this->json($array);
     }
 }

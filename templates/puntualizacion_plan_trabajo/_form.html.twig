@@ -1,0 +1,66 @@
+{{ form_start(form,{'attr':{
+    'id': 'puntualizacionplantrabajo_new',
+    'class': 'm-form m-form--state'
+}}) }}
+<div class="modal-body" id="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.actividad) }}
+                </label>
+                <div>
+                    {{ form_widget(form.actividad) }}
+                    {{ form_errors(form.actividad) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m--margin-top-20">
+        <div class="col-md-6">
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.tipo) }}
+                </label>
+                <div>
+                    {{ form_widget(form.tipo) }}
+                    {{ form_errors(form.tipo) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.fechacreacion) }}
+                </label>
+                <div>
+                    {{ form_widget(form.fechacreacion) }}
+                    {{ form_errors(form.fechacreacion) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m--margin-top-20">
+        <div class="col-md-12">
+            <div class="form-group m-form__group">
+                <label>
+                    {{ form_label(form.descripcion) }}
+                </label>
+                <div>
+                    {{ form_widget(form.descripcion) }}
+                    {{ form_errors(form.descripcion) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-sm btn-metal" data-dismiss="modal"><i class="flaticon-cancel"></i>Cancelar</a>
+    <button class="btn btn-sm btn-primary mt-ladda-btn ladda-button" data-style="expand-right" type="submit">
+        <i class="flaticon-edit-1 ladda-label"></i>
+        <span class="ladda-label">{{ action |default('Guardar') }}</span>
+        <span class="ladda-spinner"></span>
+    </button>
+</div>
+{{ form_end(form) }}
+

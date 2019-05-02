@@ -1,32 +1,26 @@
 div#login-form {
-    background-image: url('../../img/40482376-0-hack1.jpg');
+    background-image: url('../../img/1500x500.jfif');
     background-repeat: no-repeat;
     background-size: 100%;
-    padding: 4% 4%;
+    padding: 6% 4%;
 }
-div#promo1{
-    background-image: url('../../img/40391876-0-Who.jpg');
+div#clients{
+    background-image: url('../../img/main-illustration.svg');
     background-repeat: no-repeat;
-    background-size: 100%;
-    padding: 12% 4%;
+    background-size: 65%;
 }
 div#promo2{
-    background-image: url('../../img/40482381-0-hack2.jpg');
+    background-image: url('../../img/IMG_20190429_120738.jpg    ');
     background-repeat: no-repeat;
     background-size: 100%;
-    padding: 4% 4%;
+    padding: 9% 4%;
+    height: 320px;
+    background-position-y: 49%;
+    background-attachment: fixed;
 }
-div#promo2 h3{
-    color: white;
-}
+
 .text-white{
     color: white !important;
-}
-div#promo3{
-    background-image: url('../../img/40482386-0-hack3.jpg');
-    background-repeat: no-repeat;
-    background-size: 100%;
-    padding: 4% 4%;
 }
 div.m-wrapper {
     padding: 0px 0px !important;

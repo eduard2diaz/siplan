@@ -20,14 +20,14 @@
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
                         <a class="btn btn-sm" href="{{ path('usuario_show',{'id':usuario.id}) }}">
-                            <i class="flaticon-eye"></i></a>
+                            <i class="flaticon-eye"></i>Visualizar</a>
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a class="btn btn-sm btn-info editar_usuario" data-href="{{ path('usuario_edit', { 'id': usuario.id }) }}"><i class="flaticon-edit-1"></i></a>
+                        <a class="btn btn-sm btn-info editar_usuario" data-href="{{ path('usuario_edit', { 'id': usuario.id }) }}"><i class="flaticon-edit-1"></i>Editar</a>
                     </li>
                     <li class="m-nav__item">
-                        <a class="btn btn-danger btn-sm  eliminar_usuario" data-href="{{ path('usuario_delete', { 'id': usuario.id }) }}" data-csrf="{{ csrf_token('delete' ~ usuario.id) }}"><i class="flaticon-delete-1"></i></a>
+                        <a class="btn btn-danger btn-sm  eliminar_usuario" data-href="{{ path('usuario_delete', { 'id': usuario.id }) }}" data-csrf="{{ csrf_token('delete' ~ usuario.id) }}"><i class="flaticon-delete-1"></i>Eliminar</a>
                     </li>
                 </ul>
             </td>

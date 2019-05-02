@@ -1,0 +1,29 @@
+{% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/page/estatica.css','siplan') }}"/>
+{% endblock stylesheets %}
+{% block body %}
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-settings"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Seguro
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <h4>Tu seguridad es primordial</h4>
+            <p>
+                Para SIPLAN es primordial que te encuentres a gusto con el sistema y que confies en la seguridad del mismo. Es relevante para nosotros que tu
+                información esté protegida y no pueda ser accedida por personas malintencionadas. Por tal motivo cualquier vulnerabilidad detectada en el sistema
+                será resuelta y notificada a los usuarios.
+            </p>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -3,7 +3,7 @@
         {% for notificacion in notificaciones %}
             <div class="m-list-timeline__item">
                 <span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
-                <span class="m-list-timeline__text">{{ notificacion.descripcion }}</span>
+                <span class="m-list-timeline__text"><a data-href="{{ path('notificacion_show', { 'id': notificacion.id }) }}" class="notificacion_show">{{ notificacion.descripcion  |truncate(70) }}</a></span>
                 <span class="m-list-timeline__time">{{ notificacion.fecha | ago }}</span>
             </div>
         {% else %}
@@ -12,6 +12,5 @@
                  <span class="m-list-timeline__text">No hay nuevas notificaciones</span>
             </div>
         {% endfor %}
-
     </div>
 </div>

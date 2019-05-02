@@ -3,21 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Actividad;
+use App\Entity\ARC;
 use App\Entity\Capitulo;
+use App\Entity\MiembroConsejoDireccion;
 use App\Form\SubcapituloType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Subcapitulo;
-use App\Entity\Usuario;
 
 /**
  * @Route("/subcapitulo")
  */
-class SubcapituloController extends Controller
+class SubcapituloController extends AbstractController
 {
 
     /**
@@ -41,6 +40,8 @@ class SubcapituloController extends Controller
      */
     public function new(Request $request): Response
     {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
 
         $subcapitulo = new Subcapitulo();
         $em = $this->getDoctrine()->getManager();
@@ -51,7 +52,7 @@ class SubcapituloController extends Controller
             if ($form->isValid()) {
                 $em->persist($subcapitulo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El subcapítulo fue registrado satisfactoriamente',
+                return $this->json(array('mensaje' => 'El subcapítulo fue registrado satisfactoriamente',
                     'nombre' => $subcapitulo->getNombre(),
                     'numero' => $subcapitulo->getNumero(),
                     'capitulo' => $subcapitulo->getCapitulo()->getNombre(),
@@ -63,7 +64,7 @@ class SubcapituloController extends Controller
                     'form' => $form->createView(),
                     'subcapitulo' => $subcapitulo,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true,));
+                return $this->json(array('form' => $page, 'error' => true,));
             }
 
 
@@ -79,6 +80,9 @@ class SubcapituloController extends Controller
      */
     public function edit(Request $request, Subcapitulo $subcapitulo): Response
     {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $form = $this->createForm(SubcapituloType::class, $subcapitulo,
             array('action' => $this->generateUrl('subcapitulo_edit', array('id' => $subcapitulo->getId()))));
         $form->handleRequest($request);
@@ -89,7 +93,7 @@ class SubcapituloController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($subcapitulo);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El subcapítulo fue actualizado satisfactoriamente',
+                return $this->json(array('mensaje' => 'El subcapítulo fue actualizado satisfactoriamente',
                     'nombre' => $subcapitulo->getNombre(),
                     'numero' => $subcapitulo->getNumero(),
                     'capitulo' => $subcapitulo->getCapitulo()->getNombre() ));
@@ -101,7 +105,7 @@ class SubcapituloController extends Controller
                     'action' => 'Actualizar',
                     'eliminable' => $eliminable,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
+                return $this->json(array('form' => $page, 'error' => true));
             }
 
         return $this->render('subcapitulo/_new.html.twig', [
@@ -123,7 +127,7 @@ class SubcapituloController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($subcapitulo);
             $em->flush();
-            return new JsonResponse(array('mensaje' => 'El subcapítulo fue eliminado satisfactoriamente'));
+            return $this->json(array('mensaje' => 'El subcapítulo fue eliminado satisfactoriamente'));
         }
 
         throw $this->createAccessDeniedException();
@@ -132,7 +136,7 @@ class SubcapituloController extends Controller
     private function esEliminable(Subcapitulo $subcapitulo): bool
     {
         $em = $this->getDoctrine()->getManager();
-        if ($em->getRepository(Actividad::class)->findOneByCapitulo($subcapitulo) != null)
+        if ($em->getRepository(ARC::class)->findOneBySubcapitulo($subcapitulo) != null)
             return false;
 
         return true;
@@ -141,17 +145,22 @@ class SubcapituloController extends Controller
     //Funciones ajax
     /**
      * @Route("/{capitulo}/findbycapitulo", name="subcapitulo_findbycapitulo", options={"expose"=true},methods="GET")
+     * Se utiliza en el gestionar de ARC
      */
     public function findbycapitulo(Request $request, Capitulo $capitulo): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $subcapitulos = $this->getDoctrine()->getRepository(Subcapitulo::class)->findByCapitulo($capitulo);
-        $subcapitulosHtml = "";
-        foreach ($subcapitulos as $value)
-            $subcapitulosHtml .= "<option value={$value->getId()}>{$value->getNombre()}</option>";
+        //A este metodo solo pueden entrar:
+        // los administradores para la gestion de las ARC
+        // los coordinadores y miembros del consejo de direccion para la gestion de las Actividades Generales
+        if(!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_COORDINADOR') && null==$this->getDoctrine()->getManager()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser()))
+            throw $this->createAccessDeniedException();
 
-        return new Response($subcapitulosHtml);
+        $consulta=$this->getDoctrine()->getManager()->createQuery('SELECT s.id, s.nombre FROM App:Subcapitulo s JOIN s.capitulo c WHERE c.id= :id');
+        $consulta->setParameter('id',$capitulo->getId());
+        $subcapitulos=$consulta->getResult();
+        return $this->json($subcapitulos);
     }
 }

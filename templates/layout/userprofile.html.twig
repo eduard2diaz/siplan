@@ -5,7 +5,7 @@
 {% endblock %}
 {% block body %}
     <div class="sombreada">
-        <div class="m--margin-top-40 banner">
+        <div class="m--margin-top-20 banner">
             <div class="banner-info">
                 <div class="col-md-4">
                     <div class="m-card-profile">
@@ -17,7 +17,7 @@
                                 {% if user_foto!=null %}
                                     {% set rutaFoto=  asset('archivos/'~user_foto) %}
                                 {% else %}
-                                    {% set rutaFoto= asset('app/media/img/users/user4.jpg','template') %}
+                                    {% set rutaFoto= asset('img/user4.jpg','siplan') %}
                                 {% endif %}
                                 <img src="{{ rutaFoto }}" alt="">
                             </div>
@@ -40,24 +40,22 @@
                                                         class="nav-link m-link"><i class="flaticon-users"></i>Subordinados</a>
                         </li>
                     {% endif %}
-                    {% if not is_granted('ROLE_ADMIN') %}
-                        <li class="list-inline-item"><a href="{{ path('grupo_index',{'id':user_id}) }}"
-                                                        class="nav-link m-link"><i
-                                        class="flaticon-network"></i>Grupos</a>
-                        </li>
-                        <li class="list-inline-item"><a href="{{ path('plantrabajo_index',{'id':user_id}) }}"
-                                                        class="nav-link m-link"><i class="flaticon-profile"></i>Planes
-                                de trabajo</a>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('ROLE_COORDINADOR') or app.request.session.get('esmiembroconsejodireccion')%}
+                    <li class="list-inline-item"><a href="{{ path('grupo_index',{'id':user_id}) }}"
+                                                    class="nav-link m-link"><i
+                                    class="flaticon-network"></i>Grupos</a>
+                    </li>
+                    <li class="list-inline-item"><a href="{{ path('plantrabajo_index',{'id':user_id}) }}"
+                                                    class="nav-link m-link"><i class="flaticon-profile"></i>Planes
+                            de trabajo</a>
+                    </li>
+                    {% if is_granted('ROLE_COORDINADOR') or app.request.session.get('esmiembroconsejodireccion') %}
                         <li class="list-inline-item">
                             <a href="{{ path('planmensualgeneral_index') }}" class="nav-link m-link">
                                 <i class="flaticon-confetti"></i>Planes de trabajo general
                             </a>
                         </li>
                     {% endif %}
-                    {% if is_granted('ROLE_COORDINADOR')%}
+                    {% if is_granted('ROLE_COORDINADOR') %}
                         <li class="list-inline-item">
                             <a href="{{ path('miembro_consejo_direccion_index') }}" class="nav-link m-link">
                                 <i class="flaticon-map-location"></i>Consejo de dirección</a>

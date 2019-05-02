@@ -15,7 +15,7 @@
                         {% if usuario.rutaFoto!=null %}
                             {% set rutaFoto=  asset('archivos/'~usuario.rutaFoto) %}
                         {% else %}
-                            {% set rutaFoto= asset('app/media/img/users/user4.jpg','template') %}
+                            {% set rutaFoto= asset('img/user4.jpg','siplan') %}
                         {% endif %}
 
                         <img src="{{ rutaFoto }}" alt="No se pudo cargar la imagen" id="foto_perfil"
@@ -49,11 +49,11 @@
                 <div class="col-md-6">
                     <div class="form-group m-form__group">
                         <label>
-                            {{ form_label(form.nombre) }}
+                            {{ form_label(form.usuario) }}
                         </label>
                         <div>
-                            {{ form_widget(form.nombre) }}
-                            {{ form_errors(form.nombre) }}
+                            {{ form_widget(form.usuario) }}
+                            {{ form_errors(form.usuario) }}
                         </div>
                     </div>
                 </div>
@@ -101,11 +101,11 @@
                 <div class="col-md-6">
                     <div class="form-group m-form__group">
                         <label>
-                            {{ form_label(form.usuario) }}
+                            {{ form_label(form.nombre) }}
                         </label>
                         <div>
-                            {{ form_widget(form.usuario) }}
-                            {{ form_errors(form.usuario) }}
+                            {{ form_widget(form.nombre) }}
+                            {{ form_errors(form.nombre) }}
                         </div>
                     </div>
                 </div>
@@ -165,8 +165,12 @@
     </div>
 </div>
 <div class="modal-footer">
-    <a class="btn btn-metal btn-sm" data-dismiss="modal">Cancelar</a>
+    {% if usuario.id==null %}
+    <a class="btn btn-sm btn-info m--hide" id="cargar_ldap_link"><i class="flaticon-search"></i>Cargar datos del ldap</a>
+    {% endif %}
+    <a class="btn btn-metal btn-sm" data-dismiss="modal"><i class="flaticon-cancel"></i>Cancelar</a>
     <button class="btn btn-primary btn-sm mt-ladda-btn ladda-button" data-style="expand-right" type="submit">
+        <i class="flaticon-edit-1 ladda-label"></i>
         <span class="ladda-label">{{ action |default('Guardar') }}</span>
         <span class="ladda-spinner"></span>
     </button>

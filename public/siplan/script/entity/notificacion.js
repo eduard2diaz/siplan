@@ -16,36 +16,6 @@ var notificacion = function () {
             ]});
     }
 
-    var show = function () {
-        $('table#notificacion_table').on('click', 'a.notificacion_show', function (evento)
-        {
-            evento.preventDefault();
-            var link = $(this).attr('data-href');
-            obj = $(this);
-            $.ajax({
-                type: 'get',
-                dataType: 'html',
-                url: link,
-                beforeSend: function (data) {
-                    mApp.block("body",
-                        {overlayColor:"#000000",type:"loader",state:"success",message:"Cargando..."});
-                },
-                success: function (data) {
-                    if ($('div#basicmodal').html(data)) {
-                        $('div#basicmodal').modal('show');
-                    }
-                },
-                error: function ()
-                {
-                    base.Error();
-                },
-                complete: function () {
-                    mApp.unblock("body")
-                }
-            });
-        });
-    }
-
     var refrescar = function () {
         $('a#notificacion_tablerefrescar').click(function (evento)
         {
@@ -129,7 +99,6 @@ var notificacion = function () {
             $().ready(function () {
                     configurarDataTable();
                     refrescar();
-                    show();
                     eliminar();
                 }
             );

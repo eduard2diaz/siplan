@@ -7,18 +7,17 @@
           type="text/css"/>
 {% endblock %}
 {% block content %}
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
                     <h3 class="m-portlet__head-text">
                         Plan mensual general {{ planmensualgeneral.mestoString()~', '~planmensualgeneral.anno }}
-                        <small id="filtro"></small>
                     </h3>
-
                 </div>
             </div>
+            {% if is_granted('ROLE_COORDINADOR')==true or enTiempo==true %}
             <div class="m-portlet__head-tools">
                 <ul class="m-footer__nav m-nav m-nav--inline m--margin-top-10">
                     <li class="m-nav__item">
@@ -26,7 +25,7 @@
                             <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
                                  m-dropdown-toggle="hover" aria-expanded="true">
                                 <a href="#"
-                                   class="m-portlet__nav-link btn btn-lg btn-primary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                                   class="m-portlet__nav-link btn btn-lg btn-secondary m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
                                     <i class="la la-plus m--hide"></i>
                                     <i class="la la-ellipsis-h"></i>
                                 </a>
@@ -39,7 +38,7 @@
                                                     <li class="m-nav__section m-nav__section--first">
                                                         <span class="m-nav__section-text">Acciones rápidas</span>
                                                     </li>
-                                                    {% if is_granted('ROLE_COORDINADOR')==true or enTiempo==true %}
+
                                                         <li class="m-nav__item">
                                                             <a href="{{ path('actividadgeneral_new',{'id':planmensualgeneral.id}) }}"  class="m-nav__link">
                                                                 <i class="m-nav__link-icon flaticon-plus"></i>
@@ -48,16 +47,17 @@
 																</span>
                                                             </a>
                                                         </li>
-                                                    {% endif %}
-                                                    <li class="m-nav__item">
-                                                        <a data-href="{{ path('planmensualgeneral_show',{'id':planmensualgeneral.id}) }}"
-                                                           class="m-nav__link" id="actividad_tablerefrescar">
-                                                            <i class="m-nav__link-icon flaticon-refresh"></i>
-                                                            <span class="m-nav__link-text">
-																	Refrescar
+
+                                                    {% if is_granted('ROLE_COORDINADOR')==true%}
+                                                        <li class="m-nav__item">
+                                                            <a data-href="{{ path('puntualizacion_plan_trabajo_general_new',{'id':planmensualgeneral.id}) }}"  class="m-nav__link editarpuntualizacion">
+                                                                <i class="m-nav__link-icon flaticon-plus"></i>
+                                                                <span class="m-nav__link-text">
+																	Nueva puntualización
 																</span>
-                                                        </a>
-                                                    </li>
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
                                                 </ul>
                                             </div>
                                         </div>
@@ -68,21 +68,38 @@
                     </li>
                 </ul>
             </div>
+            {% endif %}
         </div>
         <div class="m-portlet__body">
-            <!--begin: Datatable -->
-            {% include 'actividadgeneral/_table.html.twig' %}
-            <!--end: Datatable -->
+            <ul class="nav nav-tabs  m-tabs-line m-tabs-line--2x m-tabs-line--success" role="tablist">
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_tabs_6_1" role="tab" aria-selected="true">Actividades</a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_6_3" role="tab" aria-selected="false">Puntualizaciones</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active show" id="m_tabs_6_1" role="tabpanel">
+                    <h4 class="text-muted"><small id="filtro"></small></h4>
+                    {% include 'actividadgeneral/_table.html.twig' %}
+                </div>
+                <div class="tab-pane" id="m_tabs_6_3" role="tabpanel">
+                    {%include 'puntualizacion_plan_trabajo_general/_table.html.twig'%}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('script/entity/actividadgeneral.js','siplan') }}"></script>
+    <script src="{{ asset('script/entity/puntualizacionplantrabajogeneral.js','siplan') }}"></script>
     <script>
         var total ={{ actividads |length }};
         var planmensualgeneral = '{{ planmensualgeneral.id }}';
         actividadgeneral.init();
+        puntualizacionplantrabajogeneral.init();
     </script>
 
 {% endblock %}

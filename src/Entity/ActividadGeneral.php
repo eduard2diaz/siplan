@@ -119,13 +119,22 @@ class ActividadGeneral
     private $subcapitulo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ARC")
+     * @var \Capitulo
+     *
+     * @ORM\ManyToOne(targetEntity="ARC")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="areaconocimiento", referencedColumnName="id",onDelete="Cascade")
+     * })
      */
     private $areaconocimiento;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Usuario")
-     * @ORM\JoinColumn(nullable=false)
+     * @var \Subcapitulo
+     *
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id",onDelete="Cascade")
+     * })
      */
     private $usuario;
 
@@ -343,18 +352,21 @@ class ActividadGeneral
      */
     public function comprobarFechas(ExecutionContextInterface $context)
     {
+
         if ($this->getFechaF() < $this->getFecha()) {
             $context->setNode($context, 'fechaf', null, 'data.fechaf');
             $context->addViolation('La fecha de fin debe ser mayor o igual que la fecha de inicio.');
         }
 
-        if($this->getFecha()->format('Y')!=$this->getPlanMensualGeneral()->getAnno() || $this->getFecha()->format('m')!=$this->getPlanMensualGeneral()->getMes())
+        if(null==$this->getPlanMensualGeneral()){
+            $context->setNode($context, 'planmensualgeneral', null, 'data.planmensualgeneral');
+            $context->addViolation('Seleccione un plan mensual');
+        }elseif($this->getFecha()->format('Y')!=$this->getPlanMensualGeneral()->getAnno() || $this->getFecha()->format('m')!=$this->getPlanMensualGeneral()->getMes())
         {
             $context->setNode($context, 'fecha', null, 'data.fecha');
             $context->addViolation('La fecha debe pertenecer al mes del plan.');
         }
-
-        if($this->getFechaF()->format('Y')!=$this->getPlanMensualGeneral()->getAnno() || $this->getFechaF()->format('m')!=$this->getPlanMensualGeneral()->getMes())
+        elseif($this->getFechaF()->format('Y')!=$this->getPlanMensualGeneral()->getAnno() || $this->getFechaF()->format('m')!=$this->getPlanMensualGeneral()->getMes())
         {
             $context->setNode($context, 'fechaf', null, 'data.fechaf');
             $context->addViolation('La fecha debe pertenecer al mes del plan.');
@@ -364,10 +376,16 @@ class ActividadGeneral
             $context->setNode($context, 'usuario', null, 'data.usuario');
             $context->addViolation('Seleccione un usuario');
         }
-        if(null==$this->getPlanMensualGeneral()){
-            $context->setNode($context, 'planmensualgeneral', null, 'data.planmensualgeneral');
-            $context->addViolation('Seleccione un plan mensual');
+
+        if(null==$this->getCapitulo()){
+            $context->setNode($context, 'capitulo', null, 'data.capitulo');
+            $context->addViolation('Seleccione un capítulo');
         }
+        elseif(null==$this->getSubcapitulo()){
+            $context->setNode($context, 'subcapitulo', null, 'data.subcapitulo');
+            $context->addViolation('Seleccione un subcapítulo');
+        }
+
 
 
 

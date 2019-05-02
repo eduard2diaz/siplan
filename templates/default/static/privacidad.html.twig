@@ -1,21 +1,21 @@
 {% extends is_granted('IS_AUTHENTICATED_FULLY') ? 'layout/autenticado.html.twig':  'layout/anonimo.html.twig'  %}
-{% block  page_title %}Política de privacidad{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/page/estatica.css','siplan') }}"/>
+{% endblock stylesheets %}
 {% block body %}
-    <style>
-        div.about-box {
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 3% 10%;
-            padding: 2%;
-        }
-
-        div.about-box img {
-            width: 70%;
-            border-radius: 2px;
-        }
-    </style>
-    <div class="row about-box">
-        <div class="col-md-6">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-danger"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Política de privacidad
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
             <h4>Cambios</h4>
             <p>
                 Podemos modificar esta Política de privacidad y si introducimos algún cambio importante te avisaremos
@@ -27,25 +27,13 @@
                 Tu uso continuado de nuestros Servicios después de publicar o de enviar un aviso sobre los cambios
                 a esta Política de privacidad significará que estás de acuerdo con los términos actualizados.
             </p>
-
-        </div>
-        <div class="col-md-6">
-            <img src="{{ asset('siplan/img/review-process.svg') }}" alt="¿Cuál es nuestra misión?"/>
-        </div>
-    </div>
-
-    <div class="row about-box">
-        <div class="col-md-6">
-            <img src="{{ asset('siplan/img/highlight-publique.png') }}" alt="¿como trabajamos?"/>
-        </div>
-        <div class="col-md-6">
             <h4>Tu privacidad es importante para nosotros</h4>
             <p>
                 En SIPLAN es muy importante para nosotros proteger tu información personal y las actividades que realizas a diario.
             </p>
             <p>
                 Clave para esta misión es nuestro compromiso a ser transparentes contigo sobre los datos que recabamos sobre ti
-                y el modo en que se utilizan. Al utilizar nuestros <a href="{{ path('estatica',{'page':'servicio'}) }}">Servicios</a>, aceptas que usemos tus datos conforme
+                y el modo en que se utilizan. Al utilizar nuestros <a href="{{ path('estatica',{'page':'servicio'}) }}">servicios</a>, aceptas que usemos tus datos conforme
                 a lo establecido en esta Política de privacidad.
             </p>
         </div>
