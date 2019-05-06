@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Tool\Util;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -86,12 +87,7 @@ class Plantrabajo
 
     public function getMesToString(): ?string
     {
-        if ($this->mes != null) {
-            $array = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-            $mes = $this->mes;
-            return $array[--$mes];
-        }
-        return null;
+        return Util::getMesKey($this->mes);
     }
 
     /**
@@ -176,8 +172,6 @@ class Plantrabajo
     public function validate(ExecutionContextInterface $context, $payload)
     {
         if (null == $this->getUsuario())
-            $context->buildViolation('Seleccione un usuario')
-                ->atPath('padre')
-                ->addViolation();
+            $context->buildViolation('Seleccione un usuario')->atPath('usuario')->addViolation();
     }
 }

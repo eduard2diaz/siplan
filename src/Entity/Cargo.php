@@ -95,7 +95,7 @@ class Cargo
     {
         if (null == $this->getArea())
             $context->buildViolation('Seleccione un área')
-                ->atPath('padre')
+                ->atPath('area')
                 ->addViolation();
     }
 }

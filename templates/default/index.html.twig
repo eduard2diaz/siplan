@@ -86,3 +86,9 @@
         </div>
     </div>
 {% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('script/page/login.js','siplan') }}"></script>
+    <script>
+        login.init();
+    </script>
+{% endblock javascripts %}

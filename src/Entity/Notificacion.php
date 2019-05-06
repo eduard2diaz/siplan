@@ -19,7 +19,6 @@ class Notificacion
      */
     private $id;
 
-
     /**
      * @var \Usuario
      *
@@ -52,7 +51,7 @@ class Notificacion
      */
     public function __construct()
     {
-        $this->leida=false;
+        $this->leida = false;
     }
 
 
@@ -62,17 +61,17 @@ class Notificacion
     }
 
     /**
-     * @return \Usuario
+     * @return \App\Entity\Usuario
      */
-    public function getDestinatario(): Usuario
+    public function getDestinatario()
     {
         return $this->destinatario;
     }
 
     /**
-     * @param \Usuario $destinatario
+     * @param \App\Entity\Usuario $destinatario
      */
-    public function setDestinatario(Usuario $destinatario): void
+    public function setDestinatario(\App\Entity\Usuario $destinatario): void
     {
         $this->destinatario = $destinatario;
     }

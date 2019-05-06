@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ApiTokenRepository")
@@ -95,5 +97,17 @@ class ApiToken
     public function isExpired(): bool
     {
         return $this->getExpiresAt() <= new \DateTime();
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+
+        if (null == $this->getUsuario())
+            $context->buildViolation('Seleccione el usuario')
+                ->atPath('usuario')
+                ->addViolation();
     }
 }

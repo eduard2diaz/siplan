@@ -26,8 +26,8 @@ class ActividadController extends AbstractController
      */
     public function newGrupo(Request $request, ValidatorInterface $validator): Response
     {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
+       // if (!$request->isXmlHttpRequest())
+       //     throw $this->createAccessDeniedException();
 
         $actividad = new Actividad();
         $actividad->setAsignadapor($this->getUser());
@@ -63,6 +63,7 @@ class ActividadController extends AbstractController
                         $plantrabajo->setAnno($anno);
                         $plantrabajo->setUsuario($destinatario);
                         $em->persist($plantrabajo);
+                        $em->flush();
                     }
                     $activity->setPlantrabajo($plantrabajo);
                     $errores = $validator->validate($activity);

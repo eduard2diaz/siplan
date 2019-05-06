@@ -3,11 +3,11 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Notificacion;
-use App\Services\NotificacionService;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use App\Entity\Grupo;
 use App\Entity\SolicitudGrupo;
+use App\Services\NotificacionService;
 
 class GrupoSubscriber implements EventSubscriber
 {
@@ -41,10 +41,8 @@ class GrupoSubscriber implements EventSubscriber
                     $solicitud->setEstado(0);
                     $solicitud->setFecha($fecha);
                     $manager->persist($solicitud);
-
                     $message = "El usuario " . $entity->getCreador()->getNombre() . " lo agregó al grupo " . $entity->getNombre();
                     $this->notificacion->nuevaNotificacion($value->getId(), $message);
-
                 }
             }
             $manager->flush();
@@ -86,6 +84,7 @@ class GrupoSubscriber implements EventSubscriber
                 $message = "El usuario " . $entity->getCreador()->getNombre() . " eliminó el grupo " . $entity->getNombre();
                 $this->notificacion->nuevaNotificacion($value->getId(), $message);
             }
+            $manager->flush();
         }
     }
 

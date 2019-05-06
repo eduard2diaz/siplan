@@ -8,6 +8,7 @@
 
 namespace App\Services;
 use App\Entity\Notificacion;
+use App\Entity\Usuario;
 use Doctrine\ORM\EntityManagerInterface as EntityManager;
 
 class NotificacionService
@@ -35,16 +36,19 @@ class NotificacionService
         if(null==$destinatario || null==$descripcion)
             throw new \Exception('No fueron enviados suficientes parámetros');
 
-        $destinatario=$this->getEm()->getRepository('App:Usuario')->find($destinatario);
-        if(null==$destinatario)
+        $em=$this->getEm();
+        $destinatarioObj=$em->getRepository(Usuario::class)->find($destinatario);
+        if(null==$destinatarioObj)
             throw new \Exception('El destinatario no existe');
 
         $notificacion=new Notificacion();
         $notificacion->setFecha(new \DateTime());
-        $notificacion->setDestinatario($destinatario);
+        $notificacion->setDestinatario($destinatarioObj);
         $notificacion->setDescripcion($descripcion);
-        $this->getEm()->persist($notificacion);
-        $this->getEm()->flush();
+
+        //Se utilizo la funcion merge y no persist pues el persist fallaba cuando lo llamaba dentro de un for
+        $em->merge($notificacion);
+        $em->flush();
     }
 
 }

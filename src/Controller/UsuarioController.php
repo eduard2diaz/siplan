@@ -137,9 +137,9 @@ class UsuarioController extends AbstractController
 
                 if (null != $usuario->getFile()) {
                     if (true == $tieneFoto)
-                        $usuario->actualizarFoto($this->container->getParameter('storage_directory'));
+                        $usuario->actualizarFoto($this->getParameter('storage_directory'));
                     else
-                        $usuario->Upload($this->container->getParameter('storage_directory'));
+                        $usuario->Upload($this->getParameter('storage_directory'));
 
                     $usuario->setFile(null);
                 }

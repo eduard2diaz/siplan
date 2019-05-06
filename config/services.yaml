@@ -72,7 +72,18 @@ services:
         public: true
         tags:
             - { name: doctrine.event_subscriber,  connection: default }
-        arguments: ['@app.notificacion_service']
+
+    puntualizacionplangeneral_subscriber:
+        class: App\EventSubscriber\PuntualizacionPlanGeneralSubscriber
+        public: true
+        tags:
+            - { name: doctrine.event_subscriber,  connection: default }
+
+    respuestaactividad_subscriber:
+        class: App\EventSubscriber\RespuestaSubscriber
+        public: true
+        tags:
+            - { name: doctrine.event_subscriber,  connection: default }
 
     area_service:
         class: App\Services\AreaService

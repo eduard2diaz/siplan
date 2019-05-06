@@ -109,6 +109,7 @@ function colorear(enfuncionamiento) {
 //dentro de este tipo de funciones se pueden definir variables y otras funciones
 var authenticated = function () {
     var obj = null;
+    var cantidadNotificaciones = 0;
 
     var notificacionShow = function () {
         $('body').on('click', 'a.notificacion_show', function (evento)
@@ -127,6 +128,14 @@ var authenticated = function () {
                 success: function (data) {
                     if ($('div#basicmodal').html(data)) {
                         $('div#basicmodal').modal('show');
+                        if (cantidadNotificaciones > 0 && !obj.hasClass('notificacion-vista')) {
+                            cantidadNotificaciones--;
+                            if (cantidadNotificaciones == 0) {
+                                $('span#notificacion_contador span.m-nav__link-badge').html('').removeClass('m-nav__link-badge m-badge m-badge--danger');
+                            } else
+                                $('span#notificacion_contador span.m-nav__link-badge').html(cantidadNotificaciones);
+                        }
+                        obj.addClass('notificacion-vista');
                     }
                 },
                 error: function ()
@@ -370,9 +379,12 @@ var authenticated = function () {
             url: Routing.generate('notificacion_index',{'_format':'json'}),
             type: "GET",
             success: function (data) {
-                if(data['contador']>0)
-                    $('span#notificacion_contador').append("<span class='m-nav__link-badge m-badge m-badge--danger'>"+data['contador']+"</span>");
+                if (data['contador'] > 0){
+                    $('span#notificacion_contador').append("<span class='m-nav__link-badge m-badge m-badge--danger'>" + data['contador'] + "</span>");
+                    cantidadNotificaciones = data['contador'];
+                }
                 $('div#notificacion_content').html(data['html']);
+
             },
             error: function () {
                 //base.Error();

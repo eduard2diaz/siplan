@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-lg">
+<div class="modal-dialog modal-full">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">
@@ -8,32 +8,42 @@
         </div>
         <div>
             <div class="modal-body" id="modal-body">
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th>Nombre</th>
-                    <td>{{ grupo.nombre }}</td>
-                </tr>
-                <tr>
-                    <th>Responsable</th>
-                    <td>{{ grupo.creador }}</td>
-                </tr>
-                <tr>
-                    <th colspan="2">Miembros</th>
-                </tr>
-                {%  for miembro in miembros %}
-                <tr>
-                    <td>
-                        {{ miembro.usuario }}
-                    </td>
-                    <td>
-                        <span class="m-badge m-badge--{{ miembro.estado==0 ? 'danger' : 'success'  }}">{{ miembro.estado==0 ? 'Pendiente a confirmación' : 'Confirmado'  }}</span>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                <table class="table" id="grupo_integrante_table">
+                    <tbody>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <td>
+                            {{ grupo.nombre }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Responsable
+                        </th>
+                        <td>
+                            {{ grupo.creador }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="2" style="text-align: center">
+                            Integrantes
+                        </th>
+                    </tr>
+                    {%  for miembro in miembros %}
+                        <tr>
+                            <td>
+                                {{ miembro.usuario }}
+                            </td>
+                            <td>
+                                <span class="m-badge m-badge--{{ miembro.estado==0 ? 'danger' : 'success'  }}">{{ miembro.estado==0 ? 'Pendiente a confirmación' : 'Confirmado'  }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             <div class="modal-footer">
                 {% if pendiente_confirmacion is defined %}
                 <a class="btn btn-sm btn-primary mt-ladda-btn ladda-button" data-style="expand-right" id="confirmar_grupo" data-csrf="{{ csrf_token('confirmar' ~ grupo.id) }}" data-href="{{ path('grupo_confirmarsolicitud',{'grupo':grupo.id}) }}"><span class="ladda-label">Confirmar</span>

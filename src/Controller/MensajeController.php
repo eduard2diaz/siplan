@@ -173,6 +173,12 @@ class MensajeController extends AbstractController
             throw $this->createAccessDeniedException();
 
         $this->denyAccessUnlessGranted('VIEW', $mensaje);
+        if(!$mensaje->getLeida()){
+            $em=$this->getDoctrine()->getManager();
+            $mensaje->setLeida(true);
+            $em->persist($mensaje);
+            $em->flush();
+        }
         return $this->render('mensaje/_show.html.twig', ['mensaje' => $mensaje]);
     }
 

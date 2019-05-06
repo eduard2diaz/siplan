@@ -4,28 +4,27 @@ namespace App\Controller;
 
 use App\Entity\Grupo;
 use App\Form\GrupoType;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Usuario;
-use App\Entity\Notificacion;
-
+use App\Services\AreaService;
+use App\Services\NotificacionService;
 /**
  * @Route("/grupo")
  */
-class GrupoController extends Controller
+class GrupoController extends AbstractController
 {
     /**
      * Listado de grupos a los que pertence o de los cuales es el creador el usuario pasado por parámetro
      *
      * @Route("/{id}/index", name="grupo_index", methods="GET",options={"expose"=true})
      */
-    public function index(Request $request, Usuario $usuario): Response
+    public function index(Request $request, Usuario $usuario,AreaService $areaService): Response
     {
-        if ($usuario->getId() != $this->getUser()->getId() && !in_array($usuario->getId(), $this->get('area_service')->subordinadosKey($this->getUser())))
+        if ($usuario->getId() != $this->getUser()->getId() && !in_array($usuario->getId(), $areaService->subordinadosKey($this->getUser())))
             throw $this->createAccessDeniedException();
 
         $em = $this->getDoctrine()->getManager();
@@ -89,10 +88,12 @@ class GrupoController extends Controller
     /**
      * @Route("/{id}/show", name="grupo_show", methods="GET",options={"expose"=true})
      */
-    public function show(Grupo $grupo): Response
+    public function show(Request $request, Grupo $grupo): Response
     {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+        
         $this->denyAccessUnlessGranted('SHOW', $grupo);
-
         $em = $this->getDoctrine()->getManager();
         $parameters = ['grupo' => $grupo];
         if ($this->getUser()->getId() != $grupo->getCreador()->getId()) {
@@ -126,17 +127,17 @@ class GrupoController extends Controller
     /**
      * @Route("/{id}/edit", name="grupo_edit", methods="GET|POST",options={"expose"=true})
      */
-    public function edit(Request $request, Grupo $grupo): Response
+    public function edit(Request $request, Grupo $grupo, NotificacionService $notificacionService): Response
     {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $this->denyAccessUnlessGranted('EDIT', $grupo);
         $creador = $this->getUser()->getId();
         $creadorNombre = $this->getUser()->getNombre();
         $miembrosOriginales=clone $grupo->getIdmiembro();
         $form = $this->createForm(GrupoType::class, $grupo, array('action' => $this->generateUrl('grupo_edit', array('id' => $grupo->getId()))));
-
         $form->handleRequest($request);
-
-
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
@@ -144,23 +145,22 @@ class GrupoController extends Controller
 
                 if ($grupo->getCreador()->getId() != $creador) {
                     $message="El usuario " . $creadorNombre . " lo asignó como responsable del grupo " . $grupo->getNombre();
-                    $this->get('app.notificacion_service')->nuevaNotificacion($grupo->getCreador()->getId(),$message,$grupo->getId());
+                    $notificacionService->nuevaNotificacion($grupo->getCreador()->getId(),$message,$grupo->getId());
                 }
 
                 $message = "El usuario " . $grupo->getCreador()->getNombre() . " lo agregó al grupo " . $grupo->getNombre();
                 foreach ($grupo->getIdmiembro() as $miembro) {
                     if ($miembrosOriginales->contains($miembro)){
                       $miembrosOriginales->removeElement($miembro);
-                      dump('eliminado del listado viejo');
                     }
                     else {
-                        $this->get('app.notificacion_service')->nuevaNotificacion($miembro->getId(), $message);
+                        $notificacionService->nuevaNotificacion($miembro->getId(), $message);
                     }
                 }
 
                 $message = "El usuario " . $grupo->getCreador()->getNombre() . " lo eliminó del grupo " . $grupo->getNombre();
                 foreach ($miembrosOriginales as $miembro) {
-                    $this->get('app.notificacion_service')->nuevaNotificacion($miembro->getId(), $message);
+                    $notificacionService->nuevaNotificacion($miembro->getId(), $message);
                 }
                 $em->flush();
 
@@ -194,15 +194,14 @@ class GrupoController extends Controller
      */
     public function delete(Request $request, Grupo $grupo): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $grupo->getId(), $request->query->get('_token'))) {
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('delete' . $grupo->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
+
             $this->denyAccessUnlessGranted('DELETE', $grupo);
             $em = $this->getDoctrine()->getManager();
             $em->remove($grupo);
             $em->flush();
             return new JsonResponse(array('mensaje' => 'El grupo fue eliminado satisfactoriamente'));
-        }
-
-        throw $this->createAccessDeniedException();
     }
 
     /**
@@ -211,11 +210,12 @@ class GrupoController extends Controller
      *
      * @Route("/{grupo}/confirmarsolicitud", name="grupo_confirmarsolicitud")
      */
-    public function confirmarSolicitud(Request $request, Grupo $grupo): Response
+    public function confirmarSolicitud(Request $request, Grupo $grupo, NotificacionService $notificacionService): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('confirmar' . $grupo->getId(), $request->query->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('confirmar' . $grupo->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
 
+            $em = $this->getDoctrine()->getManager();
             $solicitud = $em->getRepository('App:SolicitudGrupo')->findOneBy([
                 'usuario' => $this->getUser(),
                 'grupo' => $grupo
@@ -223,18 +223,12 @@ class GrupoController extends Controller
 
             if (!$solicitud)
                 throw $this->createAccessDeniedException();
-
             $solicitud->setEstado(1);
             $em->persist($solicitud);
             $em->flush();
-
             $message="El usuario " . $this->getUser()->getNombre() . " confirmó ser miembro del grupo " . $grupo->getNombre();
-            $this->get('app.notificacion_service')->nuevaNotificacion($grupo->getCreador()->getId(),$message);
-
+            $notificacionService->nuevaNotificacion($grupo->getCreador()->getId(),$message);
             return new JsonResponse(array('mensaje' => 'Su membresía fue confirmada satisfactoriamente'));
-        }
-
-        throw $this->createAccessDeniedException();
     }
 
     /**
@@ -243,11 +237,12 @@ class GrupoController extends Controller
      *
      * @Route("/{grupo}/rechazarsolicitud", name="grupo_rechazarsolicitud")
      */
-    public function rechazarSolicitud(Request $request, Grupo $grupo): Response
+    public function rechazarSolicitud(Request $request, Grupo $grupo,NotificacionService $notificacionService): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('rechazar' . $grupo->getId(), $request->query->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('rechazar' . $grupo->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
 
+            $em = $this->getDoctrine()->getManager();
             $solicitud = $em->getRepository('App:SolicitudGrupo')->findOneBy([
                 'usuario' => $this->getUser(),
                 'grupo' => $grupo
@@ -262,12 +257,8 @@ class GrupoController extends Controller
             $em->flush();
 
             $message="El usuario " . $this->getUser()->getNombre() . " abandonó el grupo " . $grupo->getNombre();
-            $this->get('app.notificacion_service')->nuevaNotificacion($grupo->getCreador()->getId(),$message);
-
+            $notificacionService->nuevaNotificacion($grupo->getCreador()->getId(),$message);
             return new JsonResponse(array('mensaje' => 'Su membresía fue rechazada satisfactoriamente'));
-        }
-
-        throw $this->createAccessDeniedException();
     }
 
 }

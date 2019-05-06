@@ -17,7 +17,7 @@
             <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
-                        <a class="btn btn-sm edicion" data-href="{{ path('grupo_show', { 'id': grupo.id }) }}">
+                        <a class="btn btn-sm grupo_show" data-href="{{ path('grupo_show', { 'id': grupo.id }) }}">
                             <i class="flaticon-eye"></i>Visualizar</a>
                     </li>
                     {% if app.user.id==grupo.creador.id %}

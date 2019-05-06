@@ -37,14 +37,6 @@ class MiembroConsejoDireccionType extends AbstractType
                     }
 
                     return $qb;
-
-/*
-                    $qb = $repository->createQueryBuilder('usuario')
-                        ->innerJoin('usuario.idrol', 'r')
-                        ->where('r.nombre IN  (:roles)')
-                        ->setParameter('roles', ['ROLE_USER','ROLE_DIRECTIVO','ROLE_COORDINADOR']);
-
-                    return $qb;*/
                 }
             ])
         ;

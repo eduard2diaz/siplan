@@ -4,19 +4,18 @@ namespace App\Controller;
 
 use App\Form\AreaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Services\AreaService;
 use App\Entity\Area;
 use App\Entity\Usuario;
 
 /**
  * @Route("/area")
  */
-class AreaController extends Controller
+class AreaController extends AbstractController
 {
 
     /**
@@ -138,13 +137,13 @@ class AreaController extends Controller
     /**
      * @Route("/{id}/findByUsuario", name="area_findbyusuario", methods="GET",options={"expose"=true})
      */
-    public function findByUsuario(Request $request, Usuario $usuario): Response
+    public function findByUsuario(Request $request, Usuario $usuario,AreaService $areaService): Response
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         $area = $usuario->getArea();
-        $areas = $this->get('area_service')->areasHijas($area);
+        $areas = $areaService->areasHijas($area);
 
         $cadena = "";
         foreach ($areas as $area)

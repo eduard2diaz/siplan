@@ -19,7 +19,7 @@
                                 {% else %}
                                     {% set rutaFoto= asset('img/user4.jpg','siplan') %}
                                 {% endif %}
-                                <img src="{{ rutaFoto }}" alt="">
+                                <a href="{{ path('usuario_show',{'id':user_id}) }}"><img src="{{ rutaFoto }}" alt=""></a>
                             </div>
                         </div>
                         <div class="m-card-profile__details">

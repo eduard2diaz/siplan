@@ -118,8 +118,8 @@ class Subcapitulo
     {
 
         if (null == $this->getCapitulo())
-            $context->buildViolation('Seleccione el capítulo padre')
-                ->atPath('padre')
+            $context->buildViolation('Seleccione el capítulo')
+                ->atPath('capitulo')
                 ->addViolation();
     }
 }
