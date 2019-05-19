@@ -87,8 +87,8 @@ class UsuarioType extends AbstractType
                     'query_builder' => function (EntityRepository $er) use ($subordinados, $id) {
                         $qb = $er->createQueryBuilder('u')
                             ->join('u.idrol', 'r')
-                            ->where('r.nombre= :role AND u.id!= :id')
-                            ->setParameters(['role' => 'ROLE_DIRECTIVO', 'id' => $id]);
+                            ->where('r.nombre in (:role) AND u.id!= :id')
+                            ->setParameters(['role' => ['ROLE_DIRECTIVO','ROLE_DIRECTIVOINSTITUCIONAL'], 'id' => $id]);
                         if (!empty($subordinados)) {
                             $qb->andWhere('u.id NOT IN (:subordinados)')->setParameter('subordinados', $subordinados);
                         }
