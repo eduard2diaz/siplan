@@ -17,6 +17,7 @@ div#promo2{
     height: 320px;
     background-position-y: 49%;
     background-attachment: fixed;
+    box-shadow: 15px 18px 30px black !important;
 }
 
 .text-white{

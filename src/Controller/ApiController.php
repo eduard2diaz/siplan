@@ -17,7 +17,7 @@ class ApiController extends AbstractController
     /**
      * @Route("/requesttoken", name="api_requesttoken")
      * Este servicio se puede consumir utilizando curl u otro cliente url como Guzzle, por ejemplo
-     * curl -X POST --data "username=untoria&password=untoria" http://localhost/siplan/public/index.php/api/requesttoken
+     * curl -X POST --data "username=administrador&password=administrador" http://localhost/siplan/public/index.php/api/requesttoken
      */
     public function requestToken(Request $request, UserPasswordEncoderInterface $encoder)
     {
@@ -57,8 +57,7 @@ class ApiController extends AbstractController
     /**
      * @Route("/plantrabajo/index", name="api_plantrabajo_index")
      * Estos servicios se pueden consumir pasandole el token generado por el metodo anterior y la url a consumir
-     * curl -H "X-AUTH-TOKEN: 2411b06c62eae35822e06d0de36af40c354a64083c09c3e0f103a7912a638f4d9325531640bbc973ee3920125606cd321c057838cc3cc893a25f8381"
-     * http://localhost/siplan/public/index.php/api/plantrabajo/index
+     * curl -H "X-AUTH-TOKEN: 3c8b660676bc9c368c994783c533fbbeabbae3d20a0e0ee39364d25a913ae9e78894592cbeee8d561a656a5fe215e13d694c073fcc3ce47d3b2aee4a" http://localhost/siplan/public/index.php/api/plantrabajo/index
      */
     public function plantrabajoIndex()
     {

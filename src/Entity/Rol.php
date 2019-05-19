@@ -76,14 +76,20 @@ class Rol extends Role
             case 'ROLE_ADMIN':
                return 'Administrador';
             break;
+            case 'ROLE_DIRECTIVOINSTITUCIONAL':
+                return 'Directivo institucional';
+            break;
             case 'ROLE_DIRECTIVO':
                 return 'Directivo';
             break;
             case 'ROLE_USER':
                 return 'Trabajador';
             break;
-            case 'ROLE_COORDINADOR':
-                return 'Coordinador';
+            case 'ROLE_COORDINADORINSTITUCIONAL':
+                return 'Coordinador institucional';
+            break;
+            case 'ROLE_COORDINADORAREA':
+                return 'Coordinador de área';
             break;
         }
         return $this->getNombre();

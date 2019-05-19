@@ -9,7 +9,7 @@
     </thead>
     <tbody>
     {%set i=1%}
-    {% set esCoordinador= is_granted('ROLE_COORDINADOR') %}
+    {% set esCoordinador= is_granted('ROLE_COORDINADORINSTITUCIONAL') %}
     {% for actividad in actividads %}
         <tr>
             <td>{{ actividad.nombre }}</td>
@@ -22,7 +22,7 @@
                             <i class="flaticon-eye"></i>Visualizar
                         </a>
                     </li>
-                    {% if esCoordinador or (enTiempo==true and actividad.usuario.id==app.user.id) %}
+                    {% if actividad.planmensualgeneral.aprobado==false and (esCoordinador or (app.session.get('esmiembroconsejodireccion')==true and enTiempo==true and actividad.usuario.id==app.user.id)) %}
                     <li class="m-nav__item">
                         <a class="btn btn-info btn-sm" href="{{ path('actividadgeneral_edit', { 'id': actividad.id }) }}"><i class="flaticon-edit-1"></i>Editar</a>
                     </li>

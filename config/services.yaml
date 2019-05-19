@@ -79,6 +79,12 @@ services:
         tags:
             - { name: doctrine.event_subscriber,  connection: default }
 
+    puntualizacionplanarea_subscriber:
+        class: App\EventSubscriber\PuntualizacionPlanAreaSubscriber
+        public: true
+        tags:
+            - { name: doctrine.event_subscriber,  connection: default }
+
     respuestaactividad_subscriber:
         class: App\EventSubscriber\RespuestaSubscriber
         public: true
@@ -115,6 +121,15 @@ services:
         autoconfigure: true
         tags:
             - { name: validator.constraint_validator, alias: entity.validator.periodactividadgeneral }
+        arguments: ['@doctrine']
+
+    entity.validator.periodactividadarea:
+        class: App\Validator\PeriodActividadAreaValidator
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags:
+            - { name: validator.constraint_validator, alias: entity.validator.periodactividadarea }
         arguments: ['@doctrine']
 
     app.email_service:

@@ -13,6 +13,13 @@
 
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
+                    {% if app.user.id!=usuario.id %}
+                    <li class="m-portlet__nav-item">
+                        <a data-href="{{ path('mensaje_new_usuario',{'id':usuario.id}) }}" class="btn btn-sm btn-secondary m-btn text-uppercase enviarmensaje">
+                            <span><i class="flaticon-email"></i></span> Nuevo mensaje
+                        </a>
+                    </li>
+                    {% endif %}
                     <li class="m-portlet__nav-item">
                         <a data-href="{{ path('usuario_edit',{'id':usuario.id}) }}" class="btn btn-sm btn-primary m-btn text-uppercase editar_usuario">
                             <span><i class="flaticon-edit-1"></i></span> Editar

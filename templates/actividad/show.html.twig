@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-full">
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">{{ actividad.nombre }}</h4>
+            <h4 class="modal-title">Detalles de la actividad</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         </div>
         <div>
@@ -24,7 +24,7 @@
                 </tr>
                 <tr>
                     <th>Fecha de Inicio</th>
-                    <td>{{ actividad.fechaf |date('d-m-Y H:i') }}</td>
+                    <td>{{ actividad.fecha |date('d-m-Y H:i') }}</td>
                     <th>Fecha de Fin</th>
                     <td>{{ actividad.fechaf |date('d-m-Y H:i') }}</td>
                 </tr>

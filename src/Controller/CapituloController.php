@@ -125,22 +125,21 @@ class CapituloController extends AbstractController
      */
     public function delete(Request $request, Capitulo $capitulo): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $capitulo->getId(), $request->query->get('_token'))) {
+        if (!$request->isXmlHttpRequest() || !$this->esEliminable($capitulo) || !$this->isCsrfTokenValid('delete' . $capitulo->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
+
             $em = $this->getDoctrine()->getManager();
             $em->remove($capitulo);
             $em->flush();
             return $this->json(array('mensaje' => 'El capítulo fue eliminado satisfactoriamente'));
-        }
-
-        throw $this->createAccessDeniedException();
     }
 
+    /*
+     * Funcion que devuelve un booleano indicando si es o no eliminable un capitulo
+     */
     private function esEliminable(Capitulo $capitulo): bool
     {
         $em = $this->getDoctrine()->getManager();
-        if ($em->getRepository(SubCapitulo::class)->findOneByCapitulo($capitulo) != null)
-            return false;
-
-        return true;
+        return $em->getRepository(SubCapitulo::class)->findOneByCapitulo($capitulo) == null;
     }
 }

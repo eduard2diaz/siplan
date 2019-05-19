@@ -61,9 +61,35 @@ class PlanMensualGeneral
      */
     private $puntualizacionPlanMensualGenerals;
 
+    /**
+     * @var \Usuario
+     *
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="aprobadopor", referencedColumnName="id",onDelete="Cascade")
+     * })
+     */
+    private $aprobadopor;
+
+    /**
+     * @var \Usuario
+     *
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="gestionadopor", referencedColumnName="id",onDelete="Cascade")
+     * })
+     */
+    private $gestionadopor;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $aprobado;
+
     public function __construct()
     {
         $this->puntualizacionPlanMensualGenerals = new ArrayCollection();
+        $this->aprobado=false;
     }
 
     /**
@@ -115,11 +141,6 @@ class PlanMensualGeneral
     public function setAnno(?int $anno): void
     {
         $this->anno = $anno;
-    }
-
-    public function __toString(): string
-    {
-        return (String)$this->getId();
     }
 
     public function getEdicionfechainicio(): ?\DateTimeInterface
@@ -178,6 +199,44 @@ class PlanMensualGeneral
     }
 
     /**
+     * @return \Usuario
+     */
+    public function getAprobadopor(): ?Usuario
+    {
+        return $this->aprobadopor;
+    }
+
+    /**
+     * @param \Usuario $aprobadopor
+     */
+    public function setAprobadopor(\App\Entity\Usuario $aprobadopor=null): void
+    {
+        $this->aprobadopor = $aprobadopor;
+    }
+
+    /**
+     * @return \Usuario
+     */
+    public function getGestionadopor(): ?Usuario
+    {
+        return $this->gestionadopor;
+    }
+
+    /**
+     * @param \Usuario $gestionadopor
+     */
+    public function setGestionadopor(\App\Entity\Usuario $gestionadopor): void
+    {
+        $this->gestionadopor = $gestionadopor;
+    }
+
+
+    public function __toString(): string
+    {
+        return (String)$this->getId();
+    }
+
+    /**
      * @Assert\Callback
      */
     public function validar(ExecutionContextInterface $context)
@@ -201,5 +260,17 @@ class PlanMensualGeneral
             $context->setNode($context, 'edicionfechafin', null, 'data.edicionfechafin');
             $context->addViolation('Seleccione la fecha de fin mayor o igual que la fecha de inicio');
         }
+    }
+
+    public function getAprobado(): ?bool
+    {
+        return $this->aprobado;
+    }
+
+    public function setAprobado(bool $aprobado): self
+    {
+        $this->aprobado = $aprobado;
+
+        return $this;
     }
 }

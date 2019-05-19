@@ -6,7 +6,6 @@ use App\Form\AreaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\AreaService;
 use App\Entity\Area;
@@ -57,7 +56,7 @@ class AreaController extends AbstractController
             if ($form->isValid()) {
                 $em->persist($area);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El área fue registrada satisfactoriamente',
+                return $this->json(array('mensaje' => 'El área fue registrada satisfactoriamente',
                     'nombre' => $area->getNombre(),
                     'area_padre' => null !== $area->getPadre() ? $area->getPadre()->getNombre() : '',
                     'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $area->getId())->getValue(),
@@ -66,8 +65,9 @@ class AreaController extends AbstractController
             } else {
                 $page = $this->renderView('area/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'area' => $area,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true,));
+                return $this->json(array('form' => $page, 'error' => true,));
             }
 
         return $this->render('area/_new.html.twig', [
@@ -95,15 +95,16 @@ class AreaController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($area);
                 $em->flush();
-                return new JsonResponse(array('mensaje' => 'El área fue actualizada satisfactoriamente', 'nombre' => $area->getNombre(), 'area_padre' => null !== $area->getPadre() ? $area->getPadre()->getNombre() : '',));
+                return $this->json(array('mensaje' => 'El área fue actualizada satisfactoriamente', 'nombre' => $area->getNombre(), 'area_padre' => null !== $area->getPadre() ? $area->getPadre()->getNombre() : '',));
             } else {
                 $page = $this->renderView('area/_form.html.twig', array(
                     'form' => $form->createView(),
                     'form_id' => 'area_edit',
                     'action' => 'Actualizar',
+                    'area' => $area,
                     'eliminable' => $eliminable,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
+                return $this->json(array('form' => $page, 'error' => true));
             }
 
         return $this->render('area/_new.html.twig', [
@@ -121,21 +122,20 @@ class AreaController extends AbstractController
      */
     public function delete(Request $request, Area $area): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $area->getId(), $request->query->get('_token'))) {
+        if (!$request->isXmlHttpRequest() || !$this->esEliminable($area) || !$this->isCsrfTokenValid('delete' . $area->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
+
             $this->denyAccessUnlessGranted('DELETE', $area);
             $em = $this->getDoctrine()->getManager();
             $em->remove($area);
             $em->flush();
-            return new JsonResponse(array('mensaje' => 'El área fue eliminada satisfactoriamente'));
-        }
-
-        throw $this->createAccessDeniedException();
+            return $this->json(array('mensaje' => 'El área fue eliminada satisfactoriamente'));
     }
 
     //OPCIONES AJAX ADICIONALES
-
     /**
      * @Route("/{id}/findByUsuario", name="area_findbyusuario", methods="GET",options={"expose"=true})
+     * Esta funcionalidad se utiliza para la gestion y edicion de usuarios por parte del administrador
      */
     public function findByUsuario(Request $request, Usuario $usuario,AreaService $areaService): Response
     {
@@ -152,6 +152,10 @@ class AreaController extends AbstractController
         return new Response($cadena);
     }
 
+    /*
+     * Funcion que devuelce si un area es o no eliminable teniendo en cuenta si existen otras entidades o tuplas que
+     * dependen de la misma
+     */
     private function esEliminable(Area $area): bool
     {
         $em = $this->getDoctrine()->getManager();

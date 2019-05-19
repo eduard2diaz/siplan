@@ -5,13 +5,9 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\PlanMensualGeneral;
-use App\Entity\Usuario;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use App\Validator\PeriodActividadGeneral as PeriodConstraint;
-use App\Entity\Capitulo;
-use App\Entity\Subcapitulo;
 
 /**
  * ActividadGeneral
@@ -49,28 +45,32 @@ class ActividadGeneral
     /**
      * @var string|null
      *
-     * @ORM\Column(name="nombre", type="string", nullable=false)
+     * @ORM\Column(name="nombre", type="string",length=250, nullable=false)
+     * @Assert\Length(max=250)
      */
     private $nombre;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="lugar", type="string", nullable=false)
+     * @ORM\Column(name="lugar", type="string",length=250, nullable=false)
+     * @Assert\Length(max=250)
      */
     private $lugar;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="dirigen", type="string", nullable=false)
+     * @ORM\Column(name="dirigen", type="string",length=250, nullable=false)
+     * @Assert\Length(max=250)
      */
     private $dirigen;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="participan", type="text", nullable=false)
+     * @ORM\Column(name="participan", type="text",length=250, nullable=false)
+     * @Assert\Length(max=250)
      */
     private $participan;
 
@@ -119,7 +119,7 @@ class ActividadGeneral
     private $subcapitulo;
 
     /**
-     * @var \Capitulo
+     * @var \ARC
      *
      * @ORM\ManyToOne(targetEntity="ARC")
      * @ORM\JoinColumns({

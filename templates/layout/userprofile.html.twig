@@ -35,7 +35,7 @@
                     <li class="list-inline-item"><a href="{{ path('usuario_show',{'id':user_id}) }}"
                                                     class="nav-link m-link"><i class="flaticon-profile-1"></i>Perfil</a>
                     </li>
-                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTIVO') %}
+                    {% if (user_id==app.user.id and is_granted('ROLE_ADMIN')) or esDirectivo==true %}
                         <li class="list-inline-item"><a href="{{ path('usuario_index',{'id':user_id}) }}"
                                                         class="nav-link m-link"><i class="flaticon-users"></i>Subordinados</a>
                         </li>
@@ -44,23 +44,9 @@
                                                     class="nav-link m-link"><i
                                     class="flaticon-network"></i>Grupos</a>
                     </li>
-                    <li class="list-inline-item"><a href="{{ path('plantrabajo_index',{'id':user_id}) }}"
-                                                    class="nav-link m-link"><i class="flaticon-profile"></i>Planes
-                            de trabajo</a>
+                    <li class="list-inline-item"><a href="{{ path('plantrabajo_index',{'id':user_id}) }}" class="nav-link m-link">
+                            <i class="flaticon-profile"></i>Planes de trabajo</a>
                     </li>
-                    {% if is_granted('ROLE_COORDINADOR') or app.request.session.get('esmiembroconsejodireccion') %}
-                        <li class="list-inline-item">
-                            <a href="{{ path('planmensualgeneral_index') }}" class="nav-link m-link">
-                                <i class="flaticon-confetti"></i>Planes de trabajo general
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% if is_granted('ROLE_COORDINADOR') %}
-                        <li class="list-inline-item">
-                            <a href="{{ path('miembro_consejo_direccion_index') }}" class="nav-link m-link">
-                                <i class="flaticon-map-location"></i>Consejo de dirección</a>
-                        </li>
-                    {% endif %}
                 </ul>
             </div>
         </div>

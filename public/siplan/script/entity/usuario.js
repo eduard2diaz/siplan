@@ -200,7 +200,7 @@ var usuario = function () {
                             if (data['error']==0)
                                 toastr.danger('No existen usuarios con ese nombre de usuario');
                             else
-                                toastr.warning('Hay varios usarios con este nombre de usuario');
+                                toastr.warning('Hay varios usuarios con este nombre de usuario');
                         }else{
                             $('input#usuario_nombre').val(data['nombre']);
                             $('input#usuario_correo').val(data['correo']);

@@ -1,59 +1,117 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Plan Mensual General</title>
-    </head>
-    <body>
-    <b>Plan Mensual General {{ plan.getMesToString() }}, {{ plan.anno }}</b>
-    <table>
-        {% set capitulo_index=1 %}
-        {% for capitulo in capitulos %}
-            <tr>
-                <td colspan="6">Capítulo {{ capitulo_index }}: {{ capitulo['nombre'] }}</td>
-            </tr>
-            {% set subcapitulo_index=1 %}
-            {% for subcapitulo in capitulo['subcapitulos'] %}
-                <tr>
-                    <td></td>
-                    <td colspan="5">Subcapítulo {{ subcapitulo_index }}: {{ subcapitulo['nombre'] }}</td>
-                </tr>
-                {% set arc_index=1 %}
-                {% for arc in subcapitulo['arcs'] %}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td colspan="4">ARC {{ arc_index }}: {{ arc['nombre'] }}</td>
-                    </tr>
+<head>
+    <meta charset="utf-8">
+    <title>Plan Mensual General</title>
+    <style>
+        .align-center {
+            text-align: center;
+        }
 
-                    {% set actividad_index=1 %}
-                    {% for actividad in arc['actividades'] %}
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Actividad {{actividad_index }} {{  actividad['nombre'] }}</td>
-                            <td>{{ actividad['fecha'] |date('d-m-Y') }}</td>
-                            <td>{{ actividad['fechaF'] |date('d-m-Y') }}</td>
-                        </tr>
-                        {% set actividad_index=1+actividad_index %}
-                    {% endfor %}
-                    {% set arc_index=1+ arc_index %}
-                {% endfor %}
+        .page {
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        .page:last-child {
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+    </style>
+    <link href="{{ absolute_url(asset('vendors/base/vendors.bundle.css','template')) }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ absolute_url(asset('demo/demo9/base/style.bundle.css','template')) }}" rel="stylesheet"
+          type="text/css"/>
+</head>
+<body>
+<div class="page">
+    <b>APROBADO:</b>
+    {{ plan.aprobadopor }}
+    {% if plan.aprobadopor!=null %}
+        <br/>
+        {{ plan.aprobadopor.cargo }}
+    {% endif %}
+    <h3 class="align-center m--margin-top-30">Plan de Trabajo de la Universidad Agraria de La Habana(UNAH) para el
+        Mes {{ plan.getMesToString() }}, {{ plan.anno }}</h3>
+
+    <h4 class="align-center m--margin-top-30">Tareas Principales</h4>
+    {% set objetivo_index=1 %}
+    <table class="table">
+        {% for objetivo in objetivos %}
+            <tr>
+                <td>{{ objetivo_index }}</td>
+                <td>{{ objetivo.descripcion }}</td>
+            </tr>
+            {% set objetivo_index=1+objetivo_index %}
+        {% else %}
+            <tr>
+                <td colspan="2">Los objetivos no han sido definidos hasta el momento</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <b>PRESENTA:</b>
+    {{ plan.gestionadopor }}
+    <br/>
+    {{ plan.gestionadopor.cargo }}
+</div>
+
+
+<h4 class="align-center">Actividades</h4>
+<table class="table">
+    <tr>
+        <th>Actividad</th>
+        <th>Fecha inicio</th>
+        <th>Fecha fin</th>
+        <th>Lugar</th>
+        <th>Dirigen</th>
+        <th>Participan</th>
+    </tr>
+    {% set capitulo_index=1 %}
+    {% for capitulo in capitulos %}
+        <tr>
+            <td colspan="6">Capítulo {{ capitulo_index }}: {{ capitulo['nombre'] }}</td>
+        </tr>
+        {% set subcapitulo_index=1 %}
+        {% for subcapitulo in capitulo['subcapitulos'] %}
+            <tr>
+                <td colspan="6">Subcapítulo {{ subcapitulo_index }}: {{ subcapitulo['nombre'] }}</td>
+            </tr>
+            {% set arc_index=1 %}
+            {% for arc in subcapitulo['arcs'] %}
+                <tr>
+                    <td colspan="6">ARC {{ arc_index }}: {{ arc['nombre'] }}</td>
+                </tr>
+
                 {% set actividad_index=1 %}
-                {% for actividad in subcapitulo['actividades'] %}
+                {% for actividad in arc['actividades'] %}
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td>Actividad {{actividad_index }} {{  actividad['nombre'] }}</td>
-                        <td>{{ actividad['fecha'] |date('d-m-Y') }}</td>
-                        <td>{{ actividad['fechaF'] |date('d-m-Y') }}</td>
+                        <td>Actividad {{ actividad_index }} {{ actividad['nombre'] }}</td>
+                        <td>{{ actividad['fecha'] |date('d-m-Y H:i') }}</td>
+                        <td>{{ actividad['fechaF'] |date('d-m-Y  H:i') }}</td>
+                        <td>{{ actividad['lugar'] }}</td>
+                        <td>{{ actividad['dirigen'] }}</td>
+                        <td>{{ actividad['participan'] }}</td>
                     </tr>
                     {% set actividad_index=1+actividad_index %}
                 {% endfor %}
-                {% set subcapitulo_index=1+subcapitulo_index %}
+                {% set arc_index=1+ arc_index %}
             {% endfor %}
-            {% set capitulo_index=1+capitulo_index %}
+            {% set actividad_index=1 %}
+            {% for actividad in subcapitulo['actividades'] %}
+                <tr>
+                    <td>Actividad {{ actividad_index }} {{ actividad['nombre'] }}</td>
+                    <td>{{ actividad['fecha'] |date('d-m-Y') }}</td>
+                    <td>{{ actividad['fechaF'] |date('d-m-Y') }}</td>
+                    <td>{{ actividad['lugar'] }}</td>
+                    <td>{{ actividad['dirigen'] }}</td>
+                    <td>{{ actividad['participan'] }}</td>
+                </tr>
+                {% set actividad_index=1+actividad_index %}
+            {% endfor %}
+            {% set subcapitulo_index=1+subcapitulo_index %}
         {% endfor %}
-    </table>
-    </body>
+        {% set capitulo_index=1+capitulo_index %}
+    {% endfor %}
+</table>
+</body>
 </html>

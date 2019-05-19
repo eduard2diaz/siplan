@@ -6,7 +6,7 @@
                 <div class="m-portlet__head-title">
                     <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
                     <h3 class="m-portlet__head-text">
-                        Planes mensuales general
+                        Plan Mensual Institucional
                     </h3>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                             <span><i class="flaticon-refresh"></i></span> Refrescar
                         </a>
                     </li>
-                    {% if esCoordinador== true%}
+                    {% if is_granted('ROLE_COORDINADORINSTITUCIONAL')%}
                     <li class="m-portlet__nav-item">
                         <a data-href="{{ path('planmensualgeneral_new') }}" class="btn btn-sm btn-primary m-btn edicion text-uppercase"  data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Registrar un nuevo plan mensual">
                             <span><i class="flaticon-add"></i></span> Nuevo

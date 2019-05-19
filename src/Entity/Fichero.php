@@ -22,7 +22,8 @@ class Fichero
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=250)
+     * @Assert\Length(max=250)
      */
     private $nombre;
 

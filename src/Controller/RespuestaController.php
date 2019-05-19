@@ -22,12 +22,12 @@ class RespuestaController extends AbstractController
      */
     public function new(Request $request, Actividad $actividad): Response
     {
-        if(!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         $em = $this->getDoctrine()->getManager();
-        $existeRespuesta = $em->getRepository('App:Respuesta')->find($actividad)!=null;
-        if($existeRespuesta==true)
+        $existeRespuesta = $em->getRepository('App:Respuesta')->find($actividad) != null;
+        if ($existeRespuesta == true)
             throw $this->createAccessDeniedException();
 
         $respuesta = new Respuesta();
@@ -49,13 +49,13 @@ class RespuestaController extends AbstractController
                 $em->flush();
 
                 return new JsonResponse(array('mensaje' => "La respuesta fue registrada satisfactoriamente",
-                    'href'=>$this->generateUrl('respuesta_edit',['id'=>$respuesta->getId()->getId()])
+                    'href' => $this->generateUrl('respuesta_edit', ['id' => $respuesta->getId()->getId()])
                 ));
             } else {
                 $page = $this->renderView('respuesta/_form.html.twig', array(
                     'form' => $form->createView(),
                     'respuesta' => $respuesta,
-                    'existeRespuesta'=>$existeRespuesta
+                    'existeRespuesta' => $existeRespuesta
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -63,16 +63,16 @@ class RespuestaController extends AbstractController
         return $this->render('respuesta/_new.html.twig', [
             'respuesta' => $respuesta,
             'form' => $form->createView(),
-            'existeRespuesta'=>$existeRespuesta
+            'existeRespuesta' => $existeRespuesta
         ]);
     }
 
     /**
      * @Route("/{id}/show", name="respuesta_show", methods="GET")
      */
-    public function show(Request $request,Respuesta $respuesta): Response
+    public function show(Request $request, Respuesta $respuesta): Response
     {
-        if(!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         $this->denyAccessUnlessGranted('VIEW', $respuesta);
@@ -84,7 +84,7 @@ class RespuestaController extends AbstractController
      */
     public function edit(Request $request, Respuesta $respuesta): Response
     {
-        if(!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         $this->denyAccessUnlessGranted('EDIT', $respuesta);
@@ -109,7 +109,7 @@ class RespuestaController extends AbstractController
                     'form' => $form->createView(),
                     'action' => 'Actualizar',
                     'form_id' => 'respuesta_edit',
-                    'existeRespuesta'=>true
+                    'existeRespuesta' => true
                 ));
                 return new JsonResponse(array('form' => $page, 'error' => true));
             }
@@ -120,7 +120,7 @@ class RespuestaController extends AbstractController
             'action' => 'Actualizar',
             'form_id' => 'respuesta_edit',
             'form' => $form->createView(),
-            'existeRespuesta'=>true
+            'existeRespuesta' => true
         ]);
     }
 
@@ -130,18 +130,19 @@ class RespuestaController extends AbstractController
      */
     public function delete(Request $request, Respuesta $respuesta): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $respuesta->getId()->getId(), $request->query->get('_token'))) {
-            $this->denyAccessUnlessGranted('DELETE', $respuesta);
-            $actividad_id=$respuesta->getId()->getId();
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($respuesta);
-            $em->flush();
-            return new JsonResponse(array('mensaje' => "La respuesta fue eliminada satisfactoriamente",
-                'href'=>$this->generateUrl('respuesta_new',['id'=>$actividad_id])
-            ));
-        }
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('delete' . $respuesta->getId()->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
 
-        throw $this->createAccessDeniedException();
+        $this->denyAccessUnlessGranted('DELETE', $respuesta);
+        $actividad_id = $respuesta->getId()->getId();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($respuesta);
+        $em->flush();
+        return new JsonResponse(array('mensaje' => "La respuesta fue eliminada satisfactoriamente",
+            'href' => $this->generateUrl('respuesta_new', ['id' => $actividad_id])
+        ));
+
+
     }
 
     /**

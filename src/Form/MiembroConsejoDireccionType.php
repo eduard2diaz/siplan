@@ -28,7 +28,7 @@ class MiembroConsejoDireccionType extends AbstractType
                     $qb = $repository->createQueryBuilder('usuario');
                     $qb->innerJoin('usuario.idrol', 'r')
                         ->where('r.nombre IN  (:roles)')
-                        ->setParameter('roles', ['ROLE_USER','ROLE_DIRECTIVO','ROLE_COORDINADOR']);
+                        ->setParameter('roles', ['ROLE_USER','ROLE_DIRECTIVOINSTITUCIONAL','ROLE_DIRECTIVO','ROLE_COORDINADORINSTITUCIONAL','ROLE_COORDINADORAREA']);
                     if (!empty($usuarios)) {
                         $qb->andWhere('usuario.id NOT IN (:listado)')->setParameter('listado', $usuarios);
                     }

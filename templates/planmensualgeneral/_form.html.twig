@@ -3,6 +3,20 @@
     'class': 'm-form m-form--state'
 }}) }}
 <div class="modal-body" id="modal-body">
+    {% if form.aprobado is defined %}
+
+    <div class="row pull-right m--margin-bottom-5">
+    <span class="m-switch m-switch--icon m-switch--success pull-right">
+         Aprobado
+        <br/>
+				<label>
+					{{ form_widget(form.aprobado) }}
+                    <span></span>
+			</label>
+    </span>
+    </div>
+    {% endif %}
+    <div class="clearfix"></div>
     <div class="row m--margin-bottom-40">
         <div class="col-md-6">
             <div class="form-group m-form__group">

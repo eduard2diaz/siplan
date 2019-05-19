@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Gráfico de coordinación</title>
+        <style>
+            .align-center{
+                text-align: center;
+            }
+
+            div.title {
+                margin: 6% 40%;
+                text-align: center;
+            }
+            table{
+                width: 100% !important;
+                border-collapse: initial !important;
+                border-spacing: 0 !important;
+                margin: 1rem 0 !important;
+                max-width: none !important;
+                clear: both;
+                background-color: transparent;
+            }
+            th {
+                font-weight: bold !important;
+                width: 300px !important;
+                text-align: left;
+                vertical-align: middle;
+            }
+            th,td{
+                padding: 0.7%;
+            }
+
+            thead tr {
+                background-color: rebeccapurple !important;
+            }
+            .encabezado{
+                background-color: #f4f5f8;
+            }
+        </style>
+        <link href="{{ absolute_url(asset('vendors/base/vendors.bundle.css','template')) }}" rel="stylesheet"
+              type="text/css"/>
+        <link href="{{ absolute_url(asset('demo/demo9/base/style.bundle.css','template')) }}" rel="stylesheet"
+              type="text/css"/>
+    </head>
+    <body>
+    <h3 class="align-center">Gráfico de coordinación {{ mes }}, {{ anno }}</h3>
+        <table class="table">
+            <tr>
+                <th>Actividad</th>
+                <th>Día/ hora/ lugar</th>
+                <th>Dirigen</th>
+                <th>Participan</th>
+            </tr>
+            {% for actividad in actividades %}
+                <tr>
+                    <td colspan="4" class="align-center encabezado">{{ actividad['fecha'] | date('D, d')}}</td>
+                </tr>
+                {% for act in actividad['actividad'] %}
+                    <tr>
+                        <td>{{ act['nombre'] }}</td>
+                        <td>{{ act['fecha'] | date('d-m-Y H:i')~' ,'~ act['lugar'] }}
+                            {% if  act['fecha']|date('d-m-Y')!= act['fechaF']|date('d-m-Y')%}
+                                al {{ act['fechaF']|date('d-m-Y') }}
+                            {% endif %}
+                        </td>
+                        <td>{{ act['dirigen'] }}</td>
+                        <td>{{ act['participan'] }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            <tr>
+                <th>Actividad</th>
+                <th>Día/ hora/ lugar</th>
+                <th>Dirigen</th>
+                <th>Participan</th>
+            </tr>
+        </table>
+    </body>
+</html>

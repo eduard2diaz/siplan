@@ -27,15 +27,10 @@ class GrupoType extends AbstractType
     {
         $data = $options['data'];
         $id = $this->token->getToken()->getUser()->getId();
-        $choices=[];
-        if(null!=$data->getId())
-            $choices=$data->getIdmiembro();
 
         $builder
-            ->add('nombre', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('nombre', TextType::class, ['attr' => ['class' => 'form-control']]);
 
-            ->add('idmiembro',null,array('choices'=>$choices,'required'=>false,'label'=>'Miembros','attr'=>array('placeholder'=>'Escriba el/ los miembros',)))
-            ;
         if (null != $data->getId()) {
             $grupo = $data->getId();
             $id = $data->getCreador()->getId();
@@ -54,11 +49,6 @@ class GrupoType extends AbstractType
                     $qb->where('usuario.id IN (:solicitudesaceptadas)')->setParameter('solicitudesaceptadas', $result);
                     $qb->orWhere('usuario.id =:id')->setParameter('id', $id);
                     return $qb;
-
-                    return $er->createQueryBuilder('u')
-                        ->join('u.idrol', 'r')
-                        ->where('r.nombre IN (:roles)')
-                        ->setParameter('roles', ['ROLE_DIRECTIVO', 'ROLE_USER','ROLE_COORDINADOR']);
                 }
 
             ]);

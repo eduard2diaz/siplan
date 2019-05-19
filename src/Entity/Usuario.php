@@ -34,15 +34,17 @@ class Usuario implements UserInterface
     /**
      * @var string|null
      *
-     * @ORM\Column(name="nombre", type="string")
+     * @ORM\Column(name="nombre",length=250, type="string")
      * @Assert\Regex("/^[A-Za-záéíóúñ]{2,}([\s][A-Za-záéíóúñ]{2,})*$/")
+     * @Assert\Length(max=250)
      */
     private $nombre;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="correo", type="string", nullable=true,unique=false)
+     * @ORM\Column(name="correo", type="string",length=250, nullable=true,unique=false)
+     * @Assert\Length(max=250)
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
      *     strict = true
@@ -53,7 +55,8 @@ class Usuario implements UserInterface
     /**
      * @var string|null
      *
-     * @ORM\Column(name="usuario", type="string", nullable=true,unique=true)
+     * @ORM\Column(name="usuario", type="string",length=250, nullable=true,unique=true)
+     * @Assert\Length(max=250)
      * @Assert\Regex("/^([a-zA-Z]((\.|_|-)?[a-zA-Z0-9]+){3})*$/")
      */
     private $usuario;
@@ -61,14 +64,16 @@ class Usuario implements UserInterface
     /**
      * @var string|null
      *
-     * @ORM\Column(name="password", type="string", nullable=true)
+     * @ORM\Column(name="password", type="string",length=250, nullable=true)
+     * @Assert\Length(max=250)
      */
     private $password;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="salt", type="string", nullable=true)
+     * @ORM\Column(name="salt", type="string",length=250, nullable=true)
+     * @Assert\Length(max=250)
      */
     private $salt;
 
@@ -652,6 +657,10 @@ class Usuario implements UserInterface
         return $this;
     }
 
+    public function esDirectivo(){
+        return in_array('ROLE_DIRECTIVO',$this->getRoles()) || in_array('ROLE_DIRECTIVOINSTITUCIONAL',$this->getRoles());
+    }
+
     /**
      * @Assert\Callback
      */
@@ -675,11 +684,52 @@ class Usuario implements UserInterface
             $context->addViolation('Compruebe el jefe seleccionado.');
         }
 
-        if(in_array('ROLE_ADMIN',$roles)) {
-            if ($this->getJefe() != null)
-                $context->buildViolation('Un administrador no puede tener jefe')
+        if(in_array('ROLE_DIRECTIVOINSTITUCIONAL',$roles)){
+            if(in_array('ROLE_ADMIN',$roles))
+                $context->buildViolation('Un directivo institucional tiene previamente definidos los permisos del administrador')
                     ->atPath('idrol')
                     ->addViolation();
+            elseif(in_array('ROLE_COORDINADORINSTITUCIONAL',$roles))
+                $context->buildViolation('Un directivo institucional tiene previamente definidos los permisos del coordinador institucional')
+                    ->atPath('idrol')
+                    ->addViolation();
+            elseif(in_array('ROLE_COORDINADORAREA',$roles))
+                $context->buildViolation('Un directivo institucional tiene previamente definidos los permisos del coordinador de área')
+                    ->atPath('idrol')
+                    ->addViolation();
+            elseif(in_array('ROLE_DIRECTIVO',$roles))
+                $context->buildViolation('Un directivo institucional tiene previamente definidos los permisos del directivo')
+                    ->atPath('idrol')
+                    ->addViolation();
+            elseif(in_array('ROLE_USER',$roles))
+                $context->buildViolation('Un directivo institucional tiene previamente definidos los permisos del trabajador')
+                    ->atPath('idrol')
+                    ->addViolation();
+        }elseif(in_array('ROLE_COORDINADORINSTITUCIONAL',$roles)){
+            if(in_array('ROLE_COORDINADORAREA',$roles))
+                $context->buildViolation('Un coordinador institucional tiene previamente definidos los permisos del coordinador de área')
+                    ->atPath('idrol')
+                    ->addViolation();
+            elseif(in_array('ROLE_USER',$roles))
+                $context->buildViolation('Un coordinador institucional tiene previamente definidos los permisos del trabajador')
+                    ->atPath('idrol')
+                    ->addViolation();
+        }
+        elseif(in_array('ROLE_COORDINADORAREA',$roles) && in_array('ROLE_USER',$roles)){
+                $context->buildViolation('Un coordinador de área tiene previamente definidos los permisos del trabajador')
+                    ->atPath('idrol')
+                    ->addViolation();
+
+        }elseif(in_array('ROLE_DIRECTIVO',$roles) && in_array('ROLE_USER',$roles)){
+                $context->buildViolation('Un directivo tiene previamente definidos los permisos del trabajador')
+                    ->atPath('idrol')
+                    ->addViolation();
+
+        }elseif(in_array('ROLE_ADMIN',$roles) && in_array('ROLE_USER',$roles)){
+                $context->buildViolation('Un directivo tiene previamente definidos los permisos del trabajador')
+                    ->atPath('idrol')
+                    ->addViolation();
+
         }elseif(in_array('ROLE_USER',$roles)) {
             if ($this->getJefe() == null)
                 $context->buildViolation('Seleccione el jefe')

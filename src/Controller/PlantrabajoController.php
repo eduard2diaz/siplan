@@ -30,7 +30,7 @@ class PlantrabajoController extends AbstractController
     public function index(Request $request, Usuario $usuario): Response
     {
         $esSubordinado = $usuario->esSubordinado($this->getUser());
-        if ($usuario->getId() != $this->getUser()->getId() && ($esSubordinado == false))
+        if ($usuario->getId() != $this->getUser()->getId() && ($esSubordinado == false) && !$this->isGranted('ROLE_ADMIN'))
             throw $this->createAccessDeniedException();
 
         $plantrabajos = $this->getDoctrine()
@@ -43,7 +43,8 @@ class PlantrabajoController extends AbstractController
             'user_nombre' => $usuario->getNombre(),
             'user_correo' => $usuario->getCorreo(),
             'esSubordinado' => $esSubordinado,
-            'plantrabajos' => $plantrabajos
+            'plantrabajos' => $plantrabajos,
+            'esDirectivo'=>$usuario->esDirectivo()
         ];
 
         if ($request->isXmlHttpRequest())
@@ -103,10 +104,6 @@ class PlantrabajoController extends AbstractController
         $this->denyAccessUnlessGranted('VIEW', $plantrabajo);
 
         //La variable $esmiembroCD permite definir si un usuario puede o no clonar sus actividades del plan general
-        $esmiembroCD = false;
-        if ($plantrabajo->getUsuario()->getId() == $this->getUser()->getId())
-            $esmiembroCD = $this->getDoctrine()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser()) != null;
-
         $em = $this->getDoctrine()->getManager();
         $actividads = $em->getRepository(Actividad::class)->findBy(array('plantrabajo' => $plantrabajo));
         $puntualizaciones = $em->getRepository(PuntualizacionPlanTrabajo::class)->findBy(array('plantrabajo' => $plantrabajo));
@@ -119,7 +116,7 @@ class PlantrabajoController extends AbstractController
             'user_foto' => null != $plantrabajo->getUsuario()->getRutaFoto() ? $plantrabajo->getUsuario()->getRutaFoto() : null,
             'user_nombre' => $plantrabajo->getUsuario()->getNombre(),
             'user_correo' => $plantrabajo->getUsuario()->getCorreo(),
-            'esmiembroCD' => $esmiembroCD
+            'esDirectivo'=>$plantrabajo->getUsuario()->esDirectivo()
         ]);
     }
 
@@ -136,12 +133,12 @@ class PlantrabajoController extends AbstractController
 
         $parameters = ['plantrabajo' => $plantrabajo];
         $status = ['registradas', 'en proceso', 'culminadas', 'cumplidas', 'incumplidas'];
-        if ($request->query->has('filtro') && ($request->query->get('filtro') >= 1 && $request->query->get('filtro') <= 5)){
+        if ($request->query->has('filtro') && ($request->query->get('filtro') >= 1 && $request->query->get('filtro') <= 5)) {
             $filtro = $request->get('filtro');
             $parameters['estado'] = $filtro;
-            $status=$status[$filtro - 1];
-        }else{
-            $status='todas';
+            $status = $status[$filtro - 1];
+        } else {
+            $status = 'todas';
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -161,15 +158,14 @@ class PlantrabajoController extends AbstractController
      */
     public function delete(Request $request, Plantrabajo $plantrabajo): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $plantrabajo->getId(), $request->query->get('_token'))) {
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('delete' . $plantrabajo->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
 
-            $this->denyAccessUnlessGranted('DELETE', $plantrabajo);
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($plantrabajo);
-            $em->flush();
-            return $this->json(array('mensaje' => 'El plan de trabajo fue eliminado satisfactoriamente'));
-        }
-        throw $this->createAccessDeniedException();
+        $this->denyAccessUnlessGranted('DELETE', $plantrabajo);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($plantrabajo);
+        $em->flush();
+        return $this->json(array('mensaje' => 'El plan de trabajo fue eliminado satisfactoriamente'));
     }
 
     /**
@@ -216,7 +212,7 @@ class PlantrabajoController extends AbstractController
      */
     public function antiguos(Request $request, Plantrabajo $plantrabajo): Response
     {
-        if (!$request->isXmlHttpRequest() || ($plantrabajo->getUsuario()->getJefe()!=null && !$plantrabajo->getUsuario()->esSubordinado($this->getUser()) && $plantrabajo->getUsuario()->getId()!=$this->getUser()->getId()))
+        if (!$request->isXmlHttpRequest() || ($plantrabajo->getUsuario()->getJefe() != null && !$plantrabajo->getUsuario()->esSubordinado($this->getUser()) && $plantrabajo->getUsuario()->getId() != $this->getUser()->getId()))
             throw  $this->createAccessDeniedException();
 
         $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM App:PlanTrabajo p join p.usuario u WHERE p!= :id AND u.id=:usuario ORDER BY p.anno, p.mes DESC');
@@ -232,41 +228,39 @@ class PlantrabajoController extends AbstractController
     /**
      * @Route("/{id}/exportar", name="plantrabajo_exportar", options={"expose"=true},methods="GET")
      */
-    public function exportar(Request $request, Plantrabajo $plantrabajo,Pdf $pdf): Response
+    public function exportar(Request $request, Plantrabajo $plantrabajo, Pdf $pdf): Response
     {
 
         $em = $this->getDoctrine()->getManager();
-        $capitulos_array=[];
-        $capitulos=$em->getRepository(Capitulo::class)->findBy([],['numero'=>'ASC']);
-        foreach ($capitulos as $capitulo){
-            $subcapitulos_array=[];
-            $subcapitulos=$em->getRepository(Subcapitulo::class)->findBy(['capitulo'=>$capitulo],['numero'=>'ASC']);
-            foreach ($subcapitulos as $subcapitulo){
-                $arcs=$em->getRepository(ARC::class)->findBy(['subcapitulo'=>$subcapitulo]);
-                $arcs_array=[];
-                foreach ($arcs as $arc){
-                    $actividades_array=[];
-                    $actividades=$em->getRepository(Actividad::class)->findBy(['areaconocimiento'=>$arc,'plantrabajo'=>$plantrabajo]);
-                    foreach ($actividades as $value)
-                        $actividades_array[]=['nombre'=>$value->getNombre(), 'fecha'=>$value->getFecha(),'fechaF'=>$value->getFechaF()];
-                    $arcs_array[]=['nombre'=>$arc->getNombre(),'actividades'=>$actividades_array];
-                }
-                $subcapitulos_array[]=['nombre'=>$subcapitulo->getNombre(),'arcs'=>$arcs_array];
-            }
-            $capitulos_array[]=['nombre'=>$capitulo->getNombre(),'subcapitulos'=>$subcapitulos_array];
+        $consulta=$em->createQuery('Select a.nombre, a.fecha, a.fechaF, a.dirigen, a.participan,a.lugar from App:Actividad a JOIN a.plantrabajo p WHERE p.id= :id Order by a.fecha ASC');
+        $consulta->setParameter('id',$plantrabajo->getId());
+        $actividades=$consulta->getResult();
+        $result=[];
+        foreach ($actividades as $actividad){
+            $aux=$actividad["fecha"]->format('d-m-Y');
+            $pos=$this->buscarActividad($result,$aux);
+            if($pos==-1)
+                $result[]=['fecha'=>$aux,'actividad'=>[['nombre'=>$actividad['nombre'],'fecha'=>$actividad['fecha'],'fechaF'=>$actividad['fechaF'],'dirigen'=>$actividad['dirigen'],'participan'=>$actividad['participan'],'lugar'=>$actividad['lugar']]]];
+            else
+                $result[$pos]['actividad'][]=['nombre'=>$actividad['nombre'],'fecha'=>$actividad['fecha'],'fechaF'=>$actividad['fechaF'],'dirigen'=>$actividad['dirigen'],'participan'=>$actividad['participan'],'lugar'=>$actividad['lugar']];
         }
 
-        $actividades_array=[];
-        $actividades=$em->getRepository(Actividad::class)->findBy(['areaconocimiento'=>null,'plantrabajo'=>$plantrabajo]);
-        foreach ($actividades as $value)
-            $actividades_array[]=['nombre'=>$value->getNombre(), 'fecha'=>$value->getFecha(),'fechaF'=>$value->getFechaF()];
-        $capitulos_array[]=['actividades'=>$actividades_array];
 
-        $html=$this->renderView('plantrabajo/_pdf.html.twig',['plan'=>$plantrabajo,'capitulos'=>$capitulos_array]);
+        $html = $this->renderView('plantrabajo/_pdf.html.twig', ['plan' => $plantrabajo,'actividades'=>$result]);
 
         return new PdfResponse(
             $pdf->getOutputFromHtml($html),
             'file.pdf'
         );
+    }
+
+    private function buscarActividad($listado, $fecha){
+        $i=0;
+        foreach ($listado as $value){
+            if($value['fecha']==$fecha)
+                return $i;
+            $i++;
+        }
+        return -1;
     }
 }

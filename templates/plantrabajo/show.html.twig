@@ -14,7 +14,7 @@
                 <div class="m-portlet__head-title">
                     <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
                     <h3 class="m-portlet__head-text">
-                        Plan de trabajo {{ plantrabajo.mestoString()~', '~plantrabajo.anno }}
+                        Plan de Trabajo Individual <small>{{ plantrabajo.mestoString()~', '~plantrabajo.anno }}</small>
                     </h3>
                 </div>
             </div>
@@ -144,7 +144,8 @@
 																</span>
                                                             </a>
                                                         </li>
-                                                        {% if esmiembroCD==true %}
+
+                                                        {% if is_granted('ROLE_COORDINADORINSTITUCIONAL') or app.session.get('esmiembroconsejodireccion')==true %}
                                                             <li class="m-nav__item">
                                                                 <a id="cargar_actividadesgeneral_link"
                                                                    class="m-nav__link"
@@ -157,6 +158,16 @@
                                                             </li>
                                                         {% endif %}
                                                     {% endif %}
+                                                    <li class="m-nav__item">
+                                                        <a id="cargar_actividadesgeneral_link"
+                                                           class="m-nav__link"
+                                                           data-href="{{ path('actividadarea_planmensual',{'id':plantrabajo.id}) }}">
+                                                            <i class="m-nav__link-icon flaticon-add"></i>
+                                                            <span class="m-nav__link-text">
+                                                                        Clonar actividades del plan mensual del área
+                                                                    </span>
+                                                        </a>
+                                                    </li>
                                                     <li class="m-nav__separator m-nav__separator--fit"></li>
                                                     <li class="m-nav__item">
                                                         <a href="{{ path('plantrabajo_exportar',{'id':plantrabajo.id}) }}"

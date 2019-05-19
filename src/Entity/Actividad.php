@@ -16,7 +16,6 @@ use App\Validator\Period as PeriodConstraint;
  *
  * @ORM\Table(name="actividad", indexes={@ORM\Index(name="IDX_8DF2BD0652520D07", columns={"responsable"}), @ORM\Index(name="IDX_8DF2BD0632DBFD56", columns={"asignadapor"}), @ORM\Index(name="IDX_8DF2BD06B0BD47FB", columns={"plantrabajo"})})
  * @ORM\Entity
- * @PeriodConstraint(from="fecha",to="fechaF",foreign="plantrabajo")
  */
 class Actividad
 {
@@ -47,28 +46,32 @@ class Actividad
     /**
      * @var string|null
      *
-     * @ORM\Column(name="nombre", type="string", nullable=false)
+     * @ORM\Column(name="nombre", type="string", length=250, nullable=false)
+     * @Assert\Length(max=250)
      */
     private $nombre;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="lugar", type="string", nullable=true)
+     * @ORM\Column(name="lugar", type="string",length=250, nullable=true)
+     * @Assert\Length(max=250)
      */
     private $lugar;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="dirigen", type="string", nullable=true)
+     * @ORM\Column(name="dirigen", type="string",length=250, nullable=true)
+     * @Assert\Length(max=250)
      */
     private $dirigen;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="participan", type="text", nullable=true)
+     * @ORM\Column(name="participan", type="text",length=250, nullable=true)
+     * @Assert\Length(max=250)
      */
     private $participan;
 

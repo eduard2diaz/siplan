@@ -110,6 +110,7 @@ function colorear(enfuncionamiento) {
 var authenticated = function () {
     var obj = null;
     var cantidadNotificaciones = 0;
+    var cantidadMensajes = 0;
 
     var notificacionShow = function () {
         $('body').on('click', 'a.notificacion_show', function (evento)
@@ -428,9 +429,11 @@ var authenticated = function () {
                 // base.blockUI({message: 'Cargando'});
             },
             success: function (data) {
-                if(data['contador']>0)
+                if(data['contador']>0){
                     $('span#mensaje_contador').append("<span class='m-nav__link-badge m-badge m-badge--danger'>"+data['contador']+"</span>");
-                $('div#mensaje_content').html(data['html']);
+                    cantidadMensajes=data['contador'];
+                }
+                 $('div#mensaje_content').html(data['html']);
             },
             error: function () {
                 base.Error();
@@ -529,6 +532,14 @@ var authenticated = function () {
                 success: function (data) {
                     if ($('div#basicmodal').html(data)) {
                         $('div#basicmodal').modal('show');
+                        if (cantidadMensajes > 0 && !obj.hasClass('mensaje-visto')) {
+                            cantidadMensajes--;
+                            if (cantidadMensajes == 0) {
+                                $('span#mensaje_contador span.m-nav__link-badge').html('').removeClass('m-nav__link-badge m-badge m-badge--danger');
+                            } else
+                                $('span#mensaje_contador span.m-nav__link-badge').html(cantidadMensajes);
+                        }
+                        obj.addClass('mensaje-visto');
                     }
                 },
                 error: function () {

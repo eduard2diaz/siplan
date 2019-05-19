@@ -35,6 +35,7 @@ class PuntualizacionPlanTrabajo
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=250)
      */
     private $actividad;
 

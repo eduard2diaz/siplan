@@ -32,7 +32,8 @@ class Mensaje
     /**
      * @var string|null
      *
-     * @ORM\Column(name="asunto", type="string", nullable=true)
+     * @ORM\Column(name="asunto", type="string", nullable=true, length=250)
+     * @Assert\Length(max=250)
      */
     private $asunto;
 

@@ -20,7 +20,6 @@ class DefaultController extends Controller
                 return $this->redirectToRoute('usuario_index',array('id'=>$this->getUser()->getId()));
 
             return $this->redirectToRoute('plantrabajo_index',['id'=>$this->getUser()->getId()]);
-
         }
 
         $authenticationUtils = $this->get('security.authentication_utils');

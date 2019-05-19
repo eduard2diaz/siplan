@@ -163,6 +163,7 @@ class ActividadController extends AbstractController
             'user_foto' => null != $plantrabajo->getUsuario()->getRutaFoto() ? $plantrabajo->getUsuario()->getRutaFoto() : null,
             'user_nombre' => $plantrabajo->getUsuario()->getNombre(),
             'user_correo' => $plantrabajo->getUsuario()->getCorreo(),
+            'esDirectivo'=>$plantrabajo->getUsuario()->esDirectivo()
         ]);
     }
 
@@ -223,7 +224,8 @@ class ActividadController extends AbstractController
             'user_foto' => null != $actividad->getPlantrabajo()->getUsuario()->getRutaFoto() ? $actividad->getPlantrabajo()->getUsuario()->getRutaFoto() : null,
             'user_nombre' => $actividad->getPlantrabajo()->getUsuario()->getNombre(),
             'user_correo' => $actividad->getPlantrabajo()->getUsuario()->getCorreo(),
-            'existeRespuesta' =>$existeRespuesta
+            'existeRespuesta' =>$existeRespuesta,
+            'esDirectivo'=>$actividad->getResponsable()->esDirectivo()
         ]);
     }
 

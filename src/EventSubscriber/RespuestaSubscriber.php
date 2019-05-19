@@ -26,9 +26,14 @@ class RespuestaSubscriber implements EventSubscriber
         $entity = $args->getEntity();
         if ($entity instanceof Respuesta) {
            if($entity->getId()->getAsignadapor()->getId()!=$entity->getId()->getResponsable()->getId()){
-               $destinatario=$entity->getId()->getResponsable();
+               $destinatario=$entity->getId()->getAsignadapor();
                $message="El usuario ".$entity->getId()->getResponsable()->getNombre()." dio respuesta a la actividad ".$entity->getId()->getNombre();
-               $this->notificacion->nuevaNotificacion($destinatario->getId(), $message);
+               $notificacion=new Notificacion();
+               $notificacion->setFecha(new \DateTime());
+               $notificacion->setDestinatario($destinatario);
+               $notificacion->setDescripcion($message);
+               $args->getEntityManager()->persist($notificacion);
+               $args->getEntityManager()->flush();
            }
         }
     }
@@ -38,9 +43,15 @@ class RespuestaSubscriber implements EventSubscriber
         $entity = $args->getEntity();
         if ($entity instanceof Respuesta) {
             if($entity->getId()->getAsignadapor()->getId()!=$entity->getId()->getResponsable()->getId()){
-                $destinatario=$entity->getId()->getResponsable();
+                $destinatario=$entity->getId()->getAsignadapor();
                 $message="El usuario ".$entity->getId()->getResponsable()->getNombre()." modificó su respuesta a la actividad ".$entity->getId()->getNombre();
-                $this->notificacion->nuevaNotificacion($destinatario->getId(), $message);
+                $notificacion=new Notificacion();
+                $notificacion->setFecha(new \DateTime());
+                $notificacion->setDestinatario($destinatario);
+                $notificacion->setDescripcion($message);
+                $args->getEntityManager()->persist($notificacion);
+                $args->getEntityManager()->flush();
+
             }
         }
     }
@@ -51,9 +62,14 @@ class RespuestaSubscriber implements EventSubscriber
         $manager = $args->getEntityManager();
         if ($entity instanceof Respuesta) {
             if($entity->getId()->getAsignadapor()->getId()!=$entity->getId()->getResponsable()->getId()){
-                $destinatario=$entity->getId()->getResponsable();
+                $destinatario=$entity->getId()->getAsignadapor();
                 $message="El usuario ".$entity->getId()->getResponsable()->getNombre()." eliminó su respuesta a la actividad ".$entity->getId()->getNombre();
-                $this->notificacion->nuevaNotificacion($destinatario->getId(), $message);
+                $notificacion=new Notificacion();
+                $notificacion->setFecha(new \DateTime());
+                $notificacion->setDestinatario($destinatario);
+                $notificacion->setDescripcion($message);
+                $args->getEntityManager()->persist($notificacion);
+                $args->getEntityManager()->flush();
             }
         }
     }

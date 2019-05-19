@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Grupo;
+use App\Entity\SolicitudGrupo;
 use App\Form\GrupoType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;;
@@ -27,7 +28,6 @@ class GrupoController extends AbstractController
         if ($usuario->getId() != $this->getUser()->getId() && !in_array($usuario->getId(), $areaService->subordinadosKey($this->getUser())))
             throw $this->createAccessDeniedException();
 
-        $em = $this->getDoctrine()->getManager();
         $id = $usuario->getId();
 
         $grupos=$usuario->getGrupos();
@@ -46,6 +46,7 @@ class GrupoController extends AbstractController
             'user_nombre'=>$usuario->getNombre(),
             'user_correo'=>$usuario->getCorreo(),
             'user_foto'=>null!=$usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
+            'esDirectivo'=>$usuario->esDirectivo()
         ]);
     }
 
@@ -160,6 +161,12 @@ class GrupoController extends AbstractController
 
                 $message = "El usuario " . $grupo->getCreador()->getNombre() . " lo eliminó del grupo " . $grupo->getNombre();
                 foreach ($miembrosOriginales as $miembro) {
+                    $solicitud = $em->getRepository('App:SolicitudGrupo')->findOneBy([
+                        'usuario' => $miembro,
+                        'grupo' => $grupo
+                    ]);
+                    if(null!=$solicitud)
+                        $em->remove($solicitud);
                     $notificacionService->nuevaNotificacion($miembro->getId(), $message);
                 }
                 $em->flush();

@@ -6,10 +6,10 @@ use App\Entity\Actividad;
 use App\Entity\ActividadGeneral;
 use App\Entity\Subcapitulo;
 use App\Form\ARCType;
+use App\Entity\MiembroConsejoDireccion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ARC;
 
@@ -40,7 +40,7 @@ class ARCController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        if(!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         $arc = new ARC();
@@ -53,16 +53,17 @@ class ARCController extends AbstractController
             if ($form->isValid()) {
                 $em->persist($arc);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El área de resultados claves fue registrada satisfactoriamente',
+                return $this->json(array('mensaje' => 'El área de resultados claves fue registrada satisfactoriamente',
                     'nombre' => $arc->getNombre(),
-                    'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$arc->getId())->getValue(),
+                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $arc->getId())->getValue(),
                     'id' => $arc->getId(),
                 ));
             } else {
                 $page = $this->renderView('arc/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'arc' => $arc,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true,));
+                return $this->json(array('form' => $page, 'error' => true,));
             }
 
 
@@ -77,7 +78,7 @@ class ARCController extends AbstractController
      */
     public function show(Request $request, ARC $arc): Response
     {
-        if(!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         return $this->render('arc/_show.html.twig', [
@@ -90,21 +91,21 @@ class ARCController extends AbstractController
      */
     public function edit(Request $request, ARC $arc): Response
     {
-        if(!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         $form = $this->createForm(ARCType::class, $arc,
             array('action' => $this->generateUrl('arc_edit', array('id' => $arc->getId()))));
         $form->handleRequest($request);
-        $eliminable=$this->esEliminable($arc);
+        $eliminable = $this->esEliminable($arc);
         if ($form->isSubmitted())
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($arc);
                 $em->flush();
-                return new JsonResponse(array('mensaje' =>'El área de resultados claves fue actualizada satisfactoriamente',
+                return $this->json(array('mensaje' => 'El área de resultados claves fue actualizada satisfactoriamente',
                     'nombre' => $arc->getNombre(),
-                    ));
+                ));
             } else {
                 $page = $this->renderView('arc/_form.html.twig', array(
                     'form' => $form->createView(),
@@ -113,7 +114,7 @@ class ARCController extends AbstractController
                     'arc' => $arc,
                     'eliminable' => $eliminable,
                 ));
-                return new JsonResponse(array('form' => $page, 'error' => true));
+                return $this->json(array('form' => $page, 'error' => true));
             }
 
         return $this->render('arc/_new.html.twig', [
@@ -131,16 +132,18 @@ class ARCController extends AbstractController
      */
     public function delete(Request $request, ARC $arc): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$arc->getId(), $request->query->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($arc);
-            $em->flush();
-            return new JsonResponse(array('mensaje' =>'El área de resultados claves fue eliminada satisfactoriamente'));
-        }
+        if (!$request->isXmlHttpRequest() || !$this->esEliminable($arc) || !$this->isCsrfTokenValid('delete' . $arc->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
 
-        throw $this->createAccessDeniedException();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($arc);
+        $em->flush();
+        return $this->json(array('mensaje' => 'El área de resultados claves fue eliminada satisfactoriamente'));
     }
 
+    /*
+    *Funcion que devuelve si un arc es eliminable teniendo en cuenta si otras entidades que dependen de ella
+    */
     private function esEliminable(ARC $arc): bool
     {
         $em = $this->getDoctrine()->getManager();
@@ -153,6 +156,7 @@ class ARCController extends AbstractController
     }
 
     //Funciones ajax
+
     /**
      * @Route("/{subcapitulo}/findbysubcapitulo", name="arc_findbysubcapitulo", options={"expose"=true},methods="GET")
      * Se utiliza para la gestion de actividades del plan general
@@ -162,9 +166,12 @@ class ARCController extends AbstractController
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $consulta=$this->getDoctrine()->getManager()->createQuery('SELECT a.id, a.nombre FROM App:ARC a JOIN a.subcapitulo s WHERE s.id= :id');
-        $consulta->setParameter('id',$subcapitulo->getId());
-        $subcapitulos=$consulta->getResult();
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_COORDINADORINSTITUCIONAL') && null == $this->getDoctrine()->getManager()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser()))
+            throw $this->createAccessDeniedException();
+
+        $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT a.id, a.nombre FROM App:ARC a JOIN a.subcapitulo s WHERE s.id= :id');
+        $consulta->setParameter('id', $subcapitulo->getId());
+        $subcapitulos = $consulta->getResult();
         return $this->json($subcapitulos);
     }
 }

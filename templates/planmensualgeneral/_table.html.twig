@@ -17,6 +17,9 @@
             Fecha de fin
         </th>
         <th>
+            Estado
+        </th>
+        <th>
         </th>
     </tr>
     </thead>
@@ -30,12 +33,15 @@
             <td>{{ plan.edicionfechainicio | date('d-m-Y') }}</td>
             <td>{{ plan.edicionfechafin | date('d-m-Y') }}</td>
             <td>
+                <span class="m-nav__link-badge m-badge m-badge--{{ plan.aprobado ? 'danger' : 'success' }}">{{ plan.aprobado ? 'Aprobado' : 'Pendiente' }}</span>
+                </td>
+            <td>
                 <ul class="m-nav m-nav--inline m--pull-right">
                     <li class="m-nav__item">
                         <a class="btn btn-default btn-sm" href="{{ path('planmensualgeneral_show', { 'id': plan.id }) }}" >
                             <i class="flaticon-eye"></i>Visualizar</a>
                     </li>
-                    {% if esCoordinador== true%}
+                    {% if (is_granted('ROLE_COORDINADORINSTITUCIONAL') and plan.aprobado==false) or is_granted('ROLE_DIRECTIVOINSTITUCIONAL')%}
                     <li class="m-nav__item">
                         <a class="btn  btn-sm edicion btn-info" data-href="{{ path('planmensualgeneral_edit', { 'id': plan.id }) }}" >
                             <i class="flaticon-edit-1"></i>Editar</a>
@@ -67,6 +73,9 @@
         </th>
         <th>
             Fecha de fin
+        </th>
+        <th>
+            Estado
         </th>
         <th>
         </th>

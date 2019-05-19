@@ -13,17 +13,19 @@ class RolFixtures extends Fixture implements OrderedFixtureInterface
     {
         $roles = array(
             array('nombre' => 'ROLE_ADMIN'),
+            array('nombre' => 'ROLE_DIRECTIVOINSTITUCIONAL'),
             array('nombre' => 'ROLE_DIRECTIVO'),
-            array('nombre' => 'ROLE_COORDINADOR'),
+            array('nombre' => 'ROLE_COORDINADORINSTITUCIONAL'),
+            array('nombre' => 'ROLE_COORDINADORAREA'),
             array('nombre' => 'ROLE_USER'),
         );
+
         foreach ($roles as $rol) {
             $entidad = new Rol();
             $entidad->setNombre($rol['nombre']);
             $manager->persist($entidad);
         }
         $manager->flush();
-
     }
 
     public function getOrder()

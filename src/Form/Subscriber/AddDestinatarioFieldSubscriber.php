@@ -70,14 +70,10 @@ class AddDestinatarioFieldSubscriber  implements EventSubscriberInterface{
     }
 
     protected function addElements($form, $destinatario) {
-     /*   dump('destinatario');
-        dump($destinatario);*/
         $em=$this->em;
         $usuarios=$this->em->createQuery('SELECT u FROM App:Usuario u WHERE u.id IN (:id)')
                        ->setParameter('id',$destinatario)
                         ->getResult();
-     //  dump($usuarios);
-
         $form->add('iddestinatario',null,array('choices'=>$usuarios,'required'=>true,'label'=>'Destinatario(s)','attr'=>array('placeholder'=>'Escriba los destinatarios',)));
     }
 

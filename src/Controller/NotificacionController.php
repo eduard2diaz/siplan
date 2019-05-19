@@ -30,9 +30,8 @@ class NotificacionController extends AbstractController
                         ->setParameters(array('id' => $this->getUser()->getId()))
                         ->setMaxResults(5)
                         ->getResult();
-                }
-                else {
-                    $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT n FROM App:Notificacion n JOIN n.destinatario u WHERE u.id= :usuario AND n.fecha>= :fecha AND n.leida= FALSE');
+                } else {
+                    $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT n FROM App:Notificacion n JOIN n.destinatario u WHERE u.id= :usuario AND n.fecha>= :fecha AND n.leida= FALSE ORDER By n.fecha DESC');
                     $consulta->setParameters(['usuario' => $this->getUser()->getId(), 'fecha' => $this->getUser()->getUltimologout()]);
                     $consulta->setMaxResults(5);
                     $notificacions = $consulta->getResult();
@@ -54,9 +53,10 @@ class NotificacionController extends AbstractController
         $notificacions = $this->getDoctrine()->getRepository(Notificacion::class)->findBy(['destinatario' => $this->getUser()], ['fecha' => 'DESC']);
         return $this->render('notificacion/index.html.twig', [
             'user_id' => $this->getUser()->getId(),
-            'user_nombre'=>$this->getUser()->getNombre(),
-            'user_correo'=>$this->getUser()->getCorreo(),
-            'user_foto'=>null!=$this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
+            'user_nombre' => $this->getUser()->getNombre(),
+            'user_correo' => $this->getUser()->getCorreo(),
+            'user_foto' => null != $this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
+            'esDirectivo'=>$this->getUser()->esDirectivo(),
             'notificacions' => $notificacions]);
     }
 
@@ -68,10 +68,10 @@ class NotificacionController extends AbstractController
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
-        $this->denyAccessUnlessGranted('VIEW',$notificacion);
+        $this->denyAccessUnlessGranted('VIEW', $notificacion);
 
-        if(!$notificacion->getLeida()){
-            $em=$this->getDoctrine()->getManager();
+        if (!$notificacion->getLeida()) {
+            $em = $this->getDoctrine()->getManager();
             $notificacion->setLeida(true);
             $em->persist($notificacion);
             $em->flush();
@@ -86,15 +86,13 @@ class NotificacionController extends AbstractController
      */
     public function delete(Request $request, Notificacion $notificacion): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $notificacion->getId(), $request->query->get('_token'))) {
-            $this->denyAccessUnlessGranted('DELETE',$notificacion);
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($notificacion);
-            $em->flush();
-            return $this->json(array('mensaje' => 'La notificación fue eliminada satisfactoriamente'));
-        }
-
-        throw $this->createAccessDeniedException();
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('delete' . $notificacion->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
+        $this->denyAccessUnlessGranted('DELETE', $notificacion);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($notificacion);
+        $em->flush();
+        return $this->json(array('mensaje' => 'La notificación fue eliminada satisfactoriamente'));
     }
 
 }

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Plan Mensual del Área</title>
+    <style>
+        .align-center {
+            text-align: center;
+        }
+
+        .page {
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        .page:last-child {
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+    </style>
+    <link href="{{ absolute_url(asset('vendors/base/vendors.bundle.css','template')) }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ absolute_url(asset('demo/demo9/base/style.bundle.css','template')) }}" rel="stylesheet"
+          type="text/css"/>
+</head>
+<body>
+<h4 class="align-center">Plan mensual de {{ area }}
+    {{ mes }},{{ anno }}
+</h4>
+
+<div class="page">
+    <h4 class="align-center">Actividades por ARC</h4>
+    <table class="table m--margin-top-20">
+        <tr>
+            <th>Actividad</th>
+            <th>Fecha inicio</th>
+            <th>Fecha fin</th>
+            <th>Lugar</th>
+            <th>Dirigen</th>
+            <th>Participan</th>
+        </tr>
+        {% for result in results %}
+            <tr>
+                <td colspan="6"  class="text-center">{{ result['arc'] }}</td>
+            </tr>
+            {% for result in result['actividades'] %}
+                <tr>
+                    <td>{{ result['nombre'] }}</td>
+                    <td>{{ result['fecha'] }}</td>
+                    <td>{{ result['fechaf'] }}</td>
+                    <td>{{ result['lugar'] }}</td>
+                    <td>{{ result['dirigen'] }}</td>
+                    <td>{{ result['participan'] }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        <tr>
+            <th>Actividad</th>
+            <th>Fecha inicio</th>
+            <th>Fecha fin</th>
+            <th>Lugar</th>
+            <th>Dirigen</th>
+            <th>Participan</th>
+        </tr>
+    </table>
+</div>
+
+<h4 class="align-center">Actividades sin ARC</h4>
+<table class="table m--margin-top-20">
+    <tr>
+        <th>Actividad</th>
+        <th>Fecha inicio</th>
+        <th>Fecha fin</th>
+        <th>Lugar</th>
+        <th>Dirigen</th>
+        <th>Participan</th>
+    </tr>
+    {% for actividad in actividades %}
+            <tr>
+                <td>{{ actividad['nombre'] }}</td>
+                <td>{{ actividad['fecha'] }}</td>
+                <td>{{ actividad['fechaf'] }}</td>
+                <td>{{ actividad['lugar'] }}</td>
+                <td>{{ actividad['dirigen'] }}</td>
+                <td>{{ actividad['participan'] }}</td>
+            </tr>
+    {% endfor %}
+    <tr>
+        <th>Actividad</th>
+        <th>Fecha inicio</th>
+        <th>Fecha fin</th>
+        <th>Lugar</th>
+        <th>Dirigen</th>
+        <th>Participan</th>
+    </tr>
+</table>
+</body>
+</html>

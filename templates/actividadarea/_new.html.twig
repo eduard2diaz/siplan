@@ -1,0 +1,29 @@
+{% extends 'layout/userprofile.html.twig' %}
+{% block content %}
+   <div class="m-portlet">
+      <div class="m-portlet__head">
+         <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+               <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
+               <h3 class="m-portlet__head-text">
+                  {{ title | default('Nueva actividad') }}
+               </h3>
+            </div>
+         </div>
+         <div class="m-portlet__head-tools">
+         </div>
+      </div>
+      <div class="m-portlet__body">
+         {%include 'actividadarea/_form.html.twig'%}
+      </div>
+   </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+   <script src="{{ asset('script/entity/actividadarea.js','siplan') }}"></script>
+   <script>
+       actividadarea.edicion();
+   </script>
+{% endblock %}
+

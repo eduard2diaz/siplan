@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Actividad;
 use App\Entity\ARC;
 use App\Entity\Capitulo;
 use App\Entity\MiembroConsejoDireccion;
@@ -123,25 +122,16 @@ class SubcapituloController extends AbstractController
      */
     public function delete(Request $request, Subcapitulo $subcapitulo): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $subcapitulo->getId(), $request->query->get('_token'))) {
+        if (!$request->isXmlHttpRequest() || !$this->esEliminable($subcapitulo) || !$this->isCsrfTokenValid('delete' . $subcapitulo->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
+
             $em = $this->getDoctrine()->getManager();
             $em->remove($subcapitulo);
             $em->flush();
             return $this->json(array('mensaje' => 'El subcapítulo fue eliminado satisfactoriamente'));
-        }
-
-        throw $this->createAccessDeniedException();
     }
 
-    private function esEliminable(Subcapitulo $subcapitulo): bool
-    {
-        $em = $this->getDoctrine()->getManager();
-        if ($em->getRepository(ARC::class)->findOneBySubcapitulo($subcapitulo) != null)
-            return false;
 
-        return true;
-    }
-    
     //Funciones ajax
     /**
      * @Route("/{capitulo}/findbycapitulo", name="subcapitulo_findbycapitulo", options={"expose"=true},methods="GET")
@@ -155,12 +145,22 @@ class SubcapituloController extends AbstractController
         //A este metodo solo pueden entrar:
         // los administradores para la gestion de las ARC
         // los coordinadores y miembros del consejo de direccion para la gestion de las Actividades Generales
-        if(!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_COORDINADOR') && null==$this->getDoctrine()->getManager()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser()))
+        if(!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_COORDINADORINSTITUCIONAL') && null==$this->getDoctrine()->getManager()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser()))
             throw $this->createAccessDeniedException();
 
         $consulta=$this->getDoctrine()->getManager()->createQuery('SELECT s.id, s.nombre FROM App:Subcapitulo s JOIN s.capitulo c WHERE c.id= :id');
         $consulta->setParameter('id',$capitulo->getId());
         $subcapitulos=$consulta->getResult();
         return $this->json($subcapitulos);
+    }
+
+    /*
+     * Funcion que devuelve un boleano indicanso si el subtitulo es o no eliminable teniendo en cuenta las ARC que
+     * dependen de el
+     */
+    private function esEliminable(Subcapitulo $subcapitulo): bool
+    {
+        $em = $this->getDoctrine()->getManager();
+        return $em->getRepository(ARC::class)->findOneBySubcapitulo($subcapitulo) == null;
     }
 }

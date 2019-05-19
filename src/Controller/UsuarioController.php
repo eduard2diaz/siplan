@@ -26,7 +26,10 @@ class UsuarioController extends AbstractController
      */
     public function index(Request $request, Usuario $usuario,AreaService $areaService): Response
     {
-        if ($this->isGranted('ROLE_ADMIN'))
+        if(!$usuario->esDirectivo() && !(in_array('ROLE_ADMIN',$usuario->getRoles()) && $this->getUser()->getId()==$usuario->getId()))
+            throw $this->createAccessDeniedException();
+
+        if (in_array('ROLE_ADMIN',$usuario->getRoles()))
             $usuarios = $this->getDoctrine()->getManager()->createQuery('SELECT u FROM App:Usuario u WHERE u.id!=:id')->setParameter('id', $this->getUser()->getId())->getResult();
         else
             $usuarios = $areaService->subordinados($usuario);
@@ -40,6 +43,7 @@ class UsuarioController extends AbstractController
             'user_foto' => null != $usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
             'user_nombre' => $usuario->getNombre(),
             'user_correo' => $usuario->getCorreo(),
+            'esDirectivo'=>$usuario->esDirectivo()
         ]);
     }
 
@@ -95,6 +99,7 @@ class UsuarioController extends AbstractController
             'user_foto' => null != $usuario->getRutaFoto() ? $usuario->getRutaFoto() : null,
             'user_nombre' => $usuario->getNombre(),
             'user_correo' => $usuario->getCorreo(),
+            'esDirectivo'=>$usuario->esDirectivo()
         ]);
     }
 
@@ -254,9 +259,9 @@ class UsuarioController extends AbstractController
         $result = [];
         if ($request->get('q') != null) {
             $em = $this->getDoctrine()->getManager();
-            $parameter = $request->get('q');
-            $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u JOIN u.idrol r WHERE u.id!= :id AND u.nombre LIKE :nombre AND r.nombre IN (:roles) ORDER BY u.nombre ASC')
-                ->setParameters(['nombre' => '%' . $parameter . '%', 'id' => $this->getUser()->getId(), 'roles' => ['ROLE_DIRECTIVO', 'ROLE_USER', 'ROLE_COORDINADOR', 'ROLE_ADMIN']]);
+            $parameter = strtoupper($request->get('q'));
+            $query = $em->createQuery('SELECT u.id, u.nombre as text FROM App:Usuario u WHERE u.id!= :id AND upper(u.nombre) LIKE :nombre ORDER BY u.nombre ASC')
+                ->setParameters(['nombre' => '%' . $parameter . '%', 'id' => $this->getUser()->getId()]);
             $result = $query->getResult();
             return new Response(json_encode($result));
         }

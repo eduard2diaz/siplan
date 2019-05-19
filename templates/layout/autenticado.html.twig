@@ -1,42 +1,49 @@
 {% extends "layout/base.html.twig" %}
 {% block subheader %}
-<div class="m-subheader ">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title ">
-                {% block page_title %}{% endblock page_title %}
-            </h3>
-        </div>
-        <div>
-            {% block rightoptions_block %}
-                {% if is_granted('ROLE_DIRECTIVO')%}
-                    <a id="nueva_actividad" class="btn btn-lg m-btn--pill m-btn--outline-2x btn-outline-info btn-sm active m--margin-top-20 m--margin-left-60 text-uppercase" data-href="{{ path('actividad_new_grupo') }}"><i class="flaticon-calendar-1"></i> Crear</a>
-                {% endif %}
-            {% endblock rightoptions_block %}
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title ">
+                    {% block page_title %}{% endblock page_title %}
+                </h3>
+            </div>
+            <div>
+                {% block rightoptions_block %}
+                    {% if is_granted('ROLE_DIRECTIVO') %}
+                        <a id="nueva_actividad"
+                           class="btn btn-lg m-btn--pill m-btn--outline-2x btn-outline-info btn-sm active m--margin-top-20 m--margin-left-60 text-uppercase"
+                           data-href="{{ path('actividad_new_grupo') }}"><i class="flaticon-calendar-1"></i> Crear</a>
+                    {% endif %}
+                {% endblock rightoptions_block %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/custom/datatables/datatables.bundle.css','template') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('vendors/custom/datatables/datatables.bundle.css','template') }}"/>
     <link rel="stylesheet" href="{{ asset('siplan/plugins/OrgChart/demo/css/jquery.orgchart.css') }}">
     <link rel="stylesheet" href="{{ asset('siplan/plugins/OrgChart/demo/css/style.css') }}">
 {% endblock %}
 {% block header %}
-{% embed "layout/recortes/header.html.twig" %}
-{% block top_menu %}
-    {% if is_granted('ROLE_ADMIN') %}
-        {{ include('layout/recortes/topmenu/admin_topmenu.html.twig') }}
-    {% endif %}
-{% endblock top_menu %}
-    {% block user_shortcut_menu %}
-        {{ include('layout/recortes/topmenu/alert_topmenu.html.twig') }}
-        {{ include('layout/recortes/topmenu/notification_topmenu.html.twig') }}
-        {{ include('layout/recortes/topmenu/message_topmenu.html.twig') }}
-        {{ include('layout/recortes/topmenu/user_topmenu.html.twig') }}
-    {% endblock %}
-{% endembed %}
+    {% embed "layout/recortes/header.html.twig" %}
+        {% block top_menu %}
+            {% if is_granted('ROLE_ADMIN') %}
+                {{ include('layout/recortes/topmenu/admin_topmenu.html.twig') }}
+            {% endif %}
+            {{ include('layout/recortes/topmenu/plantrabajo_topmenu.html.twig') }}
+            {% if is_granted('ROLE_COORDINADORINSTITUCIONAL') %}
+                {{ include('layout/recortes/topmenu/consejodireccion_topmenu.html.twig') }}
+            {% endif %}
+        {% endblock top_menu %}
+        {% block user_shortcut_menu %}
+            {{ include('layout/recortes/topmenu/alert_topmenu.html.twig') }}
+            {{ include('layout/recortes/topmenu/notification_topmenu.html.twig') }}
+            {{ include('layout/recortes/topmenu/message_topmenu.html.twig') }}
+            {{ include('layout/recortes/topmenu/user_topmenu.html.twig') }}
+        {% endblock %}
+    {% endembed %}
 {% endblock header %}
 
 
@@ -61,12 +68,13 @@
             "hideMethod": "fadeOut"
         };
     </script>
-    <script type="text/javascript" src="{{ asset('vendors/custom/datatables/datatables.bundle.js','template') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('vendors/custom/datatables/datatables.bundle.js','template') }}"></script>
     <script src="{{ asset('plugins/jquery.fileDownload.js','siplan') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/bootbox/bootbox.min.js','siplan') }}"></script>
 
-    <script  src="{{ asset('siplan/plugins/OrgChart/demo/js/html2canvas.min.js') }}"></script>
-    <script  src="{{ asset('siplan/plugins/OrgChart/demo/js/jquery.orgchart.js') }}"></script>
+    <script src="{{ asset('siplan/plugins/OrgChart/demo/js/html2canvas.min.js') }}"></script>
+    <script src="{{ asset('siplan/plugins/OrgChart/demo/js/jquery.orgchart.js') }}"></script>
     <!--IMPORTANDO LAS LIBRERIAS DE AMCHART-->
     <script src="{{ asset('siplan/plugins/amcharts4/core.js') }}"></script>
     <script src="{{ asset('siplan/plugins/amcharts4/charts.js') }}"></script>
@@ -75,7 +83,7 @@
     <script src="{{ asset('script/base/authenticated.js','siplan') }}"></script>
     <script>
         authenticated.init();
-        var datatable_url='{{ asset('siplan/plugins/datatable/es.json') }}';
-        var profile_img='{{ asset('template/app/media/img/users/user4.jpg') }}';
+        var datatable_url = '{{ asset('siplan/plugins/datatable/es.json') }}';
+        var profile_img = '{{ asset('template/app/media/img/users/user4.jpg') }}';
     </script>
 {% endblock %}

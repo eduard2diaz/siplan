@@ -38,14 +38,14 @@ class ActividadGeneralVoter extends Voter
         $eseditable=$currentdate>= $subject->getPlanMensualGeneral()->getEdicionfechainicio() && $currentdate<= $subject->getPlanMensualGeneral()->getEdicionfechafin();
         switch ($attribute) {
             case 'VIEW':
-                return $this->decisionManager->decide($token, array('ROLE_COORDINADOR')) || $esmiembro == true ;
+                return $this->decisionManager->decide($token, array('ROLE_COORDINADORINSTITUCIONAL')) || $esmiembro == true ;
             break;
             case 'NEW':
-                return $this->decisionManager->decide($token, array('ROLE_COORDINADOR')) || ($esmiembro == true && $eseditable) ;
+                return $subject->getPlanMensualGeneral()->getAprobado()==false && ($this->decisionManager->decide($token, array('ROLE_COORDINADORINSTITUCIONAL')) || ($esmiembro == true && $eseditable)) ;
             break;
             case 'EDIT':
             case 'DELETE':
-                return $this->decisionManager->decide($token, array('ROLE_COORDINADOR')) || ($esmiembro == true && $eseditable && $subject->getUsuario()->getId()==$token->getUser()->getId()) ;
+                return $subject->getPlanMensualGeneral()->getAprobado()==false && ($this->decisionManager->decide($token, array('ROLE_COORDINADORINSTITUCIONAL')) || ($esmiembro == true && $eseditable && $subject->getUsuario()->getId()==$token->getUser()->getId())) ;
             break;
         }
 

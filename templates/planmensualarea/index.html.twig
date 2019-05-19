@@ -1,0 +1,46 @@
+{% extends 'layout/userprofile.html.twig' %}
+{% block content %}
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon"><i class="flaticon-list-3"></i></span>
+                    <h3 class="m-portlet__head-text">
+                        Plan Mensual Área <small>{{ app.user.area }}</small>
+                    </h3>
+                </div>
+            </div>
+
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        <a data-href="{{ path('planmensualarea_index',{'id': app.user.area.id}) }}" class="btn btn-sm m-btn" id="planmensualarea_tablerefrescar">
+                            <span><i class="flaticon-refresh"></i></span> Refrescar
+                        </a>
+                    </li>
+                    {% if is_granted('ROLE_COORDINADORAREA') %}
+                    <li class="m-portlet__nav-item">
+                        <a data-href="{{ path('planmensualarea_new') }}" class="btn btn-sm btn-primary m-btn edicion text-uppercase"  data-toggle="m-tooltip" data-placement="top" title="" data-original-title="Registrar un nuevo plan mensual">
+                            <span><i class="flaticon-add"></i></span> Nuevo
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            {%include 'planmensualarea/_table.html.twig'%}
+            <!--end: Datatable -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('script/entity/planmensualarea.js','siplan') }}"></script>
+    <script>
+        var total ={{planmensualareas |length }}
+            planmensualarea.init();
+    </script>
+{% endblock %}

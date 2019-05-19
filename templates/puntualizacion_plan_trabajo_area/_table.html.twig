@@ -1,0 +1,48 @@
+<table class="table table-hover m-table m-table--head-separator-brand" id="puntualizacionplantrabajo_table">
+    <thead>
+    <tr>
+        <th>
+            Actividad
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for puntualizacion in puntualizaciones %}
+        <tr>
+            <td>{{ puntualizacion.actividad }}</td>
+            <td>{{ puntualizacion.fechacreacion | date('d-m-Y H:i') }}</td>
+            <td>
+                <ul class="m-nav m-nav--inline m--pull-right">
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm puntualizacion_plan_trabajo_show" data-href="{{ path('puntualizacion_plan_trabajo_area_show', { 'id': puntualizacion.id }) }}">
+                            <i class="flaticon-eye"></i> Visualizar</a>
+                    </li>
+                    {% if is_granted('ROLE_COORDINADORAREA') %}
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm btn-danger puntualizacion_plan_trabajo_area_delete" data-csrf="{{ csrf_token('delete' ~ puntualizacion.id) }}" data-href="{{ path('puntualizacion_plan_trabajo_area_delete', { 'id': puntualizacion.id }) }}">
+                            <i class="flaticon-delete-1"></i> Eliminar</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>
+            Actividad
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th>
+        </th>
+    </tr>
+    </tfoot>
+</table>

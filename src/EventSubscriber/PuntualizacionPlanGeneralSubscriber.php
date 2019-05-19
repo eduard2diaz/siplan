@@ -32,7 +32,12 @@ class PuntualizacionPlanGeneralSubscriber implements EventSubscriber
             foreach ($miembros as $value) {
                 if ($entity->getUsuario()->getId() != $value->getUsuario()->getId()) {
                     $message = "El usuario " . $entity->getUsuario()->getNombre() . " creó la puntualización " . $entity->getActividad();
-                    $this->notificacion->nuevaNotificacion($value->getUsuario()->getId(), $message);
+                    $notificacion=new Notificacion();
+                    $notificacion->setFecha(new \DateTime());
+                    $notificacion->setDestinatario($value->getUsuario());
+                    $notificacion->setDescripcion($message);
+                    $manager->persist($notificacion);
+                    $manager->flush();
                 }
             }
         }

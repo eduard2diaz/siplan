@@ -1,0 +1,55 @@
+<table class="table table-hover m-table m-table--head-separator-brand" id="objetivoplantrabajo_table">
+    <thead>
+    <tr>
+        <th>
+            Número
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for objetivo in objetivos %}
+        <tr>
+            <td>{{ objetivo.numero }}</td>
+            <td>{{ objetivo.descripcion }}</td>
+            <td>
+
+                <ul class="m-nav m-nav--inline m--pull-right">
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm objetivo_plan_trabajo_show" data-href="{{ path('objetivo_plan_trabajo_general_show', { 'id': objetivo.id }) }}">
+                            <i class="flaticon-eye"></i> Visualizar</a>
+                    </li>
+                    {% if is_granted('ROLE_COORDINADORINSTITUCIONAL') and objetivo.plantrabajo.aprobado==false%}
+                    <li class="m-nav__item">
+                        <a class="btn btn-info btn-sm editarobjetivo" data-href="{{ path('objetivo_plan_trabajo_general_edit', { 'id': objetivo.id }) }}">
+                            <i class="flaticon-edit-1"></i> Editar</a>
+                    </li>
+
+                    <li class="m-nav__item">
+                        <a class="btn btn-sm btn-danger objetivo_plan_trabajo_general_delete" data-csrf="{{ csrf_token('delete' ~ objetivo.id) }}" data-href="{{ path('objetivo_plan_trabajo_general_delete', { 'id': objetivo.id }) }}">
+                            <i class="flaticon-delete-1"></i> Eliminar</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>
+            Número
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+        </th>
+    </tr>
+    </tfoot>
+</table>

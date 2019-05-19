@@ -30,7 +30,8 @@ class Subcapitulo
     /**
      * @var string|null
      *
-     * @ORM\Column(name="nombre", type="string")
+     * @ORM\Column(name="nombre", type="string", length=250)
+     * @Assert\Length(max=250)
      */
     private $nombre;
 

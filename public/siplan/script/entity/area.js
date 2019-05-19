@@ -60,7 +60,7 @@ var area = function () {
     var refrescar = function () {
         $('a#area_tablerefrescar').click(function (evento) {
             evento.preventDefault();
-            var link = $(this).attr('href');
+            var link = $(this).attr('data-href');
             obj = $(this);
             $.ajax({
                 type: 'get',

@@ -99,6 +99,7 @@ var planmensualgeneral = function () {
                 {data: 'anno'},
                 {data: 'fechainicio'},
                 {data: 'fechafin'},
+                {data: 'estado'},
                 {data: 'acciones'}
             ]});
     }
@@ -139,6 +140,7 @@ var planmensualgeneral = function () {
                             "anno": data['anno'],
                             "fechainicio": data['fechainicio'],
                             "fechafin": data['fechafin'],
+                            "estado": data['estado'],
                             "acciones": "<ul class='m-nav m-nav--inline m--pull-right'>" +
                                 "<li class='m-nav__item'>" +
                                 "<a class='btn btn-default btn-sm' href=" + Routing.generate('planmensualgeneral_show',{id:data['id']}) + "><i class='flaticon-eye'></i>Visualizar</a></li>"
@@ -190,6 +192,7 @@ var planmensualgeneral = function () {
                         obj.parents('tr').children('td:nth-child(3)').html(data['anno']);
                         obj.parents('tr').children('td:nth-child(4)').html(data['fechainicio']);
                         obj.parents('tr').children('td:nth-child(5)').html(data['fechafin']);
+                        obj.parents('tr').children('td:nth-child(6)').html(data['estado']);
                     }
                 },
                 error: function () {

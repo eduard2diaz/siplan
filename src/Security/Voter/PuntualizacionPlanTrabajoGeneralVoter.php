@@ -2,15 +2,16 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\ActividadGeneral;
 use App\Entity\MiembroConsejoDireccion;
-use App\Entity\PlanMensualGeneral;
+use App\Entity\PuntualizacionPlanMensualGeneral;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
-class PlanMensualGeneralVoter extends Voter
+class PuntualizacionPlanTrabajoGeneralVoter extends Voter
 {
     private $em;
     private $decisionManager;
@@ -23,21 +24,20 @@ class PlanMensualGeneralVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['VIEW']) && $subject instanceof PlanMensualGeneral;
+        return in_array($attribute, ['DELETE', 'NEW',]) && $subject instanceof PuntualizacionPlanMensualGeneral;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();
-        // if the user is anonymous, do not grant access
         if (!$user instanceof UserInterface) {
             return false;
         }
 
-        $esmiembro = null!=$this->em->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($token->getUser());
         switch ($attribute) {
-            case 'VIEW':
-                return $this->decisionManager->decide($token, array('ROLE_COORDINADOR')) || $esmiembro == true;
+            case 'NEW':
+            case 'DELETE':
+                return $subject->getPlantrabajo()->getAprobado()==false && $this->decisionManager->decide($token, array('ROLE_COORDINADORINSTITUCIONAL'));
             break;
         }
 

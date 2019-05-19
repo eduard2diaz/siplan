@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Actividad;
+use App\Entity\ActividadArea;
 use App\Entity\ActividadGeneral;
 use App\Entity\MiembroConsejoDireccion;
+use App\Entity\PlanMensualArea;
 use App\Entity\PlanMensualGeneral;
 use App\Entity\Plantrabajo;
 use App\Form\ActividadGeneralType;
@@ -59,7 +61,8 @@ class ActividadGeneralController extends AbstractController
             'user_foto' => null != $this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'user_nombre' => $this->getUser()->getNombre(),
             'user_correo' => $this->getUser()->getCorreo(),
-            'plantrabajo'=>$plantrabajo->getId()
+            'plantrabajo'=>$plantrabajo->getId(),
+            'esDirectivo'=>$this->getUser()->esDirectivo()
         ]);
     }
 
@@ -68,10 +71,6 @@ class ActividadGeneralController extends AbstractController
      */
     public function show(Request $request, ActividadGeneral $actividadgeneral): Response
     {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
-
-        $this->denyAccessUnlessGranted('VIEW', $actividadgeneral);
         return $this->render('actividadgeneral/show.html.twig', ['actividad' => $actividadgeneral]);
     }
 
@@ -113,7 +112,8 @@ class ActividadGeneralController extends AbstractController
             'user_foto' => null != $this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'user_nombre' => $this->getUser()->getNombre(),
             'user_correo' => $this->getUser()->getCorreo(),
-            'plantrabajo'=>$actividadgeneral->getPlanMensualGeneral()->getId()
+            'plantrabajo'=>$actividadgeneral->getPlanMensualGeneral()->getId(),
+            'esDirectivo'=>$this->getUser()->esDirectivo()
         ]);
     }
 
@@ -123,16 +123,14 @@ class ActividadGeneralController extends AbstractController
      */
     public function delete(Request $request, ActividadGeneral $actividadgeneral): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $actividadgeneral->getId(), $request->query->get('_token'))) {
-            $this->denyAccessUnlessGranted('DELETE', $actividadgeneral);
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('delete' . $actividadgeneral->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
 
+            $this->denyAccessUnlessGranted('DELETE', $actividadgeneral);
             $em = $this->getDoctrine()->getManager();
             $em->remove($actividadgeneral);
             $em->flush();
             return $this->json(array('mensaje' => "La actividad general fue eliminada satisfactoriamente"));
-        }
-
-        throw $this->createAccessDeniedException();
     }
 
     //ajax
@@ -143,8 +141,8 @@ class ActividadGeneralController extends AbstractController
      */
     public function actividadesAjax(Request $request,Plantrabajo $plantrabajo): Response
     {
-        if (!$request->isXmlHttpRequest() || $this->getDoctrine()->getManager()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser())==null)
-            $this->createAccessDeniedException();
+        if (!$request->isXmlHttpRequest() || ($this->isGranted('ROLE_COORDINADORINSTITUCIONAL') || $this->get('session')->get('esmiembroconsejodireccion'))==false)
+            throw  $this->createAccessDeniedException();
 
         $anno = $plantrabajo->getAnno();
         $mes = $plantrabajo->getMes();
@@ -166,12 +164,40 @@ class ActividadGeneralController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/ajaxarea", name="actividadgeneral_planarea", methods="GET",options={"expose"=true})
+     * Funcionalidad que devuelve el listado de actividades del actual plan general, se utiliza en la clonacion de las mismas
+     */
+    public function actividadesAjaxArea(Request $request,PlanMensualArea $plantrabajo): Response
+    {
+        if (!$request->isXmlHttpRequest() || !$this->isGranted('ROLE_COORDINADORAREA') || $this->getUser()->getArea()->getId()!=$plantrabajo->getArea()->getId())
+            throw  $this->createAccessDeniedException();
+
+        $anno = $plantrabajo->getAnno();
+        $mes = $plantrabajo->getMes();
+        $parameters = ['mes'=>$mes,'anno'=>$anno,'actividades' => []];
+
+        $planmensualgeneral = $this->getDoctrine()->getRepository(PlanMensualGeneral::class)->findOneBy([
+            'mes' => $mes, 'anno' => $anno
+        ]);
+
+        if (null != $planmensualgeneral) {
+            $actividades = $this->getDoctrine()
+                ->getRepository(ActividadGeneral::class)
+                ->findBy(array('planmensualgeneral' => $planmensualgeneral), array('fecha' => 'DESC'));
+
+            $parameters['actividades'] = $actividades;
+        }
+
+        return $this->render('actividadgeneral/ajax/_actividadesajaxarea.html.twig', $parameters);
+    }
+
+    /**
      * @Route("/clonar", name="actividadgeneral_clonar",options={"expose"=true}, methods="POST")
      * Funcionalidad que realiza la clonacion de las actividades del plan general seleccionadas
      */
     public function clonar(Request $request, ValidatorInterface $validator): Response
     {
-        if (!$request->isXmlHttpRequest()  || $this->getDoctrine()->getManager()->getRepository(MiembroConsejoDireccion::class)->findOneByUsuario($this->getUser())==null)
+        if (!$request->isXmlHttpRequest() || ($this->isGranted('ROLE_COORDINADORINSTITUCIONAL') || $this->get('session')->get('esmiembroconsejodireccion'))==false)
             throw $this->createAccessDeniedException();
 
 
@@ -226,6 +252,83 @@ class ActividadGeneralController extends AbstractController
                 $em->persist($activity);
                 $contador++;
             }else {
+                $errores[] = [
+                    'nombre' => $activity->getNombre(),
+                    'fecha' => $activity->getFecha()->format('d-m-Y H:i'),
+                    'fechaf' => $activity->getFechaF()->format('d-m-Y H:i'),
+                ];
+            }
+        }
+
+        $array = [];
+        if ($contador > 0) {
+            $em->flush();
+            if ($contador == count($actividades))
+                $array['mensaje'] = 'Las actividades fueron clonadas satisfactoriamente';
+            else{
+                $array['warning'] = 'Algunas actividades no pudieron ser clonadas';
+                $array['errores'] = $this->renderView('actividad/ajax/_errorclonacion.html.twig',['actividades'=>$errores]);
+            }
+        } else{
+            $array['error'] = 'Las actividades no pudieron ser clonadas';
+            $array['errores'] = $this->renderView('actividad/ajax/_errorclonacion.html.twig',['actividades'=>$errores]);
+        }
+
+
+        return $this->json($array);
+    }
+
+    /**
+     * @Route("/clonararea", name="actividadgeneral_clonararea",options={"expose"=true}, methods="POST")
+     * Funcionalidad que realiza la clonacion de las actividades del plan general seleccionadas
+     */
+    public function clonarArea(Request $request, ValidatorInterface $validator): Response
+    {
+        if (!$request->isXmlHttpRequest() || !$this->isGranted('ROLE_COORDINADORAREA'))
+            throw  $this->createAccessDeniedException();
+
+
+        if (!$request->request->has('array'))
+            return $this->json(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
+
+        $array = json_decode($request->request->get('array'));
+        if (empty($array))
+            return $this->json(array('error' => true, 'mensaje' => 'Seleccione las actividades a clonar'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $actividades = $em->createQuery('SELECT a FROM App:ActividadGeneral a WHERE a.id IN (:lista)')->setParameter('lista', $array)->getResult();
+        $errores = [];
+        $contador = 0;
+
+        $anno = $request->get('anno');
+        $mes = $request->get('mes');
+
+        $plantrabajo = $em->getRepository(PlanMensualArea::class)
+            ->findOneBy(array('area' => $this->getUser()->getArea(), 'mes' => $mes, 'anno' => $anno));
+
+
+
+        foreach ($actividades as $actividad) {
+            $activity = new ActividadArea();
+            $activity->setAseguramiento($actividad->getAseguramiento());
+            $activity->setDirigen($actividad->getDirigen());
+            $activity->setParticipan($actividad->getParticipan());
+            $activity->setLugar($actividad->getLugar());
+            $activity->setNombre($actividad->getNombre());
+            $activity->setUsuario($this->getUser());
+            $activity->setFecha($actividad->getFecha());
+            $activity->setFechaF($actividad->getFechaF());
+            $activity->getFecha()->setDate($plantrabajo->getAnno(), $plantrabajo->getMes(), $actividad->getFecha()->format('d'));
+            $activity->getFechaF()->setDate($plantrabajo->getAnno(), $plantrabajo->getMes(), $actividad->getFechaF()->format('d'));
+            $activity->setPlanMensualArea($plantrabajo);
+
+            $errors = $validator->validate($activity);
+            if (count($errors) == 0) {
+                $em->persist($activity);
+                $contador++;
+            }else {
+                dump($errors);
                 $errores[] = [
                     'nombre' => $activity->getNombre(),
                     'fecha' => $activity->getFecha()->format('d-m-Y H:i'),

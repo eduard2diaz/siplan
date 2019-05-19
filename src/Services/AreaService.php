@@ -115,9 +115,9 @@ class AreaService
      */
     public function obtenerDirectivos($id=null){
         if(!$id)
-            $consulta=$this->getEm()->createQuery("SELECT u FROM App:Usuario u join u.idrol r WHERE r.nombre= :nombre")->setParameters(array('nombre'=>'ROLE_DIRECTIVO'));
+            $consulta=$this->getEm()->createQuery("SELECT u FROM App:Usuario u join u.idrol r WHERE r.nombre IN (:nombre)")->setParameters(array('nombre'=>['ROLE_DIRECTIVO','ROLE_DIRECTIVOINSTITUCIONAL']));
         else
-            $consulta=$this->getEm()->createQuery("SELECT u FROM App:Usuario u join u.idrol r WHERE u.id!= :id AND r.nombre= :nombre")->setParameters(array('id'=>$id,'nombre'=>'ROLE_DIRECTIVO'));
+            $consulta=$this->getEm()->createQuery("SELECT u FROM App:Usuario u join u.idrol r WHERE u.id!= :id AND r.nombre IN (:nombre)")->setParameters(array('id'=>$id,'nombre'=>['ROLE_DIRECTIVO','ROLE_DIRECTIVOINSTITUCIONAL']));
         return  $consulta->getResult();
     }
 

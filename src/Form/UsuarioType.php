@@ -98,7 +98,8 @@ class UsuarioType extends AbstractType
                 ));
             }
 
-        } else
+        }
+            else
             $builder->add('idrol', null, array(
                 'disabled' => $disabled,
                 'class' => Rol::class,

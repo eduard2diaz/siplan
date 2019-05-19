@@ -21,14 +21,12 @@ class PuntualizacionPlanTrabajoController extends AbstractController
      */
     public function new(Request $request,Plantrabajo $plantrabajo): Response
     {
-        $puntualizacion = new PuntualizacionPlanTrabajo();
-        $puntualizacion->setPlantrabajo($plantrabajo);
-
-        $this->denyAccessUnlessGranted('NEW',$puntualizacion);
-
         if(!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
+        $puntualizacion = new PuntualizacionPlanTrabajo();
+        $puntualizacion->setPlantrabajo($plantrabajo);
+        $this->denyAccessUnlessGranted('NEW',$puntualizacion);
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(PuntualizacionPlanTrabajoType::class, $puntualizacion, array('action' => $this->generateUrl('puntualizacion_plan_trabajo_new',['id'=>$plantrabajo->getId()])));
         $form->handleRequest($request);
@@ -60,8 +58,11 @@ class PuntualizacionPlanTrabajoController extends AbstractController
     /**
      * @Route("/{id}/show", name="puntualizacion_plan_trabajo_show",options={"expose"=true}, methods={"GET"})
      */
-    public function show(PuntualizacionPlanTrabajo $puntualizacionPlanTrabajo): Response
+    public function show(Request $request, PuntualizacionPlanTrabajo $puntualizacionPlanTrabajo): Response
     {
+        if(!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
         $this->denyAccessUnlessGranted('VIEW',$puntualizacionPlanTrabajo);
 
         return $this->render('puntualizacion_plan_trabajo/show.html.twig', [
@@ -75,14 +76,13 @@ class PuntualizacionPlanTrabajoController extends AbstractController
      */
     public function delete(Request $request, PuntualizacionPlanTrabajo $puntualizacionPlanTrabajo): Response
     {
-        $this->denyAccessUnlessGranted('DELETE',$puntualizacionPlanTrabajo);
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$puntualizacionPlanTrabajo->getId(), $request->query->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($puntualizacionPlanTrabajo);
-            $entityManager->flush();
-            return $this->json(array('mensaje' =>'La puntualización fue eliminada satisfactoriamente'));
-        }
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('delete' . $puntualizacionPlanTrabajo->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
 
-        throw $this->createAccessDeniedException();
+        $this->denyAccessUnlessGranted('DELETE',$puntualizacionPlanTrabajo);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($puntualizacionPlanTrabajo);
+        $entityManager->flush();
+        return $this->json(array('mensaje' => 'La puntualización fue eliminada satisfactoriamente'));
     }
 }

@@ -19,7 +19,7 @@ class MiembroConsejoDireccionController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $miembros = $em->getRepository(MiembroConsejoDireccion::class)->findAll();
 
         if ($request->isXmlHttpRequest())
@@ -29,10 +29,11 @@ class MiembroConsejoDireccionController extends AbstractController
 
         return $this->render('miembro_consejo_direccion/index.html.twig', ['miembro_consejo_direccions' => $miembros,
             'user_id' => $this->getUser()->getId(),
-            'user_foto'=>null!=$this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
-            'user_nombre'=>$this->getUser()->getNombre(),
-            'user_correo'=>$this->getUser()->getCorreo(),
-            ]);
+            'user_foto' => null != $this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
+            'user_nombre' => $this->getUser()->getNombre(),
+            'user_correo' => $this->getUser()->getCorreo(),
+            'esDirectivo'=>$this->getUser()->esDirectivo()
+        ]);
     }
 
     /**
@@ -40,7 +41,7 @@ class MiembroConsejoDireccionController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        if(!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         $miembroConsejoDireccion = new MiembroConsejoDireccion();
@@ -53,9 +54,9 @@ class MiembroConsejoDireccionController extends AbstractController
             if ($form->isValid()) {
                 $em->persist($miembroConsejoDireccion);
                 $em->flush();
-                return $this->json(array('mensaje' =>'El miembro fue registrado satisfactoriamente',
+                return $this->json(array('mensaje' => 'El miembro fue registrado satisfactoriamente',
                     'nombre' => $miembroConsejoDireccion->getUsuario()->getNombre(),
-                    'csrf'=>$this->get('security.csrf.token_manager')->getToken('delete'.$miembroConsejoDireccion->getId())->getValue(),
+                    'csrf' => $this->get('security.csrf.token_manager')->getToken('delete' . $miembroConsejoDireccion->getId())->getValue(),
                     'id' => $miembroConsejoDireccion->getId(),
                 ));
             } else {
@@ -77,7 +78,7 @@ class MiembroConsejoDireccionController extends AbstractController
      */
     public function edit(Request $request, MiembroConsejoDireccion $miembroConsejoDireccion): Response
     {
-        if(!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
 
         $form = $this->createForm(MiembroConsejoDireccionType::class, $miembroConsejoDireccion,
@@ -89,7 +90,7 @@ class MiembroConsejoDireccionController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($miembroConsejoDireccion);
                 $em->flush();
-                return $this->json(array('mensaje' =>'El miembro fue actualizado satisfactoriamente',
+                return $this->json(array('mensaje' => 'El miembro fue actualizado satisfactoriamente',
                     'nombre' => $miembroConsejoDireccion->getUsuario()->getNombre(),
                 ));
             } else {
@@ -115,13 +116,12 @@ class MiembroConsejoDireccionController extends AbstractController
      */
     public function delete(Request $request, MiembroConsejoDireccion $miembroConsejoDireccion): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete'.$miembroConsejoDireccion->getId(), $request->query->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($miembroConsejoDireccion);
-            $em->flush();
-            return $this->json(array('mensaje' =>'El miembro fue eliminado satisfactoriamente'));
-        }
+        if (!$request->isXmlHttpRequest() || !$this->isCsrfTokenValid('delete' . $miembroConsejoDireccion->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
 
-        throw $this->createAccessDeniedException();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($miembroConsejoDireccion);
+        $em->flush();
+        return $this->json(array('mensaje' => 'El miembro fue eliminado satisfactoriamente'));
     }
 }

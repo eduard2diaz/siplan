@@ -22,7 +22,7 @@
                         <a class="btn btn-sm puntualizacion_plan_trabajo_show" data-href="{{ path('puntualizacion_plan_trabajo_general_show', { 'id': puntualizacion.id }) }}">
                             <i class="flaticon-eye"></i> Visualizar</a>
                     </li>
-                    {% if is_granted('ROLE_COORDINADOR') %}
+                    {% if puntualizacion.plantrabajo.aprobado==false and is_granted('ROLE_COORDINADORINSTITUCIONAL')%}
                     <li class="m-nav__item">
                         <a class="btn btn-sm btn-danger puntualizacion_plan_trabajo_general_delete" data-csrf="{{ csrf_token('delete' ~ puntualizacion.id) }}" data-href="{{ path('puntualizacion_plan_trabajo_general_delete', { 'id': puntualizacion.id }) }}">
                             <i class="flaticon-delete-1"></i> Eliminar</a>

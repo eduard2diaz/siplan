@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Grupo;
 use App\Entity\Mensaje;
 use App\Form\MensajeType;
+use App\Form\MensajeUsuarioType;
 use App\Services\EmailService;
+use App\Entity\Usuario;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,6 +41,7 @@ class MensajeController extends AbstractController
             'user_id' => $this->getUser()->getId(),
             'user_nombre' => $this->getUser()->getNombre(),
             'user_correo' => $this->getUser()->getCorreo(),
+            'esDirectivo'=>$this->getUser()->esDirectivo(),
             'user_foto' => null != $this->getUser()->getRutaFoto() ? $this->getUser()->getRutaFoto() : null,
             'message_inbox' => $mensaje_inbox]);
     }
@@ -107,27 +110,33 @@ class MensajeController extends AbstractController
     {
         if (!$request->isXmlHttpRequest())
             throw $this->createAccessDeniedException();
+
         $em = $this->getDoctrine()->getManager();
         $parameters = $request->request->all();
         $listado = [];
         if (isset($parameters["mensaje"])) {
             foreach ($parameters["mensaje"]['iddestinatario'] as $value) {
                 $it = explode('grupo-', $value);
-                if (count($it) == 1)
-                    $listado[] = $it[0];
-                else {
+                if (count($it) == 1) {
+                    if (false===array_search($it[0],$listado))
+                        $listado[] = $it[0];
+                } else {
                     $grupo = $em->getRepository(Grupo::class)->find($it[1]);
                     if (null != $grupo) {
-                        $listado[] = strval($grupo->getCreador()->getId());
-                        foreach ($grupo->getIdMiembro() as $val)
-                            $listado[] = strval($val->getId());
+                        $creador=strval($grupo->getCreador()->getId());
+                        if (false===array_search($creador,$listado))
+                                $listado[] = $creador;
+                        foreach ($grupo->getIdMiembro() as $val){
+                            $miembro = strval($val->getId());
+                            if (false===array_search($miembro,$listado))
+                                $listado[] = $miembro;
+                        }
                     }
                 }
             }
             $parameters["mensaje"]['iddestinatario'] = $listado;
             $request->request->replace($parameters);
         }
-
         $mensaje = new Mensaje();
         $form = $this->createForm(MensajeType::class, $mensaje, array('action' => $this->generateUrl('mensaje_new')));
         $form->handleRequest($request);
@@ -165,6 +174,50 @@ class MensajeController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/new", name="mensaje_new_usuario", methods="GET|POST")
+     */
+    public function newUsuario(Request $request,Usuario $usuario, EmailService $email): Response
+    {
+        if (!$request->isXmlHttpRequest() || $usuario->getId()==$this->getUser()->getId())
+            throw $this->createAccessDeniedException();
+
+        $em = $this->getDoctrine()->getManager();
+        $mensaje = new Mensaje();
+        $mensaje->setRemitente($this->getUser());
+        $mensaje->setPropietario($this->getUser());
+        $mensaje->addIddestinatario($usuario);
+        $form = $this->createForm(MensajeUsuarioType::class, $mensaje, array('action' => $this->generateUrl('mensaje_new_usuario',['id'=>$usuario->getId()])));
+        $form->handleRequest($request);
+        if ($form->isSubmitted())
+            if ($form->isValid()) {
+                $em->persist($mensaje);
+                foreach ($mensaje->getIddestinatario() as $value) {
+                    $clone = clone $mensaje;
+                    $clone->setPropietario($value);
+                    $clone->setBandeja(0);
+                    $em->persist($clone);
+                    $email->sendEmail($this->getUser()->getCorreo(), $value->getCorreo(), $clone->getAsunto(), $clone->getDescripcion());
+                }
+                $em->flush();
+                return $this->json(['mensaje' => 'El mensaje fue registrado satisfactoriamente',
+                    'descripcion' => $mensaje->getDescripcion(),
+                    'fecha' => $mensaje->getFecha()->format('d-m-Y H:i'),
+                    'id' => $mensaje->getId()
+                ]);
+            } else {
+                $page = $this->renderView('mensaje/_formautor.html.twig', array(
+                    'form' => $form->createView(),
+                ));
+                return $this->json(array('form' => $page, 'error' => true,));
+            }
+
+        return $this->render('mensaje/_newautor.html.twig', [
+            'mensaje' => $mensaje,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/{id}/show", name="mensaje_show", methods="GET")
      */
     public function show(Request $request, Mensaje $mensaje): Response
@@ -173,8 +226,8 @@ class MensajeController extends AbstractController
             throw $this->createAccessDeniedException();
 
         $this->denyAccessUnlessGranted('VIEW', $mensaje);
-        if(!$mensaje->getLeida()){
-            $em=$this->getDoctrine()->getManager();
+        if (!$mensaje->getLeida()) {
+            $em = $this->getDoctrine()->getManager();
             $mensaje->setLeida(true);
             $em->persist($mensaje);
             $em->flush();

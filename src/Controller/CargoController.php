@@ -34,23 +34,6 @@ class CargoController extends AbstractController
     }
 
     /**
-     * @Route("/{area}/ajax", name="cargo_ajax", options={"expose"=true},methods="GET")
-     * Funcionalidad que devuelve el listado de cargos usando ajax, utilizado para la gestion de usuarios
-     */
-    public function ajax(Request $request, Area $area): Response
-    {
-        if (!$request->isXmlHttpRequest())
-            throw $this->createAccessDeniedException();
-
-        $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT c.id, c.nombre FROM App:Cargo c JOIN c.area a WHERE a.id= :id');
-        $consulta->setParameter('id', $area->getId());
-        $cargos = $consulta->getResult();
-
-        return $this->json($cargos);
-    }
-
-
-    /**
      * @Route("/new", name="cargo_new", methods="GET|POST")
      */
     public function new(Request $request): Response
@@ -77,6 +60,7 @@ class CargoController extends AbstractController
             } else {
                 $page = $this->renderView('cargo/_form.html.twig', array(
                     'form' => $form->createView(),
+                    'cargo' => $cargo,
                 ));
                 return $this->json(array('form' => $page, 'error' => true,));
             }
@@ -112,6 +96,7 @@ class CargoController extends AbstractController
                 $page = $this->renderView('cargo/_form.html.twig', array(
                     'form' => $form->createView(),
                     'action' => 'Actualizar',
+                    'cargo' => $cargo,
                     'form_id' => 'cargo_edit',
                     'eliminable' => $eliminable,
                 ));
@@ -133,17 +118,35 @@ class CargoController extends AbstractController
      */
     public function delete(Request $request, Cargo $cargo): Response
     {
-        if ($request->isXmlHttpRequest() && $this->isCsrfTokenValid('delete' . $cargo->getId(), $request->query->get('_token'))) {
+        if (!$request->isXmlHttpRequest() || !$this->esEliminable($cargo) || !$this->isCsrfTokenValid('delete' . $cargo->getId(), $request->query->get('_token')))
+            throw $this->createAccessDeniedException();
+
             $this->denyAccessUnlessGranted('DELETE', $cargo);
             $em = $this->getDoctrine()->getManager();
             $em->remove($cargo);
             $em->flush();
             return $this->json(array('mensaje' => 'El cargo fue eliminado satisfactoriamente'));
-        }
-
-        throw $this->createAccessDeniedException();
     }
 
+    /**
+     * @Route("/{area}/ajax", name="cargo_ajax", options={"expose"=true},methods="GET")
+     * Funcionalidad que devuelve el listado de cargos usando ajax, utilizado para la gestion de usuarios
+     */
+    public function ajax(Request $request, Area $area): Response
+    {
+        if (!$request->isXmlHttpRequest())
+            throw $this->createAccessDeniedException();
+
+        $consulta = $this->getDoctrine()->getManager()->createQuery('SELECT c.id, c.nombre FROM App:Cargo c JOIN c.area a WHERE a.id= :id');
+        $consulta->setParameter('id', $area->getId());
+        $cargos = $consulta->getResult();
+
+        return $this->json($cargos);
+    }
+
+    /*
+     *Funcion que devuelve un booleano indicando si un cargo es o no eliminable
+     */
     private function esEliminable(Cargo $cargo): bool
     {
         $em = $this->getDoctrine()->getManager();
