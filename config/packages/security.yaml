@@ -43,58 +43,58 @@ security:
                     - App\Security\LdapAuthenticator
 
     access_control:
-        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        - { path: ^/estatica, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY], requires_channel: https }
+        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/estatica, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
         #inicio de uls de acceso adminitrativo
-        - { path: ^/area, roles: ROLE_ADMIN, requires_channel: https }
-        - { path: ^/arc/\d+/findbysubcapitulo, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
+        - { path: ^/area, roles: ROLE_ADMIN }
+        - { path: ^/arc/\d+/findbysubcapitulo, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/arc, roles: ROLE_ADMIN }
-        - { path: ^/cargo/\d+/ajax, roles: [ROLE_ADMIN, ROLE_DIRECTIVO], requires_channel: https }
-        - { path: ^/cargo, roles: ROLE_ADMIN, requires_channel: https }
-        - { path: ^/capitulo, roles: ROLE_ADMIN, requires_channel: https }
-        - { path: ^/subcapitulo/\d+/findbycapitulo, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/subcapitulo, roles: ROLE_ADMIN, requires_channel: https }
+        - { path: ^/cargo/\d+/ajax, roles: [ROLE_ADMIN, ROLE_DIRECTIVO] }
+        - { path: ^/cargo, roles: ROLE_ADMIN }
+        - { path: ^/capitulo, roles: ROLE_ADMIN }
+        - { path: ^/subcapitulo/\d+/findbycapitulo, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/subcapitulo, roles: ROLE_ADMIN }
         #fin de uls de acceso adminitrativo
         #inicio de urls de acceso para el coordinador general
-        - { path: ^/miembroconsejodireccion, roles: ROLE_COORDINADORINSTITUCIONAL, requires_channel: https }
+        - { path: ^/miembroconsejodireccion, roles: ROLE_COORDINADORINSTITUCIONAL }
         #fin de urls de acceso para el coordinador general
         #inicio de urls de acceso para el coordinador general o miembros del consejo de direccion
-        - { path: ^/planmensualgeneral/new, roles: ROLE_COORDINADORINSTITUCIONAL, requires_channel: https }
-        - { path: ^/planmensualgeneral/\d+/edit, roles: ROLE_COORDINADORINSTITUCIONAL, requires_channel: https }
-        - { path: ^/planmensualgeneral/\d+/delete, roles: ROLE_COORDINADORINSTITUCIONAL, requires_channel: https }
-        - { path: ^/planmensualgeneral, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/puntualizacionplantrabajogeneral/\d+/new, roles: ROLE_COORDINADORINSTITUCIONAL, requires_channel: https }
-        - { path: ^/puntualizacionplantrabajogeneral/\d+/delete, roles: ROLE_COORDINADORINSTITUCIONAL, requires_channel: https }
-        - { path: ^/objetivoplantrabajogeneral/\d+/new, roles: ROLE_COORDINADORINSTITUCIONAL, requires_channel: https }
-        - { path: ^/objetivoplantrabajogeneral/\d+/delete, roles: ROLE_COORDINADORINSTITUCIONAL, requires_channel: https }
+        - { path: ^/planmensualgeneral/new, roles: ROLE_COORDINADORINSTITUCIONAL }
+        - { path: ^/planmensualgeneral/\d+/edit, roles: ROLE_COORDINADORINSTITUCIONAL }
+        - { path: ^/planmensualgeneral/\d+/delete, roles: ROLE_COORDINADORINSTITUCIONAL }
+        - { path: ^/planmensualgeneral, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/puntualizacionplantrabajogeneral/\d+/new, roles: ROLE_COORDINADORINSTITUCIONAL }
+        - { path: ^/puntualizacionplantrabajogeneral/\d+/delete, roles: ROLE_COORDINADORINSTITUCIONAL }
+        - { path: ^/objetivoplantrabajogeneral/\d+/new, roles: ROLE_COORDINADORINSTITUCIONAL }
+        - { path: ^/objetivoplantrabajogeneral/\d+/delete, roles: ROLE_COORDINADORINSTITUCIONAL }
         #fin de urls de acceso para el coordinador general o miembros del consejo de direccion
         #inicio de las urls con acceso por parte del coordinador de area
-        - { path: ^/planmensualarea/new, roles: ROLE_COORDINADORAREA, requires_channel: https }
-        - { path: ^/planmensualarea/\d+/edit, roles: ROLE_COORDINADORAREA, requires_channel: https }
-        - { path: ^/planmensualarea/\d+/delete, roles: ROLE_COORDINADORAREA, requires_channel: https }
-        - { path: ^/actividadarea/\d+/new, roles: ROLE_COORDINADORAREA, requires_channel: https }
-        - { path: ^/actividadarea/\d+/edit, roles: ROLE_COORDINADORAREA, requires_channel: https }
-        - { path: ^/actividadarea/\d+/delete, roles: ROLE_COORDINADORAREA, requires_channel: https }
-        - { path: ^/puntualizacionplantrabajoarea/\d+/new, roles: ROLE_COORDINADORAREA, requires_channel: https }
-        - { path: ^/puntualizacionplantrabajoarea/\d+/delete, roles: ROLE_COORDINADORAREA, requires_channel: https }
+        - { path: ^/planmensualarea/new, roles: ROLE_COORDINADORAREA }
+        - { path: ^/planmensualarea/\d+/edit, roles: ROLE_COORDINADORAREA }
+        - { path: ^/planmensualarea/\d+/delete, roles: ROLE_COORDINADORAREA }
+        - { path: ^/actividadarea/\d+/new, roles: ROLE_COORDINADORAREA }
+        - { path: ^/actividadarea/\d+/edit, roles: ROLE_COORDINADORAREA }
+        - { path: ^/actividadarea/\d+/delete, roles: ROLE_COORDINADORAREA }
+        - { path: ^/puntualizacionplantrabajoarea/\d+/new, roles: ROLE_COORDINADORAREA }
+        - { path: ^/puntualizacionplantrabajoarea/\d+/delete, roles: ROLE_COORDINADORAREA }
         #fin de las urls con acceso por parte del coordinador de area
         #inicio de urls de acceso general
-        - { path: ^/mensaje, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/notificacion, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/grupo, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/plantrabajo, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/puntualizacionplantrabajo, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/actividad, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/respuesta, roles: IS_AUTHENTICATED_FULLY, requires_channel: https}
+        - { path: ^/mensaje, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/notificacion, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/grupo, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/plantrabajo, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/puntualizacionplantrabajo, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/actividad, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/respuesta, roles: IS_AUTHENTICATED_FULLY}
         #fin de urls de acceso general
 
-        - { path: ^/usuario/grupomiembro, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/usuario/mensajedestinatario, roles: ROLE_USER, requires_channel: https }
-        - { path: ^/usuario/\d+/edit, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/usuario/\d+/show, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
-        - { path: ^/usuario, roles: [ROLE_ADMIN, ROLE_DIRECTIVO], requires_channel: https}
+        - { path: ^/usuario/grupomiembro, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/usuario/mensajedestinatario, roles: ROLE_USER }
+        - { path: ^/usuario/\d+/edit, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/usuario/\d+/show, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/usuario, roles: [ROLE_ADMIN, ROLE_DIRECTIVO]}
 
         #inicio de url protegidas por la API
-        - { path: ^/api/requesttoken, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/api/requesttoken, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #fin de url protegidas por la API
-        - { path: ^/*, roles: IS_AUTHENTICATED_FULLY, requires_channel: https }
+        - { path: ^/*, roles: IS_AUTHENTICATED_FULLY }

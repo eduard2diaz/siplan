@@ -100,8 +100,8 @@
             {% for actividad in subcapitulo['actividades'] %}
                 <tr>
                     <td>Actividad {{ actividad_index }} {{ actividad['nombre'] }}</td>
-                    <td>{{ actividad['fecha'] |date('d-m-Y') }}</td>
-                    <td>{{ actividad['fechaF'] |date('d-m-Y') }}</td>
+                    <td>{{ actividad['fecha'] |date('d-m-Y H:i') }}</td>
+                    <td>{{ actividad['fechaF'] |date('d-m-Y H:i') }}</td>
                     <td>{{ actividad['lugar'] }}</td>
                     <td>{{ actividad['dirigen'] }}</td>
                     <td>{{ actividad['participan'] }}</td>

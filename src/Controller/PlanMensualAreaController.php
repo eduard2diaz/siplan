@@ -159,6 +159,15 @@ class PlanMensualAreaController extends AbstractController
                 $actividades = [];
                     $actividads[] = ['nombre' => $value->getNombre(), 'lugar' => $value->getLugar(), 'dirigen' => $value->getDirigen(), 'participan' => $value->getParticipan(), 'fecha' => $value->getFecha()->format('d-m-Y H:i'), 'fechaf' => $value->getFechaF()->format('d-m-Y H:i')];
             }
+        }else{
+            $consulta = $em->createQuery('Select a FROM App:ActividadArea a JOIN a.planmensualarea p WHERE p.id= :id ORDER BY a.fecha ASC');
+            $consulta->setParameters(['id'=> $planmensualarea->getId()]);
+            $actividades = $consulta->getResult();
+
+            foreach ($actividades as $value) {
+                $actividades = [];
+                $actividads[] = ['nombre' => $value->getNombre(), 'lugar' => $value->getLugar(), 'dirigen' => $value->getDirigen(), 'participan' => $value->getParticipan(), 'fecha' => $value->getFecha()->format('d-m-Y H:i'), 'fechaf' => $value->getFechaF()->format('d-m-Y H:i')];
+            }
         }
 
 
